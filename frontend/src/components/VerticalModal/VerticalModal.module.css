@@ -1,0 +1,33 @@
+.buttonNext:disabled {
+	cursor: not-allowed;
+}
+
+.buttonNext {
+	margin: 0 5px;
+}
+
+.Button {
+	margin: 0 5px;
+}
+
+.body {
+	justify-content: center;
+	align-items: center;
+}
+.formRow {
+	justify-content: center;
+}
+
+.btn {
+	/* margin: 0px 5px; */
+}
+
+.form {
+	width: 50%;
+}
+
+.row {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

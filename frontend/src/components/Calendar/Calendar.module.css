@@ -1,0 +1,6 @@
+.CalContainer {
+	font-size: 5px;
+	border: 2px solid #dc3545;
+	border-radius: 5px;
+	overflow: hidden;
+}
