@@ -1,0 +1,152 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Baking Income Analysis</title>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-179124729-1"></script>
+  <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-179124729-1');</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel = "icon" href ="./images/logo.png"  type = "image/x-icon">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="./styles/page3.css">
+  <link rel= "stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="./js/fileSaver.min.js"></script>
+</head>
+
+<body>
+
+        <div class = 'container fade-in'>
+
+        <header class='row' id='myHeader'>
+
+          <div class = 'col-lg-6 col-md-6 col-sm-12 col-xs-12 p-3'>
+            <div class = 'row'>
+              <div  class = 'col-lg-3 col-md-3 col-sm-3 col-xs-3 p-3'>
+                <img src='./images/logo.png' style='width: 100; height: 100; border-radius: 5px;' onclick="document.location = './index.html'">
+            </div>
+            <div class = 'col-lg-9 col-md-9 col-sm-9 col-xs-9 p-3 mt-3' onclick="document.location = './index.html'">
+              <h1>PoS Tax V1</h1>
+            </div>
+            </div>
+          </div>
+
+
+          <div class = 'col-lg-6 col-md-6 col-sm-12 col-xs-12 p-5'>
+            <div class = 'row'>
+            <button id ='demoButton' class = 'col-lg-3 col-md-3 col-sm-12 col-xs-12 pure-button' style = 'background-color: black; color: white; border-radius: 5px;'>Demo</button>
+            <button class = 'col-lg-1 col-md-1 col-sm-12 col-xs-12 pure-button' style = 'background-color: white;'></button>
+            <button class = 'col-lg-3 col-md-3 col-sm-12 col-xs-12 pure-button' style = 'background-color: black; color: white; border-radius: 5px;' onclick="document.location='https://www.taxnotes.com/tax-notes-federal/cryptocurrency/dilution-and-true-economic-gain-cryptocurrency-block-rewards/2020/08/17/2ctmc'">Tax Notes</button>
+            <button class = 'col-lg-1 col-md-1 col-sm-12 col-xs-12 pure-button' style = 'background-color: white; '></button>
+            <button class = 'col-lg-4 col-md-4 col-sm-12 col-xs-12 pure-button' style = 'background-color: black; color: white; border-radius: 5px;' onclick="document.location='page3.html'">Context</button>
+            </div>
+          </div>
+          <script src = './js/demo.js'> </script>
+
+        </header>
+
+
+        <div class ='row'>
+          <div class = 'header col-lg-12 col-md-12 col-sm-12 col-xs-12 p-3' >Background and Overtaxation Threat</div>
+        </div>
+
+        <div class ='row'>
+          <div class = 'col-lg-12 col-md-12 col-sm-12 col-xs-12 p-3 m-2'><text>PoS Tax is an accounting software for cryptocurrency reward recipients.<br></br>  The price of cryptocurrency on the start date you enter is used to calculate your cash basis. The day you realize your rewards in USD is what you should input as your end date.<br></br>  Accounting for your rewards using a cash basis is possible because staking rewards are not dividends or a 'realized gain upon receipt' asset. Rewards are owned by a staker because they created them and they are only taxable upon the realization of their value in a fiat currency. This justifies accounting over a cash basis, similar to a business that calcualtes the cash basis of bread baking equipment, the hardware for generating staking rewards off a blockchain is cryptocurrency capital.<br></br>  An additional accounting inefficiency is that realized staking reward income does not account for cryptocurrency dilution. Dilution of cyrptocurrency is a naturally occuring phenomena due to the expansion of the overall supply of a currency in a blockchain network. The expansion occurs every time staking rewards are generated. In PoW (Proof of Work) systems, like Bitcoin, this event is equivalent to 'mining'. The rate of the expansion proportionitly dilutes reward income.  <br></br> Without accounting over a basis and accounting for dilution, your economic gain from staking is overstated, and your income will be overtaxed. <br></br> PoS Tax accounts for your rewards over a cash basis and accounts for your rewards using two dilution phenomenas. 
+          </text>
+        </div>
+      </div>
+
+        <div class ='row'>
+          <div class = 'header col-lg-12 col-md-12 col-sm-12 col-xs-12 pt-5' >How To Use</div>
+        </div>
+
+        <div class ='row'>
+          <div class = 'col-lg-12 col-md-12 col-sm-12 col-xs-12 p-3 m-2'><h2 class = 'p-5'>1) Enter Information</h2><text>First, select your blockchain. You can only select a blockchain that is supported by PoS Taxation.<br></br>Second, enter your staking address on the blockchain. <br></br>Note that currently, this tool only works for addresses that are explicity partaking in the on-chain consensus algorithm. Delegation addresses are currently incompatible with our system. A delegation solution is under development.<br></br>Lastly, enter your taxation period. This is the period within which the user would like to report their realized income. The price of the cryptocurrency on the start date is used for calculating your basis.</text></div>
+        </div>
+
+        <div class ='row'>
+          <div class = 'col-lg-12 col-md-12 col-sm-12 col-xs-12 p-3 m-2'><h2 class = 'p-5'>2) Observe Results</h2><text>We use three methods to convey your true economic gain from staking rewards.<br></br>Cash Value Basis: the simplest method is defined as the quantity of rewards earned per day multipied by the market price of the cryptocurrency on the basis date.<br></br>Depletion Method: this method accounts for the depletion of the reward's value due to the increae of supply of cryptocurrency in the network over one day.<br></br>Market Value Diltion Method: this method accounts for change in market cap and price of the cryptocurrency over the period of one day.<br></br>The last two methods compound the basis accounting. <br></br>All of our methodologies are published in the Tax Notes article linked in the header.</text></div>
+        </div>
+
+        <div class ='row'>
+          <div class = 'col-lg-12 col-md-12 col-sm-12 col-xs-12 p-3 m-2'><h2 class = 'p-5'>3) Report Income</h2><text>Lastly, what you do with your income analysis is under your discretion. Depending on your country's tax code, any of these methodologies could be considered a valid report of economic gain. We adivise you to conduct further research as to the specificites of your counrty's IRS code.</text></div>
+          </div>
+
+        <div class ='row'>
+          <div class = 'header col-lg-12 col-md-12 col-sm-12 col-xs-12 pt-5'>PoS Blockchains</div>
+        </div>
+
+
+        <div class ='row'>
+          <div class = 'col-lg-12 col-md-12 col-sm-12 col-xs-12 p-3 m-2'><h2 class = 'p-5'>Proof of Stake (PoS)</h2><text>Proof of Stake is a consensus mechanism in blockchain networks. Stake refers to an individuals "stakeholding" in the blockchain, i.e. the proportion of the blockchain's cryptocurrency they own. Stakeholders use their stakes to conduct ledger consensus. When they do so, they are rewarded for their upkeep of the blockchain.</text></div>
+          </div>
+
+          <div class ='row'>
+            <div class = 'col-lg-12 col-md-12 col-sm-12 col-xs-12 p-3 m-2'><h2 class = 'p-5'>Tezos</h2><text>Tezos is a revolutionary PoS Blockchain. Tezos' defining feature is it's ability to self ammend its protocol. Tezos users can present ammendements to the blockchain's protocol. The network then votes on whether to implement the protocol change or reject it. Its supporting cryptocurrency is XTZ or "Tez".</text></div>
+            </div>
+
+
+            <div class ='row'>
+              <div class = 'header col-lg-12 col-md-12 col-sm-12 col-xs-12 pt-5'>Source Code</div>
+            </div>
+
+            <div class ='row'>
+              <div class = 'col-lg-12 col-md-12 col-sm-12 col-xs-12 m-2 p-5'>
+                <button class = 'pure-button' style = 'background-color: green; color: white; border-radius: 5px; width: 100%;' onclick="document.location='https://github.com/tianshanghong/pos-taxation'">Git Source</button>
+              </div>
+              </div>
+
+
+              <div class ='row'>
+                <div class = 'header col-lg-12 col-md-12 col-sm-12 col-xs-12 p-3'>Contact</div>
+              </div>
+
+              <div class ='row'>
+                <div class = 'col-lg-12 col-md-12 col-sm-12 col-xs-12 p-3 m-2'><text>We highly value user feedback. If you are a baker or an interested party please reach out. <br></br>Company email: mainpostaxation@gmail.com</text></div>
+                </div>
+
+
+
+
+      <div class = 'row'>
+        <div class = 'col-lg-6 col-md-6 col-sm-6 col-xs-6'>
+
+          <div id = 'myModal' class = 'modal'>
+            <div id = 'modalContent' class = 'modal-content'>
+              <div class="spinner">
+                <div class="cube1"></div>
+                <div class="cube2"></div>
+              </div>
+            </div>
+            <div id = 'modalContent2' class = 'modal-content' >
+              <p>One moment, loading your results...</p>
+            </div>
+          </div>
+
+          </div>
+        </div>
+
+
+        <div class = 'row m-5'>
+            <div  class = 'col-lg-12 col-md-12 col-sm-12 col-xs-12' align='center'>
+              <img src='./images/logo.png' style='width: 200; height: 200; border-radius: 5px;' onclick="document.location = './index.html'">
+            </div>
+        </div>
+
+
+    </div>
+
+
+  <footer>
+    <div class = footer-text>
+      <p>&copy; PoS Taxation 2020</p>
+    </div>
+  </footer>
+
+
+</body>
+
+</html>

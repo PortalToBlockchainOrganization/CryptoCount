@@ -1,0 +1,201 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Baking Income Analysis</title>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-179124729-1"></script>
+  <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-179124729-1');</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel = "icon" href ="./images/logo.png"  type = "image/x-icon">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="./styles/page2.css">
+  <link rel= "stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="./js/fileSaver.min.js"></script>
+</head>
+
+<body>
+
+        <div class = 'container fade-in'>
+
+        <header class='row' id='myHeader'>
+
+          <div class = 'col-lg-6 col-md-6 col-sm-12 col-xs-12 p-3'>
+            <div class = 'row'>
+              <div  class = 'col-lg-3 col-md-3 col-sm-3 col-xs-3 p-3'>
+                <img src='./images/logo.png' style='width: 100; height: 100; border-radius: 5px;' onclick="document.location = './index.html'">
+            </div>
+            <div class = 'col-lg-9 col-md-9 col-sm-9 col-xs-9 p-3 mt-3' onclick="document.location = './index.html'">
+              <h1>PoS Tax V1</h1>
+            </div>
+            </div>
+          </div>
+
+
+          <div class = 'col-lg-6 col-md-6 col-sm-12 col-xs-12 p-5'>
+            <div class = 'row'>
+            <button class = 'col-lg-5 col-md-5 col-sm-12 col-xs-12 pure-button' style = 'background-color: black; color: white; border-radius: 5px;' onclick="document.location='https://www.taxnotes.com/tax-notes-federal/cryptocurrency/dilution-and-true-economic-gain-cryptocurrency-block-rewards/2020/08/17/2ctmc'"> Tax Notes</button>
+            <button class = 'col-lg-1 col-md-1 col-sm-12 col-xs-12 pure-button' style = 'background-color: white; '></button>
+            <button class = 'col-lg-6 col-md-6 col-sm-12 col-xs-12 pure-button' style = 'background-color: black; color: white; border-radius: 5px;' onclick="document.location='page3.html'">Context</button>
+            </div>
+          </div>
+
+
+        </header>
+
+        <div class ='row'>
+          <div class = 'header col-lg-12 col-md-12 col-sm-12 col-xs-12 p-5 mb-5' id = 'extraContent' ></div>
+        </div>
+        <script src='./js/join.js'></script>
+
+        <div class ='row'>
+          <div class = 'header col-lg-12 col-md-12 col-sm-12 col-xs-12 p-5' >Your Complete Analysis</div>
+        </div>
+
+        <div class = 'row'>
+          <div class = 'col-lg-11 col-md-11 col-sm-11 col-xs-11 p-5'>
+            <div class='analysisBox'>
+              <h1>Accounting Method : Income Result</h1>
+                <text id = 'cashValueMethodRewardIncome1'>Cash Value Basis, Reward Income: </text>
+                <br></br>
+                <text id = 'depletionMethodRewardIncome'>Accounting For Depletion, Reward Income: </text>
+                <br></br>
+                <text id = 'dilutionMethodRewardIncome'>Accounting For Market Value Dilution, Reward Income: </text>
+                <br></br>
+                <text id = 'depletionToCashValueMargin'>Depletion - Cash Basis (Margin Value): </text>
+                <br></br>
+                <text id = 'dilutionToCashValueMargin'>MV Dilution - Cash Basis (Margin Value): </text>
+                <br></br>
+                <text id = 'depletionToMVDilution'>Depletion - MV Dilution (Margin Value): </text>
+            </div>
+          </div>
+          <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+            <div class= 'popUp' id='popUp1' onclick="popUp()"><img src='./images/info.png' width='30'>
+              <span class="popuptext p-3" id="myPopup">Here is a summary of your analysis. These are your main figures for reporting income.</span>
+            </div>
+        </div>
+      </div>
+      <script src="./js/calculations.js"></script>
+
+
+      <div class ='row'>
+        <div class = 'header col-lg-12 col-md-12 col-sm-12 col-xs-12 p-5' >Accounting Methods, Graphed</div>
+      </div>
+
+        <div class = 'row'>
+          <canvas id ='rewardChart' class = 'col-lg-11 col-md-11 col-sm-11 col-xs-11 p-5 mb-5' height='700'> </canvas>
+          <div class ='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+            <div class= "popup" id='popUp2' onclick="popUp2()"><img src='./images/info.png' width='30'>
+              <span class="popuptext p-3" id="myPopup2">This a graphical representation of your income under our 3 accounting methods.</span>
+            </div>
+            </div>
+          </div>
+          <script src="./js/rewardChart.js"></script>
+
+          <div class ='row'>
+            <div class = 'header col-lg-12 col-md-12 col-sm-12 col-xs-12 p-5 mb-5' >Depletion Compounded Cash Basis Accounting</div>
+          </div>
+
+          <div class = 'row'>
+            <div class = 'tableWindow col-lg-11 col-md-11 col-sm-11 col-xs-11'>
+              <table id = 'table1' class = 'table'>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Reward Quantity (XTZ)</th>
+                    <th>Reward Value Cash Basis ($USD)</th>
+                    <th>Reward Value Depletion Accounting ($USD)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+                </table>
+              </div>
+            <div class ='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+              <div class= "popup" id='popUp3' onclick="popUp3()"><img src='./images/info.png' width='30'>
+                <span class="popuptext p-3" id="myPopup3">This table shows your daily income emphasizing the Depeltion accounting methodolgy.</span>
+              </div>
+              </div>
+            </div>
+
+
+            <div class ='row'>
+              <div class = 'header col-lg-12 col-md-12 col-sm-12 col-xs-12 p-5 mb-5' >Market Value Dilution Compounded Cash Basis Accounting</div>
+            </div>
+
+            <div class = 'row'>
+              <div class = 'tableWindow col-lg-11 col-md-11 col-sm-11 col-xs-11 mb-5'>
+                <table id = 'table2' class = 'table'>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Reward Quantity (XTZ)</th>
+                      <th>Reward Value Cash Basis ($USD)</th>
+                      <th>Reward Value MV Dilution Accounting ($USD)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                  </table>
+                </div>
+
+                <div class ='col-lg-1 col-md-1 col-sm-1 col-xs-1'>
+                  <div class= "popup" id='popUp4' onclick="popUp4()"><img src='./images/info.png' width='30'>
+                    <span class="popuptext p-3" id="myPopup4">This table shows your daily income emphasizing the MV Dilution accounting methodolgy.</span>
+                  </div>
+                  </div>
+              </div>
+              <script src="./js/createTable.js"></script>
+              <script src="https://unpkg.com/bootstrap-table@1.17.1/dist/bootstrap-table.min.js"></script>
+
+
+
+              <div class='row'>
+                <div class = 'col-lg-12 col-md-12 col-sm-12 col-xs-12 p-5 mb-5'>
+                  <button type='button' class="pure-button" style='background-color: green; color: white; width: 100%;' id='downloadButton'>Download Complete Statement</button>
+                </div>
+              </div>
+              <script src="./js/fileDownload.js"></script>
+
+
+    </div>
+
+
+    <footer>
+      <div class = footer-text>
+        <p>&copy; PoS Taxation 2020</p>
+      </div>
+    </footer>
+    <script>
+    // When the user clicks on <div>, open the popup
+    function popUp() {
+      var popup = document.getElementById("myPopup");
+      popup.classList.toggle("show");
+    }
+
+    function popUp2() {
+      var popup = document.getElementById("myPopup2");
+      popup.classList.toggle("show");
+    }
+    function popUp3() {
+      var popup = document.getElementById("myPopup3");
+      popup.classList.toggle("show");
+    }
+    function popUp4() {
+      var popup = document.getElementById("myPopup4");
+      popup.classList.toggle("show");
+    }
+    </script>
+    <script>
+    $("#mainform").submit(function(e) {
+        e.preventDefault();
+    });
+    </script>
+
+
+</body>
+
+</html>

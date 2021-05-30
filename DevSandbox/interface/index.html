@@ -1,0 +1,200 @@
+<html>
+    <head>
+      <title>Cryptocurrency Income Calculator</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="Staking reward income tax tool. cryptocurrency tax tool. cryptocurrency tax. tax blockchain rewards. cryptocurrency taxes"/>
+      <meta name="google-site-verification" content="bXltKIsrz9KXye0maEjMhUEuC6ETotSgptIZN9y-Fsw" />
+      <meta http-equiv="X-UA-Compatible" content = "IE=edge">
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-179124729-1"></script>
+      <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}  gtag('js', new Date());gtag('config', 'UA-179124729-1');</script>
+      <link rel = "icon" href ="./images/logo.png"  type = "image/x-icon">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="./styles/page1.css">
+      <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+      <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+      <script src = "./js/socket.js"></script>
+    </head>
+
+
+    <body>
+
+
+      <div id="particles-js"></div>
+      <script src="./js/particles.js"></script>
+      <script src="./js/app.js"></script>
+
+      <div class = 'container fade-in'>
+
+      <header class='row'>
+
+        <div class = 'col-lg-6 col-md-6 col-sm-12 col-xs-12 p-3'>
+          <div class = 'row'>
+            <div  class = 'col-lg-3 col-md-3 col-sm-3 col-xs-3 p-3'>
+              <img src='./images/logo.png' style='width: 100; height: 100; border-radius: 5px;'>
+          </div>
+          <div class = 'col-lg-9 col-md-9 col-sm-9 col-xs-9 p-3 mt-3'>
+            <h1>PoS Tax V1</h1>
+          </div>
+          </div>
+        </div>
+
+
+
+
+        <div class = 'col-lg-6 col-md-6 col-sm-12 col-xs-12 p-5'>
+          <div class = 'row'>
+          <button id ='demoButton' class = 'col-lg-3 col-md-3 col-sm-12 col-xs-12 pure-button' style = 'background-color: black; color: white; border-radius: 5px;'>Demo</button>
+          <button class = 'col-lg-1 col-md-1 col-sm-12 col-xs-12 pure-button' style = 'background-color: white;'></button>
+          <button class = 'col-lg-3 col-md-3 col-sm-12 col-xs-12 pure-button' style = 'background-color: black; color: white; border-radius: 5px;' onclick="document.location='https://www.taxnotes.com/tax-notes-federal/cryptocurrency/dilution-and-true-economic-gain-cryptocurrency-block-rewards/2020/08/17/2ctmc'">Tax Notes</button>
+          <button class = 'col-lg-1 col-md-1 col-sm-12 col-xs-12 pure-button' style = 'background-color: white; '></button>
+          <button class = 'col-lg-4 col-md-4 col-sm-12 col-xs-12 pure-button' style = 'background-color: black; color: white; border-radius: 5px;' onclick="document.location='page3.html'">Context</button>
+          </div>
+        </div>
+        <script src = './js/demo.js'> </script>
+
+      </header>
+
+<!--
+    <div class = 'contentBox2 m-5'>
+      <h1> Save In Your Income Reporting - The Ultimate Blockchain Income Tax Tool </h1>
+    </div>
+  -->
+
+      <div class = 'row'>
+        <div class = 'col-lg-9 col-md-9 col-sm-9 col-xs-9 p-5'>
+          <div class=' contentBox'>
+            <p> PoS Tax helps you report your realized staking reward income as a business entity. <br></br> We help you calculate your income over a cost basis and depreciate your assets.<br></br> You will save significant income using this tool.<br> </br>  Select your blockchain, address, and a taxation period to begin. </p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 p-5">
+          <div class= 'popUp p-2' id='popUp1' onclick="popUp()"><img src='./images/info.png' width='35'>
+            <span class="popuptext p-3" id="myPopup">This tool takes address reward statisitcs directly from a blockchain API. "Self Bakers", that is bakers with a private delegetion pool, will find this tool useful. PoS Tax is not configured to support accounting for bakers using TRD, or other delegate distribution methods. Version 2 of PoS Tax will accomodate delegators.</span>
+          </div>
+      </div>
+    </div>
+
+
+
+    <div id = 'myModal' class = 'modal'>
+      <div id = 'modalContent' class = 'modal-content'>
+        <div class="spinner">
+          <div class="cube1"></div>
+          <div class="cube2"></div>
+        </div>
+      </div>
+      <div id = 'modalContent2' class = 'modal-content' >
+        <text>Loading your results. If you have a very large account, please allow up to 20 minutes to process your data...</text>
+      </div>
+    </div>
+
+
+
+
+
+
+      <div class = 'row'>
+        <div id ='mainform' class = 'col-lg-10 col-md-10 col-sm-10 col-xs-10 p-5 mb-5'>
+             <form class="pure-form pure-form-stacked">
+                 <fieldset>
+                     <legend>Enter Your Staking Information</legend>
+                     <label for="blockchain">Blockchain</label>
+                     <select>
+                         <option id="blockchain">Tezos</option>
+                     </select>
+                     <label for="account">Staking Address</label>
+                     <input type="text" id="account" placeholder="Address" />
+                     <label for="startdate">Period Start</label>
+                     <input type="date" id="startdate" placeholder="Start Date" />
+                     <label for="enddate">Period End</label>
+                     <input type="date" id="enddate" placeholder="End Date" />
+                     <span class="pure-form-message">Each field is required</span>
+                     <button type="submit" id='button' class="button-red pure-button pure-button-primary" style='background-color: #003831;'>Let's Go</button>
+                 </fieldset>
+             </form>
+        </div>
+        <div class ='col-lg-2 col-md-2 col-sm-2 col-xs-2 p-5'>
+          <div class= "popup p-2" id='popUp5' onclick="popUp5()"><img src='./images/info.png' width='35'>
+            <span class="popuptext p-3" id="myPopup5">You can go back to this form later if you have multiple baking addresses</span>
+          </div>
+          </div>
+        </div>
+
+<div class = 'row contentBox m-3'>
+  <div class='col-lg-3 col-md-3 col-sm-6 col-xs-12 p-5'>
+        <p>Supports:</p>
+        <img src = './images/tezos.png' style = 'height: 150; width: 150;' onclick="document.location='https://tezos.com'">
+    </div>
+        <div class = 'col-lg-3 col-md-3 col-sm-12 col-xs-12 p-5'>
+          <div class = 'vertical'></div>
+          <p>Powered By:</p>
+          <img src = './images/tzkt.png' style = 'height: 150; width: 150;' onclick="document.location='https://tzkt.io'">
+        </div>
+        <div class = 'col-lg-3 col-md-3 col-sm-12 col-xs-12 p-5'>
+          <p>         </p>
+          <img src = './images/tezosFoundation.png' style = 'height: 150; width: 150;' onclick="document.location='https://tezos.foundation'">
+        </div>
+        <div class = 'col-lg-3 col-md-3 col-sm-12 col-xs-12 p-5'>
+          <p>         </p>
+          <img src = './images/POSA.jpg' style = 'height: 150; width: 150;' onclick="document.location='https://www.proofofstakealliance.org/'">
+      </div>
+  </div>
+
+    <div class= "popup mt-5" id='popUp3' onclick="popUp3()" align='center'><img src='./images/info.png' width='35'>
+      <span class="popuptext p-3" id="myPopup3">Want PoS Tax to support your blockchain? Contact us for onboarding. </span>
+    </div>
+
+<div class = 'row m-5'>
+    <div  class = 'col-lg-12 col-md-12 col-sm-12 col-xs-12' align='center'>
+      <img src='./images/logo.png' style='width: 200; height: 200; border-radius: 5px;' onclick="document.location = './index.html'">
+    </div>
+</div>
+
+</div>
+
+  <footer>
+    <div class = footer-text>
+      <p>&copy; PoS Taxation 2020</p>
+    </div>
+  </footer>
+
+
+
+
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"></script>
+
+      <script>
+      function popUp() {
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("show");
+      }
+      function popUp2() {
+        var popup = document.getElementById("myPopup2");
+        popup.classList.toggle("show");
+      }
+      function popUp3() {
+        var popup = document.getElementById("myPopup3");
+        popup.classList.toggle("show");
+      }
+      function popUp4() {
+        var popup = document.getElementById("myPopup4");
+        popup.classList.toggle("show");
+      }
+      function popUp5() {
+        var popup = document.getElementById("myPopup5");
+        popup.classList.toggle("show");
+      }
+      </script>
+      <script>
+      $("#mainform").submit(function(e) {
+          e.preventDefault();
+      });
+      </script>
+
+    </body>
+</html>
