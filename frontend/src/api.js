@@ -118,6 +118,12 @@ export function getCalendarData(params) {
 	});
 }
 
+export function getAnalysis(params) {
+	return post("Anal/Realized", {
+		fiat: params["fiat"],
+	});
+}
+
 const errMap = {
 	Internal: "An Internal Server Error Occurred",
 	Forbidden: "You are Forbidden from Viewing the Requested Page",

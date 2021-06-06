@@ -51,7 +51,7 @@ const Main = (props) => {
 			<div>
 				<div>
 					<Navbar expand="sm">
-						<IndexLinkContainer to="/" exact>
+						<IndexLinkContainer to="/">
 							<Navbar.Brand>
 								<img
 									src="/logo.png"
@@ -68,7 +68,6 @@ const Main = (props) => {
 								<IndexLinkContainer
 									className="nav-pills"
 									to="/"
-									exact
 									key={3}
 								>
 									<Nav.Link>Home</Nav.Link>
@@ -78,12 +77,9 @@ const Main = (props) => {
 										<IndexLinkContainer
 											className="nav-pills"
 											to="/analysis"
-											exact
 											key={1}
 										>
-											<Nav.Link to="/analysis" exact>
-												Analysis
-											</Nav.Link>
+											<Nav.Link>Analysis</Nav.Link>
 										</IndexLinkContainer>
 										<IndexLinkContainer
 											className="nav-pills"

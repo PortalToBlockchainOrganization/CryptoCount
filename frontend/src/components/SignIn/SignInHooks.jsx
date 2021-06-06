@@ -16,7 +16,7 @@ const SignInHooks = (props) => {
 	let signIn = (event) => {
 		props.signIn({ email, password }, () => {
 			if (props.user._id !== null) {
-				props.history.push("/");
+				props.history.push("/addresses");
 				if (props.location.state.from !== undefined) {
 					props.history.push(props.location.state.from);
 				}

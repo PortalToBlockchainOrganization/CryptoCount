@@ -6,7 +6,24 @@
 	justify-content: center;
 	align-items: center;
 }
+.button {
+	color: var(--danger);
+}
+.Buttons {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
 .Chart {
 	width: 60%;
 	height: 300px;
+}
+
+.ChartParams {
+	display: flex;
+	flex-direction: row;
+	border: 1px solid black;
+	padding: 25px;
+	justify-content: space-between;
+	border-radius: 5px;
 }
