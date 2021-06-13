@@ -3,9 +3,16 @@ import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Bar } from "react-chartjs-2";
 import classes from "./Analysis.module.css";
-const Analysis = () => {
+/**
+ * Component for the Analysis page. Renders a chart displaying realized,
+ * unrealized, and realizing sets. Allows user to query for sets, realize,
+ * and save.
+ * @param {*} props
+ * @returns
+ */
+const Analysis = (props) => {
+	console.log(props);
 	// foobar data
-	const [firstMultiplier, setMultiplier] = useState(1);
 
 	const getData = useCallback(() => {
 		const res = {
@@ -124,11 +131,16 @@ const Analysis = () => {
 			basisDate: "2021-02-28",
 			basisPrice: 3.678158387717987,
 		};
+
 		let dates = [];
 		let basisRewards = [];
 		let data = {
 			labels: [],
 			datasets: [{ label: "Basis Rewards", backgroundColor: [] }],
+			address: res.address,
+			fiat: res.fiat,
+			basisDate: res.basisDate,
+			basisPrice: res.basisPrice,
 		};
 		res["basisRewards"].map((element) => {
 			dates.push(element["date"]);
@@ -136,12 +148,13 @@ const Analysis = () => {
 			data["labels"] = dates;
 			data["datasets"][0]["data"] = basisRewards;
 			data["datasets"][0]["backgroundColor"].push(
-				`rgba(255, 99, 132, ${0.8 * firstMultiplier})`
+				`rgba(255, 99, 132, 1)`
 			);
+
 			return data;
 		});
 		return data;
-	}, [firstMultiplier]);
+	}, []);
 
 	const options = {
 		scales: {
@@ -157,37 +170,44 @@ const Analysis = () => {
 
 	const [data, setData] = useState(getData());
 
-	// click handler to set the mulitplier
-	const updateNumber = () => {
-		if (firstMultiplier === 1) {
-			setMultiplier(0.5);
-		} else {
-			setMultiplier(1);
-		}
-	};
-
 	// rerender the chart
 	useEffect(() => {
 		setData(getData());
-	}, [firstMultiplier, getData]);
+	}, [getData]);
 
+	let path = require(`../../Assets/Flags/${props.fiat}.PNG`);
+	console.log(data);
 	return (
 		<div className={classes.AnalysisWrapper}>
-			<div className={classes.Buttons}>
+			{/* <div className={classes.Buttons}>
 				<Button variant="outline-danger" onClick={updateNumber}>
 					Previously Realized
 				</Button>
 				<Button variant="outline-danger">Realizing</Button>
 				<Button variant="outline-danger">Unrealized</Button>
-			</div>
+			</div> */}
 			<div className={classes.Chart}>
 				<Bar data={data} options={options} />
 				<div className={classes.ChartParams}>
 					<div>realize history ID</div>
-					<div>Fiat</div>
-					<div>Basis Price</div>
+					<div>
+						<img
+							className={classes.fiatImg}
+							src={path.default}
+							alt={props.fiat}
+						/>
+						{props.fiat}
+					</div>
+					<div>{data.basisPrice.toFixed(2)}</div>
 					<div>Basis Balance</div>
 				</div>
+				<div className={classes.setToggles}>
+					<Button variant="outline-danger">Mvd Set</Button>
+					<Button variant="outline-danger">Supply Dep Set</Button>
+					<Button variant="outline-danger">Basis Set</Button>
+				</div>
+				<div className={classes.overlayTriggers}></div>
+				<div className={classes.save}></div>
 			</div>
 		</div>
 	);
