@@ -1,0 +1,22 @@
+.TableWrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+table {
+	border: 2px solid gray;
+	border-radius: 5px;
+}
+
+thead {
+	background-color: rgb(219, 219, 219);
+	color: rgb(78, 78, 78);
+}
+
+td,
+th {
+	padding: 10px;
+	margin: 10px;
+}

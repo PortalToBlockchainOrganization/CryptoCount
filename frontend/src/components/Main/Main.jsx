@@ -5,6 +5,7 @@ import { Route, Redirect, Switch } from "react-router-dom";
 import NavbarComponent from "../Navbar/Navbar.js";
 import "./Main.css";
 import ErrDialog from "../ConfDialog/ErrDialog";
+import History from "../History/History";
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
 	const isAuthed = rest.isAuthed();
@@ -101,6 +102,7 @@ const Main = (props) => {
 					exact
 					render={() => <RegisterHooks {...props} />}
 				/>
+				<Route path="/history" render={() => <History {...props} />} />
 				<ProtectedRoute
 					path="/analysis"
 					exact
