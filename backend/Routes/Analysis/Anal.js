@@ -4,11 +4,65 @@ var router = Express.Router({ caseSensitive: true });
 var async = require("async");
 var { Session } = require("../Session.js");
 let axios = require("axios");
+const { analysis } = require("./tzdelpre.js");
 
 router.baseURL = "/Anal";
 
+const RealizeHistObj = require("../../model/realize.js");
 const BlockchainModel = require("../../model/blockchain.js");
 const User = require("../../model/User.js");
+
+router.post("/Unrel", function (req, res) {
+	var vld = req.validator;
+	var body = req.body;
+	var unrel_obj = {};
+	const { address, fiat, basisDate } = body;
+	async.waterfall(
+		[
+			async function (cb) {
+				if (vld.hasFields(body, ["address", "fiat", "basisDate"]))
+					try {
+						unrel_obj = await analysis(address, basisDate, fiat);
+						console.log(unrel_obj);
+						return unrel_obj;
+					} catch (error) {
+						return error;
+					}
+			},
+			function (unrel_obj, cb) {
+				// here we check to see if our previous function returned a
+				// error in the catch block and we instantly jump to the callback
+				// by passing the error in
+				if (unrel_obj && unrel_obj.stack && unrel_obj.message) {
+					cb(unrel_obj, null);
+				}
+				// create new realizehistobj
+				rel_obj = new RealizeHistObj({
+					unrealizedBasisRewards: unrel_obj.basisRewards,
+					unrealizedBasisRewardsDep: unrel_obj.basisRewardsDep,
+					unrealizedBasisRewardsMVdep: unrel_obj.basisRewardsMVDep,
+					fiat: unrel_obj.fiat,
+					address: unrel_obj.address,
+					basisDate: unrel_obj.basisDate,
+					basisPrice: unrel_obj.basisPrice,
+				});
+				// res.status(200).json(unrel_obj);
+				rel_obj.save(function (err, doc) {
+					if (err) cb(err);
+					cb(null, doc);
+				});
+			},
+			function (result, cb) {
+				//after creating new rel db obj, send unrel to FE
+				cb();
+				return res.status(200).json(unrel_obj);
+			},
+		],
+		function (err) {
+			if (err) console.log(err);
+		}
+	);
+});
 
 router.post("/Cal", function (req, res) {
 	var vld = req.validator;
@@ -44,23 +98,32 @@ router.post("/", function (req, res) {
 					});
 			},
 			function (userInfo, cb) {
-				// create a new copy and add the address to the users
-				// address list/obj
-				let oldAddresses = userInfo[0]["addresses"];
-				oldAddresses[body["address"]] = {
-					fiat: body["fiat"],
-					basisDate: body["basisDate"],
-				};
-				let userCopy = { ...userInfo[0] }._doc;
-				userCopy.addresses = oldAddresses;
-				User.findOneAndUpdate(
-					{ _id: userCopy._id },
-					userCopy,
-					function (err, doc) {
-						if (err) cb(err);
-						cb(null, doc);
-					}
-				);
+				if (
+					vld.check(
+						!userInfo[0]["addresses"][body["address"]],
+						Tags.dupAddress,
+						null,
+						cb
+					)
+				) {
+					// create a new copy and add the address to the users
+					// address list/obj
+					let oldAddresses = userInfo[0]["addresses"];
+					oldAddresses[body["address"]] = {
+						fiat: body["fiat"],
+						basisDate: body["basisDate"],
+					};
+					let userCopy = { ...userInfo[0] }._doc;
+					userCopy.addresses = oldAddresses;
+					User.findOneAndUpdate(
+						{ _id: userCopy._id },
+						userCopy,
+						function (err, doc) {
+							if (err) cb(err);
+							cb(null, doc);
+						}
+					);
+				}
 			},
 			function (doc, cb) {
 				res.location(router.baseURL + "/" + body["address"]).end();

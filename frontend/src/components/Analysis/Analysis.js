@@ -11,10 +11,9 @@ import classes from "./Analysis.module.css";
  * @returns
  */
 const Analysis = (props) => {
-	console.log(props);
+	const { params, getUnrealizedSet } = props;
 	// foobar data
-
-	const getData = useCallback(() => {
+	const getData = () => {
 		const res = {
 			basisRewards: [
 				{
@@ -142,6 +141,7 @@ const Analysis = (props) => {
 			basisDate: res.basisDate,
 			basisPrice: res.basisPrice,
 		};
+
 		res["basisRewards"].map((element) => {
 			dates.push(element["date"]);
 			basisRewards.push(element["basisReward"]);
@@ -154,7 +154,7 @@ const Analysis = (props) => {
 			return data;
 		});
 		return data;
-	}, []);
+	};
 
 	const options = {
 		scales: {
@@ -172,11 +172,11 @@ const Analysis = (props) => {
 
 	// rerender the chart
 	useEffect(() => {
-		setData(getData());
+		let res_data = getUnrealizedSet(params);
+		console.log(res_data);
 	}, [getData]);
 
-	let path = require(`../../Assets/Flags/${props.fiat}.PNG`);
-	console.log(data);
+	let path = require(`../../Assets/Flags/${params.fiat}.PNG`);
 	return (
 		<div className={classes.AnalysisWrapper}>
 			{/* <div className={classes.Buttons}>

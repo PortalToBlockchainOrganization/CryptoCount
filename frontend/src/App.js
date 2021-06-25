@@ -5,8 +5,6 @@ import { withRouter } from "react-router-dom";
 import * as actionCreators from "./actions/actionCreators";
 import Main from "./components/Main/Main";
 
-// State properties automatically passed to Main
-
 /* Add new sign page with registration tab, 
 if a user registers automatically log them in*/
 
@@ -21,6 +19,7 @@ function mapStateToProps(state) {
 		},
 		Errs: state.Errs,
 		cal: state.cal,
+		set: state.set,
 	};
 }
 

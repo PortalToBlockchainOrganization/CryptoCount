@@ -103,24 +103,29 @@ export function register(user) {
 }
 
 export function analPost(params) {
-	console.log(params);
-	return post("Anal/", {
-		address: params["address"],
-		basisDate: params["basisDate"],
-		fiat: params["fiat"],
-	});
+	if (params) {
+		return post("Anal/", {
+			address: params["address"],
+			basisDate: params["basisDate"],
+			fiat: params["fiat"],
+		});
+	}
 }
 
 export function getCalendarData(params) {
-	return post("Anal/Cal", {
+	return post("Anal/Cal/", {
 		address: params["address"],
 		fiat: params["fiat"],
 	});
 }
 
-export function getAnalysis(params) {
-	return post("Anal/Realized", {
-		fiat: params["fiat"],
+export function getUnrealizedSet(params) {
+	return post("Anal/Unrel/", {
+		...params,
+	}).then((res) => {
+		console.log(res);
+		console.log(res.body);
+		console.log(res.json());
 	});
 }
 

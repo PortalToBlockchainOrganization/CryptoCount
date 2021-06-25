@@ -79,3 +79,19 @@ export function getCalendarData(params, cb) {
 			.catch((error) => console.log(error));
 	};
 }
+
+export function getUnrealizedSet(params, cb) {
+	let currentSet;
+	return (dispatch) => {
+		api.getUnrealizedSet(params)
+			.then((res) => res.json())
+			.then((data) => {
+				currentSet = data;
+				if (cb) cb();
+				return dispatch({ type: "CREATE_SET", payload: currentSet });
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+}

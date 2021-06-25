@@ -15,7 +15,10 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
 			render={(props) =>
 				isAuthed === true ? (
 					rest.params && rest.params["address"] !== undefined ? (
-						<Component {...rest.params} />
+						<Component
+							params={rest.params}
+							getUnrealizedSet={rest.getUnrealizedSet}
+						/>
 					) : (
 						<>
 							<Redirect to={{ pathname: "/" }} />
@@ -42,7 +45,6 @@ const Main = (props) => {
 			setCanAccessAnalysis(true);
 		}
 	}
-	console.log(canAccessAnalysis);
 	const signedIn = () => {
 		return Object.keys(props.user).length !== 0; // Nonempty Prss obj
 	};
@@ -53,7 +55,6 @@ const Main = (props) => {
 
 	const signOut = () => {
 		props.signOut();
-		// props.history.push("/");
 	};
 
 	if (signedIn() === undefined) {
@@ -111,6 +112,7 @@ const Main = (props) => {
 					match={props.location}
 					params={props.params}
 					isAuthed={signedIn}
+					getUnrealizedSet={props.getUnrealizedSet}
 				/>
 			</Switch>
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { Nav, Navbar } from "react-bootstrap";
 import classes from "./Navbar.module.css";
 
@@ -80,13 +80,13 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 						)}
 					</Nav>
 					{signedIn() ? (
-						<NavLink
+						<Link
 							className={classes.SignOut}
 							onClick={signOut}
 							to="/"
 						>
 							Sign out
-						</NavLink>
+						</Link>
 					) : (
 						""
 					)}
