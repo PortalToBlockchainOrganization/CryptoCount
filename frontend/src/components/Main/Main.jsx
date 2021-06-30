@@ -18,6 +18,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
 						<Component
 							params={rest.params}
 							getUnrealizedSet={rest.getUnrealizedSet}
+							set={rest.set}
 						/>
 					) : (
 						<>
@@ -40,7 +41,10 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
 const Main = (props) => {
 	const [canAccessAnalysis, setCanAccessAnalysis] = React.useState(false);
 
-	if (props.params.basisDate !== undefined) {
+	if (
+		props.params.basisDate !== undefined &&
+		Object.keys(props.set).length > 0
+	) {
 		if (!canAccessAnalysis) {
 			setCanAccessAnalysis(true);
 		}
@@ -113,6 +117,7 @@ const Main = (props) => {
 					params={props.params}
 					isAuthed={signedIn}
 					getUnrealizedSet={props.getUnrealizedSet}
+					set={props.set}
 				/>
 			</Switch>
 

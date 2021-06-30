@@ -19,7 +19,6 @@
 	margin: 0px 10px;
 	padding: 10px;
 	text-align: center;
-	border: 2px solid #fff;
 	transition: color 0.2s ease-out;
 	height: 100%;
 	padding: 15px;
@@ -88,4 +87,8 @@
 
 .NavActive {
 	border-bottom: 2px solid #dc3545;
+}
+
+div {
+	background-color: none;
 }

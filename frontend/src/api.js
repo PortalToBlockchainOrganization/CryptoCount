@@ -103,6 +103,7 @@ export function register(user) {
 }
 
 export function analPost(params) {
+	console.log("ANAL POST: ", params);
 	if (params) {
 		return post("Anal/", {
 			address: params["address"],
@@ -120,12 +121,11 @@ export function getCalendarData(params) {
 }
 
 export function getUnrealizedSet(params) {
-	return post("Anal/Unrel/", {
-		...params,
-	}).then((res) => {
-		console.log(res);
-		console.log(res.body);
-		console.log(res.json());
+	console.log("UNREALIZED: ", params);
+	return post("Anal/Unrel", {
+		address: params["address"],
+		basisDate: params["basisDate"],
+		fiat: params["fiat"],
 	});
 }
 

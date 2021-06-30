@@ -4,6 +4,8 @@ function params(state = {}, action) {
 			return action.payload;
 		case "DELETE_PARAM":
 			return state;
+		case "SIGN_OUT":
+			return {};
 		default:
 			return state;
 	}

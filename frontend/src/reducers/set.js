@@ -4,6 +4,8 @@ function set(state = {}, action) {
 			return action.payload;
 		case "DELETE_SET":
 			return state;
+		case "SIGN_OUT":
+			return {};
 		default:
 			return state;
 	}

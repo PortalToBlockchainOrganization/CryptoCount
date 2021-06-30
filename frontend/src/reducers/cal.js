@@ -4,6 +4,8 @@ function cal(state = {}, action) {
 			return action.payload;
 		case "DELETE_CAL":
 			return state;
+		case "SIGN_OUT":
+			return {};
 		default:
 			return state;
 	}
