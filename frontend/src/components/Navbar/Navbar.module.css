@@ -1,6 +1,7 @@
 .NavWrapper {
 	box-shadow: 0 4px 12px rgb(0 0 0 / 8%), 0 0 1px rgb(1 0 0 / 10%);
 	padding: 0px 1em !important;
+	z-index: 100;
 }
 
 .Nav {
@@ -80,15 +81,21 @@
 	text-decoration: none;
 }
 
+.NameWrapper {
+	position: absolute;
+	width: 100%;
+	text-align: right;
+	z-index: 100;
+}
+
 .Name {
 	color: gray;
+	background-color: none;
 	margin: 10px 5px 0px;
+	margin-right: 2.5em;
+	z-index: 100;
 }
 
 .NavActive {
 	border-bottom: 2px solid #dc3545;
-}
-
-div {
-	background-color: none;
 }

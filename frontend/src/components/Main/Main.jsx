@@ -2,7 +2,7 @@ import React from "react";
 import { RegisterHooks, SignInHooks, Landing } from "../components";
 import Analysis from "../Analysis/Analysis";
 import { Route, Redirect, Switch } from "react-router-dom";
-import NavbarComponent from "../Navbar/Navbar.js";
+import NavbarComponent from "../Navbar/NavbarComponent";
 import "./Main.css";
 import ErrDialog from "../ConfDialog/ErrDialog";
 import History from "../History/History";
@@ -58,6 +58,7 @@ const Main = (props) => {
 	};
 
 	const signOut = () => {
+		setCanAccessAnalysis(false);
 		props.signOut();
 	};
 

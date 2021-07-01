@@ -92,7 +92,10 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 					)}
 				</Navbar.Collapse>
 			</Navbar>
-			<div className="text-right mr-5">
+			<div
+				className={classes.NameWrapper}
+				style={{ backgroundColor: "transparent" }}
+			>
 				{signedIn() ? (
 					<Navbar.Text className={classes.Name}>
 						{`Logged in as: ${user.firstName}

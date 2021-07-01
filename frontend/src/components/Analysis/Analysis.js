@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { useEffect, useState } from "react";
-import { Button, Spinner } from "react-bootstrap";
+import { Button, Spinner, Form } from "react-bootstrap";
 import { Bar } from "react-chartjs-2";
 import classes from "./Analysis.module.css";
 /**
@@ -21,7 +21,6 @@ const Analysis = (props) => {
 	const getData = useCallback(
 		(setToRender) => {
 			if (!set || Object.keys(set).length === 0) {
-				console.log("API CALLED");
 				getUnrealizedSet(params);
 			} else {
 				setToRender = setToRender ? setToRender : "basisRewards";
@@ -126,8 +125,24 @@ const Analysis = (props) => {
 						Basis Set
 					</Button>
 				</div>
-				<div className={classes.overlayTriggers}></div>
-				<div className={classes.save}></div>
+				<div className={classes.setToggles}>
+					<Form.Label>Enter Quantity Realized:</Form.Label>
+					<div className={classes.quantGroup}>
+						<Form.Control type="number" placeholder="0" />
+					</div>
+					<Button type="submit" variant="danger">
+						Apply
+					</Button>
+				</div>
+				<div className={classes.setToggles}>
+					<Form.Label>Income to Report:</Form.Label>
+					<div className={classes.quantGroup}>
+						<Form.Control type="number" placeholder="0" />
+					</div>
+					<Button type="submit" variant="danger">
+						Save
+					</Button>
+				</div>
 			</div>
 		</div>
 	) : (

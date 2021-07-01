@@ -190,7 +190,7 @@ async function getRewards(address) {
 				.then((data) => {
 					urlObj = data;
 					let payoutArray = urlObj.data.payouts;
-					console.log(payoutArray);
+					// console.log(payoutArray);
 					let addressProperty = "address";
 					let amountProperty = "amount";
 					for (let i = 0; i < payoutArray.length; i++) {

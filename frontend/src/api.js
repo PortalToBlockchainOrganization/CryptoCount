@@ -121,7 +121,6 @@ export function getCalendarData(params) {
 }
 
 export function getUnrealizedSet(params) {
-	console.log("UNREALIZED: ", params);
 	return post("Anal/Unrel", {
 		address: params["address"],
 		basisDate: params["basisDate"],

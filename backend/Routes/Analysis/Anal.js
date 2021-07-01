@@ -23,7 +23,7 @@ router.post("/Unrel", function (req, res) {
 				if (vld.hasFields(body, ["address", "fiat", "basisDate"]))
 					try {
 						unrel_obj = await analysis(address, basisDate, fiat);
-						console.log(unrel_obj);
+						// console.log(unrel_obj);
 						return unrel_obj;
 					} catch (error) {
 						return error;
@@ -87,10 +87,11 @@ router.post("/", function (req, res) {
 	var vld = req.validator;
 	var body = req.body;
 	var prsId = req.session.prsId;
-
+	console.log(body);
 	async.waterfall(
 		[
 			function (cb) {
+				console.log("BODY: ", body);
 				if (vld.hasFields(body, ["address", "fiat", "basisDate"]))
 					User.find({ _id: prsId }, function (err, docs) {
 						if (err) cb(err);
