@@ -85,29 +85,41 @@ async function getBakerHistory(address) {
 //let [ad1, ad2, ad3, ad4] = ['tz1Kp1bzqn6Tg2kxefkRM329Y4nGLHFaveD8','tz1LXMcTazxYMqAJidpvvFUkyXq1th9rBHiK','tz1MGBDU9xWdZuSs47wMRc5iShF7ZDaymk9z','KT1UvEb6CWiMD6bg5CJBZCceS1NkMA2mnXUS']
 
 //level 1
+// updated (7/2/2021) version with date gap filling
 async function getBalances(address) {
-	//BALANCE OBJECT CONSTRUCTION
-	let balances = {};
-	let offset = 0;
-	while (true) {
-		try {
-			let url = `https://api.tzkt.io/v1/accounts/${address}/balance_history?offset=${offset}&limit=10000`;
-			const response = await axios.get(url);
-			offset += response.data.length; // update lastId, length of offset is all so it gets the length, then stops again while true because it fills the return of the query
-			for (let i = 0; i < response.data.length; i++) {
-				const element = response.data[i];
-				const d = element.timestamp.substring(0, 10);
-				balances[d] = element.balance;
-			}
-			if (response.data.length < 10000) {
-				// if is the last page
-				break;
-			}
-		} catch (error) {
-			console.error(error);
-		}
-	}
-	return balances;
+    let balances = {};
+    //offset from index
+    let offset = 0;
+    let resp_lens = 10000
+    while(resp_lens===10000){
+        let url = `https://api.tzkt.io/v1/accounts/${address}/balance_history?offset=${offset}&limit=10000`;
+        const response = await axios.get(url);
+        resp_lens = response.data.length
+        offset += response.data.length  // update lastId, length of offset is all so it gets the length, then stops again while true because it fills the return of the query 
+        // api returns only changes
+        // for each date, check date ahead and fill all dates upto that date
+        for (let i = 0; i < response.data.length-1; i++) {
+            const element = response.data[i];
+            //make this into normal date
+            var d1 = element.timestamp.substring(0,10)
+            var d2 = response.data[i+1].timestamp.substring(0,10)
+
+            if (d1===d2){
+                balances[d1] = element.balance;
+            }
+            else{        
+                d1 = new Date(d1);
+                d2 = new Date(d2);
+                date_itr = d1
+                while (date_itr < d2) {
+                    date_key = date_itr.toISOString().slice(0, 10);
+                    balances[date_key] = response.data[i].balance
+                    date_itr = date_itr.addDays(1);
+                };
+            }
+        }
+    }
+    return balances
 }
 
 //level 1
