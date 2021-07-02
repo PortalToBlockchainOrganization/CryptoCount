@@ -4,13 +4,95 @@ var router = Express.Router({ caseSensitive: true });
 var async = require("async");
 var { Session } = require("../Session.js");
 let axios = require("axios");
-const { analysis } = require("./tzdelpre.js");
+const {analysis, realizeRew, saveRealize, autoAnalysis} = require("./tzdelpre.js");
 
 router.baseURL = "/Anal";
 
 const RealizeHistObj = require("../../model/realize.js");
 const BlockchainModel = require("../../model/blockchain.js");
 const User = require("../../model/User.js");
+
+// beta auto basis price calculation
+router.post('/Auto', function(req,res){
+    var body = req.body;
+    async.waterfall([
+        async function(cb){
+            try{
+                rel_obj = await autoAnalysis(body["address"],body["fiat"])
+                return rel_obj;
+            }
+            catch(error){
+                return error;
+            }
+        },
+        function(rel_obj, cb){
+            if(rel_obj && rel_obj.stack && rel_obj.message){
+                cb(rel_obj, null)
+            }
+            console.log('rel_obj')
+            console.log(rel_obj)
+            res.status(200).json(rel_obj);
+            cb();
+        }],
+        function(err){
+            if(err) console.log(err);
+        });
+
+})
+
+// beta save realize function (needs proper route handling)
+router.post('/Save', function(req,res){
+    var body = req.body;
+    async.waterfall([
+        async function(cb){
+            try{
+                rel_obj = await saveRealize(body["conf_quantity"])
+                return rel_obj;
+            }
+            catch(error){
+                return error;
+            }
+        },
+        function(rel_obj, cb){
+            if(rel_obj && rel_obj.stack && rel_obj.message){
+                cb(rel_obj, null)
+            }
+            console.log('rel_obj')
+            console.log(rel_obj)
+            res.status(200).json(rel_obj);
+            cb();
+        }],
+        function(err){
+            if(err) console.log(err);
+        });
+})
+
+// beta realize function (needs proper route handling)
+router.post('/Realize', function(req,res){
+    var body = req.body;
+    async.waterfall([
+        async function(cb){
+            try{
+                rel_obj = await realizeRew(body["realizedQuantity"])
+                return rel_obj;
+            }
+            catch(error){
+                return error;
+            }
+        },
+        function(rel_obj, cb){
+            if(rel_obj && rel_obj.stack && rel_obj.message){
+                cb(rel_obj, null)
+            }
+            console.log('rel_obj')
+            console.log(rel_obj)
+            res.status(200).json(rel_obj);
+            cb();
+        }],
+        function(err){
+            if(err) console.log(err);
+        });
+    });
 
 router.post("/Unrel", function (req, res) {
 	var vld = req.validator;
