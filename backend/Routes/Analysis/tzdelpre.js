@@ -626,7 +626,7 @@ async function analysis(address, basisDate, fiat){
     }
     bookValsDepletion.push(bvDepObj)
     let basisRewardDepletion = []
-	let rewardDepletionObj = {
+    let rewardDepletionObj = {
 		"date": basisRewards[0].date,
 		"rewBasisDepletion": basisRewards[0].basisReward   //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
 	}
@@ -672,13 +672,11 @@ async function analysis(address, basisDate, fiat){
         bookValsDepletion.push(bvDepObj)
         basisRewardDepletion.push(rewardDepletionObj)
     }
-	let rewardDepletionObj = {
+    let rewardDepletionObj = {
 		"date": basisRewards[basisRewards.length].date,
 		"rewBasisDepletion": basisRewards[basisRewards.length].basisReward   //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
 	}
 	basisRewardDepletion.push(rewardDepletionObj)
-
-
     //MARKET VALUE DEPLETION REWARDS OBJECT
     //Dependency Object
     let mvdAnal = []
@@ -719,7 +717,7 @@ async function analysis(address, basisDate, fiat){
     }
     bookValsMVDepletion.push(bvMvDepObj)
     let basisRewardMVDepletion = []
-	let rewardMVDepletionObj = {
+    let rewardMVDepletionObj = {
 		"date": basisRewards[0].date,
 		"rewBasisMVDepletion": basisRewards[0].basisReward
 	}
@@ -752,7 +750,7 @@ async function analysis(address, basisDate, fiat){
         bookValsMVDepletion.push(bvMVDepObj)
         basisRewardMVDepletion.push(rewardMVDepletionObj)
     }
-	let rewardMVDepletionObj = {
+    let rewardMVDepletionObj = {
 		"date": basisRewards[basisRewards.length].date,
 		"rewBasisMVDepletion": basisRewards[basisRewards.length].basisReward
 	}
@@ -881,24 +879,34 @@ async function autoAnalysis(address, fiat){
 
 
     //BASIS REWARD OBJECT
-    //book value for basis rewards is unnessarry, it is calculeted for depletion
-    let basisValue = basisBalances[basisDate]
-    let bookVal = basisPrice * (basisValue / 1000000)
-    let bookValsBasis = []
-    let bvBasObj = {
-        "date": basisRewards[0].date,
-        "bvBas": bookVal
-    }
-    bookValsBasis.push(bvBasObj)
-
-    for(i = 1; i < basisRewards.length - 1; i++){
-        bookVal = bookValsBasis[i-1].bvBas + basisRewards[i].basisReward 
-        bvBasObj = {
-            "date": basisRewards[i].date,
-            "bvBas": bookVal
+    let basisRewards = []
+    for(i = 0; i < rewards.length; i++){
+        let basisRewardObj = {
+            "date": rewards[i].date,
+            "basisReward": rewards[i].rewardQuantity
         }
-        bookValsBasis.push(bvBasObj)
+        basisRewards.push(basisRewardObj)
     }
+    //book value for basis rewards is unnessarry, it is calculeted for depletion
+    let basisValue = Object.values(basisBalances)[0]
+    console.log(basisBalances)
+    console.log(basisValue)
+    let bookVal = basisPrice * (basisValue / 1000000)
+    // let bookValsBasis = []
+    // let bvBasObj = {
+    //     "date": rewards[0].date,
+    //     "bvBas": bookVal
+    // }
+    // bookValsBasis.push(bvBasObj)
+
+    // for(i = 1; i < rewards.length - 1; i++){
+    //     bookVal = bookValsBasis[i-1].bvBas + rewards[i].rewardQuantity * basisPrice 
+    //     bvBasObj = {
+    //         "date": rewards[i].date,
+    //         "bvBas": bookVal
+    //     }
+    //     bookValsBasis.push(bvBasObj)
+    // }
 
     //SUPPLY DEPLETION REWARDS OBJECT
     //Dependency Object
@@ -930,6 +938,7 @@ async function autoAnalysis(address, fiat){
     let bookValsDepletion = []
 
     let basisRewardDepletion = []
+
     for(i = 0; i < basisRewards.length; i++){
         let tranVal = 0
         let date = basisRewards[i].date
@@ -981,7 +990,7 @@ async function autoAnalysis(address, fiat){
                 "bvDep": bookVal
             }
             //let percentage = basisRewards[i].basisReward / bookVal
-            let rewardDepletionObj = {
+            rewardDepletionObj = {
                 "date": date,
                 "rewBasisDepletion": basisRewards[i].basisReward // - (depletion * percentage)  //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
             }
@@ -989,7 +998,7 @@ async function autoAnalysis(address, fiat){
             basisRewardDepletion.push(rewardDepletionObj)
         }
     }
- 
+
     //MARKET VALUE DEPLETION REWARDS OBJECT
     //Dependency Object
     let mvdAnal = []
@@ -1029,7 +1038,9 @@ async function autoAnalysis(address, fiat){
         "bvMvDep": bookVal
     }
     bookValsMVDepletion.push(bvMvDepObj)
+    
     let basisRewardMVDepletion = []
+
     for(i = 0; i < basisRewards.length; i++){
         let tranVal = 0
         date = basisRewards[i].date
@@ -1095,25 +1106,22 @@ async function autoAnalysis(address, fiat){
     */
 
     //RETURN OBJECT
-    let analysisResults = [];
     analysisResObj = {
         //need basis rewards, mvd rewards, dep rewards
         //"basisQ": basisQ,
-        "rewards": rewards,
-        "basisRewards": basisRewards,
-        "basisRewardsDep": basisRewardDepletion,
-        "basisRewardsMVdep": basisRewardMVDepletion,
+        "unrealizedRewards": rewards,
+        "unrealizedBasisRewards": basisRewards,
+        "unrealizedBasisRewardsDep": basisRewardDepletion,
+        "unrealizedBasisRewardsMVDep": basisRewardMVDepletion,
         "address": address,
         "fiat": fiat,
-        "basisDate": basisDate,
         "basisPrice": basisPrice,
     }
-    analysisResults.push(analysisResObj)
-
     
-    return analysisResults
+    return analysisResObj
 
 }
+
 
 async function avgBasisPrice(address, fiat){
 
@@ -1211,42 +1219,21 @@ function formatDate(date) {
 module.exports = { analysis, realizeRew, saveRealize, autoAnalysis};
 
 /*
-
 //REALIZE ROUTE
-
 realizeRew(frontendRealize){
     //take realize post api
-
     //get the realizehistoryobject from the db
-
     //fifo logic
     unrealizedSetObject x3 = unrealizedSetObject / basisPrice  - realized quantity  
     realizedSetObject x3 =  realizedSetObject / basisPrice + realized quantity 
-
-
     unrealizedSetObject x3 = unrealizedSetObject * basisPrice  
     realizedSetObject x3 =  realizedSetObject * basisPrice
-
     //repopulate the realize history object
-
     //post the history object
-
 }
-
-
 saveRealize(){
-
     //save the realize history object append to previous realize history object
-
 }
-
-
 realizeAll(){
-
 }
 */
-
-<<<<<<< HEAD
-
-=======
->>>>>>> dd1de9910de7cdd00be70a651d3324dd0754010d
