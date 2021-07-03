@@ -626,6 +626,11 @@ async function analysis(address, basisDate, fiat){
     }
     bookValsDepletion.push(bvDepObj)
     let basisRewardDepletion = []
+    let rewardDepletionObj = {
+		"date": basisRewards[0].date,
+		"rewBasisDepletion": basisRewards[0].basisReward   //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
+	}
+	basisRewardDepletion.push(rewardDepletionObj)
     for(i = 1; i < basisRewards.length - 1; i++){
         let tranVal = 0
         let date = basisRewards[i].date
@@ -667,6 +672,11 @@ async function analysis(address, basisDate, fiat){
         bookValsDepletion.push(bvDepObj)
         basisRewardDepletion.push(rewardDepletionObj)
     }
+    let rewardDepletionObj = {
+		"date": basisRewards[basisRewards.length].date,
+		"rewBasisDepletion": basisRewards[basisRewards.length].basisReward   //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
+	}
+	basisRewardDepletion.push(rewardDepletionObj)
     //MARKET VALUE DEPLETION REWARDS OBJECT
     //Dependency Object
     let mvdAnal = []
@@ -707,6 +717,11 @@ async function analysis(address, basisDate, fiat){
     }
     bookValsMVDepletion.push(bvMvDepObj)
     let basisRewardMVDepletion = []
+    let rewardMVDepletionObj = {
+		"date": basisRewards[0].date,
+		"rewBasisMVDepletion": basisRewards[0].basisReward
+	}
+	basisRewardMVDepletion.push(rewardMVDepletionObj)
     for(i = 1; i < basisRewards.length - 1; i++){
         let tranVal = 0
         date = basisRewards[i].date
@@ -735,6 +750,11 @@ async function analysis(address, basisDate, fiat){
         bookValsMVDepletion.push(bvMVDepObj)
         basisRewardMVDepletion.push(rewardMVDepletionObj)
     }
+    let rewardMVDepletionObj = {
+		"date": basisRewards[basisRewards.length].date,
+		"rewBasisMVDepletion": basisRewards[basisRewards.length].basisReward
+	}
+	basisRewardMVDepletion.push(rewardMVDepletionObj)
 
     //RETURN OBJECT
     analysisResObj = {
