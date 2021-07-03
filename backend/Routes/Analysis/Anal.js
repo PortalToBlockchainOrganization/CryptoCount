@@ -12,6 +12,27 @@ const RealizeHistObj = require('../../model/realize.js');
 const BlockchainModel = require('../../model/blockchain.js');
 const User = require("../../model/User.js");
 
+// given obj id - get obj (BETA)
+router.get('/:objId', function(req, res){
+    objId = req.params.objId
+    console.log(objId)
+    async.waterfall([
+        function(cb){
+            RealizeHistObj.findOne({_id: objId},
+            function(err, doc){
+                if(err) cb(err);
+                cb(null, doc);
+            })
+        },
+        function(set, cb){
+            res.status(200).json(set)
+        }
+    ],
+    function(err){
+        if(err) console.log(err);
+    })
+})
+
 // for history page - get all users objs
 router.get('/', function(req, res){
     user_id = req.session.prsId
