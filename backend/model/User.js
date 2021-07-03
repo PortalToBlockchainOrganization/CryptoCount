@@ -21,14 +21,14 @@ const UserSchema = mongoose.Schema({
 		type: Number,
 		required: true,
 	},
-	createdAt: {
-		type: Date,
-		default: Date.now(),
-	},
-	addresses: {
-		type: mongoose.Schema.Types.Mixed,
-		default: {},
-	},
+    setIds: { // list of ids of realizehistobjs
+        type: [String],
+        default: []
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now(),
+    }
 });
 
 // export model user with UserSchema
