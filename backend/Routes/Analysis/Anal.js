@@ -13,32 +13,60 @@ const BlockchainModel = require('../../model/blockchain.js');
 const User = require("../../model/User.js");
 
 // beta auto basis price calculation
-router.post('/Auto', function(req,res){
+router.post('/Auto', function(req, res){
+    var vld = req.validator;
     var body = req.body;
+    var unrel_obj = {}
+    const {address, fiat} = body;
+    console.log(address)
+    console.log(fiat)
     async.waterfall([
         async function(cb){
-            try{
-                rel_obj = await autoAnalysis(body["address"],body["fiat"])
-                return rel_obj;
-            }
-            catch(error){
-                return error;
-            }
+            if(vld.hasFields(body, ["address","fiat","histObjId"]))
+                try{
+                    unrel_obj = await autoAnalysis(address, fiat);
+                    console.log(unrel_obj)
+                    return unrel_obj;
+                }
+                catch (error) {
+                    console.log('analysis error')
+                    console.log(error)
+                    return error;
+                }
         },
-        function(rel_obj, cb){
-            if(rel_obj && rel_obj.stack && rel_obj.message){
-                cb(rel_obj, null)
+        function(unrel_obj,cb){
+            // here we check to see if our previous function returned a 
+            // error in the catch block and we instantly jump to the callback
+            // by passing the error in
+            if(unrel_obj && unrel_obj.stack && unrel_obj.message){
+                cb(unrel_obj, null)
             }
-            console.log('rel_obj')
-            console.log(rel_obj)
-            res.status(200).json(rel_obj);
+            console.log(body["histObjId"])
+            RealizeHistObj.findOneAndUpdate({_id: body["histObjId"]}, {$set: {
+                "unrealizedRewards" : unrel_obj.unrealizedRewards,
+                "unrealizedBasisRewards": unrel_obj.unrealizedBasisRewards,
+                "unrealizedBasisRewardsDep" : unrel_obj.unrealizedBasisRewardsDep,
+                "unrealizedBasisRewardsMVDep" : unrel_obj.unrealizedBasisRewardsMVDep,
+                "basisPrice": unrel_obj.basisPrice,
+            }},{new: true}, 
+            function(err, doc){
+                if(err) cb(err);
+                cb(null, doc);
+            })
+        },
+        function(result, cb){ //after creating new rel db obj, 
+            // add the send unrel to FE
+            // console.log(result)
+            // console.log('results')
+            console.log(result)
+            res.status(200).json(result);
             cb();
-        }],
+        }
+        ],
         function(err){
             if(err) console.log(err);
         });
-
-})
+});
 
 // beta save realize function (needs proper route handling)
 router.post('/Save', function(req,res){
