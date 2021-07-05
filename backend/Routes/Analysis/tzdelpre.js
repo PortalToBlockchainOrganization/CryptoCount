@@ -665,14 +665,14 @@ async function analysis(address, basisDate, fiat){
         console.log('Percentage')
         console.log(percentage)
         console.log('')
-        let rewardDepletionObj = {
+        rewardDepletionObj = {
             "date": basisRewards[i].date,
             "rewBasisDepletion": basisRewards[i].basisReward - (depletion * percentage)  //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
         }
         bookValsDepletion.push(bvDepObj)
         basisRewardDepletion.push(rewardDepletionObj)
     }
-    let rewardDepletionObj = {
+    rewardDepletionObj = {
 		"date": basisRewards[basisRewards.length].date,
 		"rewBasisDepletion": basisRewards[basisRewards.length].basisReward   //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
 	}
@@ -743,14 +743,14 @@ async function analysis(address, basisDate, fiat){
             "bvMvDep": bookVal
         }
         let percentage = basisRewards[i].basisReward / bookVal
-        let rewardMVDepletionObj = {
+        rewardMVDepletionObj = {
             "date": basisRewards[i].date,
             "rewBasisMVDepletion": basisRewards[i].basisReward - (MVdepletion * percentage)
         }
         bookValsMVDepletion.push(bvMVDepObj)
         basisRewardMVDepletion.push(rewardMVDepletionObj)
     }
-    let rewardMVDepletionObj = {
+    rewardMVDepletionObj = {
 		"date": basisRewards[basisRewards.length].date,
 		"rewBasisMVDepletion": basisRewards[basisRewards.length].basisReward
 	}
