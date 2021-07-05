@@ -19,6 +19,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
 							params={rest.params}
 							getUnrealizedSet={rest.getUnrealizedSet}
 							set={rest.set}
+							addHistObjId={rest.addHistObjId}
 						/>
 					) : (
 						<>
@@ -66,6 +67,12 @@ const Main = (props) => {
 		return <div></div>;
 	}
 
+	const addHistObjId = (histObjId) => {
+		console.log("sethistobjId");
+		let temp = { ...props.params };
+		temp["histObjId"] = histObjId;
+		props.editParams(temp);
+	};
 	return (
 		<div>
 			<NavbarComponent
@@ -95,6 +102,7 @@ const Main = (props) => {
 							{...props}
 							signedIn={signedIn}
 							signOut={signOut}
+							editParams={props.editParams}
 						/>
 					)}
 				/>
@@ -119,6 +127,7 @@ const Main = (props) => {
 					isAuthed={signedIn}
 					getUnrealizedSet={props.getUnrealizedSet}
 					set={props.set}
+					addHistObjId={addHistObjId}
 				/>
 			</Switch>
 

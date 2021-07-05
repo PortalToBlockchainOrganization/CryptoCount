@@ -12,17 +12,19 @@ import classes from "./Analysis.module.css";
  */
 const Analysis = (props) => {
 	const { params, set, getUnrealizedSet } = props;
-
-	console.log(set);
-	const updateChart = (setToRender) => {
-		setData(getData(setToRender));
-	};
-	// foobar data
 	const getData = useCallback(
 		(setToRender) => {
-			if (!set || Object.keys(set).length === 0) {
-				getUnrealizedSet(params);
-			} else {
+			// if there is no current data and if the id is not a duplicate
+			let tempParams = params;
+			console.log(params);
+			console.log(set);
+			if (set["_id"] !== undefined && set["isLoading"] === undefined) {
+				tempParams["histObjId"] = set["_id"];
+				console.log(tempParams);
+				getUnrealizedSet(tempParams);
+			}
+
+			if (set["isLoading"] && set["isLoading"] === false) {
 				setToRender = setToRender ? setToRender : "basisRewards";
 				let rewardKey = null;
 				if (setToRender === "basisRewards") {
@@ -37,12 +39,12 @@ const Analysis = (props) => {
 				let data = {
 					labels: [],
 					datasets: [{ label: "Basis Rewards", backgroundColor: [] }],
-					address: set.address,
-					fiat: set.fiat,
-					basisDate: set.basisDate,
-					basisPrice: set.basisPrice,
+					address: set["data"].address,
+					fiat: set["data"].fiat,
+					basisDate: set["data"].basisDate,
+					basisPrice: set["data"].basisPrice,
 				};
-				set[`${setToRender}`].map((element) => {
+				set["data"][`${setToRender}`].map((element) => {
 					dates.push(element["date"]);
 					basisRewards.push(element[`${rewardKey}`]);
 					data["labels"] = dates;
@@ -56,8 +58,20 @@ const Analysis = (props) => {
 				return data;
 			}
 		},
-		[params, set, getUnrealizedSet]
+		[set, params, getUnrealizedSet]
 	);
+	const [data, setData] = useState(getData());
+	let path = require(`../../Assets/Flags/${params.fiat}.PNG`);
+	console.log(set);
+
+	// rerender the chart
+	useEffect(() => {
+		setData(getData());
+	}, []);
+
+	const updateChart = (setToRender) => {
+		setData(getData(setToRender));
+	};
 
 	const options = {
 		scales: {
@@ -71,15 +85,7 @@ const Analysis = (props) => {
 		},
 	};
 
-	const [data, setData] = useState(getData());
-
-	// rerender the chart
-	useEffect(() => {
-		setData(getData());
-	}, [getData]);
-
-	let path = require(`../../Assets/Flags/${params.fiat}.PNG`);
-	return Object.keys(set).length > 0 ? (
+	return set["data"] !== undefined ? (
 		<div className={classes.AnalysisWrapper}>
 			{/* <div className={classes.Buttons}>
 				<Button variant="outline-danger" onClick={updateNumber}>
