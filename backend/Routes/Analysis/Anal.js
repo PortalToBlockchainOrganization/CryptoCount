@@ -345,7 +345,7 @@ router.post('/', function(req, res) {
             }
         },
         function(doc, cb){
-            res.location(router.baseURL + '/' + doc).end();
+	    res.status(200).json({ setId: doc });
             cb();
         }],
         function(err){
