@@ -1,8 +1,9 @@
+let StatisticModel = require("../../model/statistic.js");
+let CycleModel = require("../../model/cycle");
+let axios = require("axios");
+const { resolve } = require("bluebird");
 
 
-//the higher the level of the function the deeper into our program's logic
-
-//HENRIK ** CAN YOU HOOK UP ALL THE MODELS TO THE RIGHT ROUTE AND CONNECT THIS PROGRAM TO THE DB *********
 const BlockchainModel = require("../../model/blockchain.js");
 const RealizeSet = require("../../model/realize.js");
 
@@ -862,7 +863,7 @@ async function analysis(address, basisDate, fiat) {
 	basisRewardMVDepletion.push(rewardMVDepletionObj);
 
 	//RETURN OBJECT
-	analysisResObj = {
+	let analysisResObj = {
 		//need basis rewards, mvd rewards, dep rewards
 		unrealizedRewards: rewards,
 		unrealizedBasisRewards: basisRewards,
