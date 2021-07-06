@@ -77,7 +77,6 @@ export function analPost(params, cb) {
 				let temp = { ...params };
 				temp["histObjId"] = res["setId"];
 				dispatch({ type: "UNIQUE", payload: { _id: res["setId"] } });
-				// dispatch(getUnrealizedSet(temp));
 			});
 		});
 	};
@@ -103,7 +102,7 @@ export function getUnrealizedSetStarted() {
 	return { type: "CREATE_SET_STARTED" };
 }
 
-export function getUnrealizedSet(params, cb) {
+export function getUnrealizedSet(params) {
 	console.log("UNREALIZED CALL: ", params);
 	return (dispatch) => {
 		dispatch(getUnrealizedSetStarted());
@@ -126,5 +125,23 @@ export function getUnrealizedSet(params, cb) {
 			});
 	};
 }
-// .then(res => {
-// if (cb) cb();
+
+export function getRealizingSetStart() {
+	return { type: "CREATE_REALIZED_SET_STARTED" };
+}
+
+export function getRealizingSet(setId, quantity) {
+	console.log("REALIZING CALL", setId, quantity);
+	return (dispatch) => {
+		dispatch(getRealizingSetStart());
+		api.getRealizingSet(setId, quantity).then((res) => {
+			res.json().then((res) => {
+				console.log(res);
+				return dispatch({
+					type: "ADD_REALIZING_SET",
+					payload: res,
+				});
+			});
+		});
+	};
+}
