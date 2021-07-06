@@ -664,6 +664,7 @@ async function analysis(address, basisDate, fiat) {
 		};
 		totalSupplys.push(totalSupplyObj);
 	}
+	let basisRewardDepletion = [];
 	basisRewardDepletion.push(rewardDepletionObj);
 	for (i = 1; i < basisRewards.length - 1; i++) {
 		let tranVal = 0;
@@ -729,7 +730,6 @@ async function analysis(address, basisDate, fiat) {
 		bvDep: bookVal,
 	};
 	bookValsDepletion.push(bvDepObj);
-	let basisRewardDepletion = [];
 	let rewardDepletionObj = {
 		date: basisRewards[0].date,
 		rewBasisDepletion: basisRewards[0].basisReward, //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE

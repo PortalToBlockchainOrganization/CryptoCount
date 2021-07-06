@@ -132,8 +132,8 @@ const Analysis = (props) => {
 			],
 			xAxes: [
 				{
-					stacked: true,
-					barThickness: 0.8,
+					categoryPercentage: 1.0,
+					barPercentage: 1.0,
 				},
 			],
 		},
