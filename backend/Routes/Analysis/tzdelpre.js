@@ -1,7 +1,4 @@
-let StatisticModel = require("../../model/statistic.js");
-let CycleModel = require("../../model/cycle");
-let axios = require("axios");
-const { resolve } = require("bluebird");
+
 
 
 let StatisticModel = require('../../model/statistic.js');
@@ -417,7 +414,7 @@ async function realizeRew(realizedQuantity,setId){
 
             //dep = unrealizedBasisRewardsDep[0].rewBasisDepletion - (unrealrewards[0].rewardQuantity * basisPrice)
             newrealizngObj = {
-                "date": unrealizedBasisRewardsDep[i-1].date,
+                "date": unrealizedBasisRewardsDep[0].date,
                 "rewBasisDepletion": realizedQuantity * basisPrice //+ dep 
             }
             realzingRewardBasisDep.push(newrealizngObj)
@@ -484,7 +481,7 @@ async function realizeRew(realizedQuantity,setId){
      let realizingDepAgg = 0 
      let realizingMVdAgg = 0
      for (i = 0; i < realizingRewardQ.length; i++){
-        realizingRewardAgg += realizingRewardQ[i].q
+        realizingRewardAgg += realizingRewardQ[i].rewardQuantity
         realizingBasisAgg += realzingRewardBasis[i].basisReward
         realizingDepAgg += realzingRewardBasisDep[i].rewBasisDepletion
         realizingMVdAgg += realzingRewardBasisMVDep[i].rewBasisMVDepletion
