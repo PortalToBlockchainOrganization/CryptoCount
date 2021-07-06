@@ -3,14 +3,7 @@ let CycleModel = require("../../model/cycle");
 let axios = require("axios");
 const { resolve } = require("bluebird");
 
-
-let StatisticModel = require('../../model/statistic.js');
-let CycleModel = require('../../model/cycle');
-let axios = require('axios');
-const { resolve } = require('bluebird');
-
-//the higher the level of the function the deeper into our program's logic 
-
+//the higher the level of the function the deeper into our program's logic
 
 //HENRIK ** CAN YOU HOOK UP ALL THE MODELS TO THE RIGHT ROUTE AND CONNECT THIS PROGRAM TO THE DB *********
 const BlockchainModel = require("../../model/blockchain.js");
@@ -337,206 +330,208 @@ async function getTransactions(address) {
 
 //REALIZE ROUTE
 //REALIZE ROUTE
-async function realizeRew(realizedQuantity,setId){
-    //take realize post api
-    // let realizedQuantity = 900
+async function realizeRew(realizedQuantity, setId) {
+	//take realize post api
+	// let realizedQuantity = 900
 
-    //get the realizehistoryobject from the db
-    console.log(setId)
-    let foundRealizeHistory = await RealizeSet.findOne({_id:setId})
-    console.log(foundRealizeHistory)
+	//get the realizehistoryobject from the db
+	console.log(setId);
+	let foundRealizeHistory = await RealizeSet.findOne({ _id: setId });
+	console.log(foundRealizeHistory);
 
-    //CANNOT ACCESS UNREALIZED REWARD SET // WORKAROUND HERE
-    //y no access unrealized? walkaround
-    //let realizingRewardQ = foundRealizeHistory[0].unrealizedBasisRewards[2].basisReward
-    //let realizingRewardQ = foundRealizeHistory[0].unrealizedRewards[0].rewardQuantity
-    // for(i = 0; i < foundRealizeHistory.unrealizedBasisRewards.length; i++){
-        //     rewardQ = foundRealizeHistory.unrealizedBasisRewards[i].basisReward / basisPrice
-        //     date = foundRealizeHistory.unrealizedBasisRewards[i].date
-        //     reward = {
-            //         "date": date,
-            //         "q": rewardQ
-            //     }
-            //     unrealrewards.push(reward)
-            // }
-            //end patch
-            
-            //other unrealized sets
-            
-            
-    let basisPrice = foundRealizeHistory.basisPrice
-    console.log("basisPrice")
-    console.log(basisPrice)
-    let unrealrewards = foundRealizeHistory.unrealizedRewards
-    unrealizedBasisRewards = foundRealizeHistory.unrealizedBasisRewards
-    unrealizedBasisRewardsDep = foundRealizeHistory.unrealizedBasisRewardsDep
-    unrealizedBasisRewardsMVDep = foundRealizeHistory.unrealizedBasisRewardsMVDep
-    // console.log(unrealizedBasisRewardsMVDep.length)
+	//CANNOT ACCESS UNREALIZED REWARD SET // WORKAROUND HERE
+	//y no access unrealized? walkaround
+	//let realizingRewardQ = foundRealizeHistory[0].unrealizedBasisRewards[2].basisReward
+	//let realizingRewardQ = foundRealizeHistory[0].unrealizedRewards[0].rewardQuantity
+	// for(i = 0; i < foundRealizeHistory.unrealizedBasisRewards.length; i++){
+	//     rewardQ = foundRealizeHistory.unrealizedBasisRewards[i].basisReward / basisPrice
+	//     date = foundRealizeHistory.unrealizedBasisRewards[i].date
+	//     reward = {
+	//         "date": date,
+	//         "q": rewardQ
+	//     }
+	//     unrealrewards.push(reward)
+	// }
+	//end patch
 
-    //making realizing set
-    realizingRewardQ = []
-    realzingRewardBasis = []
-    realzingRewardBasisDep = []
-    realzingRewardBasisMVDep = []
-    console.log('unrealrewards1')
-    console.log(unrealrewards)
-    for (i = 0; i < unrealrewards.length; i++){
+	//other unrealized sets
 
-        //quantity of unrealized rewward
-        let q = unrealrewards[i].rewardQuantity
+	let basisPrice = foundRealizeHistory.basisPrice;
+	console.log("basisPrice");
+	console.log(basisPrice);
+	let unrealrewards = foundRealizeHistory.unrealizedRewards;
+	unrealizedBasisRewards = foundRealizeHistory.unrealizedBasisRewards;
+	unrealizedBasisRewardsDep = foundRealizeHistory.unrealizedBasisRewardsDep;
+	unrealizedBasisRewardsMVDep =
+		foundRealizeHistory.unrealizedBasisRewardsMVDep;
+	// console.log(unrealizedBasisRewardsMVDep.length)
 
-        //CONDITION 1, if realizng q greater than reward entry
-        if (q < realizedQuantity){
-            let realizingObj = unrealrewards.shift()
-            realizingRewardQ.push(realizingObj)
-            let realizingObj2 = unrealizedBasisRewards.shift()
-            realzingRewardBasis.push(realizingObj2)
-            let realizingObj3 = unrealizedBasisRewardsDep.shift()
-            realzingRewardBasisDep.push(realizingObj3)
-            let realizingObj4 = unrealizedBasisRewardsMVDep.shift()
-            realzingRewardBasisMVDep.push(realizingObj4)
-            realizedQuantity = realizedQuantity - q
-        }
-        
-        //CONDITION 2, if realizng q is greater than realized q and thats not zero 
-        //unreal rewards has been shifted back so all index must be lowered 1
-        //technically i would need to recalculate the depletion to make this perfect using bv? or by scaling with proportions of proportions
-        else if (q > realizedQuantity && realizedQuantity != 0){
-            //ADD TO REALIZING
-            newrealizngObj = {
-                "date": unrealrewards[0].date,
-                "rewardQuantity": realizedQuantity 
-            }
-            realizingRewardQ.push(newrealizngObj)
+	//making realizing set
+	realizingRewardQ = [];
+	realzingRewardBasis = [];
+	realzingRewardBasisDep = [];
+	realzingRewardBasisMVDep = [];
+	console.log("unrealrewards1");
+	console.log(unrealrewards);
+	for (i = 0; i < unrealrewards.length; i++) {
+		//quantity of unrealized rewward
+		let q = unrealrewards[i].rewardQuantity;
 
-            newrealizngObj = {
-                "date": unrealizedBasisRewards[0].date,
-                "basisReward": realizedQuantity * basisPrice 
-            }
-            realzingRewardBasis.push(newrealizngObj)
+		//CONDITION 1, if realizng q greater than reward entry
+		if (q < realizedQuantity) {
+			let realizingObj = unrealrewards.shift();
+			realizingRewardQ.push(realizingObj);
+			let realizingObj2 = unrealizedBasisRewards.shift();
+			realzingRewardBasis.push(realizingObj2);
+			let realizingObj3 = unrealizedBasisRewardsDep.shift();
+			realzingRewardBasisDep.push(realizingObj3);
+			let realizingObj4 = unrealizedBasisRewardsMVDep.shift();
+			realzingRewardBasisMVDep.push(realizingObj4);
+			realizedQuantity = realizedQuantity - q;
+		}
 
-            //dep = unrealizedBasisRewardsDep[0].rewBasisDepletion - (unrealrewards[0].rewardQuantity * basisPrice)
-            newrealizngObj = {
-                "date": unrealizedBasisRewardsDep[0].date,
-                "rewBasisDepletion": realizedQuantity * basisPrice //+ dep 
-            }
-            realzingRewardBasisDep.push(newrealizngObj)
+		//CONDITION 2, if realizng q is greater than realized q and thats not zero
+		//unreal rewards has been shifted back so all index must be lowered 1
+		//technically i would need to recalculate the depletion to make this perfect using bv? or by scaling with proportions of proportions
+		else if (q > realizedQuantity && realizedQuantity != 0) {
+			//ADD TO REALIZING
+			newrealizngObj = {
+				date: unrealrewards[0].date,
+				rewardQuantity: realizedQuantity,
+			};
+			realizingRewardQ.push(newrealizngObj);
 
-            //dep = unrealizedBasisRewardsMVDep[0].rewBasisMVDepletion - (unrealrewards[0].rewardQuantity * basisPrice)
-            newrealizngObj = {
-                "date": unrealizedBasisRewardsMVDep[0].date,
-                "rewBasisMVDepletion": realizedQuantity * basisPrice //+ dep 
-            }
-            realzingRewardBasisMVDep.push(newrealizngObj)
+			newrealizngObj = {
+				date: unrealizedBasisRewards[0].date,
+				basisReward: realizedQuantity * basisPrice,
+			};
+			realzingRewardBasis.push(newrealizngObj);
 
-            //MOD UNREAL
-            unrealObj = {
-                "date": unrealrewards[0].date,
-                "rewardQuantity": unrealrewards[0].rewardQuantity - realizedQuantity
-            }
-            unrealrewards.shift()
-            unrealrewards.unshift(unrealObj)
+			//dep = unrealizedBasisRewardsDep[0].rewBasisDepletion - (unrealrewards[0].rewardQuantity * basisPrice)
+			newrealizngObj = {
+				date: unrealizedBasisRewardsDep[0].date,
+				rewBasisDepletion: realizedQuantity * basisPrice, //+ dep
+			};
+			realzingRewardBasisDep.push(newrealizngObj);
 
-            unrealObj = {
-                "date": unrealizedBasisRewards[0].date,
-                "basisReward": unrealizedBasisRewards[0].basisReward - (realizedQuantity * basisPrice)
-            }
-            unrealizedBasisRewards.shift()
-            unrealizedBasisRewards.unshift(unrealObj)
+			//dep = unrealizedBasisRewardsMVDep[0].rewBasisMVDepletion - (unrealrewards[0].rewardQuantity * basisPrice)
+			newrealizngObj = {
+				date: unrealizedBasisRewardsMVDep[0].date,
+				rewBasisMVDepletion: realizedQuantity * basisPrice, //+ dep
+			};
+			realzingRewardBasisMVDep.push(newrealizngObj);
 
-            //dep = unrealrewards[i-1].q * basisPrice - unrealizedBasisRewardsDep[i-1].rewBasisDepletion
-            unrealObj = {
-                "date": unrealizedBasisRewardsDep[0].date,
-                "rewBasisDepletion": unrealizedBasisRewardsDep[0].rewBasisDepletion - (realizedQuantity * basisPrice) // + dep
-            }
-            unrealizedBasisRewardsDep.shift()
-            unrealizedBasisRewardsDep.unshift(unrealObj)
-            //dep = unrealizedBasisRewardsMVDep[i-1].rewBasisMVDepletion - (unrealrewards[i-1].q * basisPrice)
-            unrealObj = {
-                "date": unrealizedBasisRewardsMVDep[0].date,
-                "rewBasisMVDepletion": unrealizedBasisRewardsMVDep[0].rewBasisMVDepletion - (realizedQuantity * basisPrice) // + dep
-            }
-            unrealizedBasisRewardsMVDep.shift()
-            unrealizedBasisRewardsMVDep.unshift(unrealObj)
+			//MOD UNREAL
+			unrealObj = {
+				date: unrealrewards[0].date,
+				rewardQuantity:
+					unrealrewards[0].rewardQuantity - realizedQuantity,
+			};
+			unrealrewards.shift();
+			unrealrewards.unshift(unrealObj);
 
+			unrealObj = {
+				date: unrealizedBasisRewards[0].date,
+				basisReward:
+					unrealizedBasisRewards[0].basisReward -
+					realizedQuantity * basisPrice,
+			};
+			unrealizedBasisRewards.shift();
+			unrealizedBasisRewards.unshift(unrealObj);
 
-            //end reward realzing
-            break
-        }
-    }
-  
+			//dep = unrealrewards[i-1].q * basisPrice - unrealizedBasisRewardsDep[i-1].rewBasisDepletion
+			unrealObj = {
+				date: unrealizedBasisRewardsDep[0].date,
+				rewBasisDepletion:
+					unrealizedBasisRewardsDep[0].rewBasisDepletion -
+					realizedQuantity * basisPrice, // + dep
+			};
+			unrealizedBasisRewardsDep.shift();
+			unrealizedBasisRewardsDep.unshift(unrealObj);
+			//dep = unrealizedBasisRewardsMVDep[i-1].rewBasisMVDepletion - (unrealrewards[i-1].q * basisPrice)
+			unrealObj = {
+				date: unrealizedBasisRewardsMVDep[0].date,
+				rewBasisMVDepletion:
+					unrealizedBasisRewardsMVDep[0].rewBasisMVDepletion -
+					realizedQuantity * basisPrice, // + dep
+			};
+			unrealizedBasisRewardsMVDep.shift();
+			unrealizedBasisRewardsMVDep.unshift(unrealObj);
 
-    //re aggregate
-    let unrealizedRewardAgg = 0 
-    let unrealizedBasisAgg = 0
-    let unrealizedDepAgg = 0 
-    let unrealizedMVdAgg = 0
-    for (i = 0; i < unrealrewards.length; i++){
-        unrealizedRewardAgg += unrealrewards[i].rewardQuantity
-        unrealizedBasisAgg += unrealizedBasisRewards[i].basisReward
-        unrealizedDepAgg += unrealizedBasisRewardsDep[i].rewBasisDepletion
-        unrealizedMVdAgg += unrealizedBasisRewardsMVDep[i].rewBasisMVDepletion
-    }
+			//end reward realzing
+			break;
+		}
+	}
 
-     //re aggregate
-     let realizingRewardAgg = 0 
-     let realizingBasisAgg = 0
-     let realizingDepAgg = 0 
-     let realizingMVdAgg = 0
-     for (i = 0; i < realizingRewardQ.length; i++){
-        realizingRewardAgg += realizingRewardQ[i].rewardQuantity
-        realizingBasisAgg += realzingRewardBasis[i].basisReward
-        realizingDepAgg += realzingRewardBasisDep[i].rewBasisDepletion
-        realizingMVdAgg += realzingRewardBasisMVDep[i].rewBasisMVDepletion
-     }
-    
+	//re aggregate
+	let unrealizedRewardAgg = 0;
+	let unrealizedBasisAgg = 0;
+	let unrealizedDepAgg = 0;
+	let unrealizedMVdAgg = 0;
+	for (i = 0; i < unrealrewards.length; i++) {
+		unrealizedRewardAgg += unrealrewards[i].rewardQuantity;
+		unrealizedBasisAgg += unrealizedBasisRewards[i].basisReward;
+		unrealizedDepAgg += unrealizedBasisRewardsDep[i].rewBasisDepletion;
+		unrealizedMVdAgg += unrealizedBasisRewardsMVDep[i].rewBasisMVDepletion;
+	}
 
-    //realize out of bookvalue - rewards = basis 
-    /*
+	//re aggregate
+	let realizingRewardAgg = 0;
+	let realizingBasisAgg = 0;
+	let realizingDepAgg = 0;
+	let realizingMVdAgg = 0;
+	for (i = 0; i < realizingRewardQ.length; i++) {
+		realizingRewardAgg += realizingRewardQ[i].rewardQuantity;
+		realizingBasisAgg += realzingRewardBasis[i].basisReward;
+		realizingDepAgg += realzingRewardBasisDep[i].rewBasisDepletion;
+		realizingMVdAgg += realzingRewardBasisMVDep[i].rewBasisMVDepletion;
+	}
+
+	//realize out of bookvalue - rewards = basis
+	/*
     unrealizedBasis = foundRealizeHistory[0].unrealizedBasis - quantityRealized - realizedRewardAgg - realizingAgg
     realizingBasisQ = quantityRealized    
     realizingBasisBV = quantityRealized * basisPrice
     */
 
+	realizedObj = {
+		realizingRewards: realizingRewardQ,
+		// "unrealizedRewards": unrealrewards,
+		realzingRewardBasis: realzingRewardBasis,
+		// "unrealizedBasisRewards": unrealizedBasisRewards,
+		realzingRewardBasisDep: realzingRewardBasisDep,
+		// "unrealizedBasisRewardsDep" : unrealizedBasisRewardsDep,
+		realzingRewardBasisMVDep: realzingRewardBasisMVDep,
+		// "unrealizedBasisRewardsMVDep" : unrealizedBasisRewardsMVDep,
+		// "unrealizedRewardAgg": unrealizedRewardAgg,
+		// "unrealizedBasisAgg": unrealizedBasisAgg,
+		// "unrealizedDepAgg": unrealizedDepAgg,
+		// "unrealizedMVdAgg": unrealizedMVdAgg,
+		realizingRewardAgg: realizingRewardAgg,
+		realizingBasisAgg: realizingBasisAgg,
+		realizingDepAgg: realizingDepAgg,
+		realizingMVdAgg: realizingMVdAgg,
+		// "address": foundRealizeHistory.address,
+		// "basisDate": foundRealizeHistory.basisDate,
+		// "basisPrice": foundRealizeHistory.basisPrice,
+		// "fiat": foundRealizeHistory.fiat,
+		// "realizedRewards" : foundRealizeHistory.realizedRewards, //again not working ~ unrealized rewards and realized rewards from .find()
+		// "realizedBasisRewards" : foundRealizeHistory.realizedBasisRewards,
+		// "realizedBasisRewardsDep" : foundRealizeHistory.realizedBasisRewardsDep,
+		// "realizedBasisRewardsMVdep" : foundRealizeHistory.realizedBasisRewardsMVDep,
+		//"realizingBasisBV": realizingBasisBV,
+		//"realizingBasisQ": realizingBasisQ,
+		//"unrealizedBasis": unrealizedBasis
+	};
 
-
-
-    realizedObj = {
-        "realizingRewards": realizingRewardQ,
-        // "unrealizedRewards": unrealrewards,
-        "realzingRewardBasis": realzingRewardBasis,
-        // "unrealizedBasisRewards": unrealizedBasisRewards,
-        "realzingRewardBasisDep": realzingRewardBasisDep,
-        // "unrealizedBasisRewardsDep" : unrealizedBasisRewardsDep,
-        "realzingRewardBasisMVDep": realzingRewardBasisMVDep,
-        // "unrealizedBasisRewardsMVDep" : unrealizedBasisRewardsMVDep,
-        // "unrealizedRewardAgg": unrealizedRewardAgg,
-        // "unrealizedBasisAgg": unrealizedBasisAgg,
-        // "unrealizedDepAgg": unrealizedDepAgg,
-        // "unrealizedMVdAgg": unrealizedMVdAgg,
-        "realizingRewardAgg": realizingRewardAgg,
-        "realizingBasisAgg": realizingBasisAgg,
-        "realizingDepAgg": realizingDepAgg,
-        "realizingMVdAgg": realizingMVdAgg,
-        // "address": foundRealizeHistory.address,
-        // "basisDate": foundRealizeHistory.basisDate,
-        // "basisPrice": foundRealizeHistory.basisPrice,
-        // "fiat": foundRealizeHistory.fiat,
-        // "realizedRewards" : foundRealizeHistory.realizedRewards, //again not working ~ unrealized rewards and realized rewards from .find()
-        // "realizedBasisRewards" : foundRealizeHistory.realizedBasisRewards,
-        // "realizedBasisRewardsDep" : foundRealizeHistory.realizedBasisRewardsDep,
-        // "realizedBasisRewardsMVdep" : foundRealizeHistory.realizedBasisRewardsMVDep,
-        //"realizingBasisBV": realizingBasisBV,
-        //"realizingBasisQ": realizingBasisQ,
-        //"unrealizedBasis": unrealizedBasis
-    }
-    
-
-    return realizedObj
-
+	return realizedObj;
 }
-  
 
+/**
+ * @Sheen this ish is broken
+ */
+/**
+ * 
     //re aggregate
     let unrealizedRewardAgg = 0 
     let unrealizedBasisAgg = 0
@@ -566,13 +561,8 @@ async function realizeRew(realizedQuantity,setId){
     /*
     unrealizedBasis = foundRealizeHistory[0].unrealizedBasis - quantityRealized - realizedRewardAgg - realizingAgg
     realizingBasisQ = quantityRealized    
-    realizingBasisBV = quantityRealized * basisPrice
-    */
-
-
-
-
-    realizedObj = {
+    realizingBasisBV = quantityRealized * basisPrice 
+	realizedObj = {
         "realizingRewards": realizingRewardQ,
         // "unrealizedRewards": unrealrewards,
         "realzingRewardBasis": realzingRewardBasis,
@@ -606,61 +596,60 @@ async function realizeRew(realizedQuantity,setId){
     return realizedObj
 
 }
+    */
 
 //level 3
 
-async function analysis(address, basisDate, fiat){
+async function analysis(address, basisDate, fiat) {
+	//label objects by blocks, delete repeats, remove clutter
 
-    //label objects by blocks, delete repeats, remove clutter
-    
-    //DATA DEPENDCEIES 
-    let rewards = await getRewards(address)
-    
-    let basisBalances = await getBalances(address)
-    let pricesForUser = await getPricesAndMarketCap(fiat)
-    let tranArray = await getTransactions(address)
-    //BASIS REWARD OBJECT
-    let basisPrice = 0
-    for (let i = 0; i < pricesForUser.length; i++){
-        const a = Date.parse(pricesForUser[i].date) - 1000 * 60 * 60 * 8
-        const b = Date.parse(basisDate)
-        const c = Date.parse(pricesForUser[i].date) - 1000 * 60 * 60 * 7
-        if (a == b || b == c ){
-            basisPrice = pricesForUser[i].price
-        }
-    }
- 
-    let basisRewards = [];
-    for (let i = 0; i < rewards.length; i++) {
-        reward = rewards[i].rewardQuantity
-        basisRewardsObj = {
-            "date": rewards[i].date,
-            "basisReward": reward * basisPrice         
-        }
-        basisRewards.push(basisRewardsObj)
-    }
+	//DATA DEPENDCEIES
+	let rewards = await getRewards(address);
 
+	let basisBalances = await getBalances(address);
+	let pricesForUser = await getPricesAndMarketCap(fiat);
+	let tranArray = await getTransactions(address);
+	//BASIS REWARD OBJECT
+	let basisPrice = 0;
+	for (let i = 0; i < pricesForUser.length; i++) {
+		const a = Date.parse(pricesForUser[i].date) - 1000 * 60 * 60 * 8;
+		const b = Date.parse(basisDate);
+		const c = Date.parse(pricesForUser[i].date) - 1000 * 60 * 60 * 7;
+		if (a == b || b == c) {
+			basisPrice = pricesForUser[i].price;
+		}
+	}
 
-    // fill in dates missing in gaps with previous value
-    //book value for basis rewards is unnessarry, it is calculeted for depletion
-    let basisValue = basisBalances[basisDate]
-    let bookVal = basisPrice * (basisValue / 1000000)
+	let basisRewards = [];
+	for (let i = 0; i < rewards.length; i++) {
+		reward = rewards[i].rewardQuantity;
+		basisRewardsObj = {
+			date: rewards[i].date,
+			basisReward: reward * basisPrice,
+		};
+		basisRewards.push(basisRewardsObj);
+	}
 
-    let bookValsBasis = []
-    let bvBasObj = {
-        "date": basisRewards[0].date,
-        "bvBas": bookVal
-    }
-    bookValsBasis.push(bvBasObj)
+	// fill in dates missing in gaps with previous value
+	//book value for basis rewards is unnessarry, it is calculeted for depletion
+	let basisValue = basisBalances[basisDate];
+	let bookVal = basisPrice * (basisValue / 1000000);
 
-    for(i = 1; i < basisRewards.length - 1; i++){
-        bookVal = bookValsBasis[i-1].bvBas + basisRewards[i].basisReward 
-        bvBasObj = {
-            "date": basisRewards[i].date,
-            "bvBas": bookVal
-        }
-        bookValsBasis.push(bvBasObj)
-    }
+	let bookValsBasis = [];
+	let bvBasObj = {
+		date: basisRewards[0].date,
+		bvBas: bookVal,
+	};
+	bookValsBasis.push(bvBasObj);
+
+	for (i = 1; i < basisRewards.length - 1; i++) {
+		bookVal = bookValsBasis[i - 1].bvBas + basisRewards[i].basisReward;
+		bvBasObj = {
+			date: basisRewards[i].date,
+			bvBas: bookVal,
+		};
+		bookValsBasis.push(bvBasObj);
+	}
 
 	//SUPPLY DEPLETION REWARDS OBJECT
 	//Dependency Object
@@ -675,44 +664,64 @@ async function analysis(address, basisDate, fiat){
 		};
 		totalSupplys.push(totalSupplyObj);
 	}
-	basisRewardDepletion.push(rewardDepletionObj)
-    for(i = 1; i < basisRewards.length - 1; i++){
-        let tranVal = 0
-        let date = basisRewards[i].date
-        let nextDate = basisRewards[i + 1].date
-        for (j = 0; j < tranArray.length; j ++){
-            if (Date.parse(tranArray[j].date)  -  1000 * 60 * 60 * 7 == Date.parse(date) || Date.parse(tranArray[j].date)  -  1000 * 60 * 60 * 8 == Date.parse(date)){
-                tranVal = tranArray[j].amounnt
-                
-            }
-            else if(Date.parse(tranArray[j].date)  -  1000 * 60 * 60 * 7 > Date.parse(date) || Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 > Date.parse(date)){
-                if (Date.parse(tranArray[j].date)  -  1000 * 60 * 60 * 7 < Date.parse(nextDate) || Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 < Date.parse(nextDate)){
-                    tranVal = tranArray[j].amounnt
-                }
-            }
-        }
-      
-        let depletion = bookValsDepletion[i-1].bvDep * (1 - supply[i-1].supply / supply[i].supply) 
-       
-        let bookVal = bookValsDepletion[i-1].bvDep + basisRewards[i].basisReward - depletion + (tranVal * basisPrice)
-       
-        let bvDepObj = {
-            "date": basisRewards[i].date,
-            "bvDep": bookVal
-        }
-        let percentage = basisRewards[i].basisReward / bookVal
-      
-        rewardDepletionObj = {
-            "date": basisRewards[i].date,
-            "rewBasisDepletion": basisRewards[i].basisReward - (depletion * percentage)  //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
-        }
-        bookValsDepletion.push(bvDepObj)
-        basisRewardDepletion.push(rewardDepletionObj)
-    }
-    rewardDepletionObj = {
-		"date": basisRewards[basisRewards.length].date,
-		"rewBasisDepletion": basisRewards[basisRewards.length].basisReward   //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
+	basisRewardDepletion.push(rewardDepletionObj);
+	for (i = 1; i < basisRewards.length - 1; i++) {
+		let tranVal = 0;
+		let date = basisRewards[i].date;
+		let nextDate = basisRewards[i + 1].date;
+		for (j = 0; j < tranArray.length; j++) {
+			if (
+				Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 ==
+					Date.parse(date) ||
+				Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 ==
+					Date.parse(date)
+			) {
+				tranVal = tranArray[j].amounnt;
+			} else if (
+				Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 >
+					Date.parse(date) ||
+				Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 >
+					Date.parse(date)
+			) {
+				if (
+					Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 <
+						Date.parse(nextDate) ||
+					Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 <
+						Date.parse(nextDate)
+				) {
+					tranVal = tranArray[j].amounnt;
+				}
+			}
+		}
+
+		let depletion =
+			bookValsDepletion[i - 1].bvDep *
+			(1 - supply[i - 1].supply / supply[i].supply);
+
+		let bookVal =
+			bookValsDepletion[i - 1].bvDep +
+			basisRewards[i].basisReward -
+			depletion +
+			tranVal * basisPrice;
+
+		let bvDepObj = {
+			date: basisRewards[i].date,
+			bvDep: bookVal,
+		};
+		let percentage = basisRewards[i].basisReward / bookVal;
+
+		rewardDepletionObj = {
+			date: basisRewards[i].date,
+			rewBasisDepletion:
+				basisRewards[i].basisReward - depletion * percentage, //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
+		};
+		bookValsDepletion.push(bvDepObj);
+		basisRewardDepletion.push(rewardDepletionObj);
 	}
+	rewardDepletionObj = {
+		date: basisRewards[basisRewards.length].date,
+		rewBasisDepletion: basisRewards[basisRewards.length].basisReward, //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
+	};
 	//main object construction
 	let bookValsDepletion = [];
 	let bvDepObj = {
@@ -1002,137 +1011,156 @@ async function saveRealize(conf_quantity) {
 	//save the realize history object append to previous realize history object in db
 }
 
-async function autoAnalysis(address, fiat){
+async function autoAnalysis(address, fiat) {
+	//label objects by blocks, delete repeats, remove clutter
 
-    //label objects by blocks, delete repeats, remove clutter
-    
-    //DATA DEPENDCEIES 
-    let rewards = await getRewards(address)
-    let basisBalances = await getBalances(address)
-    let pricesForUser = await getPricesAndMarketCap(fiat)
-    let tranArray = await getTransactions(address)
-    let basisPrice = await avgBasisPrice(address, fiat)
+	//DATA DEPENDCEIES
+	let rewards = await getRewards(address);
+	let basisBalances = await getBalances(address);
+	let pricesForUser = await getPricesAndMarketCap(fiat);
+	let tranArray = await getTransactions(address);
+	let basisPrice = await avgBasisPrice(address, fiat);
 
+	//BASIS REWARD OBJECT
+	let basisRewards = [];
+	for (i = 0; i < rewards.length; i++) {
+		let basisRewardObj = {
+			date: rewards[i].date,
+			basisReward: rewards[i].rewardQuantity,
+		};
+		basisRewards.push(basisRewardObj);
+	}
+	//book value for basis rewards is unnessarry, it is calculeted for depletion
+	let basisValue = Object.values(basisBalances)[0];
 
-    //BASIS REWARD OBJECT
-    let basisRewards = []
-    for(i = 0; i < rewards.length; i++){
-        let basisRewardObj = {
-            "date": rewards[i].date,
-            "basisReward": rewards[i].rewardQuantity
-        }
-        basisRewards.push(basisRewardObj)
-    }
-    //book value for basis rewards is unnessarry, it is calculeted for depletion
-    let basisValue = Object.values(basisBalances)[0]
-  
-    let bookVal = basisPrice * (basisValue / 1000000)
-    // let bookValsBasis = []
-    // let bvBasObj = {
-    //     "date": rewards[0].date,
-    //     "bvBas": bookVal
-    // }
-    // bookValsBasis.push(bvBasObj)
+	let bookVal = basisPrice * (basisValue / 1000000);
+	// let bookValsBasis = []
+	// let bvBasObj = {
+	//     "date": rewards[0].date,
+	//     "bvBas": bookVal
+	// }
+	// bookValsBasis.push(bvBasObj)
 
-    // for(i = 1; i < rewards.length - 1; i++){
-    //     bookVal = bookValsBasis[i-1].bvBas + rewards[i].rewardQuantity * basisPrice 
-    //     bvBasObj = {
-    //         "date": rewards[i].date,
-    //         "bvBas": bookVal
-    //     }
-    //     bookValsBasis.push(bvBasObj)
-    // }
+	// for(i = 1; i < rewards.length - 1; i++){
+	//     bookVal = bookValsBasis[i-1].bvBas + rewards[i].rewardQuantity * basisPrice
+	//     bvBasObj = {
+	//         "date": rewards[i].date,
+	//         "bvBas": bookVal
+	//     }
+	//     bookValsBasis.push(bvBasObj)
+	// }
 
-    //SUPPLY DEPLETION REWARDS OBJECT
-    //Dependency Object
-    const supplyDocs = await StatisticModel.find()  
-    let totalSupplys = [];
-    for (let i = 0; i < supplyDocs.length; i++) {
-        const d = supplyDocs[i].dateString
-        totalSupply = supplyDocs[i].totalSupply;
-        totalSupplyObj = {
-            "date": d,
-            "supply": totalSupply
-        }
-        totalSupplys.push(totalSupplyObj)
-    }
-    let supply = []
-    for (let i = 0; i < basisRewards.length; i ++){
-        let date = basisRewards[i].date
-       for (j = 0; j < totalSupplys.length; j++){
-        if (date == totalSupplys[j].date){
-            supplyObj = {
-                "date": date,
-                "supply": totalSupplys[j].supply
-            }
-            supply.push(supplyObj)
-        }
-       }
-    }
-    //main object construction
-    let bookValsDepletion = []
+	//SUPPLY DEPLETION REWARDS OBJECT
+	//Dependency Object
+	const supplyDocs = await StatisticModel.find();
+	let totalSupplys = [];
+	for (let i = 0; i < supplyDocs.length; i++) {
+		const d = supplyDocs[i].dateString;
+		totalSupply = supplyDocs[i].totalSupply;
+		totalSupplyObj = {
+			date: d,
+			supply: totalSupply,
+		};
+		totalSupplys.push(totalSupplyObj);
+	}
+	let supply = [];
+	for (let i = 0; i < basisRewards.length; i++) {
+		let date = basisRewards[i].date;
+		for (j = 0; j < totalSupplys.length; j++) {
+			if (date == totalSupplys[j].date) {
+				supplyObj = {
+					date: date,
+					supply: totalSupplys[j].supply,
+				};
+				supply.push(supplyObj);
+			}
+		}
+	}
+	//main object construction
+	let bookValsDepletion = [];
 
-    let basisRewardDepletion = []
+	let basisRewardDepletion = [];
 
-    for(i = 0; i < basisRewards.length; i++){
-        let tranVal = 0
-        let date = basisRewards[i].date
-        if(i == 0 ){
-                let bvDepObj = {
-                    "date": date,
-                    "bvDep": bookVal
-                }
-                bookValsDepletion.push(bvDepObj)
-                let rewardDepletionObj = {
-                    "date": date,
-                    "rewBasisDepletion": basisRewards[i].basisReward // - (depletion * percentage)  //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
-                }
-                basisRewardDepletion.push(rewardDepletionObj)
-        }
-        else if(i > 0 && i < basisRewards.length - 1){
-            let nextDate = basisRewards[i + 1].date
-            // for positive values obtain price at date of tranasaction
-            for (j = 0; j < tranArray.length; j ++){
-                if (Date.parse(tranArray[j].date)  -  1000 * 60 * 60 * 7 == Date.parse(date) || Date.parse(tranArray[j].date)  -  1000 * 60 * 60 * 8 == Date.parse(date)){
-                    tranVal = tranArray[j].amounnt
-                    
-                }
-                else if(Date.parse(tranArray[j].date)  -  1000 * 60 * 60 * 7 > Date.parse(date) || Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 > Date.parse(date)){
-                    if (Date.parse(tranArray[j].date)  -  1000 * 60 * 60 * 7 < Date.parse(nextDate) || Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 < Date.parse(nextDate)){
-                        tranVal = tranArray[j].amounnt
-                    }
-                }
-            }
-            let depletion = bookValsDepletion[i-1].bvDep * (1 - supply[i-1].supply / supply[i].supply)
-            let bookVal = bookValsDepletion[i-1].bvDep + basisRewards[i].basisReward - depletion + (tranVal * basisPrice)
-            let bvDepObj = {
-                "date": date,
-                "bvDep": bookVal
-            }
-            let percentage = basisRewards[i].basisReward / bookVal
-            let rewardDepletionObj = {
-                "date": date,
-                "rewBasisDepletion": basisRewards[i].basisReward - (depletion * percentage)  //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
-            }
-            bookValsDepletion.push(bvDepObj)
-            basisRewardDepletion.push(rewardDepletionObj)
-        }
-        else {
-            //let depletion = bookValsDepletion[i-1].bvDep * (1 - supply[i-1].supply / supply[i].supply)
-            let bookVal = bookValsDepletion[i-1].bvDep + basisRewards[i].basisReward  + (tranVal * basisPrice) //subtract depletion from this once db updated and supply works
-            let bvDepObj = {
-                "date": date,
-                "bvDep": bookVal
-            }
-            //let percentage = basisRewards[i].basisReward / bookVal
-            rewardDepletionObj = {
-                "date": date,
-                "rewBasisDepletion": basisRewards[i].basisReward // - (depletion * percentage)  //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
-            }
-            bookValsDepletion.push(bvDepObj)
-            basisRewardDepletion.push(rewardDepletionObj)
-        }
-    }
+	for (i = 0; i < basisRewards.length; i++) {
+		let tranVal = 0;
+		let date = basisRewards[i].date;
+		if (i == 0) {
+			let bvDepObj = {
+				date: date,
+				bvDep: bookVal,
+			};
+			bookValsDepletion.push(bvDepObj);
+			let rewardDepletionObj = {
+				date: date,
+				rewBasisDepletion: basisRewards[i].basisReward, // - (depletion * percentage)  //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
+			};
+			basisRewardDepletion.push(rewardDepletionObj);
+		} else if (i > 0 && i < basisRewards.length - 1) {
+			let nextDate = basisRewards[i + 1].date;
+			// for positive values obtain price at date of tranasaction
+			for (j = 0; j < tranArray.length; j++) {
+				if (
+					Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 ==
+						Date.parse(date) ||
+					Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 ==
+						Date.parse(date)
+				) {
+					tranVal = tranArray[j].amounnt;
+				} else if (
+					Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 >
+						Date.parse(date) ||
+					Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 >
+						Date.parse(date)
+				) {
+					if (
+						Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 <
+							Date.parse(nextDate) ||
+						Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 <
+							Date.parse(nextDate)
+					) {
+						tranVal = tranArray[j].amounnt;
+					}
+				}
+			}
+			let depletion =
+				bookValsDepletion[i - 1].bvDep *
+				(1 - supply[i - 1].supply / supply[i].supply);
+			let bookVal =
+				bookValsDepletion[i - 1].bvDep +
+				basisRewards[i].basisReward -
+				depletion +
+				tranVal * basisPrice;
+			let bvDepObj = {
+				date: date,
+				bvDep: bookVal,
+			};
+			let percentage = basisRewards[i].basisReward / bookVal;
+			let rewardDepletionObj = {
+				date: date,
+				rewBasisDepletion:
+					basisRewards[i].basisReward - depletion * percentage, //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
+			};
+			bookValsDepletion.push(bvDepObj);
+			basisRewardDepletion.push(rewardDepletionObj);
+		} else {
+			//let depletion = bookValsDepletion[i-1].bvDep * (1 - supply[i-1].supply / supply[i].supply)
+			let bookVal =
+				bookValsDepletion[i - 1].bvDep +
+				basisRewards[i].basisReward +
+				tranVal * basisPrice; //subtract depletion from this once db updated and supply works
+			let bvDepObj = {
+				date: date,
+				bvDep: bookVal,
+			};
+			//let percentage = basisRewards[i].basisReward / bookVal
+			rewardDepletionObj = {
+				date: date,
+				rewBasisDepletion: basisRewards[i].basisReward, // - (depletion * percentage)  //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
+			};
+			bookValsDepletion.push(bvDepObj);
+			basisRewardDepletion.push(rewardDepletionObj);
+		}
+	}
 
 	//MARKET VALUE DEPLETION REWARDS OBJECT
 	//Dependency Object
