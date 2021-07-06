@@ -19,9 +19,5 @@
   "scripts": {
     "Ex1": "node ServerEx1.js",
     "Ex2": "node ServerEx2.js"
-  },
-  "author": [
-    "Johnathan Nicholson",
-    "Clinton Staley"
-  ]
+  }
 }

@@ -3,9 +3,7 @@ let CycleModel = require("../../model/cycle");
 let axios = require("axios");
 const { resolve } = require("bluebird");
 
-//the higher the level of the function the deeper into our program's logic
 
-//HENRIK ** CAN YOU HOOK UP ALL THE MODELS TO THE RIGHT ROUTE AND CONNECT THIS PROGRAM TO THE DB *********
 const BlockchainModel = require("../../model/blockchain.js");
 const RealizeSet = require("../../model/realize.js");
 
@@ -550,7 +548,7 @@ async function realizeRew(realizedQuantity, setId) {
      let realizingDepAgg = 0 
      let realizingMVdAgg = 0
      for (i = 0; i < realizingRewardQ.length; i++){
-        realizingRewardAgg += realizingRewardQ[i].q
+        realizingRewardAgg += realizingRewardQ[i].rewardQuantity
         realizingBasisAgg += realzingRewardBasis[i].basisReward
         realizingDepAgg += realzingRewardBasisDep[i].rewBasisDepletion
         realizingMVdAgg += realzingRewardBasisMVDep[i].rewBasisMVDepletion
@@ -664,65 +662,29 @@ async function analysis(address, basisDate, fiat) {
 		};
 		totalSupplys.push(totalSupplyObj);
 	}
+<<<<<<< HEAD
 	let basisRewardDepletion = [];
 	basisRewardDepletion.push(rewardDepletionObj);
 	for (i = 1; i < basisRewards.length - 1; i++) {
 		let tranVal = 0;
+=======
+
+    let supply = [];
+	for (let i = 0; i < basisRewards.length; i++) {
+>>>>>>> 86ad09c41347cdeab38ed5e0b78c71a28ffecb93
 		let date = basisRewards[i].date;
-		let nextDate = basisRewards[i + 1].date;
-		for (j = 0; j < tranArray.length; j++) {
-			if (
-				Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 ==
-					Date.parse(date) ||
-				Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 ==
-					Date.parse(date)
-			) {
-				tranVal = tranArray[j].amounnt;
-			} else if (
-				Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 >
-					Date.parse(date) ||
-				Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 >
-					Date.parse(date)
-			) {
-				if (
-					Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 <
-						Date.parse(nextDate) ||
-					Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 <
-						Date.parse(nextDate)
-				) {
-					tranVal = tranArray[j].amounnt;
-				}
+		for (j = 0; j < totalSupplys.length; j++) {
+			if (date == totalSupplys[j].date) {
+				supplyObj = {
+					date: date,
+					supply: totalSupplys[j].supply,
+				};
+				supply.push(supplyObj);
 			}
 		}
-
-		let depletion =
-			bookValsDepletion[i - 1].bvDep *
-			(1 - supply[i - 1].supply / supply[i].supply);
-
-		let bookVal =
-			bookValsDepletion[i - 1].bvDep +
-			basisRewards[i].basisReward -
-			depletion +
-			tranVal * basisPrice;
-
-		let bvDepObj = {
-			date: basisRewards[i].date,
-			bvDep: bookVal,
-		};
-		let percentage = basisRewards[i].basisReward / bookVal;
-
-		rewardDepletionObj = {
-			date: basisRewards[i].date,
-			rewBasisDepletion:
-				basisRewards[i].basisReward - depletion * percentage, //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
-		};
-		bookValsDepletion.push(bvDepObj);
-		basisRewardDepletion.push(rewardDepletionObj);
 	}
-	rewardDepletionObj = {
-		date: basisRewards[basisRewards.length].date,
-		rewBasisDepletion: basisRewards[basisRewards.length].basisReward, //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
-	};
+
+    //
 	//main object construction
 	let bookValsDepletion = [];
 	let bvDepObj = {
@@ -802,6 +764,10 @@ async function analysis(address, basisDate, fiat) {
 		rewBasisDepletion: basisRewards[basisRewards.length - 1].basisReward, //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
 	};
 	basisRewardDepletion.push(rewardDepletionObj);
+
+
+
+
 	//MARKET VALUE DEPLETION REWARDS OBJECT
 	//Dependency Object
 	let mvdAnal = [];
@@ -903,7 +869,7 @@ async function analysis(address, basisDate, fiat) {
 	basisRewardMVDepletion.push(rewardMVDepletionObj);
 
 	//RETURN OBJECT
-	analysisResObj = {
+	let analysisResObj = {
 		//need basis rewards, mvd rewards, dep rewards
 		unrealizedRewards: rewards,
 		unrealizedBasisRewards: basisRewards,
@@ -1076,6 +1042,7 @@ async function autoAnalysis(address, fiat) {
 			}
 		}
 	}
+
 	//main object construction
 	let bookValsDepletion = [];
 

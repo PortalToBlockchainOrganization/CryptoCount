@@ -5,7 +5,7 @@ const database = "cryptocount";
 
 // Replace password with real password (ask shaheen)
 const MONGOURI =
-	"mongodb+srv://admin:<pw>@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority";
+	"mongodb+srv://admin:lelloliar9876@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority";
 
 const InitiateMongoServer = async () => {
 	try {
