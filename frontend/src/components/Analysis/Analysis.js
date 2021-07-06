@@ -27,7 +27,6 @@ const Analysis = (props) => {
 		console.log(set["data"]["_id"], quantityRealize);
 		if (set["data"]["_id"] !== undefined && quantityRealize !== 0) {
 			getRealizingSet(set["data"]["_id"], quantityRealize);
-			setQuantityRealize(0);
 		}
 		e.preventDefault();
 	};
