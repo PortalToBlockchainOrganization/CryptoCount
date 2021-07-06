@@ -291,6 +291,7 @@ router.post("/Cal", function (req, res) {
 	);
 });
 
+<<<<<<< HEAD
 router.post("/", function (req, res) {
 	var vld = req.validator;
 	var body = req.body;
@@ -359,6 +360,68 @@ router.post("/", function (req, res) {
 			if (err) console.log(err);
 		}
 	);
+=======
+router.post('/', function(req, res) {
+    var vld = req.validator;
+    var body = req.body;
+    var prsId = req.session.prsId;
+    
+    async.waterfall([
+        function(cb){
+            // given
+            if (vld.hasFields(body, ["address","fiat","basisDate"]))
+                RealizeHistObj.find({
+                    fiat: body["fiat"], 
+                    address: body["address"], 
+                    basisDate: body["basisDate"], 
+                    userid: prsId
+                }, 
+                function(err, docs){
+                    if(err) cb(err);
+                    cb(null, docs)
+                })
+        },
+        function(setCheck, cb){
+            // if a dup exists send a body with 'dup check' to indicate to the
+            // front end that they should prompt the user with a dialogue to manage
+            // duplicates
+            if(setCheck.length !== 0){
+                res.status(200).json({'dup check':setCheck.length})
+                cb(null,null);
+            }
+            // if no dups exist, create a new realize history object
+            else{
+                rel_obj = new RealizeHistObj({
+                    userid: prsId,
+                    version: 0,
+                    fiat: body["fiat"],
+                    address: body["address"],
+                    basisDate: body["basisDate"]
+                })
+                rel_obj.save(function(err, doc){
+                    if(err) cb(err);
+                    cb(null,doc);
+                })
+            }
+        },
+        function(rel_doc, cb){
+            // associate the new realize history obj with the user
+            if(rel_doc){
+                User.findOneAndUpdate({_id: prsId}, {$addToSet: {"setIds": rel_doc._id}}, 
+                    function(err, doc){
+                        if(err) cb(err);
+                        cb(null, rel_doc._id);
+                })
+            }
+        },
+        function(doc, cb){
+	    res.status(200).json({ setId: doc });
+            cb();
+        }],
+        function(err){
+            if(err) console.log(err);
+        });
+>>>>>>> f95d6091486820abed3bcb7372d3358d89bf9961
 });
 
 Date.prototype.addDays = function (days) {
