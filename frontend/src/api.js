@@ -128,6 +128,13 @@ export function getUnrealizedSet(params) {
 	});
 }
 
+export function getRealizingSet(setId, quantity) {
+	return post("Anal/Realize", {
+		setId: setId,
+		realizedQuantity: quantity,
+	});
+}
+
 const errMap = {
 	Internal: "An Internal Server Error Occurred",
 	Forbidden: "You are Forbidden from Viewing the Requested Page",
