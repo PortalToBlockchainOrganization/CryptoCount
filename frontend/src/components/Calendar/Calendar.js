@@ -99,9 +99,8 @@ class Calendar extends Component {
 
 	renderMonthAndYear = () => {
 		const { month, year } = this.state;
-		const monthname = Object.keys(CALENDAR_MONTHS)[
-			Math.max(0, Math.min(month - 1, 11))
-		];
+		const monthname =
+			Object.keys(CALENDAR_MONTHS)[Math.max(0, Math.min(month - 1, 11))];
 
 		return (
 			<Styled.CalendarHeader>
@@ -160,6 +159,8 @@ class Calendar extends Component {
 		let cal = this.props.cal["cal_vals"];
 		let d = getDateISO(_date);
 		cal = cal[d];
+
+		// disabled dates where price is null
 		return (
 			<DateComponent key={d} {...props}>
 				{_date.getDate()}
@@ -169,8 +170,7 @@ class Calendar extends Component {
 							{cal !== undefined &&
 								(cal["balance"] / 1000000)
 									.toFixed(2)
-									.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") +
-									"M"}
+									.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")}
 						</div>
 						<div>
 							{cal !== undefined &&

@@ -54,12 +54,31 @@ export function setParams(params, cb) {
 	return { type: "CREATE_PARAMS", payload: params };
 }
 
+export function editParams(params, cb) {
+	if (cb) {
+		cb();
+	}
+	return { type: "EDIT_PARAMS", payload: params };
+}
+
 export function analPost(params, cb) {
 	return (dispatch) => {
-		api.analPost(params).then(() => {
+		api.analPost(params).then((res) => {
 			if (cb) {
 				cb();
 			}
+			res.json().then((res) => {
+				if (res["dup check"] !== undefined) {
+					return dispatch({
+						type: "DUPLICATE",
+						payload: { dup_address: params.address },
+					});
+				}
+				let temp = { ...params };
+				temp["histObjId"] = res["setId"];
+				dispatch({ type: "UNIQUE", payload: { _id: res["setId"] } });
+				// dispatch(getUnrealizedSet(temp));
+			});
 		});
 	};
 }
@@ -80,8 +99,14 @@ export function getCalendarData(params, cb) {
 	};
 }
 
+export function getUnrealizedSetStarted() {
+	return { type: "CREATE_SET_STARTED" };
+}
+
 export function getUnrealizedSet(params, cb) {
+	console.log("UNREALIZED CALL: ", params);
 	return (dispatch) => {
+		dispatch(getUnrealizedSetStarted());
 		api.getUnrealizedSet(params)
 			.then((res) =>
 				res
@@ -90,7 +115,10 @@ export function getUnrealizedSet(params, cb) {
 						return data;
 					})
 					.then((data) => {
-						return dispatch({ type: "CREATE_SET", payload: data });
+						return dispatch({
+							type: "CREATE_SET_SUCCEEDED",
+							payload: data,
+						});
 					})
 			)
 			.catch((err) => {

@@ -103,9 +103,8 @@ export function register(user) {
 }
 
 export function analPost(params) {
-	console.log("ANAL POST: ", params);
 	if (params) {
-		return post("Anal/", {
+		return post("Anal", {
 			address: params["address"],
 			basisDate: params["basisDate"],
 			fiat: params["fiat"],
@@ -125,6 +124,7 @@ export function getUnrealizedSet(params) {
 		address: params["address"],
 		basisDate: params["basisDate"],
 		fiat: params["fiat"],
+		histObjId: params["histObjId"],
 	});
 }
 
