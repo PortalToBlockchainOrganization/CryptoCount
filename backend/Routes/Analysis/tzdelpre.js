@@ -417,7 +417,7 @@ async function realizeRew(realizedQuantity,setId){
 
             //dep = unrealizedBasisRewardsDep[0].rewBasisDepletion - (unrealrewards[0].rewardQuantity * basisPrice)
             newrealizngObj = {
-                "date": unrealizedBasisRewardsDep[i-1].date,
+                "date": unrealizedBasisRewardsDep[0].date,
                 "rewBasisDepletion": realizedQuantity * basisPrice //+ dep 
             }
             realzingRewardBasisDep.push(newrealizngObj)
@@ -464,6 +464,77 @@ async function realizeRew(realizedQuantity,setId){
             break
         }
     }
+  
+
+    //re aggregate
+    let unrealizedRewardAgg = 0 
+    let unrealizedBasisAgg = 0
+    let unrealizedDepAgg = 0 
+    let unrealizedMVdAgg = 0
+    for (i = 0; i < unrealrewards.length; i++){
+        unrealizedRewardAgg += unrealrewards[i].rewardQuantity
+        unrealizedBasisAgg += unrealizedBasisRewards[i].basisReward
+        unrealizedDepAgg += unrealizedBasisRewardsDep[i].rewBasisDepletion
+        unrealizedMVdAgg += unrealizedBasisRewardsMVDep[i].rewBasisMVDepletion
+    }
+
+     //re aggregate
+     let realizingRewardAgg = 0 
+     let realizingBasisAgg = 0
+     let realizingDepAgg = 0 
+     let realizingMVdAgg = 0
+     for (i = 0; i < realizingRewardQ.length; i++){
+        realizingRewardAgg += realizingRewardQ[i].rewardQuantity
+        realizingBasisAgg += realzingRewardBasis[i].basisReward
+        realizingDepAgg += realzingRewardBasisDep[i].rewBasisDepletion
+        realizingMVdAgg += realzingRewardBasisMVDep[i].rewBasisMVDepletion
+     }
+    
+
+    //realize out of bookvalue - rewards = basis 
+    /*
+    unrealizedBasis = foundRealizeHistory[0].unrealizedBasis - quantityRealized - realizedRewardAgg - realizingAgg
+    realizingBasisQ = quantityRealized    
+    realizingBasisBV = quantityRealized * basisPrice
+    */
+
+
+
+
+    realizedObj = {
+        "realizingRewards": realizingRewardQ,
+        // "unrealizedRewards": unrealrewards,
+        "realzingRewardBasis": realzingRewardBasis,
+        // "unrealizedBasisRewards": unrealizedBasisRewards,
+        "realzingRewardBasisDep": realzingRewardBasisDep,
+        // "unrealizedBasisRewardsDep" : unrealizedBasisRewardsDep,
+        "realzingRewardBasisMVDep": realzingRewardBasisMVDep,
+        // "unrealizedBasisRewardsMVDep" : unrealizedBasisRewardsMVDep,
+        // "unrealizedRewardAgg": unrealizedRewardAgg,
+        // "unrealizedBasisAgg": unrealizedBasisAgg,
+        // "unrealizedDepAgg": unrealizedDepAgg,
+        // "unrealizedMVdAgg": unrealizedMVdAgg,
+        "realizingRewardAgg": realizingRewardAgg,
+        "realizingBasisAgg": realizingBasisAgg,
+        "realizingDepAgg": realizingDepAgg,
+        "realizingMVdAgg": realizingMVdAgg,
+        // "address": foundRealizeHistory.address,
+        // "basisDate": foundRealizeHistory.basisDate,
+        // "basisPrice": foundRealizeHistory.basisPrice,
+        // "fiat": foundRealizeHistory.fiat,
+        // "realizedRewards" : foundRealizeHistory.realizedRewards, //again not working ~ unrealized rewards and realized rewards from .find()
+        // "realizedBasisRewards" : foundRealizeHistory.realizedBasisRewards,
+        // "realizedBasisRewardsDep" : foundRealizeHistory.realizedBasisRewardsDep,
+        // "realizedBasisRewardsMVdep" : foundRealizeHistory.realizedBasisRewardsMVDep,
+        //"realizingBasisBV": realizingBasisBV,
+        //"realizingBasisQ": realizingBasisQ,
+        //"unrealizedBasis": unrealizedBasis
+    }
+    
+
+    return realizedObj
+
+}
   
 
     //re aggregate
