@@ -11,13 +11,24 @@ import classes from "./Analysis.module.css";
  * @returns
  */
 const Analysis = (props) => {
+	const fiatLabels = {
+		AED: "United Arab Emirates Dirham",
+		ARS: "Argentine Peso",
+		AUD: "Australian Dollar",
+		CHF: "Swiss Franc",
+		KRW: "South Korean won",
+		HUF: "Hungarian Forint",
+		NOK: "Norwegian krone",
+		IKR: "Icelandic Króna",
+		PKR: "Pakistani Rupee",
+		USD: "United States Dollar",
+	};
 	const { params, set, getUnrealizedSet, getRealizingSet } = props;
 	const [quantityRealize, setQuantityRealize] = useState(0);
 	const updateChart = (setToRender) => {
 		setCurrentSet(getData(setToRender));
 	};
 
-	console.log(quantityRealize);
 	const handleChange = (e) => {
 		setQuantityRealize(e.target.value);
 		e.preventDefault();
@@ -35,7 +46,7 @@ const Analysis = (props) => {
 	// 	return set["data"]["realizingRewardBasis"][0]["date"];
 	// };
 
-	const getMaxDate = (setLabel) => {
+	const getMaxDate = () => {
 		return set["data"]["realizingRewardBasis"][
 			set["data"]["realizingRewardBasis"].length - 2
 		]["date"];
@@ -75,12 +86,22 @@ const Analysis = (props) => {
 					labels: [],
 					datasets: [
 						{
-							label: "Basis Rewards",
-							backgroundColor: "rgba(255, 99, 132, 1)",
+							label: "Realized Rewards",
+							backgroundColor: "rgba(255, 99, 132, 0.8)",
+							borderRadius: 3,
+							barThickness: 15,
 						},
 						{
 							label: "Realizing Rewards",
-							backgroundColor: "rgba(191, 191, 191, 1)",
+							backgroundColor: "rgba(250, 190, 88, 0.8)",
+							borderRadius: 3,
+							barThickness: 15,
+						},
+						{
+							label: "Unrealized",
+							backgroundColor: "rgba(191, 191, 191, 0.8)",
+							borderRadius: 3,
+							barThickness: 15,
 						},
 					],
 					address: set["data"].address,
@@ -90,12 +111,23 @@ const Analysis = (props) => {
 				};
 
 				let currentRelSet = mapping[setToRender];
+				if (set["data"]["realizingRewardBasis"] !== undefined) {
+					realizingRewards = set["data"][currentRelSet].map(
+						(element) => {
+							realizingRewards.push(element[`${rewardKey}`]);
+							// realizing set index 1
+							data["datasets"][1]["data"] = realizingRewards;
+							return realizingRewards;
+						}
+					);
+				}
 				// if realizing set is null
 				set["data"][`${setToRender}`].map((element) => {
 					dates.push(element["date"]);
 					if (set["data"][currentRelSet] !== undefined) {
 						if (element["date"] >= getMaxDate()) {
 							basisRewards.push(element[`${rewardKey}`]);
+							data["datasets"][1]["data"].push(null);
 						} else {
 							basisRewards.push(null);
 						}
@@ -103,18 +135,11 @@ const Analysis = (props) => {
 						basisRewards.push(element[`${rewardKey}`]);
 					}
 					data["labels"] = dates;
-					data["datasets"][0]["data"] = basisRewards;
+					// unrealized set
+					data["datasets"][2]["data"] = basisRewards;
 					return data;
 				});
-				if (set["data"]["realizingRewardBasis"] !== undefined) {
-					realizingRewards = set["data"][currentRelSet].map(
-						(element) => {
-							realizingRewards.push(element[`${rewardKey}`]);
-							data["datasets"][1]["data"] = realizingRewards;
-							return realizingRewards;
-						}
-					);
-				}
+
 				return data;
 			}
 		},
@@ -123,22 +148,44 @@ const Analysis = (props) => {
 
 	const options = {
 		scales: {
-			yAxes: [
-				{
-					ticks: {
-						beginAtZero: true,
+			yAxes: {
+				grid: {
+					drawTicks: false,
+				},
+				title: {
+					display: true,
+					text:
+						set["data"] !== undefined
+							? fiatLabels[set["data"]["fiat"]]
+							: "",
+					font: {
+						size: 15,
 					},
 				},
-			],
-			xAxes: [
-				{
-					categoryPercentage: 1.0,
-					barPercentage: 1.0,
+				ticks: {
+					precision: 0,
 				},
-			],
+			},
+			xAxes: {
+				grid: {
+					display: false,
+					drawTicks: false,
+				},
+				title: {
+					display: true,
+					text: "Date",
+					font: {
+						size: 15,
+					},
+				},
+			},
+		},
+		plugins: {
+			legend: {
+				display: true,
+			},
 		},
 	};
-
 	let path = require(`../../Assets/Flags/${params.fiat}.PNG`);
 
 	const [currentSet, setCurrentSet] = useState(getData());
@@ -151,15 +198,9 @@ const Analysis = (props) => {
 	// 	setCurrentSet();
 	// }, []);
 
+	console.log(currentSet);
 	return set["data"] !== undefined ? (
 		<div className={classes.AnalysisWrapper}>
-			{/* <div className={classes.Buttons}>
-				<Button variant="outline-danger" onClick={updateNumber}>
-					Previously Realized
-				</Button>
-				<Button variant="outline-danger">Realizing</Button>
-				<Button variant="outline-danger">Unrealized</Button>
-			</div> */}
 			<div className={classes.Chart}>
 				<Bar data={currentSet} options={options} />
 				<div className={classes.ChartParams}>
@@ -180,6 +221,14 @@ const Analysis = (props) => {
 				<div className={classes.setToggles}>
 					<Button
 						variant="outline-danger"
+						onClick={() => {
+							updateChart("unrealizedBasisRewards");
+						}}
+					>
+						Basis Set
+					</Button>
+					<Button
+						variant="outline-danger"
 						onClick={() =>
 							updateChart("unrealizedBasisRewardsMVDep")
 						}
@@ -192,21 +241,13 @@ const Analysis = (props) => {
 					>
 						Supply Dep Set
 					</Button>
-					<Button
-						variant="outline-danger"
-						onClick={() => {
-							updateChart("unrealizedBasisRewards");
-						}}
-					>
-						Basis Set
-					</Button>
 				</div>
 				<Form className={classes.setToggles} onSubmit={handleRealizing}>
 					<Form.Label>Enter Quantity Realized:</Form.Label>
 					<div className={classes.quantGroup}>
 						<Form.Control
 							type="number"
-							placeholder="0"
+							placeholder="0 XTZ"
 							onChange={handleChange}
 						/>
 					</div>

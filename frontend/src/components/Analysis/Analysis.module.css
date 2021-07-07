@@ -22,11 +22,11 @@
 	align-items: center;
 }
 .Chart {
-	width: 60%;
+	width: 70%;
 	max-width: 1000px;
 	background-color: #fff;
 	border-radius: 5px;
-	padding: 20px;
+	padding: 50px;
 }
 
 .ChartParams {

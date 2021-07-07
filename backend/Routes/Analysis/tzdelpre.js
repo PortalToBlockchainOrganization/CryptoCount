@@ -3,7 +3,6 @@ let CycleModel = require("../../model/cycle");
 let axios = require("axios");
 const { resolve } = require("bluebird");
 
-
 const BlockchainModel = require("../../model/blockchain.js");
 const RealizeSet = require("../../model/realize.js");
 
@@ -541,7 +540,6 @@ async function realizeRew(realizedQuantity, setId) {
         unrealizedDepAgg += unrealizedBasisRewardsDep[i].rewBasisDepletion
         unrealizedMVdAgg += unrealizedBasisRewardsMVDep[i].rewBasisMVDepletion
     }
-
      //re aggregate
      let realizingRewardAgg = 0 
      let realizingBasisAgg = 0
@@ -554,7 +552,6 @@ async function realizeRew(realizedQuantity, setId) {
         realizingMVdAgg += realzingRewardBasisMVDep[i].rewBasisMVDepletion
      }
     
-
     //realize out of bookvalue - rewards = basis 
     /*
     unrealizedBasis = foundRealizeHistory[0].unrealizedBasis - quantityRealized - realizedRewardAgg - realizingAgg
@@ -590,9 +587,7 @@ async function realizeRew(realizedQuantity, setId) {
         //"unrealizedBasis": unrealizedBasis
     }
     
-
     return realizedObj
-
 }
     */
 
@@ -662,16 +657,9 @@ async function analysis(address, basisDate, fiat) {
 		};
 		totalSupplys.push(totalSupplyObj);
 	}
-<<<<<<< HEAD
-	let basisRewardDepletion = [];
-	basisRewardDepletion.push(rewardDepletionObj);
-	for (i = 1; i < basisRewards.length - 1; i++) {
-		let tranVal = 0;
-=======
 
-    let supply = [];
+	let supply = [];
 	for (let i = 0; i < basisRewards.length; i++) {
->>>>>>> 86ad09c41347cdeab38ed5e0b78c71a28ffecb93
 		let date = basisRewards[i].date;
 		for (j = 0; j < totalSupplys.length; j++) {
 			if (date == totalSupplys[j].date) {
@@ -684,7 +672,7 @@ async function analysis(address, basisDate, fiat) {
 		}
 	}
 
-    //
+	//
 	//main object construction
 	let bookValsDepletion = [];
 	let bvDepObj = {
@@ -692,6 +680,7 @@ async function analysis(address, basisDate, fiat) {
 		bvDep: bookVal,
 	};
 	bookValsDepletion.push(bvDepObj);
+	let basisRewardDepletion = [];
 	let rewardDepletionObj = {
 		date: basisRewards[0].date,
 		rewBasisDepletion: basisRewards[0].basisReward, //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
@@ -764,9 +753,6 @@ async function analysis(address, basisDate, fiat) {
 		rewBasisDepletion: basisRewards[basisRewards.length - 1].basisReward, //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
 	};
 	basisRewardDepletion.push(rewardDepletionObj);
-
-
-
 
 	//MARKET VALUE DEPLETION REWARDS OBJECT
 	//Dependency Object
