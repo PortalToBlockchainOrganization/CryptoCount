@@ -54,6 +54,10 @@ export function setParams(params, cb) {
 	return { type: "CREATE_PARAMS", payload: params };
 }
 
+export function deleteParams() {
+	return { type: "DELETE_PARAMS" };
+}
+
 export function editParams(params, cb) {
 	if (cb) {
 		cb();
@@ -122,6 +126,12 @@ export function getUnrealizedSet(params) {
 			.catch((err) => {
 				console.log(err);
 			});
+	};
+}
+
+export function overwriteSet(params) {
+	return (dispatch) => {
+		dispatch();
 	};
 }
 

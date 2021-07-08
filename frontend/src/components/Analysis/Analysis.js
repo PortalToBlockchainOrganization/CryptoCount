@@ -1,6 +1,6 @@
-import React, { useCallback } from "react";
-import { useEffect, useState } from "react";
-import { Button, Spinner, Form } from "react-bootstrap";
+import React, { useCallback, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { Button, Spinner, Form, Modal } from "react-bootstrap";
 import { Bar } from "react-chartjs-2";
 import moment from "moment";
 import classes from "./Analysis.module.css";
@@ -13,6 +13,7 @@ import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";
  * @returns
  */
 const Analysis = (props) => {
+	const history = useHistory();
 	const fiatLabels = {
 		AED: "United Arab Emirates Dirham",
 		ARS: "Argentine Peso",
@@ -25,8 +26,10 @@ const Analysis = (props) => {
 		PKR: "Pakistani Rupee",
 		USD: "United States Dollar",
 	};
-	const { params, set, getUnrealizedSet, getRealizingSet } = props;
+	const { params, set, getUnrealizedSet, getRealizingSet, deleteParams } =
+		props;
 	const [isLoading, setIsLoading] = useState(set["isLoading"]);
+	const [showModal, setShowModal] = useState(true);
 
 	// const [quantityRealize, setQuantityRealize] = useState(0);
 	const quantityRealize = React.createRef();
@@ -34,6 +37,15 @@ const Analysis = (props) => {
 	const updateChart = (setToRender) => {
 		setCurrentSet(getData(setToRender));
 		setIsLoading(false);
+	};
+
+	const goHome = () => {
+		deleteParams();
+		history.push("/");
+	};
+
+	const overwrite = () => {
+		setCurrentSet();
 	};
 
 	// const handleChange = (e) => {
@@ -225,6 +237,27 @@ const Analysis = (props) => {
 		setCurrentSet(getData());
 	}, [getData]);
 
+	if (set["dup_address"] !== undefined) {
+		return (
+			<Modal show={showModal}>
+				<Modal.Header closeButton>
+					<Modal.Title>Duplicate Entry</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					It looks like you already have an existing object using
+					these parameters. <br />
+					<br />
+					Do you want to continue and overwrite?
+				</Modal.Body>
+				<Modal.Footer>
+					<Button variant="danger" onClick={goHome}>
+						No
+					</Button>
+					<Button variant="outline-danger">Yes</Button>
+				</Modal.Footer>
+			</Modal>
+		);
+	}
 	return set["data"] !== undefined ? (
 		<div className={classes.AnalysisWrapper}>
 			<div className={classes.Chart}>
@@ -316,10 +349,7 @@ const Analysis = (props) => {
 					<Form.Label>Income to Report:</Form.Label>
 					<div className={classes.quantGroup}>
 						<div className={classes.buttonAndInfo}>
-							<Form.Control
-								type="number"
-								placeholder={"0 " + set["data"].fiat}
-							/>
+							<div>{set["data"].fiat}</div>
 							<HelpOutlineRoundedIcon className={classes.help} />
 						</div>
 					</div>

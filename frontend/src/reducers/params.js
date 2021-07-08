@@ -4,8 +4,8 @@ function params(state = {}, action) {
 			return action.payload;
 		case "EDIT_PARAMS":
 			return action.payload;
-		case "DELETE_PARAM":
-			return state;
+		case "DELETE_PARAMS":
+			return {};
 		case "SIGN_OUT":
 			return {};
 		default:
