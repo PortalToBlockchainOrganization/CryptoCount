@@ -458,6 +458,8 @@ async function realizeRew(realizedQuantity, setId) {
 
 			//end reward realzing
 			break;
+
+			//CONDITION 3 WILL MOD CONDITION 2 -CONTINUING INTO BASIS BUCKET
 		}
 	}
 
