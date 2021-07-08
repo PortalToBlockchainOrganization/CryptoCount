@@ -491,35 +491,35 @@ async function realizeRew(realizedQuantity, setId) {
     realizingBasisBV = quantityRealized * basisPrice
     */
 
-	realizedObj = {
-		realizingRewards: realizingRewardQ,
-		// "unrealizedRewards": unrealrewards,
-		realzingRewardBasis: realzingRewardBasis,
-		// "unrealizedBasisRewards": unrealizedBasisRewards,
-		realzingRewardBasisDep: realzingRewardBasisDep,
-		// "unrealizedBasisRewardsDep" : unrealizedBasisRewardsDep,
-		realzingRewardBasisMVDep: realzingRewardBasisMVDep,
-		// "unrealizedBasisRewardsMVDep" : unrealizedBasisRewardsMVDep,
-		// "unrealizedRewardAgg": unrealizedRewardAgg,
-		// "unrealizedBasisAgg": unrealizedBasisAgg,
-		// "unrealizedDepAgg": unrealizedDepAgg,
-		// "unrealizedMVdAgg": unrealizedMVdAgg,
-		realizingRewardAgg: realizingRewardAgg,
-		realizingBasisAgg: realizingBasisAgg,
-		realizingDepAgg: realizingDepAgg,
-		realizingMVdAgg: realizingMVdAgg,
-		// "address": foundRealizeHistory.address,
-		// "basisDate": foundRealizeHistory.basisDate,
-		// "basisPrice": foundRealizeHistory.basisPrice,
-		// "fiat": foundRealizeHistory.fiat,
-		// "realizedRewards" : foundRealizeHistory.realizedRewards, //again not working ~ unrealized rewards and realized rewards from .find()
-		// "realizedBasisRewards" : foundRealizeHistory.realizedBasisRewards,
-		// "realizedBasisRewardsDep" : foundRealizeHistory.realizedBasisRewardsDep,
-		// "realizedBasisRewardsMVdep" : foundRealizeHistory.realizedBasisRewardsMVDep,
-		//"realizingBasisBV": realizingBasisBV,
-		//"realizingBasisQ": realizingBasisQ,
-		//"unrealizedBasis": unrealizedBasis
-	};
+   realizedObj = {
+        "realizingRewards": realizingRewardQ,
+        // "unrealizedRewards": unrealrewards,
+        "realizingRewardBasis": realzingRewardBasis,
+        // "unrealizedBasisRewards": unrealizedBasisRewards,
+        "realizingRewardBasisDep": realzingRewardBasisDep,
+        // "unrealizedBasisRewardsDep" : unrealizedBasisRewardsDep,
+        "realizingRewardBasisMVDep": realzingRewardBasisMVDep,
+        // "unrealizedBasisRewardsMVDep" : unrealizedBasisRewardsMVDep,
+        // "unrealizedRewardAgg": unrealizedRewardAgg,
+        // "unrealizedBasisAgg": unrealizedBasisAgg,
+        // "unrealizedDepAgg": unrealizedDepAgg,
+        // "unrealizedMVdAgg": unrealizedMVdAgg,
+        "realizingRewardAgg": realizingRewardAgg,
+        "realizingBasisAgg": realizingBasisAgg,
+        "realizingDepAgg": realizingDepAgg,
+        "realizingMVdAgg": realizingMVdAgg,
+        // "address": foundRealizeHistory.address,
+        // "basisDate": foundRealizeHistory.basisDate,
+        // "basisPrice": foundRealizeHistory.basisPrice,
+        // "fiat": foundRealizeHistory.fiat,
+        // "realizedRewards" : foundRealizeHistory.realizedRewards, //again not working ~ unrealized rewards and realized rewards from .find()
+        // "realizedBasisRewards" : foundRealizeHistory.realizedBasisRewards,
+        // "realizedBasisRewardsDep" : foundRealizeHistory.realizedBasisRewardsDep,
+        // "realizedBasisRewardsMVdep" : foundRealizeHistory.realizedBasisRewardsMVDep,
+        //"realizingBasisBV": realizingBasisBV,
+        //"realizingBasisQ": realizingBasisQ,
+        //"unrealizedBasis": unrealizedBasis
+    }
 
 	return realizedObj;
 }
