@@ -188,89 +188,60 @@ router.post("/Realize", function (req, res) {
 	);
 });
 
-router.post("/Unrel", function (req, res) {
-	var vld = req.validator;
-	var body = req.body;
-	var unrel_obj = {};
-	const { address, fiat, basisDate, histObjId } = body;
-	console.log("UNREL FUNC: ", address);
-	console.log("UNREL FUNC: ", fiat);
-	console.log("UNREL FUNC: ", histObjId);
-	console.log("UNREL FUNC: ", basisDate);
-	async.waterfall(
-		[
-			async function (cb) {
-				if (
-					vld.hasFields(body, [
-						"address",
-						"fiat",
-						"basisDate",
-						"histObjId",
-					])
-				)
-					try {
-						unrel_obj = await analysis(address, basisDate, fiat);
-						console.log(unrel_obj);
-						return unrel_obj;
-					} catch (error) {
-						console.log("analysis error");
-						console.log(error);
-						return error;
-					}
-			},
-			function (unrel_obj, cb) {
-				// here we check to see if our previous function returned a
-				// error in the catch block and we instantly jump to the callback
-				// by passing the error in
-				if (unrel_obj && unrel_obj.stack && unrel_obj.message) {
-					cb(unrel_obj, null);
-				}
-				// create new realizehistobj
-				// rel_obj = new RealizeHistObj({
-				//     unrealizedBasisRewards: unrel_obj.basisRewards,
-				//     unrealizedBasisRewardsDep: unrel_obj.basisRewardsDep,
-				//     unrealizedBasisRewardsMVdep: unrel_obj.basisRewardsMVDep,
-				//     fiat: unrel_obj.fiat,
-				//     address: unrel_obj.address,
-				//     basisDate: unrel_obj.basisDate,
-				//     basisPrice: unrel_obj.basisPrice
-				// });
-				console.log(body["histObjId"]);
-				RealizeHistObj.findOneAndUpdate(
-					{ _id: body["histObjId"] },
-					{
-						$set: {
-							unrealizedRewards: unrel_obj.unrealizedRewards,
-							unrealizedBasisRewards:
-								unrel_obj.unrealizedBasisRewards,
-							unrealizedBasisRewardsDep:
-								unrel_obj.unrealizedBasisRewardsDep,
-							unrealizedBasisRewardsMVDep:
-								unrel_obj.unrealizedBasisRewardsMVDep,
-							basisPrice: unrel_obj.basisPrice,
-						},
-					},
-					{ new: true },
-					function (err, doc) {
-						if (err) cb(err);
-						cb(null, doc);
-					}
-				);
-			},
-			function (result, cb) {
-				//after creating new rel db obj,
-				// add the send unrel to FE
-				// console.log(result)
-				// console.log('results')
-				console.log(result);
-				res.status(200).json(result);
-				cb();
-			},
-		],
-		function (err) {
-			if (err) console.log(err);
-		}
-	);
+router.post('/Unrel', function(req, res){
+    var vld = req.validator;
+    var body = req.body;
+    var unrel_obj = {}
+    const {address, fiat, basisDate} = body;
+    console.log(address)
+    console.log(fiat)
+    console.log(basisDate)
+    async.waterfall([
+        async function(cb){
+            if(vld.hasFields(body, ["address","fiat","basisDate","histObjId"]))
+                try{
+                    unrel_obj = await analysis(address, basisDate, fiat);
+                    console.log(unrel_obj)
+                    return unrel_obj;
+                }
+                catch (error) {
+                    console.log('analysis error')
+                    console.log(error)
+                    return error;
+                }
+        },
+        function(unrel_obj,cb){
+            // here we check to see if our previous function returned a 
+            // error in the catch block and we instantly jump to the callback
+            // by passing the error in
+            if(unrel_obj && unrel_obj.stack && unrel_obj.message){
+                cb(unrel_obj, null)
+            }
+            console.log(body["histObjId"])
+            RealizeHistObj.findOneAndUpdate({_id: body["histObjId"]}, {$set: {
+                "unrealizedRewards" : unrel_obj.unrealizedRewards,
+                "unrealizedBasisRewards": unrel_obj.unrealizedBasisRewards,
+                "unrealizedBasisRewardsDep" : unrel_obj.unrealizedBasisRewardsDep,
+                "unrealizedBasisRewardsMVDep" : unrel_obj.unrealizedBasisRewardsMVDep,
+                "basisPrice": unrel_obj.basisPrice,
+            }},{new: true}, 
+            function(err, doc){
+                if(err) cb(err);
+                cb(null, doc);
+            })
+        },
+        function(result, cb){ //after creating new rel db obj, 
+            // add the send unrel to FE
+            // console.log(result)
+            // console.log('results')
+            console.log(result)
+            res.status(200).json(result);
+            cb();
+        }
+        ],
+        function(err){
+            if(err) console.log(err);
+        });
 });
 
 router.post("/Cal", function (req, res) {
