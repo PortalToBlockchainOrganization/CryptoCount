@@ -247,6 +247,7 @@ router.post("/Unrel", function (req, res) {
 								unrel_obj.unrealizedBasisRewardsDep,
 							unrealizedBasisRewardsMVDep:
 								unrel_obj.unrealizedBasisRewardsMVDep,
+							basisPrice: unrel_obj.basisPrice,
 						},
 					},
 					{ new: true },
