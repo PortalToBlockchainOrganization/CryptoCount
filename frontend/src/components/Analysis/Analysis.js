@@ -2,7 +2,9 @@ import React, { useCallback } from "react";
 import { useEffect, useState } from "react";
 import { Button, Spinner, Form } from "react-bootstrap";
 import { Bar } from "react-chartjs-2";
+import moment from "moment";
 import classes from "./Analysis.module.css";
+import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";
 /**
  * Component for the Analysis page. Renders a chart displaying realized,
  * unrealized, and realizing sets. Allows user to query for sets, realize,
@@ -24,36 +26,48 @@ const Analysis = (props) => {
 		USD: "United States Dollar",
 	};
 	const { params, set, getUnrealizedSet, getRealizingSet } = props;
-	const [quantityRealize, setQuantityRealize] = useState(0);
+	const [isLoading, setIsLoading] = useState(set["isLoading"]);
+
+	// const [quantityRealize, setQuantityRealize] = useState(0);
+	const quantityRealize = React.createRef();
+
 	const updateChart = (setToRender) => {
 		setCurrentSet(getData(setToRender));
+		setIsLoading(false);
 	};
 
-	const handleChange = (e) => {
-		setQuantityRealize(e.target.value);
-		e.preventDefault();
-	};
+	// const handleChange = (e) => {
+	// 	setQuantityRealize(e.target.value);
+	// 	e.preventDefault();
+	// };
 
 	const handleRealizing = (e) => {
-		console.log(set["data"]["_id"], quantityRealize);
-		if (set["data"]["_id"] !== undefined && quantityRealize !== 0) {
-			getRealizingSet(set["data"]["_id"], quantityRealize);
-		}
 		e.preventDefault();
+		if (set["data"]["_id"] !== undefined && quantityRealize !== 0) {
+			getRealizingSet(
+				set["data"]["_id"],
+				quantityRealize.current.value,
+				setCurrentSet
+			);
+		}
 	};
+	console.log(set);
 
 	// const getMinDate = () => {
 	// 	return set["data"]["realizingRewardBasis"][0]["date"];
 	// };
 
-	const getMaxDate = () => {
-		return set["data"]["realizingRewardBasis"][
-			set["data"]["realizingRewardBasis"].length - 2
-		]["date"];
-	};
-
 	const getData = useCallback(
 		(setToRender) => {
+			const getMaxDate = () => {
+				if (set["data"] !== undefined) {
+					return set["data"]["realizingRewardBasis"][
+						set["data"]["realizingRewardBasis"].length - 2
+					]["date"];
+				}
+				return;
+			};
+
 			let mapping = {
 				unrealizedBasisRewards: "realizingRewardBasis",
 				unrealizedBasisRewardsDep: "realizingRewardBasisDep",
@@ -63,7 +77,6 @@ const Analysis = (props) => {
 			let tempParams = params;
 			if (set["_id"] !== undefined && set["isLoading"] === undefined) {
 				tempParams["histObjId"] = set["_id"];
-				console.log(tempParams);
 				getUnrealizedSet(tempParams);
 			}
 
@@ -87,23 +100,30 @@ const Analysis = (props) => {
 					datasets: [
 						{
 							label: "Realized Rewards",
-							backgroundColor: "rgba(255, 99, 132, 0.8)",
+							backgroundColor: "rgba(255, 99, 132, 0.9)",
+							// borderColor: "rgba(235, 79, 122, 1)",
 							borderRadius: 3,
 							barThickness: 15,
+							// borderWidth: 0.5,
 						},
 						{
 							label: "Realizing Rewards",
-							backgroundColor: "rgba(250, 190, 88, 0.8)",
+							backgroundColor: "rgba(242, 120, 75, 0.9)",
+							// borderColor: "rgba(230, 170, 68, 1)",
 							borderRadius: 3,
 							barThickness: 15,
+							// borderWidth: 0.5,
 						},
 						{
-							label: "Unrealized",
-							backgroundColor: "rgba(191, 191, 191, 0.8)",
+							label: "Unrealized Rewards",
+							backgroundColor: "rgba(191, 191, 191, 0.9)",
+							// borderColor: "rgba(171, 171, 171, 1)",
 							borderRadius: 3,
 							barThickness: 15,
+							// borderWidth: 0.5,
 						},
 					],
+					hoverOffset: 4,
 					address: set["data"].address,
 					fiat: set["data"].fiat,
 					basisDate: set["data"].basisDate,
@@ -111,6 +131,7 @@ const Analysis = (props) => {
 				};
 
 				let currentRelSet = mapping[setToRender];
+				// if there is a realizing set
 				if (set["data"]["realizingRewardBasis"] !== undefined) {
 					realizingRewards = set["data"][currentRelSet].map(
 						(element) => {
@@ -123,7 +144,9 @@ const Analysis = (props) => {
 				}
 				// if realizing set is null
 				set["data"][`${setToRender}`].map((element) => {
-					dates.push(element["date"]);
+					dates.push(
+						new moment(element["date"]).format("MMM DD, YYYY")
+					);
 					if (set["data"][currentRelSet] !== undefined) {
 						if (element["date"] >= getMaxDate()) {
 							basisRewards.push(element[`${rewardKey}`]);
@@ -164,9 +187,13 @@ const Analysis = (props) => {
 				},
 				ticks: {
 					precision: 0,
+					beginAtZero: true,
 				},
 			},
 			xAxes: {
+				categoryPercentage: 1.0,
+				barPercentage: 1.0,
+				stacked: true,
 				grid: {
 					display: false,
 					drawTicks: false,
@@ -178,6 +205,9 @@ const Analysis = (props) => {
 						size: 15,
 					},
 				},
+				ticks: {
+					beginAtZero: true,
+				},
 			},
 		},
 		plugins: {
@@ -186,19 +216,15 @@ const Analysis = (props) => {
 			},
 		},
 	};
+
 	let path = require(`../../Assets/Flags/${params.fiat}.PNG`);
 
-	const [currentSet, setCurrentSet] = useState(getData());
+	const [currentSet, setCurrentSet] = useState();
 	// rerender the chart
 	useEffect(() => {
 		setCurrentSet(getData());
 	}, [getData]);
 
-	// useEffect(() => {
-	// 	setCurrentSet();
-	// }, []);
-
-	console.log(currentSet);
 	return set["data"] !== undefined ? (
 		<div className={classes.AnalysisWrapper}>
 			<div className={classes.Chart}>
@@ -213,52 +239,89 @@ const Analysis = (props) => {
 						/>
 						{props.fiat}
 					</div>
-					<div>
-						{/* {data !== undefined ? data.basisPrice.toFixed(2) : null} */}
-					</div>
+					{/* <div>
+						{data !== undefined ? data.basisPrice.toFixed(2) : null}
+					</div> */}
 					<div>Basis Balance</div>
 				</div>
 				<div className={classes.setToggles}>
-					<Button
-						variant="outline-danger"
-						onClick={() => {
-							updateChart("unrealizedBasisRewards");
-						}}
-					>
-						Basis Set
-					</Button>
-					<Button
-						variant="outline-danger"
-						onClick={() =>
-							updateChart("unrealizedBasisRewardsMVDep")
-						}
-					>
-						Mvd Set
-					</Button>
-					<Button
-						variant="outline-danger"
-						onClick={() => updateChart("unrealizedBasisRewardsDep")}
-					>
-						Supply Dep Set
-					</Button>
-				</div>
-				<Form className={classes.setToggles} onSubmit={handleRealizing}>
-					<Form.Label>Enter Quantity Realized:</Form.Label>
-					<div className={classes.quantGroup}>
-						<Form.Control
-							type="number"
-							placeholder="0 XTZ"
-							onChange={handleChange}
-						/>
+					<div className={classes.basisSet}>
+						<div className={classes.buttonAndInfo}>
+							<Button
+								variant="outline-danger"
+								onClick={() => {
+									updateChart("unrealizedBasisRewards");
+								}}
+							>
+								Basis Set
+							</Button>
+							<HelpOutlineRoundedIcon className={classes.help} />
+						</div>
 					</div>
-					<Button type="submit" variant="danger">
-						Apply
-					</Button>
-				</Form>
+					{/* <div className={classes.header}>Depletion Sets</div> */}
+					<div className={classes.depletionSet}>
+						<div className={classes.buttonAndInfo}>
+							<Button
+								variant="outline-danger"
+								onClick={() =>
+									updateChart("unrealizedBasisRewardsMVDep")
+								}
+							>
+								Mvd Set
+							</Button>
+							<HelpOutlineRoundedIcon className={classes.help} />
+						</div>
+						<div className={classes.buttonAndInfo}>
+							<Button
+								variant="outline-danger"
+								onClick={() =>
+									updateChart("unrealizedBasisRewardsDep")
+								}
+							>
+								Supply Dep Set
+							</Button>
+							<HelpOutlineRoundedIcon className={classes.help} />
+						</div>
+					</div>
+				</div>
+
+				{isLoading ? (
+					<div className={classes.setToggles}>
+						<Spinner animation="border" variant="danger" />
+					</div>
+				) : (
+					<Form
+						className={classes.setToggles}
+						onSubmit={handleRealizing}
+					>
+						<Form.Label>Enter Quantity Realized:</Form.Label>
+						<div className={classes.quantGroup}>
+							<div className={classes.buttonAndInfo}>
+								<Form.Control
+									type="number"
+									placeholder="0 XTZ"
+									ref={quantityRealize}
+								/>
+								<HelpOutlineRoundedIcon
+									className={classes.help}
+								/>
+							</div>
+						</div>
+						<Button type="submit" variant="danger">
+							Apply
+						</Button>
+					</Form>
+				)}
 				<div className={classes.setToggles}>
 					<Form.Label>Income to Report:</Form.Label>
 					<div className={classes.quantGroup}>
-						<Form.Control type="number" placeholder="0" />
+						<div className={classes.buttonAndInfo}>
+							<Form.Control
+								type="number"
+								placeholder={"0 " + set["data"].fiat}
+							/>
+							<HelpOutlineRoundedIcon className={classes.help} />
+						</div>
 					</div>
 					<Button type="submit" variant="danger">
 						Save

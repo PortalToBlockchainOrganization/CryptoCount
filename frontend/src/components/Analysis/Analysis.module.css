@@ -22,11 +22,11 @@
 	align-items: center;
 }
 .Chart {
-	width: 70%;
+	width: 80%;
 	max-width: 1000px;
 	background-color: #fff;
 	border-radius: 5px;
-	padding: 50px;
+	padding: 25px;
 }
 
 .ChartParams {
@@ -86,5 +86,38 @@
 }
 .triggerGroup {
 	display: flex;
+	align-items: center;
+}
+
+.buttonAndInfo {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.help {
+	font-size: 18px !important;
+	margin-left: 3px;
+}
+
+.header {
+	position: relative;
+	top: -30px;
+	left: 140px;
+}
+
+.depletionSet {
+	display: flex;
+	height: 100%;
+	flex: 0.5;
+	flex-direction: row;
+	justify-content: space-around;
+	border-left: 1px solid rgb(177, 177, 177);
+}
+
+.basisSet {
+	display: flex;
+	flex: 0.5;
+	justify-content: center;
 	align-items: center;
 }

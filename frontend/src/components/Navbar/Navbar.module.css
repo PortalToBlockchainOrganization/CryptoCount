@@ -32,9 +32,9 @@
 	transform: translate(-30%, 60%);
 	margin-left: 15px;
 	width: 200px;
-	padding: 10px;
-	border-radius: 10px;
-	background-color: rgba(102, 102, 102, 0.568);
+	padding: 5px;
+	border-radius: 3px;
+	background-color: rgb(116, 116, 116);
 	color: #fff;
 	text-align: center;
 	display: none;
