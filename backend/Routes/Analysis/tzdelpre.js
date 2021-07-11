@@ -466,19 +466,18 @@ async function realizeRew(realizedQuantity, setId) {
 	}
 
 	//BASIS BUCKET 
-	let percentOfBasisRealizing = realizedQuantity / foundRealizeHistory.xtzBasis 
+	let percentOfBasisRealizing = realizedQuantity / foundRealizeHistory.unrealxtzBasis 
 
 	let realizingXTZbasis = realizedQuantity
-	let realizingBasisP = foundRealizeHistory.basisP * percentOfBasisRealizing
-	let realizingBasisDep = foundRealizeHistory.basisDep * percentOfBasisRealizing
-	let realizingBasisMVdep = foundRealizeHistory.basisMVdep * percentOfBasisRealizing
+	let realizingBasisP = foundRealizeHistory.unrealBasisP * percentOfBasisRealizing
+	let realizingBasisDep = foundRealizeHistory.unrealBasisDep * percentOfBasisRealizing
+	let realizingBasisMVdep = foundRealizeHistory.unrealBasisMVdep * percentOfBasisRealizing
 
-	/* currently commented out in return payload
-	let unrealizedXTZBasis = foundRealizeHistory.basisXTZ - realizingXTZbasis
-	let unrealizedBasisP = foundRealizeHistory.basisP - realizingBasisP
-	let unrealizedBasisDep = foundRealizeHistory.basisDep - realizingBasisDep
-	let unrealizedBasisMVdep = foundRealizeHistory.basisMVdep - realizingBasisMVdep
-	*/
+	let unrealizedXTZBasis = foundRealizeHistory.unrealxtzBasis - realizingXTZbasis
+	let unrealizedBasisP = foundRealizeHistory.unrealBasisP - realizingBasisP
+	let unrealizedBasisDep = foundRealizeHistory.unrealBasisDep - realizingBasisDep
+	let unrealizedBasisMVdep = foundRealizeHistory.unrealBasisMVdep - realizingBasisMVdep
+	
 
 	//re aggregate
 	let unrealizedRewardAgg = 0;
@@ -534,11 +533,10 @@ async function realizeRew(realizedQuantity, setId) {
 		realizingBasisP: realizingBasisP,
 		realizingBasisDep: realizingBasisDep,
 		realizingBasisMVdep: realizingBasisMVdep,
-		percentOfBasisRealizing: percentOfBasisRealizing,
-		//unrealizedXTZBasis: unrealizedXTZBasis,
-		//unrealizedBasisP: unrealizedBasisP,
-		//unrealizedBasisDep: unrealizedBasisDep,
-		//unrealizedBasisMVdep: unrealizedBasisMVdep,
+		unrealizedXTZBasis: unrealizedXTZBasis,
+		unrealizedBasisP: unrealizedBasisP,
+		unrealizedBasisDep: unrealizedBasisDep,
+		unrealizedBasisMVdep: unrealizedBasisMVdep,
 		// "address": foundRealizeHistory.address,
 		// "basisDate": foundRealizeHistory.basisDate,
 		// "basisPrice": foundRealizeHistory.basisPrice,
@@ -1009,6 +1007,13 @@ async function saveRealize(conf_quantity) {
 			savedObject.realzingRewardBasisMVDep[i]
 		);
 	}
+
+	//savedObject.realxtzBasis = savedObject.realizingXTZbasis
+	//savedObject.realBasisP = savedObject.realizingBasisP
+	//savedObject.realBasisDep = savedObject.realizingBasisDep
+	//savedObject.realBasisMVdep = savedObject.realizingBasisMVdep
+	
+
 
 	//savedObject.realizingRewards = []
 	savedObject.realzingRewardBasis = [];

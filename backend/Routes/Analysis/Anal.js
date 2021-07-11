@@ -247,13 +247,13 @@ router.post("/Unrel", function (req, res) {
 								unrel_obj.unrealizedBasisRewardsDep,
 							unrealizedBasisRewardsMVDep:
 								unrel_obj.unrealizedBasisRewardsMVDep,
-							xtzBasis: 
+							unrealxtzBasis: 
 								unrel_obj.xtzBasis,
-							basisP:
+							unrealBasisP:
 								unrel_obj.basisP,
-							basisDep:
+							unrealBasisDep:
 								unrel_obj.basisDep,
-							basisMVdep:
+							unrealBasisMVdep:
 								unrel_obj.basisMVdep,
 								//basis data
 						},

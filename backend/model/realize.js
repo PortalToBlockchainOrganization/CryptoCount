@@ -81,19 +81,35 @@ const realizeSchema = mongoose.Schema({
 		type: Number,
 		required: false,
 	},
-	xtzBasis: {
+	unrealxtzBasis: {
 		type: Number,
 		required: false,
 	},
-	basisP: {
+	unrealBasisP: {
 		type: Number,
 		required: false,
 	},
-	basisDep: {
+	unrealBasisDep: {
 		type: Number,
 		required: false,
 	},
-	basisMVdep: {
+	unrealBasisMVdep: {
+		type: Number,
+		required: false,
+	},
+	realxtzBasis: {
+		type: Number,
+		required: false,
+	},
+	realBasisP: {
+		type: Number,
+		required: false,
+	},
+	realBasisDep: {
+		type: Number,
+		required: false,
+	},
+	realBasisMVdep: {
 		type: Number,
 		required: false,
 	},
