@@ -81,6 +81,22 @@ const realizeSchema = mongoose.Schema({
 		type: Number,
 		required: false,
 	},
+	xtzBasis: {
+		type: Number,
+		required: false,
+	},
+	basisP: {
+		type: Number,
+		required: false,
+	},
+	basisDep: {
+		type: Number,
+		required: false,
+	},
+	basisMVdep: {
+		type: Number,
+		required: false,
+	},
 	createdAt: {
 		type: Date,
 		default: Date.now(),
