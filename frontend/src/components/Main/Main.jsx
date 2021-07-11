@@ -21,6 +21,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
 							getRealizingSet={rest.getRealizingSet}
 							set={rest.set}
 							deleteParams={rest.deleteParams}
+							getSet={rest.getSet}
 						/>
 					) : (
 						<>
@@ -123,6 +124,7 @@ const Main = (props) => {
 					set={props.set}
 					getRealizingSet={props.getRealizingSet}
 					deleteParams={props.deleteParams}
+					getSet={props.getSet}
 				/>
 			</Switch>
 

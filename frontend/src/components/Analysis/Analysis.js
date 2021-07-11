@@ -26,113 +26,137 @@ const Analysis = (props) => {
 		PKR: "Pakistani Rupee",
 		USD: "United States Dollar",
 	};
-	const { params, set, getUnrealizedSet, getRealizingSet, deleteParams } =
-		props;
+	const {
+		params,
+		set,
+		getUnrealizedSet,
+		getRealizingSet,
+		deleteParams,
+		getSet,
+	} = props;
 	const [isLoading, setIsLoading] = useState(set["isLoading"]);
 	const [showModal, setShowModal] = useState(true);
 
-	// const [quantityRealize, setQuantityRealize] = useState(0);
 	const quantityRealize = React.createRef();
 
 	const updateChart = (setToRender) => {
+		// update chart based on button press
 		setCurrentSet(getData(setToRender));
 		setIsLoading(false);
 	};
 
 	const goHome = () => {
+		/* remove redux params and send user back to home if they choose not
+		to overwrite */
 		deleteParams();
+		setShowModal(false);
 		history.push("/");
 	};
 
 	const overwrite = () => {
+		/* if duplicate parameters, then get the set off set ID and update 
+		the currentSet to the response of the api call
+		*/
+
+		setShowModal(false);
+		console.log("OVERWRITE");
+		let tempId = "60e684565f62600f0e146cb6";
+		getSet(tempId);
 		setCurrentSet();
 	};
 
-	// const handleChange = (e) => {
-	// 	setQuantityRealize(e.target.value);
-	// 	e.preventDefault();
-	// };
-
 	const handleRealizing = (e) => {
+		/* if there is set data and quantityRealize is not 0 then allow API
+		request to get Realized
+		*/
 		e.preventDefault();
 		if (set["data"]["_id"] !== undefined && quantityRealize !== 0) {
 			getRealizingSet(
 				set["data"]["_id"],
 				quantityRealize.current.value,
-				setCurrentSet
+				updateChart
 			);
 		}
 	};
-	console.log(set);
-
-	// const getMinDate = () => {
-	// 	return set["data"]["realizingRewardBasis"][0]["date"];
-	// };
 
 	const getData = useCallback(
 		(setToRender) => {
-			const getMaxDate = () => {
+			// get the last date from realizing set
+			const getMaxDate = (key) => {
+				// default returns realizingBasisReward max date
+				if (!key) {
+					key = "realizingRewardBasis";
+				}
 				if (set["data"] !== undefined) {
-					return set["data"]["realizingRewardBasis"][
-						set["data"]["realizingRewardBasis"].length - 2
-					]["date"];
+					return set["data"][key][set["data"][key].length - 1][
+						"date"
+					];
 				}
 				return;
 			};
 
+			// mapping for unrealized and realizing set
 			let mapping = {
 				unrealizedBasisRewards: "realizingRewardBasis",
 				unrealizedBasisRewardsDep: "realizingRewardBasisDep",
 				unrealizedBasisRewardsMVDep: "realizingRewardBasisMVDep",
 			};
+
 			// if there is no current data and if the id is not a duplicate
 			let tempParams = params;
+			// if there is no set data and it's not loading get unrealized set
 			if (set["_id"] !== undefined && set["isLoading"] === undefined) {
 				tempParams["histObjId"] = set["_id"];
 				getUnrealizedSet(tempParams);
 			}
 
+			// if the current set is not loading
 			if (set["isLoading"] !== undefined && set["isLoading"] === false) {
+				// get subset data to render default is basis rewards
+				let incomeToReport;
 				setToRender = setToRender
 					? setToRender
 					: "unrealizedBasisRewards";
+
+				/* reward key for the quantity within the list of objects for 
+				each set */
 				let rewardKey = null;
 				if (setToRender === "unrealizedBasisRewards") {
 					rewardKey = "basisReward";
+					incomeToReport = "realizingBasisAgg";
 				} else if (setToRender === "unrealizedBasisRewardsDep") {
 					rewardKey = "rewBasisDepletion";
+					incomeToReport = "realizingDepAgg";
+					incomeToReport = "realizingBasisAgg";
 				} else {
 					rewardKey = "rewBasisMVDepletion";
+					incomeToReport = "realizingMVdAgg";
 				}
+				// initializing data to be returned as currentSet
 				let dates = [];
 				let basisRewards = [];
 				let realizingRewards = [];
+				// chart js data
 				let data = {
 					labels: [],
 					datasets: [
 						{
 							label: "Realized Rewards",
 							backgroundColor: "rgba(255, 99, 132, 0.9)",
-							// borderColor: "rgba(235, 79, 122, 1)",
 							borderRadius: 3,
 							barThickness: 15,
-							// borderWidth: 0.5,
 						},
 						{
 							label: "Realizing Rewards",
 							backgroundColor: "rgba(242, 120, 75, 0.9)",
-							// borderColor: "rgba(230, 170, 68, 1)",
 							borderRadius: 3,
 							barThickness: 15,
-							// borderWidth: 0.5,
 						},
 						{
 							label: "Unrealized Rewards",
 							backgroundColor: "rgba(191, 191, 191, 0.9)",
-							// borderColor: "rgba(171, 171, 171, 1)",
 							borderRadius: 3,
 							barThickness: 15,
-							// borderWidth: 0.5,
 						},
 					],
 					hoverOffset: 4,
@@ -140,21 +164,23 @@ const Analysis = (props) => {
 					fiat: set["data"].fiat,
 					basisDate: set["data"].basisDate,
 					basisPrice: set["data"].basisPrice,
+					incomeToReport: set["data"][incomeToReport],
 				};
 
 				let currentRelSet = mapping[setToRender];
-				// if there is a realizing set
+				/* if there is a realizing set loop through the array and set
+				the chart js data */
 				if (set["data"]["realizingRewardBasis"] !== undefined) {
 					realizingRewards = set["data"][currentRelSet].map(
 						(element) => {
 							realizingRewards.push(element[`${rewardKey}`]);
-							// realizing set index 1
+							// realizing set index 1 (second chart js dataset)
 							data["datasets"][1]["data"] = realizingRewards;
 							return realizingRewards;
 						}
 					);
 				}
-				// if realizing set is null
+				// loop through unrealized data and set chart js data
 				set["data"][`${setToRender}`].map((element) => {
 					dates.push(
 						new moment(element["date"]).format("MMM DD, YYYY")
@@ -169,18 +195,20 @@ const Analysis = (props) => {
 					} else {
 						basisRewards.push(element[`${rewardKey}`]);
 					}
+					/* set chart js labels as unrealized dates 
+					(this is the max range of all sets) */
 					data["labels"] = dates;
-					// unrealized set
+					// unrealized set (third chart js dataset - last to render)
 					data["datasets"][2]["data"] = basisRewards;
 					return data;
 				});
-
 				return data;
 			}
 		},
 		[set, params, getUnrealizedSet]
 	);
 
+	// chart js options
 	const options = {
 		scales: {
 			yAxes: {
@@ -229,14 +257,17 @@ const Analysis = (props) => {
 		},
 	};
 
+	// load the fiat flag from directory
 	let path = require(`../../Assets/Flags/${params.fiat}.PNG`);
 
+	// current set data
 	const [currentSet, setCurrentSet] = useState();
 	// rerender the chart
 	useEffect(() => {
 		setCurrentSet(getData());
 	}, [getData]);
 
+	// if duplicate address detected show duplicate modal
 	if (set["dup_address"] !== undefined) {
 		return (
 			<Modal show={showModal}>
@@ -253,11 +284,14 @@ const Analysis = (props) => {
 					<Button variant="danger" onClick={goHome}>
 						No
 					</Button>
-					<Button variant="outline-danger">Yes</Button>
+					<Button variant="outline-danger" onClick={overwrite}>
+						Yes
+					</Button>
 				</Modal.Footer>
 			</Modal>
 		);
 	}
+	// otherwise if the set data exists render the graph
 	return set["data"] !== undefined ? (
 		<div className={classes.AnalysisWrapper}>
 			<div className={classes.Chart}>
@@ -345,18 +379,24 @@ const Analysis = (props) => {
 						</Button>
 					</Form>
 				)}
-				<div className={classes.setToggles}>
-					<Form.Label>Income to Report:</Form.Label>
-					<div className={classes.quantGroup}>
-						<div className={classes.buttonAndInfo}>
-							<div>{set["data"].fiat}</div>
-							<HelpOutlineRoundedIcon className={classes.help} />
+				{currentSet && currentSet["incomeToReport"] !== undefined ? (
+					<div className={classes.setToggles}>
+						<Form.Label>Income to Report:</Form.Label>
+						<div className={classes.quantGroup}>
+							<div className={classes.buttonAndInfo}>
+								{currentSet["incomeToReport"]
+									.toFixed(2)
+									.concat(" ", set["data"].fiat)}
+								<HelpOutlineRoundedIcon
+									className={classes.help}
+								/>
+							</div>
 						</div>
+						<Button type="submit" variant="danger">
+							Save
+						</Button>
 					</div>
-					<Button type="submit" variant="danger">
-						Save
-					</Button>
-				</div>
+				) : null}
 			</div>
 		</div>
 	) : (

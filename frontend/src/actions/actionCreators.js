@@ -129,33 +129,24 @@ export function getUnrealizedSet(params) {
 	};
 }
 
-export function overwriteSet(params) {
-	return (dispatch) => {
-		dispatch();
-	};
-}
-
 export function getRealizingSetStart() {
 	return { type: "CREATE_REALIZED_SET_STARTED" };
 }
 
 export function getRealizingSet(setId, quantity, cb) {
-	let temp;
 	return (dispatch) => {
 		dispatch(getRealizingSetStart());
 		api.getRealizingSet(setId, quantity).then((res) => {
 			res.json().then((res) => {
-				temp = res;
-				return dispatch({
+				dispatch({
 					type: "ADD_REALIZING_SET",
 					payload: res,
 				});
+				if (cb) {
+					console.log("CB");
+				}
 			});
 		});
-		if (cb) {
-			console.log("CB");
-			cb(temp);
-		}
 	};
 }
 
@@ -163,6 +154,18 @@ export function saveRealizing(setId, confirm_quantity) {
 	return (dispatch) => {
 		api.saveRealize(setId, confirm_quantity).then((res) => {
 			return dispatch({ type: "SAVE_REALIZE", payload: res.json() });
+		});
+	};
+}
+
+export function getSet(setId) {
+	return (dispatch) => {
+		dispatch(getUnrealizedSetStarted());
+		api.getSet(setId).then((res) => {
+			res.json().then((res) => {
+				console.log(res);
+				return dispatch({ type: "CREATE_SET_SUCCEEDED", payload: res });
+			});
 		});
 	};
 }
