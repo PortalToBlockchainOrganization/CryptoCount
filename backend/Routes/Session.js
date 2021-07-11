@@ -29,6 +29,17 @@ var Session = function(user, res) {
    this.email = user.email;
    this.role = user.role;
    this.loginTime = this.lastUsed = new Date().getTime();
+   this.realzing = 
+   {
+      "realizingRewards": [],
+      "realizingBasisRewards": [],
+      "realizingBasisRewardsDep": [],
+      "realizingBasisRewardsMVDep": [],
+      "realizingRewardAgg": null,
+      "realizingBasisAgg": null,
+      "realizingDepAgg": null,
+      "realizingMVDepAgg": null
+   }
    ssnsByCookie[authToken] = this;
    ssnsById.push(this);
 
