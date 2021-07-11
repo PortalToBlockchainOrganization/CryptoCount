@@ -513,11 +513,11 @@ async function realizeRew(realizedQuantity, setId) {
 	realizedObj = {
 		realizingRewards: realizingRewardQ,
 		// "unrealizedRewards": unrealrewards,
-		realzingRewardBasis: realzingRewardBasis,
+		realizingRewardBasis: realzingRewardBasis,
 		// "unrealizedBasisRewards": unrealizedBasisRewards,
-		realzingRewardBasisDep: realzingRewardBasisDep,
+		realizingRewardBasisDep: realzingRewardBasisDep,
 		// "unrealizedBasisRewardsDep" : unrealizedBasisRewardsDep,
-		realzingRewardBasisMVDep: realzingRewardBasisMVDep,
+		realizingRewardBasisMVDep: realzingRewardBasisMVDep,
 		// "unrealizedBasisRewardsMVDep" : unrealizedBasisRewardsMVDep,
 		// "unrealizedRewardAgg": unrealizedRewardAgg,
 		// "unrealizedBasisAgg": unrealizedBasisAgg,
@@ -535,7 +535,7 @@ async function realizeRew(realizedQuantity, setId) {
 		unrealizedXTZBasis: unrealizedXTZBasis,
 		unrealizedBasisP: unrealizedBasisP,
 		unrealizedBasisDep: unrealizedBasisDep,
-		unrealizedBasisMVdep: unrealizedBasisMVdep,
+		unrealizedBasisMVDep: unrealizedBasisMVdep,
 		// "address": foundRealizeHistory.address,
 		// "basisDate": foundRealizeHistory.basisDate,
 		// "basisPrice": foundRealizeHistory.basisPrice,
@@ -982,35 +982,43 @@ async function realizeHistoryObjectConstructor() {
 	return realizeHistoryObject;
 }
 
-async function saveRealize(conf_quantity) {
+async function saveRealize(realizing_obj) {
 	//api post save with rebuilt object from realize
-	let savedObject = await realizeRew(conf_quantity);
-
+	let savedObject = {
+        realizedBasisRewards : [],
+        realizedBasisRewardsDep : [],
+        realizedBasisRewardsMVDep : [],
+        realxtzBasis:NaN,
+        realBasisP:NaN,
+        realBasisDep:NaN,
+        realBasisMVDep:NaN
+    }
+    console.log(realizing_obj)
 	//iterate over the realizing object and push onto realized, and rm from realizing
-	for (i = 0; i < savedObject.realizingRewards.length; i++) {
+	for (i = 0; i < realizing_obj.realizingRewards.length; i++) {
 		//savedObject.realizedRewards.push(savedObject.realizingRewards[i])    //raw rewards still not working
 		savedObject.realizedBasisRewards.push(
-			savedObject.realzingRewardBasis[i]
+			realizing_obj.realizingBasisRewards[i]
 		);
 		savedObject.realizedBasisRewardsDep.push(
-			savedObject.realzingRewardBasisDep[i]
+			realizing_obj.realizingBasisRewardsDep[i]
 		);
-		savedObject.realizedBasisRewardsMVdep.push(
-			savedObject.realzingRewardBasisMVDep[i]
+		savedObject.realizedBasisRewardsMVDep.push(
+			realizing_obj.realizingBasisRewardsMVDep[i]
 		);
 	}
 
-	//savedObject.realxtzBasis = savedObject.realizingXTZbasis
-	//savedObject.realBasisP = savedObject.realizingBasisP
-	//savedObject.realBasisDep = savedObject.realizingBasisDep
-	//savedObject.realBasisMVdep = savedObject.realizingBasisMVdep
-	
+	savedObject.realxtzBasis = realizing_obj.realizingXTZbasis
+	savedObject.realBasisP = realizing_obj.realizingBasisP
+	savedObject.realBasisDep = realizing_obj.realizingBasisDep
+    savedObject.realBasisMVDep = realizing_obj.realizingBasisMVdep
 
+    // clear session in route end point instead
+	// savedObject.realizingRewards = [];
+	// savedObject.realzingRewardBasis = [];
+	// savedObject.realzingRewardBasisDep = [];
+	// savedObject.realzingRewardBasisMVDep = [];
 
-	//savedObject.realizingRewards = []
-	savedObject.realzingRewardBasis = [];
-	savedObject.realzingRewardBasisDep = [];
-	savedObject.realzingRewardBasisMVDep = [];
 
 	//adjust aggs
 
