@@ -144,7 +144,9 @@ export function getRealizingSet(setId, quantity, cb) {
 				});
 				if (cb) {
 					console.log("CB");
+					cb();
 				}
+				return;
 			});
 		});
 	};
