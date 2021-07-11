@@ -236,6 +236,15 @@ router.post("/Unrel", function (req, res) {
 								unrel_obj.unrealizedBasisRewardsDep,
 							unrealizedBasisRewardsMVDep:
 								unrel_obj.unrealizedBasisRewardsMVDep,
+							unrealxtzBasis: 
+								unrel_obj.xtzBasis,
+							unrealBasisP:
+								unrel_obj.basisP,
+							unrealBasisDep:
+								unrel_obj.basisDep,
+							unrealBasisMVdep:
+								unrel_obj.basisMVdep,
+								//basis data
 							basisPrice: unrel_obj.basisPrice,
 						},
 					},

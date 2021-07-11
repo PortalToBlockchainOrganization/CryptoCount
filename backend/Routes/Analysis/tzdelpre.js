@@ -370,11 +370,13 @@ async function realizeRew(realizedQuantity, setId) {
 	realzingRewardBasisMVDep = [];
 	console.log("unrealrewards1");
 	console.log(unrealrewards);
+
+	//REWARDS BUCKET 
 	for (i = 0; i < unrealrewards.length; i++) {
 		//quantity of unrealized rewward
 		let q = unrealrewards[i].rewardQuantity;
 
-		//CONDITION 1, if realizng q greater than reward entry
+		//CONDITION 1, if the rewards is less than the realizing q
 		if (q < realizedQuantity) {
 			let realizingObj = unrealrewards.shift();
 			realizingRewardQ.push(realizingObj);
@@ -457,8 +459,24 @@ async function realizeRew(realizedQuantity, setId) {
 
 			//end reward realzing
 			break;
+
+			//CONDITION 3 WILL MOD CONDITION 2 -CONTINUING INTO BASIS BUCKET
 		}
 	}
+
+	//BASIS BUCKET 
+	let percentOfBasisRealizing = realizedQuantity / foundRealizeHistory.unrealxtzBasis 
+
+	let realizingXTZbasis = realizedQuantity
+	let realizingBasisP = foundRealizeHistory.unrealBasisP * percentOfBasisRealizing
+	let realizingBasisDep = foundRealizeHistory.unrealBasisDep * percentOfBasisRealizing
+	let realizingBasisMVdep = foundRealizeHistory.unrealBasisMVdep * percentOfBasisRealizing
+
+	let unrealizedXTZBasis = foundRealizeHistory.unrealxtzBasis - realizingXTZbasis
+	let unrealizedBasisP = foundRealizeHistory.unrealBasisP - realizingBasisP
+	let unrealizedBasisDep = foundRealizeHistory.unrealBasisDep - realizingBasisDep
+	let unrealizedBasisMVdep = foundRealizeHistory.unrealBasisMVdep - realizingBasisMVdep
+	
 
 	//re aggregate
 	let unrealizedRewardAgg = 0;
@@ -489,37 +507,45 @@ async function realizeRew(realizedQuantity, setId) {
     unrealizedBasis = foundRealizeHistory[0].unrealizedBasis - quantityRealized - realizedRewardAgg - realizingAgg
     realizingBasisQ = quantityRealized    
     realizingBasisBV = quantityRealized * basisPrice
+	basis aggr
     */
 
-   realizedObj = {
-        "realizingRewards": realizingRewardQ,
-        // "unrealizedRewards": unrealrewards,
-        "realizingRewardBasis": realzingRewardBasis,
-        // "unrealizedBasisRewards": unrealizedBasisRewards,
-        "realizingRewardBasisDep": realzingRewardBasisDep,
-        // "unrealizedBasisRewardsDep" : unrealizedBasisRewardsDep,
-        "realizingRewardBasisMVDep": realzingRewardBasisMVDep,
-        // "unrealizedBasisRewardsMVDep" : unrealizedBasisRewardsMVDep,
-        // "unrealizedRewardAgg": unrealizedRewardAgg,
-        // "unrealizedBasisAgg": unrealizedBasisAgg,
-        // "unrealizedDepAgg": unrealizedDepAgg,
-        // "unrealizedMVdAgg": unrealizedMVdAgg,
-        "realizingRewardAgg": realizingRewardAgg,
-        "realizingBasisAgg": realizingBasisAgg,
-        "realizingDepAgg": realizingDepAgg,
-        "realizingMVdAgg": realizingMVdAgg,
-        // "address": foundRealizeHistory.address,
-        // "basisDate": foundRealizeHistory.basisDate,
-        // "basisPrice": foundRealizeHistory.basisPrice,
-        // "fiat": foundRealizeHistory.fiat,
-        // "realizedRewards" : foundRealizeHistory.realizedRewards, //again not working ~ unrealized rewards and realized rewards from .find()
-        // "realizedBasisRewards" : foundRealizeHistory.realizedBasisRewards,
-        // "realizedBasisRewardsDep" : foundRealizeHistory.realizedBasisRewardsDep,
-        // "realizedBasisRewardsMVdep" : foundRealizeHistory.realizedBasisRewardsMVDep,
-        //"realizingBasisBV": realizingBasisBV,
-        //"realizingBasisQ": realizingBasisQ,
-        //"unrealizedBasis": unrealizedBasis
-    }
+	realizedObj = {
+		realizingRewards: realizingRewardQ,
+		// "unrealizedRewards": unrealrewards,
+		realzingRewardBasis: realzingRewardBasis,
+		// "unrealizedBasisRewards": unrealizedBasisRewards,
+		realzingRewardBasisDep: realzingRewardBasisDep,
+		// "unrealizedBasisRewardsDep" : unrealizedBasisRewardsDep,
+		realzingRewardBasisMVDep: realzingRewardBasisMVDep,
+		// "unrealizedBasisRewardsMVDep" : unrealizedBasisRewardsMVDep,
+		// "unrealizedRewardAgg": unrealizedRewardAgg,
+		// "unrealizedBasisAgg": unrealizedBasisAgg,
+		// "unrealizedDepAgg": unrealizedDepAgg,
+		// "unrealizedMVdAgg": unrealizedMVdAgg,
+		realizingRewardAgg: realizingRewardAgg,
+		realizingBasisAgg: realizingBasisAgg,
+		realizingDepAgg: realizingDepAgg,
+		realizingMVdAgg: realizingMVdAgg,
+		//BASIS UPDATE SECTION
+		realizingXTZbasis: realizingXTZbasis,
+		realizingBasisP: realizingBasisP,
+		realizingBasisDep: realizingBasisDep,
+		realizingBasisMVdep: realizingBasisMVdep,
+		unrealizedXTZBasis: unrealizedXTZBasis,
+		unrealizedBasisP: unrealizedBasisP,
+		unrealizedBasisDep: unrealizedBasisDep,
+		unrealizedBasisMVdep: unrealizedBasisMVdep,
+		// "address": foundRealizeHistory.address,
+		// "basisDate": foundRealizeHistory.basisDate,
+		// "basisPrice": foundRealizeHistory.basisPrice,
+		// "fiat": foundRealizeHistory.fiat,
+		// "realizedRewards" : foundRealizeHistory.realizedRewards, //again not working ~ unrealized rewards and realized rewards from .find()
+		// "realizedBasisRewards" : foundRealizeHistory.realizedBasisRewards,
+		// "realizedBasisRewardsDep" : foundRealizeHistory.realizedBasisRewardsDep,
+		// "realizedBasisRewardsMVdep" : foundRealizeHistory.realizedBasisRewardsMVDep,
+
+	};
 
 	return realizedObj;
 }
@@ -854,6 +880,25 @@ async function analysis(address, basisDate, fiat) {
 	};
 	basisRewardMVDepletion.push(rewardMVDepletionObj);
 
+	//use book vals mvdepletion object to find correspoiindg bvs with the correct basis bal'
+	let totalRewards = 0
+	for(i = 0; i < rewards.length; i++){
+		totalRewards += rewards[i].rewardQuantity
+	}
+	
+
+
+
+	let xtzBasis = basisBalances[Object.keys(basisBalances)[Object.keys(basisBalances).length - 1]] / 1000000 - totalRewards
+
+	let percentOfRew = totalRewards / xtzBasis
+
+
+	let basisP = bookValsBasis[bookValsBasis.length - 1].bvBas * (1 - percentOfRew)
+	let basisDep = bookValsDepletion[bookValsDepletion.length - 1].bvDep * (1 - percentOfRew)
+	let basisMVdep = bookValsMVDepletion[bookValsMVDepletion.length - 1].bvMvDep * (1 - percentOfRew)
+
+
 	//RETURN OBJECT
 	let analysisResObj = {
 		//need basis rewards, mvd rewards, dep rewards
@@ -865,6 +910,10 @@ async function analysis(address, basisDate, fiat) {
 		fiat: fiat,
 		basisDate: basisDate,
 		basisPrice: basisPrice,
+		xtzBasis: xtzBasis,
+		basisP: basisP,
+		basisDep: basisDep,
+		basisMVdep: basisMVdep
 	};
 
 	return analysisResObj;
@@ -950,6 +999,13 @@ async function saveRealize(conf_quantity) {
 			savedObject.realzingRewardBasisMVDep[i]
 		);
 	}
+
+	//savedObject.realxtzBasis = savedObject.realizingXTZbasis
+	//savedObject.realBasisP = savedObject.realizingBasisP
+	//savedObject.realBasisDep = savedObject.realizingBasisDep
+	//savedObject.realBasisMVdep = savedObject.realizingBasisMVdep
+	
+
 
 	//savedObject.realizingRewards = []
 	savedObject.realzingRewardBasis = [];
@@ -1247,6 +1303,26 @@ async function autoAnalysis(address, fiat) {
        let basisQ = balances[today -1]
     }
     */
+   //use book vals mvdepletion object to find correspoiindg bvs with the correct basis bal'
+	let totalRewards = 0
+	for(i = 0; i < rewards.length; i++){
+		totalRewards += rewards[i].rewardQuantity
+	}
+	
+
+
+
+	let xtzBasis = basisBalances[Object.keys(basisBalances)[Object.keys(basisBalances).length - 1]] / 1000000 - totalRewards
+
+	let percentOfRew = totalRewards / xtzBasis
+
+
+	let basisP = bookValsBasis[bookValsBasis.length - 1].bvBas * (1 - percentOfRew)
+	let basisDep = bookValsDepletion[bookValsDepletion.length - 1].bvDep * (1 - percentOfRew)
+	let basisMVdep = bookValsMVDepletion[bookValsMVDepletion.length - 1].bvMvDep * (1 - percentOfRew)
+
+
+
 
 	//RETURN OBJECT
 	analysisResObj = {
