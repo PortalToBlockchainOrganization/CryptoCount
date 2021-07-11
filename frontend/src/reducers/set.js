@@ -16,14 +16,15 @@ function set(state = {}, action) {
 			tempState["isLoading"] = true;
 			return tempState;
 		case "ADD_REALIZING_SET":
+			// TYPO IN RESPONSE PLS FIX
 			let tempSet = state;
 			tempSet["data"]["realizingRewards"] =
 				action.payload["realizingRewards"];
 			tempSet["data"]["realizingRewardBasis"] =
-				action.payload["realizingRewardBasis"];
-			tempSet["data"]["realizingRewardBasisDep"] =
+				action.payload["realzingRewardBasis"];
+			tempSet["data"]["realzingRewardBasisDep"] =
 				action.payload["realizingRewardBasisDep"];
-			tempSet["data"]["realizingRewardBasisMVDep"] =
+			tempSet["data"]["realzingRewardBasisMVDep"] =
 				action.payload["realizingRewardBasisMVDep"];
 			tempSet["data"]["realizingRewardAgg"] =
 				action.payload["realizingRewardAgg"];
