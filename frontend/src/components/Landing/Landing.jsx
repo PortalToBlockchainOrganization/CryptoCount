@@ -12,7 +12,8 @@ const Landing = (props) => {
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
 	const [showModal, setShowModal] = React.useState(false);
-	const [isContinuing, setContinuing] = React.useState(false);
+	const [modalPage, setModalPage] = React.useState(0);
+	const [selectedAnalysisType, setSelectedAnalysisType] = React.useState();
 	const [isLoading, setLoadingState] = React.useState(false);
 
 	const handleDelegationSubmit = () => {
@@ -51,8 +52,14 @@ const Landing = (props) => {
 			fiat: fiat,
 		};
 
-		props.setParams(params);
-
+		if (selectedAnalysisType === "auto") {
+			props.autoAnalysis({
+				fiat: params["fiat"],
+				address: params["address"],
+			});
+		} else {
+			props.setParams(params);
+		}
 		if (props.signedIn()) {
 			props.analPost(params, () => {
 				props.history.push("analysis");
@@ -63,15 +70,11 @@ const Landing = (props) => {
 		e.preventDefault();
 	};
 
-	const goToCalendar = (e) => {
+	const getCalendar = (e) => {
 		let params = { address: addrs["delAddrs"], fiat: fiat };
-		setContinuing(!isContinuing);
-		if (!isContinuing) {
-			setLoadingState(true);
-			props.setParams(params);
-			props.getCalendarData(params, setLoadingState);
-		}
-		e.preventDefault();
+		setLoadingState(true);
+		props.setParams(params);
+		props.getCalendarData(params, setLoadingState);
 	};
 
 	return (
@@ -154,17 +157,20 @@ const Landing = (props) => {
 				basisDate={basisDate}
 				handleDateInput={handleDateInput}
 				show={showModal}
-				isContinuing={isContinuing}
-				setContinuing={goToCalendar}
+				modalPage={modalPage}
+				setModalPage={setModalPage}
 				onHide={() => {
 					setShowModal(false);
-					setContinuing(false);
+					setModalPage(0);
 				}}
 				isLoading={isLoading}
 				fiat={fiat}
 				updateFiat={setFiat}
 				setParams={setParams}
 				cal={props.cal}
+				selectedAnalysisType={selectedAnalysisType}
+				setSelectedAnalysisType={setSelectedAnalysisType}
+				getCalendar={getCalendar}
 			/>
 		</div>
 	);

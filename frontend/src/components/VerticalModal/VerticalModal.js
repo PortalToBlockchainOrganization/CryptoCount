@@ -63,57 +63,101 @@ const VerticalModal = (props) => {
 		props.updateFiat(e);
 	};
 
-	let modalData = !props.isContinuing
-		? {
-				title: "Enter the fiat: ",
-				input: (
-					<Form>
-						<Form.Row className={classes.formRow}>
-							<DropdownButton
-								xs="auto"
-								title={props.fiat}
-								variant="outline-danger"
-								onSelect={handleFiatUpdate}
-							>
-								{currencies.map((currency, index) => {
-									let path = require(`../../Assets/Flags/${currency}.PNG`);
-									return (
-										<DropdownItem
-											key={index}
-											currency={currency}
-											path={path.default}
-										/>
-									);
-								})}
-							</DropdownButton>
-						</Form.Row>
-					</Form>
-				),
-		  }
-		: {
-				title: "Enter a basis date",
-				input: (
-					<Form>
-						<Form.Row className={classes.row}>
-							<Col xs="auto">
-								{props.isLoading ? (
-									<Spinner
-										animation="border"
-										variant="danger"
+	const nextPage = (e) => {
+		let temp = props.modalPage + 1;
+		if (temp === 1) {
+			props.getCalendar(e);
+		}
+		props.setModalPage(temp);
+		e.preventDefault();
+	};
+
+	const prevPage = () => {
+		let temp = props.modalPage;
+		props.setModalPage(temp - 1);
+	};
+
+	// array of modal pages
+	let modalData = [
+		{
+			title: "Enter the fiat: ",
+			input: (
+				<Form>
+					<Form.Row className={classes.formRow}>
+						<DropdownButton
+							xs="auto"
+							title={props.fiat}
+							variant="outline-danger"
+							onSelect={handleFiatUpdate}
+						>
+							{currencies.map((currency, index) => {
+								let path = require(`../../Assets/Flags/${currency}.PNG`);
+								return (
+									<DropdownItem
+										key={index}
+										currency={currency}
+										path={path.default}
 									/>
-								) : (
-									<BasisDatePicker
-										date={new Date(props.basisDate)}
-										label="Basis date"
-										handleDateInput={props.handleDateInput}
-										cal={props.cal}
-									/>
-								)}
-							</Col>
-						</Form.Row>
-					</Form>
-				),
-		  };
+								);
+							})}
+						</DropdownButton>
+					</Form.Row>
+				</Form>
+			),
+		},
+		{
+			title: "Enter a basis date",
+			input: (
+				<Form>
+					<Form.Row className={classes.row}>
+						<Col xs="auto">
+							{props.isLoading ? (
+								<Spinner animation="border" variant="danger" />
+							) : (
+								<BasisDatePicker
+									date={new Date(props.basisDate)}
+									label="Basis date"
+									handleDateInput={props.handleDateInput}
+									cal={props.cal}
+								/>
+							)}
+						</Col>
+					</Form.Row>
+				</Form>
+			),
+		},
+		{
+			title: "Select an analysis type: ",
+			input: (
+				<Form>
+					<Form.Row>
+						<div className={classes.Radio}>
+							<input
+								type="radio"
+								id="auto"
+								name="m_or_a"
+								onChange={(e) =>
+									props.setSelectedAnalysisType(e.target.id)
+								}
+							/>
+							<label htmlFor="auto">Auto</label>
+						</div>
+						<div className={classes.Radio}>
+							<input
+								type="radio"
+								id="manual"
+								name="m_or_a"
+								onChange={(e) =>
+									props.setSelectedAnalysisType(e.target.id)
+								}
+							/>
+							<label htmlFor="manual">Manual</label>
+						</div>
+					</Form.Row>
+				</Form>
+			),
+		},
+	];
 
 	return (
 		<Modal
@@ -125,33 +169,44 @@ const VerticalModal = (props) => {
 		>
 			<Modal.Header closeButton>
 				<Modal.Title id="contained-modal-title-vcenter">
-					{modalData.title}
+					{modalData[props.modalPage].title}
 				</Modal.Title>
 			</Modal.Header>
-			<Modal.Body className={classes.body}>{modalData.input}</Modal.Body>
+			<Modal.Body className={classes.body}>
+				{modalData[props.modalPage].input}
+			</Modal.Body>
 			<Modal.Footer>
 				<Form onSubmit={props.setParams}>
 					<Button
 						className={classes.Button}
 						variant="danger"
-						onClick={
-							props.isContinuing
-								? props.setContinuing
-								: props.onHide
-						}
+						onClick={props.modalPage > 0 ? prevPage : props.onHide}
 					>
 						Back
 					</Button>
-					{!props.isContinuing ? (
+					{props.modalPage === 0 ? (
 						<Button
 							className={classes.buttonNext}
 							disabled={
-								props.fiat !== "Select fiat currency"
-									? ""
-									: "disabled"
+								props.fiat === "Select fiat currency"
+									? "disabled"
+									: null
 							}
 							variant="outline-danger"
-							onClick={props.setContinuing}
+							onClick={nextPage}
+						>
+							Next
+						</Button>
+					) : props.modalPage < 2 ? (
+						<Button
+							variant="outline-danger"
+							className={classes.buttonNext}
+							disabled={
+								props.basisDate["basisDate"] === ""
+									? "disabled"
+									: null
+							}
+							onClick={nextPage}
 						>
 							Next
 						</Button>
@@ -160,9 +215,10 @@ const VerticalModal = (props) => {
 							className={classes.buttonNext}
 							variant="outline-danger"
 							disabled={
-								props.basisDate["basisDate"].length !== 0
-									? null
-									: "disabled"
+								props.basisDate["basisDate"] === "" &&
+								props.setSelectedAnalysisType === undefined
+									? "disabled"
+									: null
 							}
 							type="submit"
 						>
