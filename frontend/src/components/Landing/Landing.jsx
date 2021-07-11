@@ -110,10 +110,12 @@ const Landing = (props) => {
 					</Form.Group>
 					{props.signedIn() ? null : (
 						<Form.Group>
-							<Form.Label>Or Sign In To Your Account</Form.Label>
+							<div className="mb-3">
+								Or Sign In To Your Account
+							</div>
 							<Form.Control
 								type="email"
-								placeholder="Email"
+								placeholder="email@cryptocount.com"
 								onChange={handleEmailChange}
 							/>
 							<Form.Control
@@ -159,8 +161,6 @@ const Landing = (props) => {
 					setContinuing(false);
 				}}
 				isLoading={isLoading}
-				// setQuant={setQuant}
-				// quant={quantityRealized["quant"]}
 				fiat={fiat}
 				updateFiat={setFiat}
 				setParams={setParams}

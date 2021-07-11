@@ -11,16 +11,20 @@ function set(state = {}, action) {
 			};
 		case "CREATE_SET_SUCCEEDED":
 			return { isLoading: false, data: action.payload };
+		case "CREATE_REALIZED_SET_STARTED":
+			let tempState = { ...state };
+			tempState["isLoading"] = true;
+			return tempState;
 		case "ADD_REALIZING_SET":
 			let tempSet = state;
 			tempSet["data"]["realizingRewards"] =
 				action.payload["realizingRewards"];
 			tempSet["data"]["realizingRewardBasis"] =
-				action.payload["realzingRewardBasis"];
+				action.payload["realizingRewardBasis"];
 			tempSet["data"]["realizingRewardBasisDep"] =
-				action.payload["realzingRewardBasisDep"];
+				action.payload["realizingRewardBasisDep"];
 			tempSet["data"]["realizingRewardBasisMVDep"] =
-				action.payload["realzingRewardBasisMVDep"];
+				action.payload["realizingRewardBasisMVDep"];
 			tempSet["data"]["realizingRewardAgg"] =
 				action.payload["realizingRewardAgg"];
 			tempSet["data"]["realizingBasisAgg"] =
@@ -29,7 +33,7 @@ function set(state = {}, action) {
 				action.payload["realizingDepAgg"];
 			tempSet["data"]["realizingMVdAgg"] =
 				action.payload["realizingMVdAgg"];
-			console.log(tempSet);
+			tempSet["isLoading"] = false;
 			return tempSet;
 		case "DELETE_SET":
 			return null;

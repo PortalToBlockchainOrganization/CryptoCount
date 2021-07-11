@@ -1,13 +1,6 @@
 import React, { useState } from "react";
-import {
-	Form,
-	FormGroup,
-	Row,
-	Col,
-	FormControl,
-	Button,
-} from "react-bootstrap";
-import "./SignIn.css";
+import { Form, FormGroup, FormControl, Button } from "react-bootstrap";
+import classes from "./SignIn.module.css";
 
 const SignInHooks = (props) => {
 	const [email, setEmail] = useState("");
@@ -30,16 +23,12 @@ const SignInHooks = (props) => {
 	};
 
 	return (
-		<section className="container">
-			<Col sm={{ offset: 2 }}>
-				<h1>Sign in</h1>
-			</Col>
-			<Form>
-				<FormGroup as={Row} controlId="formHorizontalEmail">
-					<Col as={Form.Label} sm={2}>
-						Email
-					</Col>
-					<Col sm={8}>
+		<section className={classes.SignInWrapper}>
+			<div className={classes.Form}>
+				<h2>Sign in</h2>
+				<Form>
+					<FormGroup>
+						<Form.Label>Email</Form.Label>
 						<FormControl
 							type="email"
 							name="email"
@@ -47,13 +36,9 @@ const SignInHooks = (props) => {
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 						/>
-					</Col>
-				</FormGroup>
-				<FormGroup as={Row} controlId="formHorizontalPassword">
-					<Col as={Form.Label} sm={2}>
-						Password
-					</Col>
-					<Col sm={8}>
+					</FormGroup>
+					<FormGroup>
+						<Form.Label>Password</Form.Label>
 						<FormControl
 							type="password"
 							name="password"
@@ -62,17 +47,25 @@ const SignInHooks = (props) => {
 							onChange={(e) => setPassword(e.target.value)}
 						/>
 						<Button
-							variant="outline-danger"
-							className="mt-3 m-3"
+							variant="danger"
+							className="mt-4"
 							type="submit"
 							onClick={signIn}
 						>
 							Sign in
 						</Button>
-					</Col>
-				</FormGroup>
-				<FormGroup></FormGroup>
-			</Form>
+						<p className="mt-4">
+							Need an account?{" "}
+							<a
+								className={classes.RegisterLink}
+								href="/register"
+							>
+								Register Here
+							</a>
+						</p>
+					</FormGroup>
+				</Form>
+			</div>
 		</section>
 	);
 };

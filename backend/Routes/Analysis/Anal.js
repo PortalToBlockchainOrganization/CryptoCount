@@ -192,11 +192,10 @@ router.post("/Unrel", function (req, res) {
 	var vld = req.validator;
 	var body = req.body;
 	var unrel_obj = {};
-	const { address, fiat, basisDate, histObjId } = body;
-	console.log("UNREL FUNC: ", address);
-	console.log("UNREL FUNC: ", fiat);
-	console.log("UNREL FUNC: ", histObjId);
-	console.log("UNREL FUNC: ", basisDate);
+	const { address, fiat, basisDate } = body;
+	console.log(address);
+	console.log(fiat);
+	console.log(basisDate);
 	async.waterfall(
 		[
 			async function (cb) {
@@ -225,16 +224,6 @@ router.post("/Unrel", function (req, res) {
 				if (unrel_obj && unrel_obj.stack && unrel_obj.message) {
 					cb(unrel_obj, null);
 				}
-				// create new realizehistobj
-				// rel_obj = new RealizeHistObj({
-				//     unrealizedBasisRewards: unrel_obj.basisRewards,
-				//     unrealizedBasisRewardsDep: unrel_obj.basisRewardsDep,
-				//     unrealizedBasisRewardsMVdep: unrel_obj.basisRewardsMVDep,
-				//     fiat: unrel_obj.fiat,
-				//     address: unrel_obj.address,
-				//     basisDate: unrel_obj.basisDate,
-				//     basisPrice: unrel_obj.basisPrice
-				// });
 				console.log(body["histObjId"]);
 				RealizeHistObj.findOneAndUpdate(
 					{ _id: body["histObjId"] },
@@ -247,6 +236,7 @@ router.post("/Unrel", function (req, res) {
 								unrel_obj.unrealizedBasisRewardsDep,
 							unrealizedBasisRewardsMVDep:
 								unrel_obj.unrealizedBasisRewardsMVDep,
+<<<<<<< HEAD
 							unrealxtzBasis: 
 								unrel_obj.xtzBasis,
 							unrealBasisP:
@@ -256,6 +246,9 @@ router.post("/Unrel", function (req, res) {
 							unrealBasisMVdep:
 								unrel_obj.basisMVdep,
 								//basis data
+=======
+							basisPrice: unrel_obj.basisPrice,
+>>>>>>> 404b4ccd8dc0a1bef1c27e99c050c0ce11169285
 						},
 					},
 					{ new: true },

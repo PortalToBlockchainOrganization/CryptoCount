@@ -13,7 +13,7 @@ import BasisDatePicker from "../BasisDatePicker/BasisDatePicker";
 import DropdownItem from "./DropdownItem/DropdownItem";
 // update quantiy realized to anal page
 const VerticalModal = (props) => {
-	const currencies = [
+	let currencies = [
 		"CHF",
 		"KRW",
 		"HUF",
@@ -56,6 +56,8 @@ const VerticalModal = (props) => {
 		"UAH",
 		"ARS",
 	];
+
+	currencies.sort();
 
 	const handleFiatUpdate = (e) => {
 		props.updateFiat(e);

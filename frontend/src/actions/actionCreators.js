@@ -54,6 +54,10 @@ export function setParams(params, cb) {
 	return { type: "CREATE_PARAMS", payload: params };
 }
 
+export function deleteParams() {
+	return { type: "DELETE_PARAMS" };
+}
+
 export function editParams(params, cb) {
 	if (cb) {
 		cb();
@@ -103,7 +107,6 @@ export function getUnrealizedSetStarted() {
 }
 
 export function getUnrealizedSet(params) {
-	console.log("UNREALIZED CALL: ", params);
 	return (dispatch) => {
 		dispatch(getUnrealizedSetStarted());
 		api.getUnrealizedSet(params)
@@ -130,17 +133,40 @@ export function getRealizingSetStart() {
 	return { type: "CREATE_REALIZED_SET_STARTED" };
 }
 
-export function getRealizingSet(setId, quantity) {
-	console.log("REALIZING CALL", setId, quantity);
+export function getRealizingSet(setId, quantity, cb) {
 	return (dispatch) => {
 		dispatch(getRealizingSetStart());
 		api.getRealizingSet(setId, quantity).then((res) => {
 			res.json().then((res) => {
-				console.log(res);
-				return dispatch({
+				dispatch({
 					type: "ADD_REALIZING_SET",
 					payload: res,
 				});
+				if (cb) {
+					console.log("CB");
+					cb();
+				}
+				return;
+			});
+		});
+	};
+}
+
+export function saveRealizing(setId, confirm_quantity) {
+	return (dispatch) => {
+		api.saveRealize(setId, confirm_quantity).then((res) => {
+			return dispatch({ type: "SAVE_REALIZE", payload: res.json() });
+		});
+	};
+}
+
+export function getSet(setId) {
+	return (dispatch) => {
+		dispatch(getUnrealizedSetStarted());
+		api.getSet(setId).then((res) => {
+			res.json().then((res) => {
+				console.log(res);
+				return dispatch({ type: "CREATE_SET_SUCCEEDED", payload: res });
 			});
 		});
 	};

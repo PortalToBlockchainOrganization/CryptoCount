@@ -10,6 +10,7 @@
 	color: rgb(80, 80, 80);
 	font-weight: bold;
 	background-color: rgb(241, 241, 241);
+	overflow-y: scroll;
 }
 .button {
 	color: var(--danger);
@@ -22,11 +23,13 @@
 	align-items: center;
 }
 .Chart {
-	width: 60%;
+	margin-top: 40px;
+	margin-bottom: 80px;
+	width: 80%;
 	max-width: 1000px;
 	background-color: #fff;
 	border-radius: 5px;
-	padding: 20px;
+	padding: 25px;
 }
 
 .ChartParams {
@@ -86,5 +89,38 @@
 }
 .triggerGroup {
 	display: flex;
+	align-items: center;
+}
+
+.buttonAndInfo {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.help {
+	font-size: 18px !important;
+	margin-left: 3px;
+}
+
+.header {
+	position: relative;
+	top: -30px;
+	left: 140px;
+}
+
+.depletionSet {
+	display: flex;
+	height: 100%;
+	flex: 0.5;
+	flex-direction: row;
+	justify-content: space-around;
+	border-left: 1px solid rgb(177, 177, 177);
+}
+
+.basisSet {
+	display: flex;
+	flex: 0.5;
+	justify-content: center;
 	align-items: center;
 }
