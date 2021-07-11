@@ -6,8 +6,9 @@ import NavbarComponent from "../Navbar/NavbarComponent";
 import "./Main.css";
 import ErrDialog from "../ConfDialog/ErrDialog";
 import History from "../History/History";
+import ProtectedRoute from "../ProtectedRoute";
 
-const ProtectedRoute = ({ component: Component, ...rest }) => {
+const AnalysisBlock = ({ component: Component, ...rest }) => {
 	const isAuthed = rest.isAuthed();
 	return (
 		<Route
@@ -79,17 +80,6 @@ const Main = (props) => {
 			{/*Alternate pages beneath navbar, based on current route*/}
 			<Switch>
 				<Route
-					path="/home"
-					exact
-					component={() =>
-						props.user.email ? (
-							<Redirect to="/home" />
-						) : (
-							<Redirect to="/" />
-						)
-					}
-				/>
-				<Route
 					path="/"
 					exact
 					render={() => (
@@ -111,8 +101,10 @@ const Main = (props) => {
 					exact
 					render={() => <RegisterHooks {...props} />}
 				/>
-				<Route path="/history" render={() => <History {...props} />} />
-				<ProtectedRoute
+				<ProtectedRoute path="/history" isAuthed={signedIn}>
+					<History user={props.user} />
+				</ProtectedRoute>
+				<AnalysisBlock
 					path="/analysis"
 					exact
 					strict
@@ -126,6 +118,9 @@ const Main = (props) => {
 					deleteParams={props.deleteParams}
 					getSet={props.getSet}
 				/>
+				<Route>
+					<Redirect to="/" />
+				</Route>
 			</Switch>
 
 			{/*Error popup dialog*/}

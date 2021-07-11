@@ -10,6 +10,7 @@
 	color: rgb(80, 80, 80);
 	font-weight: bold;
 	background-color: rgb(241, 241, 241);
+	overflow-y: scroll;
 }
 .button {
 	color: var(--danger);

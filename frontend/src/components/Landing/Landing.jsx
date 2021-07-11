@@ -159,8 +159,6 @@ const Landing = (props) => {
 					setContinuing(false);
 				}}
 				isLoading={isLoading}
-				// setQuant={setQuant}
-				// quant={quantityRealized["quant"]}
 				fiat={fiat}
 				updateFiat={setFiat}
 				setParams={setParams}

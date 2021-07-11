@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { ConfDialog } from "../components";
 import { Form, FormGroup, Button, Alert } from "react-bootstrap";
 
-import "./Register.css";
+import classes from "./Register.module.css";
 
 // Functional component label plus control w/optional help message
 
-// TODO: remove modal from registration
 const FieldGroup = function ({ id, label, help, ...props }) {
 	return (
 		<FormGroup controlId={id}>
@@ -27,7 +25,7 @@ const RegisterHooks = (props) => {
 	const [termsAccepted, setTerms] = useState(false);
 	// eslint-disable-next-line
 	const [role, setRole] = useState(0);
-	const [offerSignIn, setOffer] = useState(false);
+	// const [offerSignIn, setOffer] = useState(false);
 	const [enableBtn, setBtn] = useState(false);
 
 	let submit = () => {
@@ -41,7 +39,8 @@ const RegisterHooks = (props) => {
 		};
 
 		props.register(user, () => {
-			setOffer(true);
+			props.signIn({ email, password });
+			props.history.push("/");
 		});
 	};
 
@@ -64,13 +63,13 @@ const RegisterHooks = (props) => {
 	}, [email, lastName, password, password2, termsAccepted]);
 
 	return (
-		<div className="container">
-			<form>
+		<div className={classes.RegisterWrapper}>
+			<form className={classes.Form}>
 				<FieldGroup
 					id="email"
 					type="email"
-					label="Email Address"
-					placeholder="Enter email"
+					label="Email"
+					placeholder="email@cryptocount.com"
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
 					required={true}
@@ -79,8 +78,8 @@ const RegisterHooks = (props) => {
 				<FieldGroup
 					id="firstName"
 					type="text"
-					label="First Name"
-					placeholder="Enter first name"
+					label="First name"
+					placeholder="First name"
 					value={firstName}
 					onChange={(e) => setFirstName(e.target.value)}
 				/>
@@ -88,8 +87,8 @@ const RegisterHooks = (props) => {
 				<FieldGroup
 					id="lastName"
 					type="text"
-					label="Last Name"
-					placeholder="Enter last name"
+					label="Last name"
+					placeholder="Last name"
 					value={lastName}
 					onChange={(e) => setLastName(e.target.value)}
 					required={true}
@@ -99,6 +98,7 @@ const RegisterHooks = (props) => {
 					id="password"
 					type="password"
 					label="Password"
+					placeholder="Password"
 					value={password}
 					onChange={(e) => setPassword(e.target.value)}
 					required={true}
@@ -107,7 +107,8 @@ const RegisterHooks = (props) => {
 				<FieldGroup
 					id="passwordTwo"
 					type="password"
-					label="Repeat Password"
+					label="Confirm password"
+					placeholder="Confirm password"
 					value={password2}
 					onChange={(e) => setPassword2(e.target.value)}
 					required={true}
@@ -118,25 +119,27 @@ const RegisterHooks = (props) => {
 					id="termsAccepted"
 					value={termsAccepted}
 					onChange={(e) => setTerms(e.target.value)}
-					label="Do you accept the terms and conditions?"
+					label={"Do you accept the terms and conditions?"}
 				/>
+				{password !== password2 ? (
+					<Alert className="mt-4" variant="warning">
+						Passwords don't match
+					</Alert>
+				) : (
+					""
+				)}
+
+				<Button
+					variant="danger"
+					className="mt-4"
+					onClick={() => submit()}
+					disabled={!enableBtn}
+				>
+					Submit
+				</Button>
 			</form>
 
-			{password !== password2 ? (
-				<Alert variant="warning">Passwords don't match</Alert>
-			) : (
-				""
-			)}
-
-			<Button
-				variant="outline-danger"
-				onClick={() => submit()}
-				disabled={!enableBtn}
-			>
-				Submit
-			</Button>
-
-			<ConfDialog
+			{/* <ConfDialog
 				show={offerSignIn}
 				title="Registration Success"
 				body={`Would you like to log in as ${email}?`}
@@ -149,7 +152,7 @@ const RegisterHooks = (props) => {
 						);
 					}
 				}}
-			/>
+			/> */}
 		</div>
 	);
 };

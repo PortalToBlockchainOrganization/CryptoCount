@@ -2,9 +2,10 @@ import React from "react";
 import classes from "./History.module.css";
 
 const History = ({ user }) => {
+	console.log(user);
 	return (
 		<div className={classes.TableWrapper}>
-			{user.addresses !== undefined ? (
+			{user && user["addresses"] !== undefined ? (
 				<table>
 					<thead>
 						<tr>
