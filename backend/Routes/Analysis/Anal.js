@@ -157,36 +157,44 @@ router.post("/Save", function (req, res) {
 });
 
 // beta realize function (needs proper route handling)
-router.post("/Realize", function (req, res) {
-	var body = req.body;
-	async.waterfall(
-		[
-			async function (cb) {
-				try {
-					rel_obj = await realizeRew(
-						body["realizedQuantity"],
-						body["setId"]
-					);
-					return rel_obj;
-				} catch (error) {
-					return error;
-				}
-			},
-			function (rel_obj, cb) {
-				if (rel_obj && rel_obj.stack && rel_obj.message) {
-					cb(rel_obj, null);
-				}
-				console.log("rel_obj");
-				console.log(rel_obj);
-				res.status(200).json(rel_obj);
-				cb();
-			},
-		],
-		function (err) {
-			if (err) console.log(err);
-		}
-	);
-});
+// add check to make sure setId belongs to prsId
+router.post('/Realize', function(req,res){
+    var body = req.body;
+    var ssn = req.session;
+    async.waterfall([
+        async function(cb){
+            try{
+                rel_obj = await realizeRew(body["realizedQuantity"],body["setId"])
+
+                return rel_obj;
+            }
+            catch(error){
+                return error;
+            }
+        },
+        function(rel_obj, cb){
+            if(rel_obj && rel_obj.stack && rel_obj.message){
+                cb(rel_obj, null)
+            }
+            ssn.realizing = { // save information on a session level 
+                "realizingRewards": rel_obj["realizingRewards"],
+                "realizingBasisRewards": rel_obj["realizingRewardBasis"],
+                "realizingBasisRewardsDep": rel_obj["realizingRewardBasisDep"],
+                "realizingBasisRewardsMVDep": rel_obj["realizingRewardBasisMVDep"],
+                "realizingRewardAgg": rel_obj["realizingRewardAgg"],
+                "realizingBasisAgg": rel_obj["realizingBasisAgg"],
+                "realizingDepAgg": rel_obj["realizingDepAgg"],
+                "realizingMVDepAgg": rel_obj["realizingMVdAgg"]
+            }
+            console.log('rel_obj')
+            console.log(rel_obj)
+            res.status(200).json(rel_obj);
+            cb();
+        }],
+        function(err){
+            if(err) console.log(err);
+        });
+    });
 
 router.post("/Unrel", function (req, res) {
 	var vld = req.validator;
