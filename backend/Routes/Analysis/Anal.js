@@ -330,7 +330,7 @@ router.post('/', function(req, res) {
             }
         },
         function(doc, cb){
-            res.location(router.baseURL + '/' + doc).end();
+            res.json({setId:doc});
             cb();
         }],
         function(err){
