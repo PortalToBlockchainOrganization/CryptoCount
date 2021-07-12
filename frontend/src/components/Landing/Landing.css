@@ -1,9 +1,15 @@
+.wrapper {
+	display: block;
+	overflow-y: scroll;
+	height: 100vh;
+}
 .lp-container {
+	margin-top: 46px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	height: calc(100vh - 60px);
+	height: 70vh;
 	width: 100vw;
 }
 .static-wrapper {
@@ -44,6 +50,7 @@ p {
 	display: flex;
 	justify-content: center;
 	margin-top: 25px;
+	height: 80%;
 }
 
 .password {
@@ -63,4 +70,42 @@ p {
 
 .button-continue:disabled {
 	cursor: not-allowed;
+}
+
+.t-logo {
+	margin: 10px;
+	width: 40px;
+	border-radius: 5px;
+}
+
+.tFoundation {
+	margin: 10px;
+	width: 60px;
+}
+
+.poweredBy {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 20px;
+	width: 100vw;
+	height: 50px;
+}
+
+.tutorial {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+}
+
+.animation {
+	width: 400px;
+}
+
+.first {
+	display: flex;
+	flex-direction: row;
 }

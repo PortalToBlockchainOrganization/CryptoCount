@@ -171,3 +171,27 @@ export function getSet(setId) {
 		});
 	};
 }
+
+export function getHistoryStarted() {
+	return { type: "CREATE_HISTORY_STARTED", payload: { isLoading: true } };
+}
+
+export function getHistory(setIdList) {
+	return (dispatch) => {
+		dispatch(getHistoryStarted());
+		let history = [];
+		setIdList.map((setId) => {
+			api.getSet(setId).then((res) => {
+				res.json().then((res) => {
+					history.push({
+						fiat: res["fiat"],
+						basisDate: res["basisDate"],
+						address: res["address"],
+					});
+				});
+			});
+			return history;
+		});
+		return dispatch({ type: "CREATE_HISTORY_SUCCEEDED", payload: history });
+	};
+}

@@ -131,27 +131,33 @@ const VerticalModal = (props) => {
 			input: (
 				<Form>
 					<Form.Row>
-						<div className={classes.Radio}>
-							<input
-								type="radio"
-								id="auto"
-								name="m_or_a"
-								onChange={(e) =>
-									props.setSelectedAnalysisType(e.target.id)
-								}
-							/>
-							<label htmlFor="auto">Auto</label>
-						</div>
-						<div className={classes.Radio}>
-							<input
-								type="radio"
-								id="manual"
-								name="m_or_a"
-								onChange={(e) =>
-									props.setSelectedAnalysisType(e.target.id)
-								}
-							/>
-							<label htmlFor="manual">Manual</label>
+						<div className={classes.RadioInputs}>
+							<div className={classes.Radio}>
+								<input
+									type="radio"
+									id="auto"
+									name="m_or_a"
+									onChange={(e) =>
+										props.setSelectedAnalysisType(
+											e.target.id
+										)
+									}
+								/>
+								<label htmlFor="auto">Auto</label>
+							</div>
+							<div className={classes.Radio}>
+								<input
+									type="radio"
+									id="manual"
+									name="m_or_a"
+									onChange={(e) =>
+										props.setSelectedAnalysisType(
+											e.target.id
+										)
+									}
+								/>
+								<label htmlFor="manual">Manual</label>
+							</div>
 						</div>
 					</Form.Row>
 				</Form>

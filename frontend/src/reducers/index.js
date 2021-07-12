@@ -5,7 +5,15 @@ import Errs from "./Errs";
 import params from "./params";
 import cal from "./cal";
 import set from "./set";
+import realizedHistory from "./realizedHistory";
 
-const rootReducer = combineReducers({ user, Errs, params, cal, set });
+const rootReducer = combineReducers({
+	user,
+	Errs,
+	params,
+	cal,
+	set,
+	realizedHistory,
+});
 
 export default rootReducer;

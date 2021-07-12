@@ -45,6 +45,16 @@ const AnalysisBlock = ({ component: Component, ...rest }) => {
 const Main = (props) => {
 	const [canAccessAnalysis, setCanAccessAnalysis] = React.useState(false);
 
+	const { user, realizedHistory, getHistory } = props;
+	React.useEffect(() => {
+		if (
+			user.setIds &&
+			user.setIds.length > 0 &&
+			realizedHistory["history"] === undefined
+		) {
+			getHistory(user.setIds);
+		}
+	}, [getHistory, user.setIds, realizedHistory]);
 	if (
 		props.params.basisDate !== undefined &&
 		Object.keys(props.set).length > 0
@@ -102,7 +112,11 @@ const Main = (props) => {
 					render={() => <RegisterHooks {...props} />}
 				/>
 				<ProtectedRoute path="/history" isAuthed={signedIn}>
-					<History user={props.user} />
+					<History
+						user={props.user}
+						getHistory={props.getHistory}
+						realizedHistory={props.realizedHistory}
+					/>
 				</ProtectedRoute>
 				<AnalysisBlock
 					path="/analysis"

@@ -5,10 +5,6 @@ import { withRouter } from "react-router-dom";
 import * as actionCreators from "./actions/actionCreators";
 import Main from "./components/Main/Main";
 
-/* Add new sign page with registration tab, 
-if a user registers automatically log them in*/
-
-//TODO - edit sign in pages
 function mapStateToProps(state) {
 	return {
 		user: state.user,
@@ -20,6 +16,7 @@ function mapStateToProps(state) {
 		Errs: state.Errs,
 		cal: state.cal,
 		set: state.set,
+		realizedHistory: state.realizedHistory,
 	};
 }
 
