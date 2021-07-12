@@ -171,10 +171,10 @@ router.post('/Realize', function(req,res){
                 "realizingBasisAgg": rel_obj["realizingBasisAgg"],
                 "realizingDepAgg": rel_obj["realizingDepAgg"],
                 "realizingMVDepAgg": rel_obj["realizingMVdAgg"],
-                "realizingXTZBasis": rel_obj["realizingXTZBasis"],
+                "realizingXTZBasis": rel_obj["realizingXTZbasis"],
                 "realizingBasisP": rel_obj["realizingBasisP"],
                 "realizingBasisDep": rel_obj["realizingBasisDep"],
-                "realizingBasisMVDep": rel_obj["realizingBasisMVDep"]
+                "realizingBasisMVDep": rel_obj["realizingBasisMVdep"]
             }
             console.log('rel_obj')
             console.log(rel_obj)
