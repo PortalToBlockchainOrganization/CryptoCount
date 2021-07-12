@@ -301,7 +301,7 @@ router.post('/', function(req, res) {
             // front end that they should prompt the user with a dialogue to manage
             // duplicates
             if(setCheck.length !== 0){
-                res.status(200).json({'dup check':setCheck.length})
+                res.status(200).json({'dup check':setCheck.length, 'dup of':setCheck[0]._id})
                 cb(null,null);
             }
             // if no dups exist, create a new realize history object
