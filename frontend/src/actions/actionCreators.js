@@ -72,6 +72,7 @@ export function analPost(params, cb) {
 				cb();
 			}
 			res.json().then((res) => {
+				console.log(res);
 				if (res["dup check"] !== undefined) {
 					return dispatch({
 						type: "DUPLICATE",
@@ -80,6 +81,7 @@ export function analPost(params, cb) {
 				}
 				let temp = { ...params };
 				temp["histObjId"] = res["setId"];
+				console.log(temp);
 				dispatch({ type: "UNIQUE", payload: { _id: res["setId"] } });
 			});
 		});

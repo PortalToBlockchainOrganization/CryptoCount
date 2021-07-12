@@ -91,8 +91,8 @@ const Analysis = (props) => {
 
 		setShowModal(false);
 		console.log("OVERWRITE");
-		let tempId = "60e684565f62600f0e146cb6";
-		getSet(tempId);
+		// let tempId = ";
+		// getSet(tempId);
 		setCurrentSet();
 	};
 

@@ -69,7 +69,7 @@ const Landing = (props) => {
 		}
 		if (props.signedIn()) {
 			props.analPost(params, () => {
-				props.history.push("analysis");
+				props.history.push("/analysis");
 			});
 		}
 		props.history.push("/analysis");

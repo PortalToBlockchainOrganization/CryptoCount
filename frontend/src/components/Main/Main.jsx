@@ -52,7 +52,7 @@ const Main = (props) => {
 			user.setIds.length > 0 &&
 			realizedHistory["history"] === undefined
 		) {
-			getHistory(user.setIds);
+			// getHistory(user.setIds);
 		}
 	}, [getHistory, user.setIds, realizedHistory]);
 	if (
