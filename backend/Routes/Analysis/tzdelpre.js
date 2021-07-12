@@ -1008,10 +1008,14 @@ async function saveRealize(realizing_obj) {
 		);
 	}
 
-	savedObject.realxtzBasis = realizing_obj.realizingXTZbasis
+    console.log(realizing_obj)
+    console.log(realizing_obj.realizingXTZBasis)
+    console.log(realizing_obj.realizingBasisMVdep)
+
+	savedObject.realxtzBasis = realizing_obj.realizingXTZBasis
 	savedObject.realBasisP = realizing_obj.realizingBasisP
 	savedObject.realBasisDep = realizing_obj.realizingBasisDep
-    savedObject.realBasisMVDep = realizing_obj.realizingBasisMVdep
+    savedObject.realBasisMVDep = realizing_obj.realizingBasisMVDep
 
     // clear session in route end point instead
 	// savedObject.realizingRewards = [];
