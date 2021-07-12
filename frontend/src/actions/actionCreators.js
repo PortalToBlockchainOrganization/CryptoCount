@@ -76,7 +76,7 @@ export function analPost(params, cb) {
 				if (res["dup check"] !== undefined) {
 					return dispatch({
 						type: "DUPLICATE",
-						payload: { dup_address: params.address },
+						payload: { dupId: res["dup of"] },
 					});
 				}
 				let temp = { ...params };

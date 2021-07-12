@@ -88,11 +88,10 @@ const Analysis = (props) => {
 		/* if duplicate parameters, then get the set off set ID and update 
 		the currentSet to the response of the api call
 		*/
-
 		setShowModal(false);
+		console.log(set["dupId"]);
 		console.log("OVERWRITE");
-		// let tempId = ";
-		// getSet(tempId);
+		getSet(set["dupId"]);
 		setCurrentSet();
 	};
 
@@ -299,7 +298,7 @@ const Analysis = (props) => {
 	}, [getData]);
 
 	// if duplicate address detected show duplicate modal
-	if (set["dup_address"] !== undefined) {
+	if (set["dupId"] !== undefined) {
 		return (
 			<Modal show={showModal}>
 				<Modal.Header closeButton>

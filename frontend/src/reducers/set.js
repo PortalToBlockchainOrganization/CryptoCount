@@ -21,10 +21,10 @@ function set(state = {}, action) {
 			tempSet["data"]["realizingRewards"] =
 				action.payload["realizingRewards"];
 			tempSet["data"]["realizingRewardBasis"] =
-				action.payload["realzingRewardBasis"];
-			tempSet["data"]["realzingRewardBasisDep"] =
+				action.payload["realizingRewardBasis"];
+			tempSet["data"]["realizingRewardBasisDep"] =
 				action.payload["realizingRewardBasisDep"];
-			tempSet["data"]["realzingRewardBasisMVDep"] =
+			tempSet["data"]["realizingRewardBasisMVDep"] =
 				action.payload["realizingRewardBasisMVDep"];
 			tempSet["data"]["realizingRewardAgg"] =
 				action.payload["realizingRewardAgg"];
