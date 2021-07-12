@@ -9,7 +9,7 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	height: 70vh;
+	height: 70%;
 	width: 100vw;
 }
 .static-wrapper {
@@ -93,7 +93,7 @@ p {
 }
 
 .tutorial {
-	height: 100vh;
+	height: 120vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -105,7 +105,21 @@ p {
 	width: 400px;
 }
 
-.first {
+h2 {
+	font-size: 1.5em;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	margin-left: 0.5em;
+}
+p {
+	margin: 20px;
+}
+.p-gif {
+	font-size: 1.5em;
+	height: 100%;
+	color: #2e2e2e;
 	display: flex;
 	flex-direction: row;
+	justify-content: center;
+	align-items: center;
 }

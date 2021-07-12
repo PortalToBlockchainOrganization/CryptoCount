@@ -8,12 +8,13 @@ import tezosFoundation from "../../Assets/Orgs/TezosFoundation.png";
 import ptbo from "../../Assets/Orgs/ptbo.png";
 import lottie from "lottie-web";
 import womenThinking from "../../Assets/womenThinking.json";
+import womenComputer from "../../Assets/womenComputer.json";
+import womenSigning from "../../Assets/womenSigning.json";
 
 const Landing = (props) => {
 	// Begin POST data states
 	const [addrs, setAddrs] = React.useState({ delAddrs: "" });
 	const [basisDate, setBasisDate] = React.useState({ basisDate: "" });
-	// const [quantityRealized, setQuant] = React.useState({ quant: 0 });
 	const [fiat, setFiat] = React.useState("Select fiat currency");
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
@@ -87,6 +88,18 @@ const Landing = (props) => {
 		lottie.loadAnimation({
 			container: document.querySelector("#women-thinking"),
 			animationData: womenThinking,
+		});
+	}, []);
+	React.useEffect(() => {
+		lottie.loadAnimation({
+			container: document.querySelector("#women-computer"),
+			animationData: womenComputer,
+		});
+	}, []);
+	React.useEffect(() => {
+		lottie.loadAnimation({
+			container: document.querySelector("#women-signing"),
+			animationData: womenSigning,
 		});
 	}, []);
 	return (
@@ -220,32 +233,36 @@ const Landing = (props) => {
 					<img className="t-logo" src={ptbo} alt="ptbo" />
 				</a>
 			</div>
-			<div className="tutorial">
-				<div className="first">
-					<div>
-						<h2>Count Before You Sell.</h2>
+			{!props.signedIn() ? (
+				<div className="tutorial">
+					<div className="p-gif">
+						<div className="animation" id="women-thinking" />
+						<div>
+							<h2>Count Before You Sell.</h2>
+							<p>
+								Count your crypto rewards and basis with Crypto
+								Count before you sell at an exchange. <br />
+								<br />
+							</p>
+						</div>
+					</div>
+					<div className="p-gif">
 						<p>
-							Count your crypto rewards and basis with Crypto
-							Count before you sell at an exchange. <br />
-							<br />
+							If I want to sell some of my crypto rewards or its
+							staking basis, what would I say for my taxes?
+						</p>
+						<div className="animation" id="women-computer" />
+					</div>
+					<div className="p-gif">
+						<div className="animation" id="women-signing" />
+						<p>
+							Realize amounts of crypto in CryptoCount with your
+							country's currency. Use CryptoCount's calculation of
+							your economically fair income for your taxes.
 						</p>
 					</div>
-					<div className="animation" id="women-thinking" />
 				</div>
-				<div>
-					<p>
-						If I want to sell some of my crypto rewards or its
-						staking basis, what would I say for my taxes?
-					</p>
-				</div>
-				<div>
-					<p>
-						Realize amounts of crypto in CryptoCount with your
-						country's currency. Use CryptoCount's calculation of
-						your economically fair income for your taxes
-					</p>
-				</div>
-			</div>
+			) : null}
 		</div>
 	);
 };
