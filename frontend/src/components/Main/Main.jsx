@@ -16,14 +16,7 @@ const AnalysisBlock = ({ component: Component, ...rest }) => {
 			render={(props) =>
 				isAuthed === true ? (
 					rest.params && rest.params["address"] !== undefined ? (
-						<Component
-							params={rest.params}
-							getUnrealizedSet={rest.getUnrealizedSet}
-							getRealizingSet={rest.getRealizingSet}
-							set={rest.set}
-							deleteParams={rest.deleteParams}
-							getSet={rest.getSet}
-						/>
+						<Component {...rest} />
 					) : (
 						<>
 							<Redirect to={{ pathname: "/" }} />
@@ -49,12 +42,12 @@ const Main = (props) => {
 	React.useEffect(() => {
 		if (
 			user.setIds &&
-			user.setIds.length > 0 &&
-			realizedHistory["history"] === undefined
+			user.setIds.length > 0
+			// realizedHistory["history"] === undefined
 		) {
-			// getHistory(user.setIds);
+			getHistory(user.setIds);
 		}
-	}, [getHistory, user.setIds, realizedHistory]);
+	}, [getHistory, user.setIds]);
 	if (
 		props.params.basisDate !== undefined &&
 		Object.keys(props.set).length > 0
@@ -115,7 +108,7 @@ const Main = (props) => {
 					<History
 						user={props.user}
 						getHistory={props.getHistory}
-						realizedHistory={props.realizedHistory}
+						realizedHistory={realizedHistory}
 					/>
 				</ProtectedRoute>
 				<AnalysisBlock
@@ -131,6 +124,7 @@ const Main = (props) => {
 					getRealizingSet={props.getRealizingSet}
 					deleteParams={props.deleteParams}
 					getSet={props.getSet}
+					saveRealize={props.saveRealize}
 				/>
 				<Route>
 					<Redirect to="/" />

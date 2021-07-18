@@ -65,7 +65,7 @@ const VerticalModal = (props) => {
 
 	const nextPage = (e) => {
 		let temp = props.modalPage + 1;
-		if (temp === 1) {
+		if (temp === 2) {
 			props.getCalendar(e);
 		}
 		props.setModalPage(temp);
@@ -106,27 +106,6 @@ const VerticalModal = (props) => {
 			),
 		},
 		{
-			title: "Enter a basis date",
-			input: (
-				<Form>
-					<Form.Row className={classes.row}>
-						<Col xs="auto">
-							{props.isLoading ? (
-								<Spinner animation="border" variant="danger" />
-							) : (
-								<BasisDatePicker
-									date={new Date(props.basisDate)}
-									label="Basis date"
-									handleDateInput={props.handleDateInput}
-									cal={props.cal}
-								/>
-							)}
-						</Col>
-					</Form.Row>
-				</Form>
-			),
-		},
-		{
 			title: "Select an analysis type: ",
 			input: (
 				<Form>
@@ -159,6 +138,27 @@ const VerticalModal = (props) => {
 								<label htmlFor="manual">Manual</label>
 							</div>
 						</div>
+					</Form.Row>
+				</Form>
+			),
+		},
+		{
+			title: "Enter a basis date",
+			input: (
+				<Form>
+					<Form.Row className={classes.row}>
+						<Col xs="auto">
+							{props.isLoading ? (
+								<Spinner animation="border" variant="danger" />
+							) : (
+								<BasisDatePicker
+									date={new Date(props.basisDate)}
+									label="Basis date"
+									handleDateInput={props.handleDateInput}
+									cal={props.cal}
+								/>
+							)}
+						</Col>
 					</Form.Row>
 				</Form>
 			),
@@ -208,13 +208,25 @@ const VerticalModal = (props) => {
 							variant="outline-danger"
 							className={classes.buttonNext}
 							disabled={
-								props.basisDate["basisDate"] === ""
+								props.selectedAnalysisType === undefined
 									? "disabled"
 									: null
 							}
-							onClick={nextPage}
+							onClick={
+								props.selectedAnalysisType === "manual"
+									? nextPage
+									: null
+							}
+							type={
+								props.selectedAnalysisType === "auto"
+									? "submit"
+									: null
+							}
 						>
-							Next
+							{props.selectedAnalysisType === "manual" ||
+							props.selectedAnalysisType === undefined
+								? "Next"
+								: "Submit"}
 						</Button>
 					) : (
 						<Button

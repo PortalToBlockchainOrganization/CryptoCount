@@ -60,17 +60,17 @@ const Landing = (props) => {
 		};
 
 		if (selectedAnalysisType === "auto") {
-			props.autoAnalysis({
+			props.autoUnrealized({
 				fiat: params["fiat"],
 				address: params["address"],
 			});
 		} else {
 			props.setParams(params);
-		}
-		if (props.signedIn()) {
-			props.analPost(params, () => {
-				props.history.push("/analysis");
-			});
+			if (props.signedIn()) {
+				props.analPost(params, () => {
+					props.history.push("/analysis");
+				});
+			}
 		}
 		props.history.push("/analysis");
 		setShowModal(false);

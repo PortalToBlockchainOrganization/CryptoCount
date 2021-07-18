@@ -44,6 +44,7 @@
 }
 
 .Radio label {
+	font-size: 1.5em;
 	color: #666;
 	font-weight: normal;
 }
@@ -52,7 +53,7 @@
 	content: " ";
 	display: inline-block;
 	position: relative;
-	top: 5px;
+	top: -2px;
 	margin: 0 5px 0 0;
 	width: 20px;
 	height: 20px;

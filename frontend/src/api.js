@@ -128,6 +128,13 @@ export function getUnrealizedSet(params) {
 	});
 }
 
+export function autoUnrealizedSet(params) {
+	return post("Anal/Auto", {
+		fiat: params["fiat"],
+		address: params["address"],
+	});
+}
+
 export function getRealizingSet(setId, quantity) {
 	return post("Anal/Realize", {
 		setId: setId,

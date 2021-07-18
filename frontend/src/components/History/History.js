@@ -2,7 +2,7 @@ import React from "react";
 import { Spinner } from "react-bootstrap";
 import classes from "./History.module.css";
 
-const History = ({ user, getHistory, realizedHistory }) => {
+const History = ({ user, realizedHistory }) => {
 	// table body
 	const body =
 		realizedHistory["history"] !== undefined &&
@@ -16,14 +16,18 @@ const History = ({ user, getHistory, realizedHistory }) => {
 			);
 		});
 
-	console.log(realizedHistory["history"]);
 	if (
-		realizedHistory["history"] === undefined ||
+		(realizedHistory["history"] === undefined && user.setIds.length > 0) ||
 		realizedHistory["isLoading"]
 	) {
-		return <Spinner variant="danger" />;
+		return (
+			<div className={classes.TableWrapper}>
+				<Spinner animation="border" variant="danger" />
+			</div>
+		);
 	}
 
+	console.log(user.setIds.length);
 	return user.setIds.length > 0 ? (
 		<div className={classes.TableWrapper}>
 			<table>

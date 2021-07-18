@@ -67,24 +67,31 @@ export function editParams(params, cb) {
 
 export function analPost(params, cb) {
 	return (dispatch) => {
-		api.analPost(params).then((res) => {
-			if (cb) {
-				cb();
-			}
-			res.json().then((res) => {
-				console.log(res);
-				if (res["dup check"] !== undefined) {
-					return dispatch({
-						type: "DUPLICATE",
-						payload: { dupId: res["dup of"] },
-					});
+		api.analPost(params)
+			.then((res) => {
+				if (cb) {
+					cb();
 				}
-				let temp = { ...params };
-				temp["histObjId"] = res["setId"];
-				console.log(temp);
-				dispatch({ type: "UNIQUE", payload: { _id: res["setId"] } });
+				res.json().then((res) => {
+					console.log(res);
+					if (res["dup check"] !== undefined) {
+						return dispatch({
+							type: "DUPLICATE",
+							payload: { dupId: res["dup of"] },
+						});
+					}
+					let temp = { ...params };
+					temp["histObjId"] = res["setId"];
+					console.log(temp);
+					dispatch({
+						type: "UNIQUE",
+						payload: { _id: res["setId"] },
+					});
+				});
+			})
+			.catch((err) => {
+				console.log(err);
 			});
-		});
 	};
 }
 
@@ -131,6 +138,28 @@ export function getUnrealizedSet(params) {
 	};
 }
 
+export function autoUnrealized(params) {
+	return (dispatch) => {
+		dispatch(getUnrealizedSetStarted());
+		api.autoUnrealizedSet(params)
+			.then((res) => {
+				res.json()
+					.then((data) => {
+						return data;
+					})
+					.then((data) => {
+						return dispatch({
+							type: "CREATE_SET_SUCCEEDED",
+							payload: data,
+						});
+					});
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+}
+
 export function getRealizingSetStart() {
 	return { type: "CREATE_REALIZED_SET_STARTED" };
 }
@@ -165,12 +194,19 @@ export function saveRealizing(setId, confirm_quantity) {
 export function getSet(setId) {
 	return (dispatch) => {
 		dispatch(getUnrealizedSetStarted());
-		api.getSet(setId).then((res) => {
-			res.json().then((res) => {
-				console.log(res);
-				return dispatch({ type: "CREATE_SET_SUCCEEDED", payload: res });
+		api.getSet(setId)
+			.then((res) => {
+				res.json().then((res) => {
+					console.log(res);
+					return dispatch({
+						type: "CREATE_SET_SUCCEEDED",
+						payload: res,
+					});
+				});
+			})
+			.catch((err) => {
+				console.log(err);
 			});
-		});
 	};
 }
 
@@ -183,15 +219,19 @@ export function getHistory(setIdList) {
 		dispatch(getHistoryStarted());
 		let history = [];
 		setIdList.map((setId) => {
-			api.getSet(setId).then((res) => {
-				res.json().then((res) => {
-					history.push({
-						fiat: res["fiat"],
-						basisDate: res["basisDate"],
-						address: res["address"],
+			api.getSet(setId)
+				.then((res) => {
+					res.json().then((res) => {
+						history.push({
+							fiat: res["fiat"],
+							basisDate: res["basisDate"],
+							address: res["address"],
+						});
 					});
+				})
+				.catch((err) => {
+					console.log(err);
 				});
-			});
 			return history;
 		});
 		return dispatch({ type: "CREATE_HISTORY_SUCCEEDED", payload: history });
