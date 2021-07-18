@@ -183,10 +183,18 @@ export function getRealizingSet(setId, quantity, cb) {
 	};
 }
 
+export function startSaveRealizing() {
+	return { type: "START_SAVE_REALIZE", payload: { isLoading: true } };
+}
+
 export function saveRealizing(setId, confirm_quantity) {
 	return (dispatch) => {
-		api.saveRealize(setId, confirm_quantity).then((res) => {
-			return dispatch({ type: "SAVE_REALIZE", payload: res.json() });
+		dispatch(startSaveRealizing);
+		api.saveRealize(setId).then((res) => {
+			return dispatch({
+				type: "SAVE_REALIZE",
+				payload: { data: res.json(), isLoading: false },
+			});
 		});
 	};
 }

@@ -31,11 +31,13 @@ const History = ({ user, realizedHistory }) => {
 	return user.setIds.length > 0 ? (
 		<div className={classes.TableWrapper}>
 			<table>
-				<tr>
-					<th>Address</th>
-					<th>Fiat</th>
-					<th>Basis Date</th>
-				</tr>
+				<thead>
+					<tr>
+						<th>Address</th>
+						<th>Fiat</th>
+						<th>Basis Date</th>
+					</tr>
+				</thead>
 				<tbody>{body}</tbody>
 			</table>
 		</div>

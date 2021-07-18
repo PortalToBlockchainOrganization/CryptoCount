@@ -64,6 +64,7 @@ const Analysis = (props) => {
 		getRealizingSet,
 		deleteParams,
 		getSet,
+		saveRealizing,
 	} = props;
 	const [isLoading, setIsLoading] = useState(set["isLoading"]);
 	const [showModal, setShowModal] = useState(true);
@@ -106,6 +107,13 @@ const Analysis = (props) => {
 				quantityRealize.current.value,
 				updateChart
 			);
+		}
+	};
+
+	const handleSave = (e) => {
+		e.preventDefault();
+		if (set["data"]["_id"] !== undefined) {
+			saveRealizing(set["data"]["_id"]);
 		}
 	};
 
@@ -160,7 +168,7 @@ const Analysis = (props) => {
 					incomeToReport = "realizingBasisAgg";
 				} else {
 					rewardKey = "rewBasisMVDepletion";
-					incomeToReport = "realizingMVdAgg";
+					incomeToReport = "realizingBasisMVDAgg";
 				}
 				// initializing data to be returned as currentSet
 				let dates = [];
@@ -194,7 +202,9 @@ const Analysis = (props) => {
 					fiat: set["data"].fiat,
 					basisDate: set["data"].basisDate,
 					basisPrice: set["data"].basisPrice,
-					incomeToReport: set["data"][incomeToReport],
+					incomeToReport:
+						set["data"][incomeToReport] +
+						set["data"]["realizingBasisAgg"],
 				};
 
 				let currentRelSet = mapping[setToRender];
@@ -232,6 +242,9 @@ const Analysis = (props) => {
 					data["datasets"][2]["data"] = basisRewards;
 					return data;
 				});
+				data["realizingRatio"] =
+					set["data"]["realizingBasisP"] /
+					set["data"]["unrealizedBasisP"];
 				return data;
 			}
 		},
@@ -321,12 +334,61 @@ const Analysis = (props) => {
 			</Modal>
 		);
 	}
+	if (currentSet) {
+		console.log(currentSet);
+	}
 	// otherwise if the set data exists render the graph
 	return set["data"] !== undefined ? (
 		<div className={classes.AnalysisWrapper}>
 			<div className={classes.Chart}>
 				<Bar data={currentSet} options={options} />
 				<div className={classes.ChartParams}>
+					<div className={classes.Bar}>
+						{currentSet && !isNaN(currentSet["realizingRatio"]) ? (
+							<>
+								<div
+									className={classes.Realizing}
+									style={{
+										flex: currentSet
+											? currentSet["realzingRatio"]
+											: null,
+									}}
+									tooltip-data={
+										currentSet
+											? `Realizing: ${(
+													currentSet[
+														"realizingRatio"
+													] * 100
+											  ).toFixed(2)}%`
+											: null
+									}
+								>
+									&nbsp;
+								</div>
+								<div
+									className={classes.Unrealized}
+									style={{
+										flex: currentSet
+											? 1 - currentSet["realizingRatio"]
+											: null,
+									}}
+									tooltip-data={
+										currentSet
+											? `Unrealized: ${(
+													(1 -
+														currentSet[
+															"realizingRatio"
+														]) *
+													100
+											  ).toFixed(2)}%`
+											: null
+									}
+								>
+									&nbsp;
+								</div>
+							</>
+						) : null}
+					</div>
 					<div>realize history ID</div>
 					<div>
 						<img
@@ -409,7 +471,7 @@ const Analysis = (props) => {
 						</Button>
 					</Form>
 				)}
-				{currentSet && currentSet["incomeToReport"] !== undefined ? (
+				{currentSet && !isNaN(currentSet["incomeToReport"]) ? (
 					<div className={classes.setToggles}>
 						<Form.Label>Income to Report:</Form.Label>
 						<div className={classes.quantGroup}>
@@ -422,7 +484,11 @@ const Analysis = (props) => {
 								/>
 							</div>
 						</div>
-						<Button type="submit" variant="danger">
+						<Button
+							type="submit"
+							variant="danger"
+							onClick={handleSave}
+						>
 							Save
 						</Button>
 					</div>

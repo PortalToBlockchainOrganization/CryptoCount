@@ -124,7 +124,7 @@ const Main = (props) => {
 					getRealizingSet={props.getRealizingSet}
 					deleteParams={props.deleteParams}
 					getSet={props.getSet}
-					saveRealize={props.saveRealize}
+					saveRealizing={props.saveRealizing}
 				/>
 				<Route>
 					<Redirect to="/" />

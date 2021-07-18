@@ -34,6 +34,12 @@ function set(state = {}, action) {
 				action.payload["realizingDepAgg"];
 			tempSet["data"]["realizingMVdAgg"] =
 				action.payload["realizingMVdAgg"];
+			tempSet["data"]["unrealizedBasisP"] =
+				action.payload["unrealizedBasisP"];
+			tempSet["data"]["realizingBasisP"] =
+				action.payload["realizingBasisP"];
+			tempSet["data"]["realizingBasisMVDAgg"] =
+				action.payload["realizingBasisMVDAgg"];
 			tempSet["isLoading"] = false;
 			return tempSet;
 		case "DELETE_SET":

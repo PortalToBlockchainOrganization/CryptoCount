@@ -145,7 +145,6 @@ export function getRealizingSet(setId, quantity) {
 export function saveRealize(setId, confirm_quantity) {
 	return post("Anal/Save", {
 		setId: setId,
-		conf_quantity: confirm_quantity,
 	});
 }
 
