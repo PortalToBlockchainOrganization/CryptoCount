@@ -128,91 +128,157 @@ router.post("/Auto", function (req, res) {
 });
 
 // beta save realize function (needs proper route handling)
-router.post("/Save", function (req, res) {
-	var body = req.body;
-	var ssn = req.session;
-	console.log("SESSION REALIZING");
-	console.log(ssn.realizing);
-	async.waterfall(
-		[
-			async function (cb) {
-				try {
-					// make sure to clear session realizing set
-					// probably should add check to make sure realizing object equals
-					// the session realizing object
-					rel_obj = await saveRealize(ssn.realizing);
-					return rel_obj;
-				} catch (error) {
-					return error;
-				}
-			},
-			function (rel_obj, cb) {
-				if (rel_obj && rel_obj.stack && rel_obj.message) {
-					cb(rel_obj, null);
-				}
-				console.log("rel_obj");
-				console.log(rel_obj);
-				res.status(200).json(rel_obj);
-				cb();
-			},
-		],
-		function (err) {
-			if (err) console.log(err);
-		}
-	);
-});
+// beta save realize function (needs proper route handling)
+router.post('/Save', function(req,res){
+    var body = req.body;
+    var ssn = req.session;
+    var ssn_real = ssn.realizing
+    var updated_payload = {}
+    console.log("SESSION REALIZING")
+    console.log(ssn.realizing);
+    async.waterfall([
+        // get realhistobj
+        function(cb){
+            RealizeHistObj.find({
+                _id: body.setId
+            }, 
+            function(err, docs){
+                if(err) cb(err);
+                cb(null, docs)
+            })
+        },
+        function(realObj, cb){
+            // probably should add check to make sure realizing object equals
+            // the session realizing object 
+            if  (!(realObj.realizedRewards && realObj.realizedRewards.length===0)) {
+                // create new realized lists/value
+                realizedRewardAgg = ssn_real.realizingRewardAgg
+                realizedDepAgg = ssn_real.realizingDepAgg
+                realizedMVDAgg = ssn_real.realizingMVDAgg
+                realizedXTZbasis = ssn_real.realizingXTZbasis
+                realizedBasisP = ssn_real.realizingBasisP
+                realizedBasisDep = ssn_real.realizingBasisDep
+                realizedBasisMVDep = ssn_real.realizingBasisMVDep
+                realizedRewards = ssn_real.realizingRewards
+                realizedBasisRewards = ssn_real.realizingRewardBasis
+                realizedBasisRewardsDep = ssn_real.realizingRewardBasisDep
+                realizedBasisRewardsMVDep = ssn_real.realizingRewardBasisMVDep
+            }
+            else {
+                // add and extend existing realized lists/values
+                realizedRewardAgg = realObj.realizedRewardAgg + ssn_real.realizingRewardAgg
+                realizedDepAgg = realObj.realizedDepAgg + ssn_real.realizingDepAgg
+                realizedMVDAgg = realObj.realizedMVDAgg +  ssn_real.realizingMVDAgg
+                realizedXTZbasis = realObj.realizedXTZbasis + ssn_real.realizingXTZbasis
+                realizedBasisP = realObj.realizedBasisP + ssn_real.realizingBasisP
+                realizedBasisDep = realObj.realizedBasisDep + ssn_real.realizingBasisDep
+                realizedBasisMVDep = realObj.realizedBasisMVDep + ssn_real.realizingBasisMVDep
+                realizedRewards = realObj.realizingRewards.push(... ssn_real.realizingRewards)
+                realizedBasisRewards = realObj.realizingRewardBasis.push(... ssn_real.realizingRewardBasis)
+                realizedBasisRewardsDep = realObj.realizingRewardBasisDep.push(... ssn_real.realizingRewardBasisDep)
+                realizedBasisRewardsMVDep = realObj.realizingRewardBasisMVDep.push(... ssn_real.realizingRewardBasisMVDep)
+            }
+            // find obj and update unrealized values 
+            RealizeHistObj.findOneAndUpdate(
+                {
+                    _id: body.setId
+                },
+                {
+                    $set: 
+                        {
+                            unrealizedRewardAgg: ssn_real.unrealizedRewardAgg,
+                            unrealizedBasisAgg: ssn_real.unrealizedBasisAgg,
+                            unrealizedDepAgg: ssn_real.unrealizedDepAgg,
+                            unrealizedMVDAgg: ssn_real.unrealizedMVDAgg,
+                            unrealizedXTZBasis: ssn_real.unrealizedXTZBasis,
+                            unrealizedBasisP: ssn_real.unrealizedBasisP,
+                            unrealizedBasisDep: ssn_real.unrealizedBasisDep,
+                            unrealizedBasisMVDep: ssn_real.unrealizedBasisMVDep,
+                            unrealizedBasisRewards:
+                                ssn_real.unrealizedBasisRewards,
+                            unrealizedBasisRewardsDep:
+                                ssn_real.unrealizedBasisRewardsDep,
+                            unrealizedBasisRewardsMVDep:
+                                ssn_real.unrealizedBasisRewardsMVDep,
+                            unrealizedRewards: 
+                                ssn_real.unrealizedRewards,
+                            realizedRewardAgg: realizedRewardAgg,
+                            realizedDepAgg: realizedDepAgg, 
+                            realizedMVDAgg: realizedMVDAgg, 
+                            realizedXTZbasis: realizedXTZbasis, 
+                            realizedBasisP: realizedBasisP, 
+                            realizedBasisDep: realizedBasisDep, 
+                            realizedBasisMVDep: realizedBasisMVDep, 
+                            realizedRewards: realizedRewards, 
+                            realizedBasisRewards: realizedBasisRewards, 
+                            realizedBasisRewardsDep: realizedBasisRewardsDep, 
+                            realizedBasisRewardsMVDep: realizedBasisRewardsMVDep
+                        },
+                },
+                { 
+                    new: true 
+                },
+            function (err, doc) {
+                if (err) cb(err);
+                cb(null, doc);
+            });
+
+        },
+        function(realObj, cb){
+            // clear session realize_value
+            ssn.realizing = {}
+            // send realObj to front end
+            console.log("sending rel_obj")
+            res.status(200).json(rel_obj)
+        }],
+        function(err){
+            if(err) console.log(err);
+        });
+})
 
 // beta realize function (needs proper route handling)
-// add check to make sure setId belongs to prsId
-router.post("/Realize", function (req, res) {
-	var body = req.body;
-	var ssn = req.session;
-	async.waterfall(
-		[
-			async function (cb) {
-				try {
-					rel_obj = await realizeRew(
-						body["realizedQuantity"],
-						body["setId"]
-					);
+router.post('/Realize', function(req,res){
+    var body = req.body;
+    var ssn = req.session;
+    async.waterfall([
+        async function(cb){
+            try{
+                rel_obj = await realizeRew(body["realizedQuantity"],body["setId"])
 
-					return rel_obj;
-				} catch (error) {
-					return error;
-				}
-			},
-			function (rel_obj, cb) {
-				if (rel_obj && rel_obj.stack && rel_obj.message) {
-					cb(rel_obj, null);
-				}
-				ssn.realizing = {
-					// save information on a session level
-					realizingRewards: rel_obj["realizingRewards"],
-					realizingBasisRewards: rel_obj["realizingRewardBasis"],
-					realizingBasisRewardsDep:
-						rel_obj["realizingRewardBasisDep"],
-					realizingBasisRewardsMVDep:
-						rel_obj["realizingRewardBasisMVDep"],
-					realizingRewardAgg: rel_obj["realizingRewardAgg"],
-					realizingBasisAgg: rel_obj["realizingBasisAgg"],
-					realizingDepAgg: rel_obj["realizingDepAgg"],
-					realizingMVDepAgg: rel_obj["realizingMVdAgg"],
-					realizingXTZBasis: rel_obj["realizingXTZbasis"],
-					realizingBasisP: rel_obj["realizingBasisP"],
-					realizingBasisDep: rel_obj["realizingBasisDep"],
-					realizingBasisMVDep: rel_obj["realizingBasisMVdep"],
-				};
-				console.log("rel_obj");
-				console.log(rel_obj);
-				res.status(200).json(rel_obj);
-				cb();
-			},
-		],
-		function (err) {
-			if (err) console.log(err);
-		}
-	);
-});
+                return rel_obj;
+            }
+            catch(error){
+                return error;
+            }
+        },
+        function(rel_obj, cb){
+            if(rel_obj && rel_obj.stack && rel_obj.message){
+                cb(rel_obj, null)
+            }
+            // ssn.realizing = { // save information on a session level 
+            //     "realizingRewards": rel_obj["realizingRewards"],
+            //     "realizingBasisRewards": rel_obj["realizingRewardBasis"],
+            //     "realizingBasisRewardsDep": rel_obj["realizingRewardBasisDep"],
+            //     "realizingBasisRewardsMVDep": rel_obj["realizingRewardBasisMVDep"],
+            //     "realizingRewardAgg": rel_obj["realizingRewardAgg"],
+            //     "realizingBasisAgg": rel_obj["realizingBasisAgg"],
+            //     "realizingDepAgg": rel_obj["realizingDepAgg"],
+            //     "realizingMVDepAgg": rel_obj["realizingMVdAgg"],
+            //     "realizingXTZBasis": rel_obj["realizingXTZbasis"],
+            //     "realizingBasisP": rel_obj["realizingBasisP"],
+            //     "realizingBasisDep": rel_obj["realizingBasisDep"],
+            //     "realizingBasisMVDep": rel_obj["realizingBasisMVdep"]
+            // }
+            ssn.realizing = rel_obj
+            console.log('rel_obj')
+            console.log(rel_obj)
+            res.status(200).json(rel_obj);
+            cb();
+        }],
+        function(err){
+            if(err) console.log(err);
+        });
+    });
 
 router.post("/Unrel", function (req, res) {
 	var vld = req.validator;

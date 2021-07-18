@@ -333,8 +333,7 @@ async function realizeRew(realizedQuantity, setId) {
 
 	//get the realizehistoryobject from the db
 	console.log(setId);
-	let foundRealizeHistory = await RealizeSet.findOne({ _id: setId });
-	console.log(foundRealizeHistory);
+    let foundRealizeHistory = await RealizeSet.findOne({ _id: setId });
 
 	//CANNOT ACCESS UNREALIZED REWARD SET // WORKAROUND HERE
 	//y no access unrealized? walkaround
@@ -470,24 +469,26 @@ async function realizeRew(realizedQuantity, setId) {
 	let realizingXTZbasis = realizedQuantity
 	let realizingBasisP = foundRealizeHistory.unrealBasisP * percentOfBasisRealizing
 	let realizingBasisDep = foundRealizeHistory.unrealBasisDep * percentOfBasisRealizing
-	let realizingBasisMVdep = foundRealizeHistory.unrealBasisMVdep * percentOfBasisRealizing
+    let realizingBasisMVdep = foundRealizeHistory.unrealBasisMVDep * percentOfBasisRealizing
+    console.log(foundRealizeHistory.unrealBasisMVDep)
 
 	let unrealizedXTZBasis = foundRealizeHistory.unrealxtzBasis - realizingXTZbasis
 	let unrealizedBasisP = foundRealizeHistory.unrealBasisP - realizingBasisP
 	let unrealizedBasisDep = foundRealizeHistory.unrealBasisDep - realizingBasisDep
-	let unrealizedBasisMVdep = foundRealizeHistory.unrealBasisMVdep - realizingBasisMVdep
-	
+    let unrealizedBasisMVdep = foundRealizeHistory.unrealBasisMVDep - realizingBasisMVdep
+    console.log(Object.keys(foundRealizeHistory._doc))
+    console.log(foundRealizeHistory.unrealBasisMVDep)
 
 	//re aggregate
 	let unrealizedRewardAgg = 0;
 	let unrealizedBasisAgg = 0;
 	let unrealizedDepAgg = 0;
-	let unrealizedMVdAgg = 0;
+	let unrealizedMVDAgg = 0;
 	for (i = 0; i < unrealrewards.length; i++) {
 		unrealizedRewardAgg += unrealrewards[i].rewardQuantity;
 		unrealizedBasisAgg += unrealizedBasisRewards[i].basisReward;
 		unrealizedDepAgg += unrealizedBasisRewardsDep[i].rewBasisDepletion;
-		unrealizedMVdAgg += unrealizedBasisRewardsMVDep[i].rewBasisMVDepletion;
+		unrealizedMVDAgg += unrealizedBasisRewardsMVDep[i].rewBasisMVDepletion;
 	}
 
 	//re aggregate
@@ -512,38 +513,39 @@ async function realizeRew(realizedQuantity, setId) {
 
 	realizedObj = {
 		realizingRewards: realizingRewardQ,
-		// "unrealizedRewards": unrealrewards,
+		unrealizedRewards: unrealrewards,
 		realizingRewardBasis: realzingRewardBasis,
-		// "unrealizedBasisRewards": unrealizedBasisRewards,
+		unrealizedBasisRewards: unrealizedBasisRewards,
 		realizingRewardBasisDep: realzingRewardBasisDep,
-		// "unrealizedBasisRewardsDep" : unrealizedBasisRewardsDep,
+		unrealizedBasisRewardsDep : unrealizedBasisRewardsDep,
 		realizingRewardBasisMVDep: realzingRewardBasisMVDep,
-		// "unrealizedBasisRewardsMVDep" : unrealizedBasisRewardsMVDep,
-		// "unrealizedRewardAgg": unrealizedRewardAgg,
-		// "unrealizedBasisAgg": unrealizedBasisAgg,
-		// "unrealizedDepAgg": unrealizedDepAgg,
-		// "unrealizedMVdAgg": unrealizedMVdAgg,
+		unrealizedBasisRewardsMVDep : unrealizedBasisRewardsMVDep,
+		unrealizedRewardAgg: unrealizedRewardAgg,
+		unrealizedBasisAgg: unrealizedBasisAgg,
+		unrealizedDepAgg: unrealizedDepAgg,
+		unrealizedMVDAgg: unrealizedMVDAgg,
 		realizingRewardAgg: realizingRewardAgg,
 		realizingBasisAgg: realizingBasisAgg,
 		realizingDepAgg: realizingDepAgg,
-		realizingMVdAgg: realizingMVdAgg,
+		realizingMVDAgg: realizingMVdAgg,
 		//BASIS UPDATE SECTION
 		realizingXTZbasis: realizingXTZbasis,
 		realizingBasisP: realizingBasisP,
 		realizingBasisDep: realizingBasisDep,
-		realizingBasisMVdep: realizingBasisMVdep,
+		realizingBasisMVDep: realizingBasisMVdep,
 		unrealizedXTZBasis: unrealizedXTZBasis,
 		unrealizedBasisP: unrealizedBasisP,
 		unrealizedBasisDep: unrealizedBasisDep,
 		unrealizedBasisMVDep: unrealizedBasisMVdep,
-		// "address": foundRealizeHistory.address,
-		// "basisDate": foundRealizeHistory.basisDate,
-		// "basisPrice": foundRealizeHistory.basisPrice,
-		// "fiat": foundRealizeHistory.fiat,
-		// "realizedRewards" : foundRealizeHistory.realizedRewards, //again not working ~ unrealized rewards and realized rewards from .find()
-		// "realizedBasisRewards" : foundRealizeHistory.realizedBasisRewards,
-		// "realizedBasisRewardsDep" : foundRealizeHistory.realizedBasisRewardsDep,
-		// "realizedBasisRewardsMVdep" : foundRealizeHistory.realizedBasisRewardsMVDep,
+		address: foundRealizeHistory.address,
+		basisDate: foundRealizeHistory.basisDate,
+		basisPrice: foundRealizeHistory.basisPrice,
+		fiat: foundRealizeHistory.fiat,
+		realizedRewards: foundRealizeHistory.realizedRewards, //again not working ~ unrealized rewards and realized rewards from .find()
+		realizedBasisRewards: foundRealizeHistory.realizedBasisRewards,
+		realizedBasisRewardsDep: foundRealizeHistory.realizedBasisRewardsDep,
+        realizedBasisRewardsMVDep: foundRealizeHistory.realizedBasisRewardsMVDep,
+        _id: foundRealizeHistory._id
 
 	};
 
