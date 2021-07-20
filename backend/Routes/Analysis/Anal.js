@@ -61,69 +61,73 @@ router.get("/", function (req, res) {
 });
 
 // beta auto basis price calculation
-router.post('/Auto', function(req, res){
-    var vld = req.validator;
-    var body = req.body;
-    var unrel_obj = {}
-    const {address, fiat} = body;
-    console.log(address)
-    console.log(fiat)
-    var prsId = req.session.prsId;
-    async.waterfall([
-        async function(cb){
-            if(vld.hasFields(body, ["address","fiat"]))
-                try{
-                    unrel_obj = await autoAnalysis(address, fiat);
-                    console.log(unrel_obj)
-                    return unrel_obj;
-                }
-                catch (error) {
-                    console.log('analysis error')
-                    console.log(error)
-                    return error;
-                }
-        },
-        function(unrel_obj,cb){
-            // here we check to see if our previous function returned a 
-            // error in the catch block and we instantly jump to the callback
-            // by passing the error in
-            if(unrel_obj && unrel_obj.stack && unrel_obj.message){
-                cb(unrel_obj, null)
-            }
-            rel_obj = new RealizeHistObj({
-                userid: prsId,
-                version: 0,
-                fiat: body["fiat"],
-                address: body["address"],
-                basisDate: body["basisDate"],
-                unrealizedRewards : unrel_obj.unrealizedRewards,
-                unrealizedBasisRewards: unrel_obj.unrealizedBasisRewards,
-                unrealizedBasisRewardsDep : unrel_obj.unrealizedBasisRewardsDep,
-                unrealizedBasisRewardsMVDep : unrel_obj.unrealizedBasisRewardsMVDep,
-                basisPrice: unrel_obj.basisPrice,
-                unrealXTZBasis: unrel_obj.xtzBasis,
-                unrealBasisP: unrel_obj.basisP,
-                unrealBasisDep: unrel_obj.basisDep,
-                unrealBasisMVDep: unrel_obj.basisMVdep,
-                basisPrice: unrel_obj.basisPrice
-            })
-            rel_obj.save(function(err, doc){
-                if(err) cb(err);
-                cb(null,doc);
-            })
-        },
-        function(result, cb){ //after creating new rel db obj, 
-            // add the send unrel to FE
-            // console.log(result)
-            // console.log('results')
-            console.log(result)
-            res.status(200).json(result);
-            cb();
-        }
-        ],
-        function(err){
-            if(err) console.log(err);
-        });
+router.post("/Auto", function (req, res) {
+	var vld = req.validator;
+	var body = req.body;
+	var unrel_obj = {};
+	const { address, fiat } = body;
+	console.log(address);
+	console.log(fiat);
+	var prsId = req.session.prsId;
+	async.waterfall(
+		[
+			async function (cb) {
+				if (vld.hasFields(body, ["address", "fiat"]))
+					try {
+						unrel_obj = await autoAnalysis(address, fiat);
+						console.log(unrel_obj);
+						return unrel_obj;
+					} catch (error) {
+						console.log("analysis error");
+						console.log(error);
+						return error;
+					}
+			},
+			function (unrel_obj, cb) {
+				// here we check to see if our previous function returned a
+				// error in the catch block and we instantly jump to the callback
+				// by passing the error in
+				if (unrel_obj && unrel_obj.stack && unrel_obj.message) {
+					cb(unrel_obj, null);
+				}
+				rel_obj = new RealizeHistObj({
+					userid: prsId,
+					version: 0,
+					fiat: body["fiat"],
+					address: body["address"],
+					basisDate: body["basisDate"],
+					unrealizedRewards: unrel_obj.unrealizedRewards,
+					unrealizedBasisRewards: unrel_obj.unrealizedBasisRewards,
+					unrealizedBasisRewardsDep:
+						unrel_obj.unrealizedBasisRewardsDep,
+					unrealizedBasisRewardsMVDep:
+						unrel_obj.unrealizedBasisRewardsMVDep,
+					basisPrice: unrel_obj.basisPrice,
+					unrealXTZBasis: unrel_obj.xtzBasis,
+					unrealBasisP: unrel_obj.basisP,
+					unrealBasisDep: unrel_obj.basisDep,
+					unrealBasisMVDep: unrel_obj.basisMVdep,
+					basisPrice: unrel_obj.basisPrice,
+				});
+				rel_obj.save(function (err, doc) {
+					if (err) cb(err);
+					cb(null, doc);
+				});
+			},
+			function (result, cb) {
+				//after creating new rel db obj,
+				// add the send unrel to FE
+				// console.log(result)
+				// console.log('results')
+				console.log(result);
+				res.status(200).json(result);
+				cb();
+			},
+		],
+		function (err) {
+			if (err) console.log(err);
+		}
+	);
 });
 
 // beta save realize function (needs proper route handling)
@@ -352,25 +356,21 @@ router.post("/Unrel", function (req, res) {
 				RealizeHistObj.findOneAndUpdate(
 					{ _id: body["histObjId"] },
 					{
-					    $set: {
-						unrealizedRewards: unrel_obj.unrealizedRewards,
-						unrealizedBasisRewards:
-						    unrel_obj.unrealizedBasisRewards,
-						unrealizedBasisRewardsDep:
-						    unrel_obj.unrealizedBasisRewardsDep,
-						unrealizedBasisRewardsMVDep:
-						    unrel_obj.unrealizedBasisRewardsMVDep,
-						unrealXTZBasis: 
-						    unrel_obj.xtzBasis,
-						unrealBasisP:
-						    unrel_obj.basisP,
-						unrealBasisDep:
-						    unrel_obj.basisDep,
-						unrealBasisMVDep:
-						    unrel_obj.basisMVdep,
-						    //basis data
-						basisPrice: unrel_obj.basisPrice,
-					    },
+						$set: {
+							unrealizedRewards: unrel_obj.unrealizedRewards,
+							unrealizedBasisRewards:
+								unrel_obj.unrealizedBasisRewards,
+							unrealizedBasisRewardsDep:
+								unrel_obj.unrealizedBasisRewardsDep,
+							unrealizedBasisRewardsMVDep:
+								unrel_obj.unrealizedBasisRewardsMVDep,
+							unrealXTZBasis: unrel_obj.xtzBasis,
+							unrealBasisP: unrel_obj.basisP,
+							unrealBasisDep: unrel_obj.basisDep,
+							unrealBasisMVDep: unrel_obj.basisMVdep,
+							//basis data
+							basisPrice: unrel_obj.basisPrice,
+						},
 					},
 					{ new: true },
 					function (err, doc) {

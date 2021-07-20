@@ -11,6 +11,7 @@ import classes from "./VerticalModal.module.css";
 import "./VerticalModal.css";
 import BasisDatePicker from "../BasisDatePicker/BasisDatePicker";
 import DropdownItem from "./DropdownItem/DropdownItem";
+import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";
 // update quantiy realized to anal page
 const VerticalModal = (props) => {
 	let currencies = [
@@ -111,31 +112,51 @@ const VerticalModal = (props) => {
 				<Form>
 					<Form.Row>
 						<div className={classes.RadioInputs}>
-							<div className={classes.Radio}>
-								<input
-									type="radio"
-									id="auto"
-									name="m_or_a"
-									onChange={(e) =>
-										props.setSelectedAnalysisType(
-											e.target.id
-										)
-									}
-								/>
-								<label htmlFor="auto">Auto</label>
+							<div className={classes.radioWrapper}>
+								<div className={classes.Radio}>
+									<input
+										type="radio"
+										id="auto"
+										name="m_or_a"
+										onChange={(e) =>
+											props.setSelectedAnalysisType(
+												e.target.id
+											)
+										}
+									/>
+									<label htmlFor="auto">Auto</label>
+								</div>
+								<div
+									className={classes.help}
+									tooltip-data="Automatically calculates your basis price by taking the average price of additions to your staking basis"
+								>
+									<HelpOutlineRoundedIcon
+										className={classes.helpIcon}
+									/>
+								</div>
 							</div>
-							<div className={classes.Radio}>
-								<input
-									type="radio"
-									id="manual"
-									name="m_or_a"
-									onChange={(e) =>
-										props.setSelectedAnalysisType(
-											e.target.id
-										)
-									}
-								/>
-								<label htmlFor="manual">Manual</label>
+							<div className={classes.radioWrapper}>
+								<div className={classes.Radio}>
+									<input
+										type="radio"
+										id="manual"
+										name="m_or_a"
+										onChange={(e) =>
+											props.setSelectedAnalysisType(
+												e.target.id
+											)
+										}
+									/>
+									<label htmlFor="manual">Manual</label>
+								</div>
+								<div
+									className={classes.help}
+									tooltip-data="Allows you to manually select a day to count as your basis price."
+								>
+									<HelpOutlineRoundedIcon
+										className={classes.helpIcon}
+									/>
+								</div>
 							</div>
 						</div>
 					</Form.Row>

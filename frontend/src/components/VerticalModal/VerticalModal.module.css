@@ -80,3 +80,45 @@
 	justify-content: center;
 	align-items: center;
 }
+
+.radioWrapper {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	margin: 0px 7.5px;
+}
+
+.helpIcon {
+	font-size: 28px !important;
+	margin-left: 3px;
+	padding: 5px;
+	transition: all 0.1s ease-in-out;
+}
+
+.helpIcon:hover {
+	background: rgb(240, 240, 240);
+	padding: 5px;
+	border-radius: 5px;
+}
+
+.help:before {
+	content: attr(tooltip-data);
+	position: absolute;
+	transform: translate(-40%, -100%);
+	width: 200px;
+	padding: 10px;
+	border-radius: 3px;
+	background-color: rgb(53, 53, 53);
+	color: #fff;
+	text-align: center;
+	visibility: hidden;
+	opacity: 0;
+	font-size: 12px;
+}
+
+.help:hover:before {
+	visibility: visible;
+	opacity: 1;
+	z-index: 999;
+}
