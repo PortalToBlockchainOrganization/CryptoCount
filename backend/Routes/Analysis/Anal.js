@@ -254,7 +254,7 @@ router.post("/Save", function (req, res) {
 				ssn.realizing = {};
 				// send realObj to front end
 				console.log("sending rel_obj");
-				console.log(rel_obj);
+				console.log(real_obj);
 				res.status(200).json(rel_obj);
 			},
 		],
