@@ -249,7 +249,7 @@ router.post("/Save", function (req, res) {
 					}
 				);
 			},
-			function (realObj, cb) {
+			function (real_obj, cb) {
 				// clear session realize_value
 				ssn.realizing = {};
 				// send realObj to front end
