@@ -10,6 +10,7 @@ export function signIn(credentials, cb) {
 				}
 			})
 			.catch((error) => {
+				console.log(error);
 				dispatch({ type: "SIGN_IN_ERR", details: error });
 			});
 	};

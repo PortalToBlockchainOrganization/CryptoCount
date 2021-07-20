@@ -66,7 +66,7 @@ const Analysis = (props) => {
 		getSet,
 		saveRealizing,
 	} = props;
-	const [isLoading, setIsLoading] = useState(set["isLoading"]);
+	// const [isLoading, setIsLoading] = useState(set["isLoading"])
 	const [showModal, setShowModal] = useState(true);
 
 	const quantityRealize = React.createRef();
@@ -74,7 +74,6 @@ const Analysis = (props) => {
 	const updateChart = (setToRender) => {
 		// update chart based on button press
 		setCurrentSet(getData(setToRender));
-		setIsLoading(false);
 	};
 
 	const goHome = () => {
@@ -171,7 +170,7 @@ const Analysis = (props) => {
 					incomeToReport = "realizingDepAgg";
 				} else {
 					rewardKey = "rewBasisMVDepletion";
-					incomeToReport = "realizingBasisMVDAgg";
+					incomeToReport = "realizingMVDAgg";
 				}
 				// initializing data to be returned as currentSet
 				let dates = [];
@@ -214,6 +213,7 @@ const Analysis = (props) => {
 						set["data"]["realizingBasisAgg"],
 				};
 
+				console.log(set);
 				let currentRealizingSet = mapping[setToRender];
 				let currentRealizedSet = realMapping[setToRender];
 				/* if there is a realizing set loop through the array and set
@@ -260,7 +260,7 @@ const Analysis = (props) => {
 						}
 					} else if (set["data"][currentRealizedSet] !== undefined) {
 						basisRewards.push(element[`${rewardKey}`]);
-						data["datasets"][0]["data"].push(null);
+						// data["datasets"][0]["data"].push(null);
 					} else {
 						basisRewards.push(element[`${rewardKey}`]);
 					}
@@ -365,6 +365,7 @@ const Analysis = (props) => {
 		);
 	}
 
+	console.log(currentSet);
 	// otherwise if the set data exists render the graph
 	return set["data"] !== undefined ? (
 		<div className={classes.AnalysisWrapper}>
@@ -510,7 +511,7 @@ const Analysis = (props) => {
 					</div>
 				</div>
 
-				{isLoading ? (
+				{set && set["isLoading"] ? (
 					<div className={classes.setToggles}>
 						<Spinner animation="border" variant="danger" />
 					</div>
