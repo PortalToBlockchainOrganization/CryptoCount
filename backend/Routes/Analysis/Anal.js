@@ -353,21 +353,25 @@ router.post("/Unrel", function (req, res) {
 				RealizeHistObj.findOneAndUpdate(
 					{ _id: body["histObjId"] },
 					{
-						$set: {
-							unrealizedRewards: unrel_obj.unrealizedRewards,
-							unrealizedBasisRewards:
-								unrel_obj.unrealizedBasisRewards,
-							unrealizedBasisRewardsDep:
-								unrel_obj.unrealizedBasisRewardsDep,
-							unrealizedBasisRewardsMVDep:
-								unrel_obj.unrealizedBasisRewardsMVDep,
-							unrealxtzBasis: unrel_obj.xtzBasis,
-							unrealBasisP: unrel_obj.basisP,
-							unrealBasisDep: unrel_obj.basisDep,
-							unrealBasisMVDep: unrel_obj.basisMVDep,
-							//basis data
-							basisPrice: unrel_obj.basisPrice,
-						},
+					    $set: {
+						unrealizedRewards: unrel_obj.unrealizedRewards,
+						unrealizedBasisRewards:
+						    unrel_obj.unrealizedBasisRewards,
+						unrealizedBasisRewardsDep:
+						    unrel_obj.unrealizedBasisRewardsDep,
+						unrealizedBasisRewardsMVDep:
+						    unrel_obj.unrealizedBasisRewardsMVDep,
+						unrealXTZBasis: 
+						    unrel_obj.xtzBasis,
+						unrealBasisP:
+						    unrel_obj.basisP,
+						unrealBasisDep:
+						    unrel_obj.basisDep,
+						unrealBasisMVDep:
+						    unrel_obj.basisMVdep,
+						    //basis data
+						basisPrice: unrel_obj.basisPrice,
+					    },
 					},
 					{ new: true },
 					function (err, doc) {
