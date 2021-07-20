@@ -187,13 +187,15 @@ export function startSaveRealizing() {
 	return { type: "START_SAVE_REALIZE", payload: { isLoading: true } };
 }
 
-export function saveRealizing(setId, confirm_quantity) {
+export function saveRealizing(setId) {
 	return (dispatch) => {
 		dispatch(startSaveRealizing);
 		api.saveRealize(setId).then((res) => {
-			return dispatch({
-				type: "SAVE_REALIZE",
-				payload: { data: res.json(), isLoading: false },
+			res.json().then((res) => {
+				return dispatch({
+					type: "SAVE_REALIZE",
+					payload: { data: res, isLoading: false },
+				});
 			});
 		});
 	};

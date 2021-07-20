@@ -42,6 +42,8 @@ function set(state = {}, action) {
 				action.payload["realizingBasisMVDAgg"];
 			tempSet["isLoading"] = false;
 			return tempSet;
+		case "SAVE_REALIZE":
+			return action.payload;
 		case "DELETE_SET":
 			return null;
 		case "DUPLICATE":

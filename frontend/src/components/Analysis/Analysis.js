@@ -90,8 +90,6 @@ const Analysis = (props) => {
 		the currentSet to the response of the api call
 		*/
 		setShowModal(false);
-		console.log(set["dupId"]);
-		console.log("OVERWRITE");
 		getSet(set["dupId"]);
 		setCurrentSet();
 	};
@@ -140,6 +138,12 @@ const Analysis = (props) => {
 				unrealizedBasisRewardsMVDep: "realizingRewardBasisMVDep",
 			};
 
+			let realMapping = {
+				unrealizedBasisRewards: "realizedBasisRewards",
+				unrealizedBasisRewardsDep: "realizedBasisRewardsDep",
+				unrealizedBasisRewardsMVDep: "realizedBasisRewardsMVDep",
+			};
+
 			// if there is no current data and if the id is not a duplicate
 			let tempParams = params;
 			// if there is no set data and it's not loading get unrealized set
@@ -165,7 +169,6 @@ const Analysis = (props) => {
 				} else if (setToRender === "unrealizedBasisRewardsDep") {
 					rewardKey = "rewBasisDepletion";
 					incomeToReport = "realizingDepAgg";
-					incomeToReport = "realizingBasisAgg";
 				} else {
 					rewardKey = "rewBasisMVDepletion";
 					incomeToReport = "realizingBasisMVDAgg";
@@ -174,6 +177,7 @@ const Analysis = (props) => {
 				let dates = [];
 				let basisRewards = [];
 				let realizingRewards = [];
+				let realizedRewards = [];
 				// chart js data
 				let data = {
 					labels: [],
@@ -183,18 +187,21 @@ const Analysis = (props) => {
 							backgroundColor: "rgba(255, 99, 132, 0.9)",
 							borderRadius: 3,
 							barThickness: 15,
+							data: [],
 						},
 						{
 							label: "Realizing Rewards",
 							backgroundColor: "rgba(242, 120, 75, 0.9)",
 							borderRadius: 3,
 							barThickness: 15,
+							data: [],
 						},
 						{
 							label: "Unrealized Rewards",
 							backgroundColor: "rgba(191, 191, 191, 0.9)",
 							borderRadius: 3,
 							barThickness: 15,
+							data: [],
 						},
 					],
 					hoverOffset: 4,
@@ -207,11 +214,12 @@ const Analysis = (props) => {
 						set["data"]["realizingBasisAgg"],
 				};
 
-				let currentRelSet = mapping[setToRender];
+				let currentRealizingSet = mapping[setToRender];
+				let currentRealizedSet = realMapping[setToRender];
 				/* if there is a realizing set loop through the array and set
 				the chart js data */
 				if (set["data"]["realizingRewardBasis"] !== undefined) {
-					realizingRewards = set["data"][currentRelSet].map(
+					realizingRewards = set["data"][currentRealizingSet].map(
 						(element) => {
 							realizingRewards.push(element[`${rewardKey}`]);
 							// realizing set index 1 (second chart js dataset)
@@ -220,24 +228,46 @@ const Analysis = (props) => {
 						}
 					);
 				}
+
+				// if there are realized rewards push those dates first
+				if (set["data"]["realizedRewards"] !== undefined) {
+					realizedRewards = set["data"][currentRealizedSet].map(
+						(element) => {
+							realizedRewards.push(element[`${rewardKey}`]);
+							data["datasets"][0]["data"] = realizedRewards;
+							basisRewards.push(null);
+							dates.push(
+								new moment(element["date"]).format(
+									"MMM DD, YYYY"
+								)
+							);
+							return realizedRewards;
+						}
+					);
+				}
 				// loop through unrealized data and set chart js data
 				set["data"][`${setToRender}`].map((element) => {
 					dates.push(
 						new moment(element["date"]).format("MMM DD, YYYY")
 					);
-					if (set["data"][currentRelSet] !== undefined) {
+
+					if (set["data"][currentRealizingSet] !== undefined) {
 						if (element["date"] >= getMaxDate()) {
 							basisRewards.push(element[`${rewardKey}`]);
 							data["datasets"][1]["data"].push(null);
 						} else {
 							basisRewards.push(null);
 						}
+					} else if (set["data"][currentRealizedSet] !== undefined) {
+						basisRewards.push(element[`${rewardKey}`]);
+						data["datasets"][0]["data"].push(null);
 					} else {
 						basisRewards.push(element[`${rewardKey}`]);
 					}
 					/* set chart js labels as unrealized dates 
 					(this is the max range of all sets) */
 					data["labels"] = dates;
+
 					// unrealized set (third chart js dataset - last to render)
 					data["datasets"][2]["data"] = basisRewards;
 					return data;
@@ -334,15 +364,21 @@ const Analysis = (props) => {
 			</Modal>
 		);
 	}
-	if (currentSet) {
-		console.log(currentSet);
-	}
+
 	// otherwise if the set data exists render the graph
 	return set["data"] !== undefined ? (
 		<div className={classes.AnalysisWrapper}>
 			<div className={classes.Chart}>
-				<Bar data={currentSet} options={options} />
-				<div className={classes.ChartParams}>
+				<div className={classes.ChartWrapper}>
+					<Bar data={currentSet} options={options} />
+					<div
+						className={classes.help}
+						tooltip-data="This chart shows your block rewards"
+					>
+						<HelpOutlineRoundedIcon className={classes.helpIcon} />
+					</div>
+				</div>
+				<div className={classes.BarContainer}>
 					<div className={classes.Bar}>
 						{currentSet && !isNaN(currentSet["realizingRatio"]) ? (
 							<>
@@ -389,6 +425,14 @@ const Analysis = (props) => {
 							</>
 						) : null}
 					</div>
+					<div
+						className={classes.help}
+						tooltip-data="Your staking basis powers your block rewards"
+					>
+						<HelpOutlineRoundedIcon className={classes.helpIcon} />
+					</div>
+				</div>
+				<div className={classes.ChartParams}>
 					<div>realize history ID</div>
 					<div>
 						<img
@@ -414,7 +458,15 @@ const Analysis = (props) => {
 							>
 								Basis Set
 							</Button>
-							<HelpOutlineRoundedIcon className={classes.help} />
+
+							<div
+								className={classes.help}
+								tooltip-data="Your basis set is your crypto's value with your basis price"
+							>
+								<HelpOutlineRoundedIcon
+									className={classes.helpIcon}
+								/>
+							</div>
 						</div>
 					</div>
 					{/* <div className={classes.header}>Depletion Sets</div> */}
@@ -428,7 +480,14 @@ const Analysis = (props) => {
 							>
 								Mvd Set
 							</Button>
-							<HelpOutlineRoundedIcon className={classes.help} />
+							<div
+								className={classes.help}
+								tooltip-data="Market Value Dilution accounting set"
+							>
+								<HelpOutlineRoundedIcon
+									className={classes.helpIcon}
+								/>
+							</div>
 						</div>
 						<div className={classes.buttonAndInfo}>
 							<Button
@@ -439,7 +498,14 @@ const Analysis = (props) => {
 							>
 								Supply Dep Set
 							</Button>
-							<HelpOutlineRoundedIcon className={classes.help} />
+							<div
+								className={classes.help}
+								tooltip-data="Circulating supply depletion accounting set"
+							>
+								<HelpOutlineRoundedIcon
+									className={classes.helpIcon}
+								/>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -461,9 +527,14 @@ const Analysis = (props) => {
 									placeholder="0 XTZ"
 									ref={quantityRealize}
 								/>
-								<HelpOutlineRoundedIcon
+								<div
 									className={classes.help}
-								/>
+									tooltip-data="Enter a quantity of crypto you'd like to sell and see if it's economically fair value for reporting your taxes. "
+								>
+									<HelpOutlineRoundedIcon
+										className={classes.helpIcon}
+									/>
+								</div>
 							</div>
 						</div>
 						<Button type="submit" variant="danger">
@@ -479,9 +550,11 @@ const Analysis = (props) => {
 								{currentSet["incomeToReport"]
 									.toFixed(2)
 									.concat(" ", set["data"].fiat)}
-								<HelpOutlineRoundedIcon
-									className={classes.help}
-								/>
+								<div className={classes.help}>
+									<HelpOutlineRoundedIcon
+										className={classes.helpIcon}
+									/>
+								</div>
 							</div>
 						</div>
 						<Button

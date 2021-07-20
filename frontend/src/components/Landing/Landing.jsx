@@ -110,7 +110,7 @@ const Landing = (props) => {
 						<img className="logo" src="./logo.png" alt="logo" />
 						<div className="name-one-liner">
 							<h1 className="logo-name">CryptoCount</h1>
-							<p>
+							{/* <p>
 								CryptoCount helps you report your realized
 								staking reward income as a business entity.{" "}
 								<br />
@@ -124,7 +124,7 @@ const Landing = (props) => {
 								<br />
 								Select your blockchain, address, and a taxation
 								period to begin.
-							</p>
+							</p> */}
 						</div>
 					</div>
 				</section>
@@ -202,6 +202,37 @@ const Landing = (props) => {
 					getCalendar={getCalendar}
 				/>
 			</div>
+			{!props.signedIn() ? (
+				<div className="tutorial">
+					<div className="p-gif">
+						<div className="animation" id="women-thinking" />
+						<div className="text">
+							<h2>Count Before You Sell.</h2>
+							<p>
+								If I want to sell some of my crypto rewards or
+								its staking basis, what would I say for my
+								taxes?
+							</p>
+						</div>
+					</div>
+					<div className="p-gif">
+						<p className="text">
+							Count your crypto rewards and basis with Crypto
+							Count before you sell at an exchange. <br />
+							<br />
+						</p>
+						<div className="animation" id="women-computer" />
+					</div>
+					<div className="p-gif">
+						<div className="animation" id="women-signing" />
+						<p className="text">
+							Realize amounts of crypto in CryptoCount with your
+							country's currency. Use CryptoCount's calculation of
+							your economically fair income for your taxes.
+						</p>
+					</div>
+				</div>
+			) : null}
 			<div className="poweredBy">
 				Powered by
 				<a href="https://tezos.com/" target="_blank" rel="noreferrer">
@@ -233,36 +264,6 @@ const Landing = (props) => {
 					<img className="t-logo" src={ptbo} alt="ptbo" />
 				</a>
 			</div>
-			{!props.signedIn() ? (
-				<div className="tutorial">
-					<div className="p-gif">
-						<div className="animation" id="women-thinking" />
-						<div>
-							<h2>Count Before You Sell.</h2>
-							<p>
-								Count your crypto rewards and basis with Crypto
-								Count before you sell at an exchange. <br />
-								<br />
-							</p>
-						</div>
-					</div>
-					<div className="p-gif">
-						<p>
-							If I want to sell some of my crypto rewards or its
-							staking basis, what would I say for my taxes?
-						</p>
-						<div className="animation" id="women-computer" />
-					</div>
-					<div className="p-gif">
-						<div className="animation" id="women-signing" />
-						<p>
-							Realize amounts of crypto in CryptoCount with your
-							country's currency. Use CryptoCount's calculation of
-							your economically fair income for your taxes.
-						</p>
-					</div>
-				</div>
-			) : null}
 		</div>
 	);
 };

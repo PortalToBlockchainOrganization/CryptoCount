@@ -16,10 +16,7 @@ const History = ({ user, realizedHistory }) => {
 			);
 		});
 
-	if (
-		(realizedHistory["history"] === undefined && user.setIds.length > 0) ||
-		realizedHistory["isLoading"]
-	) {
+	if (realizedHistory["isLoading"]) {
 		return (
 			<div className={classes.TableWrapper}>
 				<Spinner animation="border" variant="danger" />
@@ -27,7 +24,17 @@ const History = ({ user, realizedHistory }) => {
 		);
 	}
 
-	console.log(user.setIds.length);
+	if (
+		!realizedHistory["isLoading"] &&
+		user["setIds"].length > 1 &&
+		realizedHistory["history"] === undefined
+	) {
+		return (
+			<div className={classes.Empty}>
+				It looks like there was an error loading your sets.
+			</div>
+		);
+	}
 	return user.setIds.length > 0 ? (
 		<div className={classes.TableWrapper}>
 			<table>
