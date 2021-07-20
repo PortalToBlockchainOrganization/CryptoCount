@@ -463,16 +463,25 @@ async function realizeRew(realizedQuantity, setId) {
 		}
 	}
 
-	//BASIS BUCKET 
-	let percentOfBasisRealizing = realizedQuantity / foundRealizeHistory.unrealxtzBasis 
+    //BASIS BUCKET 
 
-	let realizingXTZbasis = realizedQuantity
-	let realizingBasisP = foundRealizeHistory.unrealBasisP * percentOfBasisRealizing
+    console.log('foundRealizeHistory.unrealxtzBasis')
+    console.log(foundRealizeHistory.unrealxtzBasis)
+
+	let percentOfBasisRealizing = realizedQuantity / foundRealizeHistory.unrealXTZBasis 
+
+    let realizingXTZbasis = realizedQuantity
+    console.log('foundRealizeHistory.unrealBasisP')
+    console.log(foundRealizeHistory.unrealBasisP)
+    let realizingBasisP = foundRealizeHistory.unrealBasisP * percentOfBasisRealizing
+    console.log('realizingBasisP')
+    console.log(realizingBasisP)
+    // throw 'stop execution';
 	let realizingBasisDep = foundRealizeHistory.unrealBasisDep * percentOfBasisRealizing
     let realizingBasisMVdep = foundRealizeHistory.unrealBasisMVDep * percentOfBasisRealizing
     console.log(foundRealizeHistory.unrealBasisMVDep)
 
-	let unrealizedXTZBasis = foundRealizeHistory.unrealxtzBasis - realizingXTZbasis
+	let unrealizedXTZBasis = foundRealizeHistory.unrealXTZBasis - realizingXTZbasis
 	let unrealizedBasisP = foundRealizeHistory.unrealBasisP - realizingBasisP
 	let unrealizedBasisDep = foundRealizeHistory.unrealBasisDep - realizingBasisDep
     let unrealizedBasisMVdep = foundRealizeHistory.unrealBasisMVDep - realizingBasisMVdep
