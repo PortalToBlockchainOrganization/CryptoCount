@@ -51,7 +51,7 @@ const realizeSchema = mongoose.Schema({
 	},
 	basisDate: {
 		type: Date,
-		required: true,
+		required: false,
 	},
 	basisPrice: {
 		type: Number,
@@ -81,7 +81,7 @@ const realizeSchema = mongoose.Schema({
 		type: Number,
 		required: false,
 	},
-	unrealxtzBasis: {
+	unrealXTZBasis: {
 		type: Number,
 		required: false,
 	},
@@ -93,23 +93,23 @@ const realizeSchema = mongoose.Schema({
 		type: Number,
 		required: false,
 	},
-	unrealBasisMVdep: {
+	unrealBasisMVDep: {
 		type: Number,
 		required: false,
 	},
-	realxtzBasis: {
+	realizingxtzBasis: {
 		type: Number,
 		required: false,
 	},
-	realBasisP: {
+	realizingBasisP: {
 		type: Number,
 		required: false,
 	},
-	realBasisDep: {
+	realizingBasisDep: {
 		type: Number,
 		required: false,
 	},
-	realBasisMVdep: {
+	realizingBasisMVDep: {
 		type: Number,
 		required: false,
 	},
