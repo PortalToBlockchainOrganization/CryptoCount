@@ -1056,21 +1056,21 @@ async function autoAnalysis(address, fiat) {
 	let basisValue = Object.values(basisBalances)[0];
 
 	let bookVal = basisPrice * (basisValue / 1000000);
-	// let bookValsBasis = []
-	// let bvBasObj = {
-	//     "date": rewards[0].date,
-	//     "bvBas": bookVal
-	// }
-	// bookValsBasis.push(bvBasObj)
+	let bookValsBasis = []
+	let bvBasObj = {
+	    "date": rewards[0].date,
+	    "bvBas": bookVal
+	}
+	bookValsBasis.push(bvBasObj)
 
-	// for(i = 1; i < rewards.length - 1; i++){
-	//     bookVal = bookValsBasis[i-1].bvBas + rewards[i].rewardQuantity * basisPrice
-	//     bvBasObj = {
-	//         "date": rewards[i].date,
-	//         "bvBas": bookVal
-	//     }
-	//     bookValsBasis.push(bvBasObj)
-	// }
+	for(i = 1; i < rewards.length - 1; i++){
+	    bookVal = bookValsBasis[i-1].bvBas + rewards[i].rewardQuantity * basisPrice
+	    bvBasObj = {
+	        "date": rewards[i].date,
+	        "bvBas": bookVal
+	    }
+	    bookValsBasis.push(bvBasObj)
+	}
 
 	//SUPPLY DEPLETION REWARDS OBJECT
 	//Dependency Object
@@ -1348,7 +1348,11 @@ async function autoAnalysis(address, fiat) {
 		unrealizedBasisRewardsMVDep: basisRewardMVDepletion,
 		address: address,
 		fiat: fiat,
-		basisPrice: basisPrice,
+        	basisPrice: basisPrice,
+        	xtzBasis: xtzBasis,
+		basisP: basisP,
+		basisDep: basisDep,
+		basisMVdep: basisMVdep
 	};
 
 	return analysisResObj;
