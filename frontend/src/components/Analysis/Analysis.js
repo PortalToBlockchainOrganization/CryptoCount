@@ -61,6 +61,7 @@ const Analysis = (props) => {
 		params,
 		set,
 		getUnrealizedSet,
+		//autoUnrealized,
 		getRealizingSet,
 		deleteParams,
 		getSet,
@@ -149,6 +150,7 @@ const Analysis = (props) => {
 			if (set["_id"] !== undefined && set["isLoading"] === undefined) {
 				tempParams["histObjId"] = set["_id"];
 				getUnrealizedSet(tempParams);
+				//autoUnrealized(tempParams);
 			}
 
 			// if the current set is not loading
@@ -278,6 +280,7 @@ const Analysis = (props) => {
 				return data;
 			}
 		},
+		//autoUnrealized
 		[set, params, getUnrealizedSet]
 	);
 
@@ -434,7 +437,7 @@ const Analysis = (props) => {
 					</div>
 				</div>
 				<div className={classes.ChartParams}>
-					<div>realize history ID</div>
+					<div>realize history</div>
 					<div>
 						<img
 							className={classes.fiatImg}
@@ -446,7 +449,7 @@ const Analysis = (props) => {
 					{/* <div>
 						{data !== undefined ? data.basisPrice.toFixed(2) : null}
 					</div> */}
-					<div>Basis Balance</div>
+					<div>Basis Price</div>
 				</div>
 				<div className={classes.setToggles}>
 					<div className={classes.basisSet}>
@@ -530,7 +533,7 @@ const Analysis = (props) => {
 								/>
 								<div
 									className={classes.help}
-									tooltip-data="Enter a quantity of crypto you'd like to sell and see if it's economically fair value for reporting your taxes. "
+									tooltip-data="Enter a quantity of crypto you'd like to sell. "
 								>
 									<HelpOutlineRoundedIcon
 										className={classes.helpIcon}
@@ -551,7 +554,7 @@ const Analysis = (props) => {
 								{currentSet["incomeToReport"]
 									.toFixed(2)
 									.concat(" ", set["data"].fiat)}
-								<div className={classes.help}>
+								<div className={classes.help} tooltip-data="Here is your economically fair income to report.">
 									<HelpOutlineRoundedIcon
 										className={classes.helpIcon}
 									/>

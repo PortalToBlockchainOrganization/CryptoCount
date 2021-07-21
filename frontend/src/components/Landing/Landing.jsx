@@ -126,6 +126,7 @@ const Landing = (props) => {
 								period to begin.
 							</p> */}
 						</div>
+					
 					</div>
 				</section>
 				<div className="form">
