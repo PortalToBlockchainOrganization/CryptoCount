@@ -107,7 +107,7 @@ const Landing = (props) => {
 			<div className="lp-container">
 				<section className="static-wrapper">
 					<div className="logo-container">
-						<img className="logo" src="./logo.svg" alt="logo" />
+						<img className="logo" src="./logo.png" alt="logo" />
 						<div className="name-one-liner">
 							<h1 className="logo-name">CryptoCount</h1>
 							{/* <p>
@@ -126,7 +126,6 @@ const Landing = (props) => {
 								period to begin.
 							</p> */}
 						</div>
-					
 					</div>
 				</section>
 				<div className="form">
