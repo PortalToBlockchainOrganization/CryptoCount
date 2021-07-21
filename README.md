@@ -15,3 +15,7 @@ cd frontend
 npm install 
 
 npm start
+
+# Academic Literature
+
+https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3672461
