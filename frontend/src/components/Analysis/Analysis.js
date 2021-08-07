@@ -111,24 +111,25 @@ const Analysis = (props) => {
 		e.preventDefault();
 		if (set["data"]["_id"] !== undefined) {
 			saveRealizing(set["data"]["_id"]);
+			// props.getHistory();
 		}
 	};
 
 	const getData = useCallback(
 		(setToRender) => {
 			// get the last date from realizing set
-			const getMaxDate = (key) => {
-				// default returns realizingBasisReward max date
-				if (!key) {
-					key = "realizingRewardBasis";
-				}
-				if (set["data"] !== undefined) {
-					return set["data"][key][set["data"][key].length - 1][
-						"date"
-					];
-				}
-				return;
-			};
+			// const getMaxDate = (key) => {
+			// 	// default returns realizingBasisReward max date
+			// 	if (!key) {
+			// 		key = "realizingRewardBasis";
+			// 	}
+			// 	if (set["data"] !== undefined) {
+			// 		return set["data"][key][set["data"][key].length - 1][
+			// 			"date"
+			// 		];
+			// 	}
+			// 	return;
+			// };
 
 			// mapping for unrealized and realizing set
 			let mapping = {
@@ -146,13 +147,13 @@ const Analysis = (props) => {
 			// if there is no current data and if the id is not a duplicate
 			let tempParams = params;
 			// if there is no set data and it's not loading get unrealized set
-			if (set["_id"] !== undefined && set["isLoading"] === undefined) {
+			if (set?._id && set["isLoading"] === undefined) {
 				tempParams["histObjId"] = set["_id"];
 				getUnrealizedSet(tempParams);
 			}
 
 			// if the current set is not loading
-			if (set["isLoading"] !== undefined && set["isLoading"] === false) {
+			if (!set?.isLoading) {
 				// get subset data to render default is basis rewards
 				let incomeToReport;
 				setToRender = setToRender
@@ -173,8 +174,8 @@ const Analysis = (props) => {
 					incomeToReport = "realizingMVDAgg";
 				}
 				// initializing data to be returned as currentSet
-				let dates = [];
-				let basisRewards = [];
+				// let dates = [];
+				// let basisRewards = [];
 				let realizingRewards = [];
 				let realizedRewards = [];
 				// chart js data
@@ -213,65 +214,165 @@ const Analysis = (props) => {
 						set["data"]["realizingBasisAgg"],
 				};
 
-				console.log(set);
 				let currentRealizingSet = mapping[setToRender];
 				let currentRealizedSet = realMapping[setToRender];
+
+				// get all dates, all dates are accounted for in realized and unrealized sets
+				if (data.labels.length === 0) {
+					set?.data[currentRealizedSet].map(({ date }) => {
+						data.labels.push(date);
+					});
+
+					set?.data[`${setToRender}`].map(({ date }) => {
+						data.labels.push(date);
+					});
+				}
+				// if realized set, render
+				if (set?.data?.realizedRewards) {
+					realizedRewards = set.data[currentRealizedSet].map(
+						(element) => {
+							return data.datasets[0].data.push(
+								element[`${rewardKey}`]
+							);
+						}
+					);
+				}
+
+				if (set?.data?.realizingRewards) {
+					// if realized Set skip those dates
+					if (realizedRewards.length > 0) {
+						realizingRewards = new Array(realizedRewards.length);
+						data.datasets[1].data = realizingRewards;
+					}
+					realizingRewards = set.data[currentRealizingSet].map(
+						(element) => {
+							return data.datasets[1].data.push(
+								element[`${rewardKey}`]
+							);
+						}
+					);
+				}
+
+				// if realizing rewards is greater than 0 add the length of
+				// realizing to unrealized as nulls
+				if (set?.data?.realizingRewards?.length > 0) {
+					// create empty elements in unrealized set
+					//  up to size of realizing set
+					data.datasets[2].data = new Array(
+						data.datasets[1].data.length
+					);
+				}
+
+				if (set?.data?.realizedRewards.length > 0) {
+					data.datasets[2].data = new Array(
+						data.datasets[0].data.length
+					);
+				}
+
+				if (
+					set?.data?.realizedRewards?.length > 0 &&
+					set?.data?.realizingRewards?.length > 0
+				) {
+					data.datasets[2].data = new Array(
+						data.datasets[1].data.length
+					);
+				}
+				let d0L = data?.datasets[0]?.data?.length;
+				let d1L = data?.datasets[1]?.data?.length;
+				console.log(d0L - d1L);
+				set?.data[`${setToRender}`].map((element, index) => {
+					if (set?.data?.realizedRewards.length > 0) {
+						if (index > d1L - d0L - 1) {
+							return data.datasets[2].data.push(
+								element[`${rewardKey}`]
+							);
+						}
+					}
+					if (index > data.datasets[1].data.length - 1) {
+						return data.datasets[2].data.push(
+							element[`${rewardKey}`]
+						);
+					}
+				});
+
 				/* if there is a realizing set loop through the array and set
 				the chart js data */
-				if (set["data"]["realizingRewardBasis"] !== undefined) {
-					realizingRewards = set["data"][currentRealizingSet].map(
-						(element) => {
-							realizingRewards.push(element[`${rewardKey}`]);
-							// realizing set index 1 (second chart js dataset)
-							data["datasets"][1]["data"] = realizingRewards;
-							return realizingRewards;
-						}
-					);
-				}
+				// if (set?.data?.realizingRewardBasis) {
+				// 	realizingRewards = set["data"][currentRealizingSet].map(
+				// 		(element) => {
+				// 			// if there is a realized set, make sure the start date is after the last realized date
+				// 			if (set?.data?.realizedRewards) {
+				// 				// if current element date is less than max date
+				// 				// of realized set, skip
+				// 				console.log(
+				// 					element["date"],
+				// 					getMaxDate("realizedRewards"),
+				// 					element["date"] >
+				// 						getMaxDate("realizedRewards")
+				// 				);
+				// 				if (
+				// 					element["date"] >=
+				// 					getMaxDate("realizedRewards")
+				// 				) {
+				// 					realizingRewards.push(
+				// 						element[`${rewardKey}`]
+				// 					);
+				// 				} else {
+				// 					realizingRewards.push(null);
+				// 				}
+				// 			} else {
+				// 				realizingRewards.push(element[`${rewardKey}`]);
+				// 			}
+				// 			// realizing set index 1 (second chart js dataset)
+				// 			data["datasets"][1]["data"] = realizingRewards;
+				// 			return realizingRewards;
+				// 		}
+				// 	);
+				// }
 
-				// if there are realized rewards push those dates first
-				if (set["data"]["realizedRewards"] !== undefined) {
-					realizedRewards = set["data"][currentRealizedSet].map(
-						(element) => {
-							realizedRewards.push(element[`${rewardKey}`]);
-							data["datasets"][0]["data"] = realizedRewards;
-							basisRewards.push(null);
-							dates.push(
-								new moment(element["date"]).format(
-									"MMM DD, YYYY"
-								)
-							);
-							return realizedRewards;
-						}
-					);
-				}
-				// loop through unrealized data and set chart js data
-				set["data"][`${setToRender}`].map((element) => {
-					dates.push(
-						new moment(element["date"]).format("MMM DD, YYYY")
-					);
+				// // if there are realized rewards push those dates first
+				// if (set["data"]["realizedRewards"] !== undefined) {
+				// 	realizedRewards = set["data"][currentRealizedSet].map(
+				// 		(element) => {
+				// 			realizedRewards.push(element[`${rewardKey}`]);
+				// 			data["datasets"][0]["data"] = realizedRewards;
+				// 			basisRewards.push(null);
+				// 			dates.push(
+				// 				new moment(element["date"]).format(
+				// 					"MMM DD, YYYY"
+				// 				)
+				// 			);
+				// 			return realizedRewards;
+				// 		}
+				// 	);
+				// }
+				// // loop through unrealized data and set chart js data
+				// set["data"][`${setToRender}`].map((element) => {
+				// 	dates.push(
+				// 		new moment(element["date"]).format("MMM DD, YYYY")
+				// 	);
 
-					if (set["data"][currentRealizingSet] !== undefined) {
-						if (element["date"] >= getMaxDate()) {
-							basisRewards.push(element[`${rewardKey}`]);
-							data["datasets"][1]["data"].push(null);
-						} else {
-							basisRewards.push(null);
-						}
-					} else if (set["data"][currentRealizedSet] !== undefined) {
-						basisRewards.push(element[`${rewardKey}`]);
-						// data["datasets"][0]["data"].push(null);
-					} else {
-						basisRewards.push(element[`${rewardKey}`]);
-					}
-					/* set chart js labels as unrealized dates 
-					(this is the max range of all sets) */
-					data["labels"] = dates;
+				// 	if (set["data"][currentRealizingSet] !== undefined) {
+				// 		if (element["date"] >= getMaxDate()) {
+				// 			basisRewards.push(element[`${rewardKey}`]);
+				// 			data["datasets"][1]["data"].push(null);
+				// 		} else {
+				// 			basisRewards.push(null);
+				// 		}
+				// 	} else if (set["data"][currentRealizedSet] !== undefined) {
+				// 		basisRewards.push(element[`${rewardKey}`]);
+				// 		// data["datasets"][0]["data"].push(null);
+				// 	} else {
+				// 		basisRewards.push(element[`${rewardKey}`]);
+				// 	}
+				// 	/* set chart js labels as unrealized dates
+				// 	(this is the max range of all sets) */
+				// 	data["labels"] = dates;
 
-					// unrealized set (third chart js dataset - last to render)
-					data["datasets"][2]["data"] = basisRewards;
-					return data;
-				});
+				// 	// unrealized set (third chart js dataset - last to render)
+				// 	data["datasets"][2]["data"] = basisRewards;
+				// 	return data;
+				// });
 				data["realizingRatio"] =
 					set["data"]["realizingBasisP"] /
 					set["data"]["unrealizedBasisP"];
@@ -341,7 +442,7 @@ const Analysis = (props) => {
 	}, [getData]);
 
 	// if duplicate address detected show duplicate modal
-	if (set["dupId"] !== undefined) {
+	if (set?.dupId) {
 		return (
 			<Modal show={showModal}>
 				<Modal.Header closeButton>
@@ -365,9 +466,8 @@ const Analysis = (props) => {
 		);
 	}
 
-	console.log(currentSet);
 	// otherwise if the set data exists render the graph
-	return set["data"] !== undefined ? (
+	return !set?.isLoading ? (
 		<div className={classes.AnalysisWrapper}>
 			<div className={classes.Chart}>
 				<div className={classes.ChartWrapper}>
@@ -379,62 +479,66 @@ const Analysis = (props) => {
 						<HelpOutlineRoundedIcon className={classes.helpIcon} />
 					</div>
 				</div>
-				<div className={classes.BarContainer}>
-					<div className={classes.Bar}>
-						{currentSet && !isNaN(currentSet["realizingRatio"]) ? (
-							<>
-								<div
-									className={classes.Realizing}
-									style={{
-										flex: currentSet
-											? currentSet["realzingRatio"]
-											: null,
-									}}
-									tooltip-data={
-										currentSet
-											? `Realizing: ${(
-													currentSet[
-														"realizingRatio"
-													] * 100
-											  ).toFixed(2)}%`
-											: null
-									}
-								>
-									&nbsp;
-								</div>
-								<div
-									className={classes.Unrealized}
-									style={{
-										flex: currentSet
-											? 1 - currentSet["realizingRatio"]
-											: null,
-									}}
-									tooltip-data={
-										currentSet
-											? `Unrealized: ${(
-													(1 -
+				<div className={classes.ChartParams}>
+					<div className={classes.BarContainer}>
+						<div className={classes.Bar}>
+							{currentSet &&
+							!isNaN(currentSet["realizingRatio"]) ? (
+								<>
+									<div
+										className={classes.Realizing}
+										style={{
+											flex: currentSet
+												? currentSet["realzingRatio"]
+												: null,
+										}}
+										tooltip-data={
+											currentSet
+												? `Realizing: ${(
 														currentSet[
 															"realizingRatio"
-														]) *
-													100
-											  ).toFixed(2)}%`
-											: null
-									}
-								>
-									&nbsp;
-								</div>
-							</>
-						) : null}
+														] * 100
+												  ).toFixed(2)}%`
+												: null
+										}
+									>
+										&nbsp;
+									</div>
+									<div
+										className={classes.Unrealized}
+										style={{
+											flex: currentSet
+												? 1 -
+												  currentSet["realizingRatio"] +
+												  100
+												: null,
+										}}
+										tooltip-data={
+											currentSet
+												? `Unrealized: ${(
+														(1 -
+															currentSet[
+																"realizingRatio"
+															]) *
+														100
+												  ).toFixed(2)}%`
+												: null
+										}
+									>
+										&nbsp;
+									</div>
+								</>
+							) : null}
+						</div>
+						<div
+							className={classes.help}
+							tooltip-data="Your staking basis powers your block rewards"
+						>
+							<HelpOutlineRoundedIcon
+								className={classes.helpIcon}
+							/>
+						</div>
 					</div>
-					<div
-						className={classes.help}
-						tooltip-data="Your staking basis powers your block rewards"
-					>
-						<HelpOutlineRoundedIcon className={classes.helpIcon} />
-					</div>
-				</div>
-				<div className={classes.ChartParams}>
-					<div>realize history ID</div>
 					<div>
 						<img
 							className={classes.fiatImg}
@@ -550,7 +654,7 @@ const Analysis = (props) => {
 							<div className={classes.buttonAndInfo}>
 								{currentSet["incomeToReport"]
 									.toFixed(2)
-									.concat(" ", set["data"].fiat)}
+									.concat(" ", set["data"]?.fiat)}
 								<div className={classes.help}>
 									<HelpOutlineRoundedIcon
 										className={classes.helpIcon}

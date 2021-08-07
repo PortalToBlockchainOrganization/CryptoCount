@@ -60,10 +60,19 @@ const Landing = (props) => {
 		};
 
 		if (selectedAnalysisType === "auto") {
-			props.autoUnrealized({
+			props.setParams({
 				fiat: params["fiat"],
 				address: params["address"],
 			});
+			props.autoUnrealized(
+				{
+					fiat: params["fiat"],
+					address: params["address"],
+				},
+				() => {
+					props.history.push("/analysis");
+				}
+			);
 		} else {
 			props.setParams(params);
 			if (props.signedIn()) {
@@ -110,21 +119,6 @@ const Landing = (props) => {
 						<img className="logo" src="./logo.png" alt="logo" />
 						<div className="name-one-liner">
 							<h1 className="logo-name">CryptoCount</h1>
-							{/* <p>
-								CryptoCount helps you report your realized
-								staking reward income as a business entity.{" "}
-								<br />
-								<br />
-								We help you calculate your income over a cost
-								basis and depreciate your assets, or help you
-								plan your staking decisions. <br />
-								<br />
-								You will save significant income using this
-								tool. <br />
-								<br />
-								Select your blockchain, address, and a taxation
-								period to begin.
-							</p> */}
 						</div>
 					</div>
 				</section>

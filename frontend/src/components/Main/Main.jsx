@@ -48,10 +48,7 @@ const Main = (props) => {
 			getHistory(user.setIds);
 		}
 	}, [getHistory, user.setIds]);
-	if (
-		props.params.basisDate !== undefined &&
-		Object.keys(props.set).length > 0
-	) {
+	if (props?.params?.fiat && Object.keys(props?.set).length > 0) {
 		if (!canAccessAnalysis) {
 			setCanAccessAnalysis(true);
 		}
@@ -125,6 +122,7 @@ const Main = (props) => {
 					deleteParams={props.deleteParams}
 					getSet={props.getSet}
 					saveRealizing={props.saveRealizing}
+					getHistory={props.getHistory}
 				/>
 				<Route>
 					<Redirect to="/" />

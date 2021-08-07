@@ -139,21 +139,19 @@ export function getUnrealizedSet(params) {
 	};
 }
 
-export function autoUnrealized(params) {
+export function autoUnrealized(params, cb) {
 	return (dispatch) => {
 		dispatch(getUnrealizedSetStarted());
 		api.autoUnrealizedSet(params)
 			.then((res) => {
-				res.json()
-					.then((data) => {
-						return data;
-					})
-					.then((data) => {
-						return dispatch({
-							type: "CREATE_SET_SUCCEEDED",
-							payload: data,
-						});
+				res.json().then((data) => {
+					dispatch({
+						type: "CREATE_SET_SUCCEEDED",
+						payload: data,
 					});
+					if (cb) cb();
+					return;
+				});
 			})
 			.catch((err) => {
 				console.log(err);

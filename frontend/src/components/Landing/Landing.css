@@ -54,7 +54,7 @@ p {
 	display: flex;
 	justify-content: center;
 	margin-top: 25px;
-	height: 80%;
+	height: 100vh;
 }
 
 .password {
@@ -92,17 +92,17 @@ p {
 	justify-content: center;
 	align-items: center;
 	margin: 20px;
+	padding: 20px;
 	width: 100vw;
-	height: 50px;
 }
 
 .tutorial {
-	height: 120vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	width: 100%;
+	overflow: hidden;
 }
 
 .text {
