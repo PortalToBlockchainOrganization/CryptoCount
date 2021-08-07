@@ -61,6 +61,7 @@ const Analysis = (props) => {
 		params,
 		set,
 		getUnrealizedSet,
+		//autoUnrealized,
 		getRealizingSet,
 		deleteParams,
 		getSet,
@@ -150,6 +151,7 @@ const Analysis = (props) => {
 			if (set?._id && set["isLoading"] === undefined) {
 				tempParams["histObjId"] = set["_id"];
 				getUnrealizedSet(tempParams);
+				//autoUnrealized(tempParams);
 			}
 
 			// if the current set is not loading
@@ -220,11 +222,15 @@ const Analysis = (props) => {
 				// get all dates, all dates are accounted for in realized and unrealized sets
 				if (data.labels.length === 0) {
 					set?.data[currentRealizedSet].map(({ date }) => {
-						data.labels.push(date);
+						return data.labels.push(
+							new moment(date).format("MMM DD, YYYY")
+						);
 					});
 
 					set?.data[`${setToRender}`].map(({ date }) => {
-						data.labels.push(date);
+						return data.labels.push(
+							new moment(date).format("MMM DD, YYYY")
+						);
 					});
 				}
 				// if realized set, render
@@ -279,7 +285,7 @@ const Analysis = (props) => {
 				}
 				let d0L = data?.datasets[0]?.data?.length;
 				let d1L = data?.datasets[1]?.data?.length;
-				console.log(d0L - d1L);
+
 				set?.data[`${setToRender}`].map((element, index) => {
 					if (set?.data?.realizedRewards.length > 0) {
 						if (index > d1L - d0L - 1) {
@@ -287,12 +293,14 @@ const Analysis = (props) => {
 								element[`${rewardKey}`]
 							);
 						}
+					} else {
+						if (index > data.datasets[1].data.length - 1) {
+							return data.datasets[2].data.push(
+								element[`${rewardKey}`]
+							);
+						}
 					}
-					if (index > data.datasets[1].data.length - 1) {
-						return data.datasets[2].data.push(
-							element[`${rewardKey}`]
-						);
-					}
+					return null;
 				});
 
 				/* if there is a realizing set loop through the array and set
@@ -379,6 +387,7 @@ const Analysis = (props) => {
 				return data;
 			}
 		},
+		//autoUnrealized
 		[set, params, getUnrealizedSet]
 	);
 
@@ -550,7 +559,7 @@ const Analysis = (props) => {
 					{/* <div>
 						{data !== undefined ? data.basisPrice.toFixed(2) : null}
 					</div> */}
-					<div>Basis Balance</div>
+					<div>Basis Price</div>
 				</div>
 				<div className={classes.setToggles}>
 					<div className={classes.basisSet}>
@@ -634,7 +643,7 @@ const Analysis = (props) => {
 								/>
 								<div
 									className={classes.help}
-									tooltip-data="Enter a quantity of crypto you'd like to sell and see if it's economically fair value for reporting your taxes. "
+									tooltip-data="Enter a quantity of crypto you'd like to sell. "
 								>
 									<HelpOutlineRoundedIcon
 										className={classes.helpIcon}

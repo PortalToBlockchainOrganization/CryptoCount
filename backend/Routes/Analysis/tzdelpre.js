@@ -1057,7 +1057,7 @@ async function autoAnalysis(address, fiat) {
 	for (i = 0; i < rewards.length; i++) {
 		let basisRewardObj = {
 			date: rewards[i].date,
-			basisReward: rewards[i].rewardQuantity,
+			basisReward: rewards[i].rewardQuantity * basisPrice,
 		};
 		basisRewards.push(basisRewardObj);
 	}

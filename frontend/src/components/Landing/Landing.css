@@ -57,6 +57,13 @@ p {
 	height: 100vh;
 }
 
+.tez {
+	display: flex;
+	justify-content: center;
+	margin-top: 25px;
+
+}
+
 .password {
 	margin: 10px 0px;
 }
