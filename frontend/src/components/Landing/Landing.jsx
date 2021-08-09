@@ -204,7 +204,7 @@ const Landing = (props) => {
 							<h2>Count Before You Sell.</h2>
 							<p>
 								If I want to sell some of my crypto rewards or
-								its staking basis, what would I say for my
+								its staking basis, what would I report for my
 								taxes?
 							</p>
 						</div>
