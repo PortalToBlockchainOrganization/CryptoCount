@@ -209,8 +209,8 @@ const Analysis = (props) => {
 					hoverOffset: 4,
 					address: set["data"].address,
 					fiat: set["data"].fiat,
-					basisDate: set["data"].basisDate,
-					basisPrice: set["data"].basisPrice,
+					basisDate: set["data"]?.basisDate,
+					basisPrice: set["data"]?.basisPrice,
 					incomeToReport:
 						set["data"][incomeToReport] +
 						set["data"]["realizingBasisAgg"],
@@ -481,7 +481,10 @@ const Analysis = (props) => {
 					{/* <div>
 						{data !== undefined ? data.basisPrice.toFixed(2) : null}
 					</div> */}
-					<div>Basis Price</div>
+					<div>
+						{set?.data?.basisPrice &&
+							set?.data?.basisPrice.toFixed(2)}
+					</div>
 				</div>
 				<div className={classes.setToggles}>
 					<div className={classes.basisSet}>
