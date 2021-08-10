@@ -139,6 +139,12 @@ export function getUnrealizedSet(params) {
 	};
 }
 
+export function resetSet() {
+	return (dispatch) => {
+		dispatch({ type: "DELETE_SET" });
+	};
+}
+
 export function autoUnrealized(params, cb) {
 	return (dispatch) => {
 		dispatch(getUnrealizedSetStarted());

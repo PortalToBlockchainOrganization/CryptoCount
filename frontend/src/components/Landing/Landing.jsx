@@ -53,6 +53,9 @@ const Landing = (props) => {
 	};
 
 	const setParams = (e) => {
+		if (props.set["data"] !== undefined) {
+			props.resetSet();
+		}
 		let params = {
 			address: addrs["delAddrs"],
 			basisDate: basisDate["basisDate"],

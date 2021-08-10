@@ -147,15 +147,21 @@ const Analysis = (props) => {
 
 			// if there is no current data and if the id is not a duplicate
 			let tempParams = params;
+
 			// if there is no set data and it's not loading get unrealized set
-			if (set?._id && set["isLoading"] === undefined) {
+			if (set?._id !== undefined && set["isLoading"] === undefined) {
 				tempParams["histObjId"] = set["_id"];
 				getUnrealizedSet(tempParams);
 				//autoUnrealized(tempParams);
 			}
 
 			// if the current set is not loading
-			if (!set?.isLoading) {
+			if (
+				set !== null &&
+				set.data !== undefined &&
+				set.isLoading !== undefined
+			) {
+				console.log(set);
 				// get subset data to render default is basis rewards
 				let incomeToReport;
 				setToRender = setToRender
@@ -207,13 +213,13 @@ const Analysis = (props) => {
 						},
 					],
 					hoverOffset: 4,
-					address: set["data"].address,
-					fiat: set["data"].fiat,
+					address: set["data"]?.address,
+					fiat: set["data"]?.fiat,
 					basisDate: set["data"]?.basisDate,
 					basisPrice: set["data"]?.basisPrice,
 					incomeToReport:
 						set["data"][incomeToReport] +
-						set["data"]["realizingBasisAgg"],
+						set["data"]?.realizingBasisAgg,
 				};
 
 				let currentRealizingSet = mapping[setToRender];
@@ -323,8 +329,8 @@ const Analysis = (props) => {
 				title: {
 					display: true,
 					text:
-						set["data"] !== undefined
-							? fiatLabels[set["data"]["fiat"]]
+						set?.data !== undefined
+							? fiatLabels[set?.data?.fiat]
 							: "",
 					font: {
 						size: 15,
@@ -398,7 +404,7 @@ const Analysis = (props) => {
 	}
 
 	// otherwise if the set data exists render the graph
-	return !set?.isLoading ? (
+	return set !== null && set?.isLoading === false ? (
 		<div className={classes.AnalysisWrapper}>
 			<div className={classes.Chart}>
 				<div className={classes.ChartWrapper}>

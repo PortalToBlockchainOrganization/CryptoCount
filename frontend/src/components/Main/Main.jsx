@@ -38,7 +38,7 @@ const AnalysisBlock = ({ component: Component, ...rest }) => {
 const Main = (props) => {
 	const [canAccessAnalysis, setCanAccessAnalysis] = React.useState(false);
 
-	const { user, realizedHistory, getHistory } = props;
+	const { user, realizedHistory, getHistory, resetSet } = props;
 	React.useEffect(() => {
 		if (
 			user.setIds &&
@@ -48,7 +48,8 @@ const Main = (props) => {
 			getHistory(user.setIds);
 		}
 	}, [getHistory, user.setIds]);
-	if (props?.params?.fiat && Object.keys(props?.set).length > 0) {
+
+	if (props?.params?.fiat && props?.set !== null) {
 		if (!canAccessAnalysis) {
 			setCanAccessAnalysis(true);
 		}
@@ -88,6 +89,8 @@ const Main = (props) => {
 							signedIn={signedIn}
 							signOut={signOut}
 							editParams={props.editParams}
+							resetSet={resetSet}
+							set={props.set}
 						/>
 					)}
 				/>
