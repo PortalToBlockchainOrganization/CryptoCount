@@ -8,9 +8,9 @@
 	position: relative;
 	height: 95vh;
 	width: 100%;
+	top: 56px;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
 }
 .EmptyWrapper {

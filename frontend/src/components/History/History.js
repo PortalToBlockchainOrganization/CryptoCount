@@ -17,10 +17,9 @@ const History = ({ user, realizedHistory, getHistory }) => {
 
 	const getTableData = useCallback(() => {
 		if (realizedHistory?.history?.length !== 0 && history?.length === 0) {
-			getHistory(user.setIds, pushToHistory);
+			getHistory(pushToHistory);
 		} else {
 			let temp = realizedHistory?.history;
-
 			setHistory(temp);
 		}
 		// eslint-disable-next-line
@@ -45,7 +44,10 @@ const History = ({ user, realizedHistory, getHistory }) => {
 		setBody(temp);
 	}, [getTableData, history]);
 
-	if (user?.setIds?.length === 0) {
+	if (
+		realizedHistory.isLoading === false &&
+		realizedHistory?.history?.length === 0
+	) {
 		return (
 			<div className={classes.EmptyWrapper}>
 				<div className={classes.Empty}>
@@ -80,7 +82,7 @@ const History = ({ user, realizedHistory, getHistory }) => {
 			</div>
 		);
 	}
-	return history?.length >= user?.setIds?.length ? (
+	return history?.length >= 1 ? (
 		<div className={classes.Page}>
 			<div className={classes.Wrapper}>
 				<table>

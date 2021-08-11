@@ -229,31 +229,56 @@ export function getHistoryStarted() {
 	return { type: "CREATE_HISTORY_STARTED", payload: { isLoading: true } };
 }
 
-export function getHistory(setIdList, cb) {
+export function getHistory(cb) {
 	return (dispatch) => {
 		dispatch(getHistoryStarted());
 		let history = [];
-
-		const promises = setIdList.map((setId) => {
-			return new Promise((res, rej) => {
-				api.getSet(setId)
-					.then((res) => {
-						res.json().then((res) => {
-							let tempParams = {
-								fiat: res["fiat"],
-								basisDate: res["basisDate"],
-								address: res["address"],
-							};
-							history.push(tempParams);
-							if (cb) cb(tempParams);
-						});
-					})
-					.catch((err) => {
-						console.log(err);
-					});
+		api.getSets().then((res) => {
+			res.json().then((res) => {
+				history = res.map((set) => {
+					if (
+						set?.realizedBasisRewards?.length > 0 &&
+						set?.address &&
+						set?.fiat
+					) {
+						let tempParams = {
+							address: set["address"],
+							fiat: set["fiat"],
+							basisDate: set["basisDate"]
+								? set["basisDate"]
+								: "Auto",
+						};
+						history.push(tempParams);
+						if (cb) cb(tempParams);
+					}
+					return history;
+				});
 			});
 		});
 		dispatch({ type: "CREATE_HISTORY_SUCCEEDED", payload: history });
-		return Promise.all(promises);
+		return Promise.all(history);
+
+		// WORKING
+		// const promises = setIdList.map((setId) => {
+		// 	return new Promise((res, rej) => {
+		// 		api.getSet(setId)
+		// 			.then((res) => {
+		// 				res.json().then((res) => {
+		// 					let tempParams = {
+		// 						fiat: res["fiat"],
+		// 						basisDate: res["basisDate"],
+		// 						address: res["address"],
+		// 					};
+		// 					history.push(tempParams);
+		// 					if (cb) cb(tempParams);
+		// 				});
+		// 			})
+		// 			.catch((err) => {
+		// 				console.log(err);
+		// 			});
+		// 	});
+		// });
+		// dispatch({ type: "CREATE_HISTORY_SUCCEEDED", payload: history });
+		// return Promise.all(promises);
 	};
 }

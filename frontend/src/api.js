@@ -152,6 +152,10 @@ export function getSet(setId) {
 	return get(`Anal/${setId}`);
 }
 
+export function getSets() {
+	return get("Anal/");
+}
+
 const errMap = {
 	Internal: "An Internal Server Error Occurred",
 	Forbidden: "You are Forbidden from Viewing the Requested Page",
