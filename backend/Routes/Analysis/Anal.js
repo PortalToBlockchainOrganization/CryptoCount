@@ -131,14 +131,11 @@ router.post("/Auto", function (req, res) {
 });
 
 // beta save realize function (needs proper route handling)
-// beta save realize function (needs proper route handling)
 router.post("/Save", function (req, res) {
 	var body = req.body;
 	var ssn = req.session;
 	var ssn_real = ssn.realizing;
 	var updated_payload = {};
-	console.log("SESSION REALIZING");
-	console.log(ssn.realizing);
 	async.waterfall(
 		[
 			// get realhistobj
@@ -148,18 +145,19 @@ router.post("/Save", function (req, res) {
 						_id: body.setId,
 					},
 					function (err, docs) {
-						if (err) cb(err);
+                        if (err) cb(err);
 						cb(null, docs);
 					}
 				);
 			},
 			function (realObj, cb) {
 				// probably should add check to make sure realizing object equals
-				// the session realizing object
+                // the session realizing object
+                realObj = realObj[0]
 				if (
 					!(
 						realObj.realizedRewards &&
-						realObj.realizedRewards.length === 0
+						realObj.realizedRewards.length !== 0
 					)
 				) {
 					// create new realized lists/value
@@ -192,19 +190,15 @@ router.post("/Save", function (req, res) {
 					realizedBasisMVDep =
 						realObj.realizedBasisMVDep +
 						ssn_real.realizingBasisMVDep;
-					realizedRewards = realObj.realizingRewards.push(
-						...ssn_real.realizingRewards
+					realizedRewards = realObj.realizedRewards.concat(ssn_real.realizingRewards
 					);
-					realizedBasisRewards = realObj.realizingRewardBasis.push(
-						...ssn_real.realizingRewardBasis
+					realizedBasisRewards = realObj.realizedBasisRewards.concat(ssn_real.realizingRewardBasis
 					);
 					realizedBasisRewardsDep =
-						realObj.realizingRewardBasisDep.push(
-							...ssn_real.realizingRewardBasisDep
+						realObj.realizedBasisRewardsDep.concat(ssn_real.realizingRewardBasisDep
 						);
 					realizedBasisRewardsMVDep =
-						realObj.realizingRewardBasisMVDep.push(
-							...ssn_real.realizingRewardBasisMVDep
+						realObj.realizedBasisRewardsMVDep.concat(ssn_real.realizingRewardBasisMVDep
 						);
 				}
 				// find obj and update unrealized values
@@ -256,8 +250,6 @@ router.post("/Save", function (req, res) {
 				// clear session realize_value
 				ssn.realizing = {};
 				// send realObj to front end
-				console.log("sending rel_obj");
-				console.log(real_obj);
 				res.status(200).json(real_obj);
 			},
 		],
