@@ -128,7 +128,7 @@ const Landing = (props) => {
 				<div className="form">
 					<Form onSubmit={handleSignIn}>
 						<Form.Group controlId="formBasicEmail">
-							<Form.Label>
+							<Form.Label className="mb-2">
 								Enter Your Delegation Address
 							</Form.Label>
 							<Form.Control
@@ -139,7 +139,7 @@ const Landing = (props) => {
 						</Form.Group>
 						{props.signedIn() ? null : (
 							<Form.Group>
-								<div className="mb-3">
+								<div className="mb-2 mt-3">
 									Or Sign In To Your Account
 								</div>
 								<Form.Control
@@ -199,37 +199,6 @@ const Landing = (props) => {
 					getCalendar={getCalendar}
 				/>
 			</div>
-			{!props.signedIn() ? (
-				<div className="tutorial">
-					<div className="p-gif">
-						<div className="animation" id="women-thinking" />
-						<div className="text">
-							<h2>Count Before You Sell.</h2>
-							<p>
-								If I want to sell some of my crypto rewards or
-								its staking basis, what would I report for my
-								taxes?
-							</p>
-						</div>
-					</div>
-					<div className="p-gif">
-						<p className="text">
-							Count your crypto rewards and basis with Crypto
-							Count before you sell at an exchange. <br />
-							<br />
-						</p>
-						<div className="animation" id="women-computer" />
-					</div>
-					<div className="p-gif">
-						<div className="animation" id="women-signing" />
-						<p className="text">
-							Realize amounts of crypto in CryptoCount with your
-							country's currency. Use CryptoCount's calculation of
-							your economically fair income for your taxes.
-						</p>
-					</div>
-				</div>
-			) : null}
 			<div className="poweredBy">
 				Powered by
 				<a href="https://tezos.com/" target="_blank" rel="noreferrer">

@@ -1,9 +1,65 @@
 .wrapper {
+	margin: 25px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color: #4b4b4b;
+}
+
+.logo-container {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color: #4b4b4b;
+}
+
+.logo {
+	width: 25%;
+	border-radius: 4px;
+}
+
+.logo-name {
+	color: #4b4b4b;
+}
+
+.form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.poweredBy {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 20px;
+	padding: 20px;
+	width: 100vw;
+}
+
+.t-logo {
+	margin: 10px;
+	width: 40px;
+	border-radius: 5px;
+}
+
+.tFoundation {
+	margin: 10px;
+	width: 60px;
+}
+
+.password {
+	margin-top: 1rem;
+}
+/* .wrapper {
 	display: block;
 	height: calc(100vh - 57px);
 	min-height: 900px;
-	overflow-y: scroll;
-	overflow-x: hidden;
+	overflow-y: hidden;
+	/* overflow-x: hidden;
 }
 .lp-container {
 	margin-top: 46px;
@@ -24,20 +80,19 @@
 }
 .logo-container {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	align-items: center;
 }
 .logo {
 	border-radius: 5px;
 	height: 50%;
-	width: 45%;
+	width: 25%;
 }
 
 .logo-name {
 	font-size: 5em;
 	font-family: "Source Sans Pro", sans-serif;
 	font-weight: 600;
-	color: #4b4b4b;
 }
 
 .name-one-liner {
@@ -61,83 +116,4 @@ p {
 	display: flex;
 	justify-content: center;
 	margin-top: 25px;
-
-}
-
-.password {
-	margin: 10px 0px;
-}
-
-@media (max-width: 570px) {
-	.logo-container {
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-	}
-	.name-one-liner {
-		margin-left: 25px;
-	}
-}
-
-.button-continue:disabled {
-	cursor: not-allowed;
-}
-
-.t-logo {
-	margin: 10px;
-	width: 40px;
-	border-radius: 5px;
-}
-
-.tFoundation {
-	margin: 10px;
-	width: 60px;
-}
-
-.poweredBy {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin: 20px;
-	padding: 20px;
-	width: 100vw;
-}
-
-.tutorial {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-	overflow: hidden;
-}
-
-.text {
-	text-align: left;
-	margin: 100px;
-}
-.animation {
-	width: 400px;
-}
-
-/* h2 {
-	font-size: 1.5em;
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-	margin-left: 0.5em;
 } */
-.p-gif {
-	font-size: 1.5em;
-	height: 100%;
-	color: #2e2e2e;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-}
-
-@media (max-width: 1300px) {
-	.animation {
-		width: 30%;
-	}
-}
