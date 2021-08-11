@@ -1,12 +1,36 @@
 import React from "react";
+import { useCallback } from "react";
 import { Spinner } from "react-bootstrap";
 import classes from "./History.module.css";
 
-const History = ({ user, realizedHistory }) => {
-	// table body
-	const body =
-		realizedHistory["history"] !== undefined &&
-		realizedHistory["history"].map((obj, objIdx) => {
+const History = ({ user, realizedHistory, getHistory }) => {
+	const [history, setHistory] = React.useState([]);
+	const [body, setBody] = React.useState([]);
+
+	const pushToHistory = (data) => {
+		let temp = history;
+		temp.push(data);
+		setHistory(temp);
+	};
+	const getTableData = useCallback(() => {
+		if (realizedHistory?.history?.length !== 0 && history?.length === 0) {
+			getHistory(user.setIds, pushToHistory);
+		} else {
+			let temp = realizedHistory?.history;
+
+			setHistory(temp);
+		}
+		// eslint-disable-next-line
+	}, [
+		realizedHistory?.history?.length,
+		user?.setIds,
+		getHistory,
+		body?.length,
+	]);
+
+	React.useEffect(() => {
+		getTableData();
+		let temp = history?.map((obj, objIdx) => {
 			return (
 				<tr key={objIdx}>
 					<td>{obj.address}</td>
@@ -15,19 +39,13 @@ const History = ({ user, realizedHistory }) => {
 				</tr>
 			);
 		});
-
-	if (realizedHistory["isLoading"]) {
-		return (
-			<div className={classes.TableWrapper}>
-				<Spinner animation="border" variant="danger" />
-			</div>
-		);
-	}
+		setBody(temp);
+	}, [getTableData, history]);
 
 	if (
-		!realizedHistory["isLoading"] &&
-		user["setIds"].length > 1 &&
-		realizedHistory["history"] === undefined
+		!realizedHistory?.isLoading &&
+		user?.setIds?.length > 1 &&
+		!realizedHistory?.history
 	) {
 		return (
 			<div className={classes.Empty}>
@@ -35,24 +53,50 @@ const History = ({ user, realizedHistory }) => {
 			</div>
 		);
 	}
-	return user.setIds.length > 0 ? (
-		<div className={classes.TableWrapper}>
-			<table>
-				<thead>
-					<tr>
-						<th>Address</th>
-						<th>Fiat</th>
-						<th>Basis Date</th>
-					</tr>
-				</thead>
-				<tbody>{body}</tbody>
-			</table>
+	return history?.length >= user?.setIds?.length ? (
+		<div className={classes.Page}>
+			<div className={classes.TableWrapper}>
+				<table>
+					<thead>
+						<tr>
+							<th>Address</th>
+							<th>Fiat</th>
+							<th>Basis Date</th>
+						</tr>
+					</thead>
+					<tbody className={classes.Body}>{body}</tbody>
+				</table>
+			</div>
 		</div>
 	) : (
-		<div className={classes.Empty}>
-			It looks like you don't have any realized history yet.
+		<div className={classes.TableWrapper}>
+			<Spinner animation="border" variant="danger" />
 		</div>
 	);
+	// return history?.length > 0 ? (
+	// 	<div className={classes.TableWrapper}>
+	// 		<table>
+	// 			<thead>
+	// 				<tr>
+	// 					<th>Address</th>
+	// 					<th>Fiat</th>
+	// 					<th>Basis Date</th>
+	// 				</tr>
+	// 			</thead>
+	// 			<tbody className={classes.Body}>{body}</tbody>
+	// 		</table>
+	// 	</div>
+	// ) : (
+	// 	<div>
+	// 		<div>TEST: {history?.length}</div>
+	// 		<div className={classes.Empty}>
+	// 			// It looks like you don't have any realized history yet. //{" "}
+	// 		</div>
+	// 		<div className={classes.TableWrapper}>
+	// 			<Spinner animation="border" variant="danger" />
+	// 		</div>
+	// 	</div>
+	// );
 };
 
 export default History;

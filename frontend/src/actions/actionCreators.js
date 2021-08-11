@@ -229,26 +229,31 @@ export function getHistoryStarted() {
 	return { type: "CREATE_HISTORY_STARTED", payload: { isLoading: true } };
 }
 
-export function getHistory(setIdList) {
+export function getHistory(setIdList, cb) {
 	return (dispatch) => {
 		dispatch(getHistoryStarted());
 		let history = [];
-		setIdList.map((setId) => {
-			api.getSet(setId)
-				.then((res) => {
-					res.json().then((res) => {
-						history.push({
-							fiat: res["fiat"],
-							basisDate: res["basisDate"],
-							address: res["address"],
+
+		const promises = setIdList.map((setId) => {
+			return new Promise((res, rej) => {
+				api.getSet(setId)
+					.then((res) => {
+						res.json().then((res) => {
+							let tempParams = {
+								fiat: res["fiat"],
+								basisDate: res["basisDate"],
+								address: res["address"],
+							};
+							history.push(tempParams);
+							if (cb) cb(tempParams);
 						});
+					})
+					.catch((err) => {
+						console.log(err);
 					});
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-			return history;
+			});
 		});
-		return dispatch({ type: "CREATE_HISTORY_SUCCEEDED", payload: history });
+		dispatch({ type: "CREATE_HISTORY_SUCCEEDED", payload: history });
+		return Promise.all(promises);
 	};
 }
