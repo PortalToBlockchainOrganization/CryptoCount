@@ -37,27 +37,7 @@ const AnalysisBlock = ({ component: Component, ...rest }) => {
 
 const Main = (props) => {
 	const [canAccessAnalysis, setCanAccessAnalysis] = React.useState(false);
-	// const [history, setHistory] = React.useState();
 	const { user, realizedHistory, getHistory, resetSet } = props;
-	// const callHistory = useCallback(() => {
-	// 	if (
-	// 		user?.setIds?.length > 0 &&
-	// 		realizedHistory.history === undefined
-	// 		// realizedHistory["history"] === undefined
-	// 	) {
-	// 		getHistory(user.setIds);
-	// 		console.log(realizedHistory);
-	// 	}
-	// 	if (realizedHistory.history !== undefined) {
-	// 		console.log("SETTING HISTORY");
-	// 		setHistory(realizedHistory);
-	// 	}
-	// }, [realizedHistory, getHistory, user.setIds]);
-
-	// // // get history of sets when setIds change
-	// React.useEffect(() => {
-	// 	callHistory();
-	// }, [callHistory]);
 
 	if (props?.params?.fiat && props?.set !== null) {
 		if (!canAccessAnalysis) {
