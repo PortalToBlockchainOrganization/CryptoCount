@@ -98,16 +98,17 @@ router.post("/Auto", function (req, res) {
 					basisDate: body["basisDate"],
 					unrealizedRewards: unrel_obj.unrealizedRewards,
 					unrealizedBasisRewards: unrel_obj.unrealizedBasisRewards,
-					unrealizedBasisRewardsDep:
-						unrel_obj.unrealizedBasisRewardsDep,
-					unrealizedBasisRewardsMVDep:
-						unrel_obj.unrealizedBasisRewardsMVDep,
-					basisPrice: unrel_obj.basisPrice,
+					unrealizedBasisRewardsDep: unrel_obj.unrealizedBasisRewardsDep,
+					unrealizedBasisRewardsMVDep: unrel_obj.unrealizedBasisRewardsMVDep,
 					unrealXTZBasis: unrel_obj.xtzBasis,
 					unrealBasisP: unrel_obj.basisP,
 					unrealBasisDep: unrel_obj.basisDep,
 					unrealBasisMVDep: unrel_obj.basisMVdep,
 					basisPrice: unrel_obj.basisPrice,
+					unrealizedRewardAgg: unrel_obj.unrealizedRewardAgg,
+					unrealizedBasisAgg: unrel_obj.unrealizedBasisAgg,
+					unrealizedDepAgg: unrel_obj.unrealizedDepAgg,
+					unrealizedMVDAgg: unrel_obj.unrealizedMVDAgg
 				});
 				rel_obj.save(function (err, doc) {
 					if (err) cb(err);
@@ -349,19 +350,24 @@ router.post("/Unrel", function (req, res) {
 					{ _id: body["histObjId"] },
 					{
 						$set: {
+							userid: prsId,
+							version: 0,
+							fiat: body["fiat"],
+							address: body["address"],
+							basisDate: body["basisDate"],
 							unrealizedRewards: unrel_obj.unrealizedRewards,
-							unrealizedBasisRewards:
-								unrel_obj.unrealizedBasisRewards,
-							unrealizedBasisRewardsDep:
-								unrel_obj.unrealizedBasisRewardsDep,
-							unrealizedBasisRewardsMVDep:
-								unrel_obj.unrealizedBasisRewardsMVDep,
+							unrealizedBasisRewards: unrel_obj.unrealizedBasisRewards,
+							unrealizedBasisRewardsDep: unrel_obj.unrealizedBasisRewardsDep,
+							unrealizedBasisRewardsMVDep: unrel_obj.unrealizedBasisRewardsMVDep,
 							unrealXTZBasis: unrel_obj.xtzBasis,
 							unrealBasisP: unrel_obj.basisP,
 							unrealBasisDep: unrel_obj.basisDep,
 							unrealBasisMVDep: unrel_obj.basisMVdep,
-							//basis data
 							basisPrice: unrel_obj.basisPrice,
+							unrealizedRewardAgg: unrel_obj.unrealizedRewardAgg,
+							unrealizedBasisAgg: unrel_obj.unrealizedBasisAgg,
+							unrealizedDepAgg: unrel_obj.unrealizedDepAgg,
+							unrealizedMVDAgg: unrel_obj.unrealizedMVDAgg
 						},
 					},
 					{ new: true },

@@ -367,13 +367,17 @@ async function realizeRew(realizedQuantity, setId) {
 	realzingRewardBasis = [];
 	realzingRewardBasisDep = [];
 	realzingRewardBasisMVDep = [];
-	console.log("unrealrewards1");
-	console.log(unrealrewards);
-
+	
+	console.log("unreal rewards")
+	console.log(unrealrewards)
+	console.log("unreal length")
+	console.log(unrealrewards.length)
 	//REWARDS BUCKET 
 	for (i = 0; i < unrealrewards.length; i++) {
 		//quantity of unrealized rewward
 		let q = unrealrewards[i].rewardQuantity;
+
+		console.log(realizedQuantity)
 
 		//CONDITION 1, if the rewards is less than the realizing q
 		if (q < realizedQuantity) {
@@ -387,11 +391,15 @@ async function realizeRew(realizedQuantity, setId) {
 			realzingRewardBasisMVDep.push(realizingObj4);
 			realizedQuantity = realizedQuantity - q;
 		}
+	}
 
+	for (i = 0; i < unrealrewards.length; i++) {
 		//CONDITION 2, if realizng q is greater than realized q and thats not zero
 		//unreal rewards has been shifted back so all index must be lowered 1
 		//technically i would need to recalculate the depletion to make this perfect using bv? or by scaling with proportions of proportions
-		else if (q > realizedQuantity && realizedQuantity != 0) {
+		let q = unrealrewards[i].rewardQuantity;
+
+		if (q > realizedQuantity && realizedQuantity != 0) {
 			//ADD TO REALIZING
 			newrealizngObj = {
 				date: unrealrewards[0].date,
@@ -459,23 +467,29 @@ async function realizeRew(realizedQuantity, setId) {
 			//end reward realzing
 			break;
 
-			//CONDITION 3 WILL MOD CONDITION 2 -CONTINUING INTO BASIS BUCKET
 		}
 	}
 
+	console.log("realizing reward q")
+	console.log(realizingRewardQ)
+	let realizingRewQSum = 0
+	for(i=0; i < realizingRewardQ.length; i++){
+		realizingRewQSum += realizingRewardQ[i].rewardQuantity
+	}
+	console.log(realizingRewQSum)
+
+
+
     //BASIS BUCKET 
 
-    console.log('foundRealizeHistory.unrealxtzBasis')
-    console.log(foundRealizeHistory.unrealxtzBasis)
+    
 
 	let percentOfBasisRealizing = realizedQuantity / foundRealizeHistory.unrealXTZBasis 
 
     let realizingXTZbasis = realizedQuantity
-    console.log('foundRealizeHistory.unrealBasisP')
-    console.log(foundRealizeHistory.unrealBasisP)
+  
     let realizingBasisP = foundRealizeHistory.unrealBasisP * percentOfBasisRealizing
-    console.log('realizingBasisP')
-    console.log(realizingBasisP)
+
     // throw 'stop execution';
 	let realizingBasisDep = foundRealizeHistory.unrealBasisDep * percentOfBasisRealizing
     let realizingBasisMVdep = foundRealizeHistory.unrealBasisMVDep * percentOfBasisRealizing
@@ -485,8 +499,7 @@ async function realizeRew(realizedQuantity, setId) {
 	let unrealizedBasisP = foundRealizeHistory.unrealBasisP - realizingBasisP
 	let unrealizedBasisDep = foundRealizeHistory.unrealBasisDep - realizingBasisDep
     let unrealizedBasisMVdep = foundRealizeHistory.unrealBasisMVDep - realizingBasisMVdep
-    console.log(Object.keys(foundRealizeHistory._doc))
-    console.log(foundRealizeHistory.unrealBasisMVDep)
+    
 
 	//re aggregate
 	let unrealizedRewardAgg = 0;
@@ -642,10 +655,9 @@ async function analysis(address, basisDate, fiat) {
 	//BASIS REWARD OBJECT
 	let basisPrice = 0;
 	for (let i = 0; i < pricesForUser.length; i++) {
-		const a = Date.parse(pricesForUser[i].date) - 1000 * 60 * 60 * 8;
-		const b = Date.parse(basisDate);
-		const c = Date.parse(pricesForUser[i].date) - 1000 * 60 * 60 * 7;
-		if (a == b || b == c) {
+		const a = formatDate(pricesForUser[i].date);
+		const b = formatDate(basisDate);
+		if (a == b) {
 			basisPrice = pricesForUser[i].price;
 		}
 	}
@@ -729,23 +741,17 @@ async function analysis(address, basisDate, fiat) {
 		let nextDate = basisRewards[i + 1].date;
 		for (j = 0; j < tranArray.length; j++) {
 			if (
-				Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 ==
-					Date.parse(date) ||
-				Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 ==
-					Date.parse(date)
+				formatDate(tranArray[j].date) ==
+				formatDate(date) 
 			) {
 				tranVal = tranArray[j].amounnt;
 			} else if (
-				Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 >
-					Date.parse(date) ||
-				Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 >
-					Date.parse(date)
+				formatDate(tranArray[j].date) >
+				formatDate(date) 
 			) {
 				if (
-					Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 <
-						Date.parse(nextDate) ||
-					Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 <
-						Date.parse(nextDate)
+					formatDate(tranArray[j].date) <
+					formatDate(nextDate) 
 				) {
 					tranVal = tranArray[j].amounnt;
 				}
@@ -796,20 +802,9 @@ async function analysis(address, basisDate, fiat) {
 	let mvdAnal = [];
 	for (let i = 0; i < basisRewards.length; i++) {
 		for (let j = 0; j < pricesForUser.length; j++) {
-			let date1 = Date.parse(basisRewards[i].date);
-			let date2 = Date.parse(pricesForUser[j].date) - 1000 * 60 * 60 * 7;
-			let date3 = Date.parse(pricesForUser[j].date) - 1000 * 60 * 60 * 8;
+			let date1 = formatDate(basisRewards[i].date);
+			let date2 = formatDate(pricesForUser[j].date);
 			if (date1 == date2) {
-				let date = pricesForUser[j].date;
-				let marketCap = pricesForUser[j].marketCap;
-				let price = pricesForUser[j].price;
-				mvdObj = {
-					date: date,
-					marketCap: marketCap,
-					price: price,
-				};
-				mvdAnal.push(mvdObj);
-			} else if (date1 == date3) {
 				let date = pricesForUser[j].date;
 				let marketCap = pricesForUser[j].marketCap;
 				let price = pricesForUser[j].price;
@@ -841,23 +836,17 @@ async function analysis(address, basisDate, fiat) {
 		nextDate = basisRewards[i + 1].date;
 		for (j = 0; j < tranArray.length; j++) {
 			if (
-				Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 ==
-					Date.parse(date) ||
-				Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 ==
-					Date.parse(date)
+				formatDate(tranArray[j].date) ==
+				formatDate(date) 
 			) {
 				tranVal = tranArray[j].amounnt;
 			} else if (
-				Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 >
-					Date.parse(date) ||
-				Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 >
-					Date.parse(date)
+				formatDate(tranArray[j].date)  >
+				formatDate(date) 
 			) {
 				if (
-					Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 <
-						Date.parse(nextDate) ||
-					Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 <
-						Date.parse(nextDate)
+					formatDate(tranArray[j].date)  <
+					formatDate(nextDate) 
 				) {
 					tranVal = tranArray[j].amounnt;
 				}
@@ -909,6 +898,18 @@ async function analysis(address, basisDate, fiat) {
 	let basisDep = bookValsDepletion[bookValsDepletion.length - 1].bvDep * (1 - percentOfRew)
 	let basisMVdep = bookValsMVDepletion[bookValsMVDepletion.length - 1].bvMvDep * (1 - percentOfRew)
 
+	//aggregate
+	let unrealizedRewardAgg = 0;
+	let unrealizedBasisAgg = 0;
+	let unrealizedDepAgg = 0;
+	let unrealizedMVDAgg = 0;
+	for (i = 0; i < unrealrewards.length; i++) {
+		unrealizedRewardAgg += rewards[i].rewardQuantity;
+		unrealizedBasisAgg += basisRewards[i].basisReward;
+		unrealizedDepAgg += basisRewardDepletion[i].rewBasisDepletion;
+		unrealizedMVDAgg += basisRewardMVDepletion[i].rewBasisMVDepletion;
+	}
+
 
 	//RETURN OBJECT
 	let analysisResObj = {
@@ -917,6 +918,10 @@ async function analysis(address, basisDate, fiat) {
 		unrealizedBasisRewards: basisRewards,
 		unrealizedBasisRewardsDep: basisRewardDepletion,
 		unrealizedBasisRewardsMVDep: basisRewardMVDepletion,
+		unrealizedRewardAgg: unrealizedRewardAgg,
+		unrealizedBasisAgg: unrealizedBasisAgg,
+		unrealizedDepAgg: unrealizedDepAgg,
+		unrealizedMVDAgg: unrealizedMVDAgg,
 		address: address,
 		fiat: fiat,
 		basisDate: basisDate,
@@ -1132,23 +1137,17 @@ async function autoAnalysis(address, fiat) {
 			// for positive values obtain price at date of tranasaction
 			for (j = 0; j < tranArray.length; j++) {
 				if (
-					Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 ==
-						Date.parse(date) ||
-					Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 ==
-						Date.parse(date)
+					formatDate(tranArray[j].date) ==
+					formatDate(date) 
 				) {
 					tranVal = tranArray[j].amounnt;
 				} else if (
-					Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 >
-						Date.parse(date) ||
-					Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 >
-						Date.parse(date)
+					formatDate(tranArray[j].date) >
+					formatDate(date) 
 				) {
 					if (
-						Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 <
-							Date.parse(nextDate) ||
-						Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 <
-							Date.parse(nextDate)
+						formatDate(tranArray[j].date)  <
+						formatDate(nextDate) 
 					) {
 						tranVal = tranArray[j].amounnt;
 					}
@@ -1199,20 +1198,9 @@ async function autoAnalysis(address, fiat) {
 	let mvdAnal = [];
 	for (let i = 0; i < basisRewards.length; i++) {
 		for (let j = 0; j < pricesForUser.length; j++) {
-			let date1 = Date.parse(basisRewards[i].date);
-			let date2 = Date.parse(pricesForUser[j].date) - 1000 * 60 * 60 * 7;
-			let date3 = Date.parse(pricesForUser[j].date) - 1000 * 60 * 60 * 8;
+			let date1 = formatDate(basisRewards[i].date);
+			let date2 = formatDate(pricesForUser[j].date)
 			if (date1 == date2) {
-				let date = pricesForUser[j].date;
-				let marketCap = pricesForUser[j].marketCap;
-				let price = pricesForUser[j].price;
-				mvdObj = {
-					date: date,
-					marketCap: marketCap,
-					price: price,
-				};
-				mvdAnal.push(mvdObj);
-			} else if (date1 == date3) {
 				let date = pricesForUser[j].date;
 				let marketCap = pricesForUser[j].marketCap;
 				let price = pricesForUser[j].price;
@@ -1253,23 +1241,16 @@ async function autoAnalysis(address, fiat) {
 			nextDate = basisRewards[i + 1].date;
 			for (j = 0; j < tranArray.length; j++) {
 				if (
-					Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 ==
-						Date.parse(date) ||
-					Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 ==
-						Date.parse(date)
+					formatDate(tranArray[j].date) == formatDate(date)
 				) {
 					tranVal = tranArray[j].amounnt;
 				} else if (
-					Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 >
-						Date.parse(date) ||
-					Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 >
-						Date.parse(date)
+					formatDate(tranArray[j].date) >
+					formatDate(date) 
 				) {
 					if (
-						Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 7 <
-							Date.parse(nextDate) ||
-						Date.parse(tranArray[j].date) - 1000 * 60 * 60 * 8 <
-							Date.parse(nextDate)
+						formatDate(tranArray[j].date) <
+						formatDate(nextDate)
 					) {
 						tranVal = tranArray[j].amounnt;
 					}
@@ -1345,6 +1326,17 @@ async function autoAnalysis(address, fiat) {
 	let basisMVdep = bookValsMVDepletion[bookValsMVDepletion.length - 1].bvMvDep * (1 - percentOfRew)
 
 
+	//aggregate
+	let unrealizedRewardAgg = 0;
+	let unrealizedBasisAgg = 0;
+	let unrealizedDepAgg = 0;
+	let unrealizedMVDAgg = 0;
+	for (i = 0; i < rewards.length; i++) {
+		unrealizedRewardAgg += rewards[i].rewardQuantity;
+		unrealizedBasisAgg += basisRewards[i].basisReward;
+		unrealizedDepAgg += basisRewardDepletion[i].rewBasisDepletion;
+		unrealizedMVDAgg += basisRewardMVDepletion[i].rewBasisMVDepletion;
+	}
 
 
 	//RETURN OBJECT
@@ -1355,10 +1347,14 @@ async function autoAnalysis(address, fiat) {
 		unrealizedBasisRewards: basisRewards,
 		unrealizedBasisRewardsDep: basisRewardDepletion,
 		unrealizedBasisRewardsMVDep: basisRewardMVDepletion,
+		unrealizedRewardAgg: unrealizedRewardAgg,
+		unrealizedBasisAgg: unrealizedBasisAgg,
+		unrealizedDepAgg: unrealizedDepAgg,
+		unrealizedMVDAgg: unrealizedMVDAgg,
 		address: address,
 		fiat: fiat,
-        	basisPrice: basisPrice,
-        	xtzBasis: xtzBasis,
+		basisPrice: basisPrice,
+		xtzBasis: xtzBasis,
 		basisP: basisP,
 		basisDep: basisDep,
 		basisMVdep: basisMVdep
