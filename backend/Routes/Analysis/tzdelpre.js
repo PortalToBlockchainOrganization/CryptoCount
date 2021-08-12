@@ -375,12 +375,15 @@ async function realizeRew(realizedQuantity, setId) {
 	//REWARDS BUCKET 
 	for (i = 0; i < unrealrewards.length; i++) {
 		//quantity of unrealized rewward
-		let q = unrealrewards[i].rewardQuantity;
+		let currentQuantity = unrealrewards[i].rewardQuantity;
 
+		console.log("realizedQuant")
 		console.log(realizedQuantity)
+		console.log("current quantity")
+		console.log(currentQuantity)
 
 		//CONDITION 1, if the rewards is less than the realizing q
-		if (q < realizedQuantity) {
+		if (currentQuantity < realizedQuantity) {
 			let realizingObj = unrealrewards.shift();
 			realizingRewardQ.push(realizingObj);
 			let realizingObj2 = unrealizedBasisRewards.shift();
@@ -389,7 +392,7 @@ async function realizeRew(realizedQuantity, setId) {
 			realzingRewardBasisDep.push(realizingObj3);
 			let realizingObj4 = unrealizedBasisRewardsMVDep.shift();
 			realzingRewardBasisMVDep.push(realizingObj4);
-			realizedQuantity = realizedQuantity - q;
+			realizedQuantity = realizedQuantity - currentQuantity;
 		}
 	}
 
