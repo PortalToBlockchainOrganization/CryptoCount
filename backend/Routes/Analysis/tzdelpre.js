@@ -372,8 +372,11 @@ async function realizeRew(realizedQuantity, setId) {
 	console.log(unrealrewards)
 	console.log("unreal length")
 	console.log(unrealrewards.length)
+
+	let iter1length = unrealrewards.length
+
 	//REWARDS BUCKET 
-	for (i = 0; i < unrealrewards.length; i++) {
+	for (i = 0; i < iter1length; i++) {
 		//quantity of unrealized rewward
 		let currentQuantity = unrealrewards[i].rewardQuantity;
 
@@ -396,7 +399,9 @@ async function realizeRew(realizedQuantity, setId) {
 		}
 	}
 
-	for (i = 0; i < unrealrewards.length; i++) {
+	let iter2length = unrealrewards.length
+
+	for (i = 0; i < iter2length; i++) {
 		//CONDITION 2, if realizng q is greater than realized q and thats not zero
 		//unreal rewards has been shifted back so all index must be lowered 1
 		//technically i would need to recalculate the depletion to make this perfect using bv? or by scaling with proportions of proportions
@@ -472,14 +477,6 @@ async function realizeRew(realizedQuantity, setId) {
 
 		}
 	}
-
-	console.log("realizing reward q")
-	console.log(realizingRewardQ)
-	let realizingRewQSum = 0
-	for(i=0; i < realizingRewardQ.length; i++){
-		realizingRewQSum += realizingRewardQ[i].rewardQuantity
-	}
-	console.log(realizingRewQSum)
 
 
 
