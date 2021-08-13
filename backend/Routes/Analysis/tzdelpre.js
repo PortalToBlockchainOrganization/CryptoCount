@@ -387,17 +387,26 @@ async function realizeRew(realizedQuantity, setId) {
 
 		//CONDITION 1, if the rewards is less than the realizing q
 		if (currentQuantity < realizedQuantity) {
-			let realizingObj = unrealrewards.shift();
+
+			let realizingObj = unrealrewards[i]
 			realizingRewardQ.push(realizingObj);
-			let realizingObj2 = unrealizedBasisRewards.shift();
+			let realizingObj2 = unrealizedBasisRewards[i];
 			realzingRewardBasis.push(realizingObj2);
-			let realizingObj3 = unrealizedBasisRewardsDep.shift();
+			let realizingObj3 = unrealizedBasisRewardsDep[i];
 			realzingRewardBasisDep.push(realizingObj3);
-			let realizingObj4 = unrealizedBasisRewardsMVDep.shift();
+			let realizingObj4 = unrealizedBasisRewardsMVDep[i];
 			realzingRewardBasisMVDep.push(realizingObj4);
 			realizedQuantity = realizedQuantity - currentQuantity;
 		}
 	}
+
+	for(i = 0; i < realizingRewardQ ; i++){
+		unrealrewards.shift() 
+		unrealizedBasisRewards.shift()
+		unrealizedBasisRewardsDep.shift()
+		unrealizedBasisRewardsMVDep.shift()
+	}
+
 
 	let iter2length = unrealrewards.length
 
