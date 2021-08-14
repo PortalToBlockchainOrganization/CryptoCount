@@ -96,7 +96,8 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 				className={classes.NameWrapper}
 				style={{ backgroundColor: "transparent" }}
 			>
-				{signedIn() ? (
+				<div className={classes.Beta}>beta version 0.0.1</div>
+				{true ? (
 					<Navbar.Text className={classes.Name}>
 						{`Logged in as: ${user.firstName}
 							${user.lastName}`}

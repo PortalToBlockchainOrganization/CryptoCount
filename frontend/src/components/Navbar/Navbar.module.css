@@ -86,14 +86,24 @@
 	width: 100%;
 	text-align: right;
 	z-index: 100;
+	display: flex;
+}
+
+.Beta {
+	color: lightgray;
+	justify-content: flex-start;
+	margin: 25px 25px 0px 50px;
+	width: 10%;
 }
 
 .Name {
 	color: gray;
+	width: 100%;
 	background-color: none;
 	margin: 10px 5px 0px;
 	margin-right: 2.5em;
 	z-index: 100;
+	justify-content: flex-end;
 }
 
 .NavActive {
