@@ -99,8 +99,8 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 				<div className={classes.Beta}>beta version 0.0.1</div>
 				{true ? (
 					<Navbar.Text className={classes.Name}>
-						{`Logged in as: ${user.firstName}
-							${user.lastName}`}
+						{signedIn() ? `Logged in as: ${user.firstName}
+							${user.lastName}` : null}
 					</Navbar.Text>
 				) : (
 					""
