@@ -1,10 +1,11 @@
 
 # Backend
-FROM node:14-buster-slim as backend
+FROM node:16-buster-slim as backend
 ENV NODE_ENV=production
 # Copy code from backend codebase into /backend
-COPY . ./backend/
-RUN cd backend && ls . && npm install
+RUN mkdir ./backend
+COPY . ./backend
+RUN cd ./backend npm install
 
 EXPOSE 3001
 

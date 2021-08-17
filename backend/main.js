@@ -14,14 +14,14 @@ InitiateMongoServer();
 // Initiate Express (this) Server
 var app = express();
 app.use(cors({
-	origin: "http://54.201.255.116", credentials: true
+	origin: "https://cryptocount.co", credentials: true, methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"]
 }));
 
 // Static paths to be served like index.html and all client side js
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(function (req, res, next) {
-	  const allowedOrigins = ['http://127.0.0.1:80', 'http://localhost:80', 'http://54.201.255.116', 'http://54.201.255.116:1', 'http://54.201.255.116:80'];
+	  const allowedOrigins = ['http://127.0.0.1:80', 'http://localhost:80', 'http://54.201.255.116', 'http://54.201.255.116:1', 'http://54.201.255.116:80', 'http://cryptocount.co', 'https://cryptocount.co'];
 	  const origin = req.headers.origin;
 	  if (allowedOrigins.includes(origin)) {
 	       res.setHeader('Access-Control-Allow-Origin', origin);
@@ -56,17 +56,22 @@ app.use(router);
 // Check general login.  If OK, add Validator to |req| and continue processing,
 // otherwise respond immediately with 401 and noLogin error tag.
 app.use(function (req, res, next) {
-	console.log(req.path);
+    console.log(req.path);
+    console.log(req.method)
+    console.log(req.session)
 	if (
-		req.path === "/Anal/Cal" ||
+        req.path === "/Anal/Cal" ||
+        req.method === "GET"  ||
 		req.session ||
 		(req.method === "POST" &&
 			(req.path === "/Prss" || req.path === "/Ssns"))
 	) {
 		req.validator = new Validator(req, res);
 		next();
-	} else res.status(401).end();
-});
+	} else {
+        console.log('is this really happening')
+        res.status(401).end();
+}});
 // Add DB connection, with smart chkQry method, to |req|
 // app.use(CnnPool.router);
 

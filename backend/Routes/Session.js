@@ -80,7 +80,10 @@ Session.removePrs = function(prsId) {
 // |req| if it's current If |req| has an attached Session after this process,
 // then down-chain routes will treat |req| as logged-in.
 var router = function(req, res, next) {
+   console.log('cookies')
+   console.log(req.cookies)
    var cookie = req.cookies[cookieName];
+   console.log(cookie)
    var session = cookie && ssnsByCookie[cookie];
    
    if (session) {

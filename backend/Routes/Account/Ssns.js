@@ -42,10 +42,12 @@ router.post('/', function(req, res) {
 
  // new get + mongodb
  router.get('/:id', function(req, res) {
-     console.log("in get ssns by id")
+    console.log("in get ssns by id")
     var vld = req.validator;
     var ssn = Session.findById(req.params.id);
+    console.log(ssn)
     var ssns = Session.getAllIds();
+    console.log(ssns)
     var personId = ssn && ssn.prsId
     async.waterfall([
        cb => {

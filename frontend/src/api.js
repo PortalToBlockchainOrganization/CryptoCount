@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:3001/";
+const baseURL = "https://cryptocount.co/api/";
 const headers = new Headers();
 var sessionId;
 
@@ -22,7 +22,6 @@ headers.set("Content-Type", "application/JSON");
 
 const reqConf = {
 	headers: headers,
-	credentials: "include",
 };
 
 function safeFetch(method, endpoint, body) {

@@ -15,6 +15,7 @@ const User = require("../../model/User.js");
 // new get prss/:id + mongodb
 router.get('/:id', function(req, res) {
     var vld = req.validator;
+    console.log('asscheecks')
  
     async.waterfall([
     function(cb) {
@@ -31,7 +32,6 @@ router.get('/:id', function(req, res) {
         // create a new copy to remove password
         let userCopy = ({...prsArr[0]}._doc); 
         delete userCopy.password; 
-        console.log(userCopy);
         res.json(userCopy);
         cb();
        }

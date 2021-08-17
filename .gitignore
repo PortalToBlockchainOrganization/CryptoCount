@@ -5,10 +5,23 @@ frontend/public/manifest-extension.json
 
 # prod resources
 frontend/build/
+frontend/live/
 .env
 .credentials
 .credentials_rsaparams
 .path
+.updated-options-ssl-nginx-conf-digest.txt
+.updated-ssl-dhparams-pem-digest.txt
+options-ssl-nginx.conf
+ssl-dhparams.pem
+csr/
+renewal/
+renewal-hooks/
+keys/
+archive/
+accounts/
+_work/
+frontend/certs
 
 # runner files
 .runner

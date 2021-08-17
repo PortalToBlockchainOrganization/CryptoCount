@@ -87,6 +87,7 @@ Validator.prototype.checkAdmin = function(cb) {
 
 // Validate that AU is the specified person or is an admin
 Validator.prototype.checkPrsOK = function(prsId, cb) {
+    console.log(this.session)
    return this.check(this.session &&
     (this.session.isAdmin() || String(this.session.prsId) === String(prsId)),
     Validator.Tags.noPermission, null, cb);
