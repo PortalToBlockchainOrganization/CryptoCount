@@ -1,25 +1,27 @@
 name: CryptoCount CI
-
 on:
   push:
     branches: [ master ]
-  pull_request: 
+  pull_request:
     branches: [ master ]
 
 jobs:
   build:
-    runs-on: self-hosted
-  steps:
-  - uses: actions/checkout@v2
-  - name: Use Node.js ${{ matrix.node-version}}
-    uses: actions/setup-node@v1
-    with:
-      node-version: ${{ matrix.node-version }}
 
-  - run:
-      cd backend
-      npm install
-      cd ../frontend
-      npm install
-      cd ~ && sudo docker-compose up -d 
-      
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: cd backend && npm install
+    - run: cd frontend && npm install
+    - run: cd ~ && sudo docker-compose up -d --build
