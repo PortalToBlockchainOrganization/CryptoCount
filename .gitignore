@@ -2,3 +2,27 @@ frontend/node_modules/
 backend/node_modules/
 frontend/build
 frontend/public/manifest-extension.json
+
+# prod resources
+frontend/build/
+.github/
+.env
+.credentials
+.credentials_rsaparams
+.path
+
+# runner files
+.runner
+.service
+config.sh
+externals/
+runsvc.sh
+svc.sh
+run.sh
+env.sh
+bin/
+_diag/
+.env
+
+# env variables
+backend/creds.env

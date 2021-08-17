@@ -1,6 +1,7 @@
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
+var cors = require("cors");
 var bodyParser = require("body-parser");
 var { Session, router } = require("./Routes/Session.js");
 var Validator = require("./Routes/Validator.js");
@@ -12,17 +13,22 @@ InitiateMongoServer();
 
 // Initiate Express (this) Server
 var app = express();
+app.use(cors({
+	origin: "http://54.201.255.116", credentials: true
+}));
 
 // Static paths to be served like index.html and all client side js
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(function (req, res, next) {
-	console.log("Handling " + req.path + "/" + req.method);
-	res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-	res.header("Access-Control-Allow-Credentials", true);
+	  const allowedOrigins = ['http://127.0.0.1:80', 'http://localhost:80', 'http://54.201.255.116', 'http://54.201.255.116:1', 'http://54.201.255.116:80'];
+	  const origin = req.headers.origin;
+	  if (allowedOrigins.includes(origin)) {
+	       res.setHeader('Access-Control-Allow-Origin', origin);
+	  }
 	res.header("Access-Control-Allow-Headers", "Content-Type, Location");
 	res.header("Access-Control-Expose-Headers", "Content-Type, Location");
-	res.header("Access-Control-Allow-Methods", "DELETE, PUT");
+	res.header("Access-Control-Allow-Methods", "DELETE, PUT, GET, POST, OPTIONS");
 	next();
 });
 

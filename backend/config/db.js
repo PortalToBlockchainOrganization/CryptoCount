@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 const server = "127.0.0.1:27017";
 const database = "cryptocount";
 
 // Replace password with real password (ask shaheen)
-const MONGOURI =
-	"mongodb+srv://admin:<pw>@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority";
+const MONGOURI = `mongodb+srv://admin:${process.env.creds}@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority`;
 
 const InitiateMongoServer = async () => {
 	try {

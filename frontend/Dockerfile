@@ -3,8 +3,7 @@ WORKDIR /frontend
 # Copy frontend codebase into /frontend
 COPY . /frontend/
 # Build the client
-RUN npm install && npm run build
-
+RUN npm install 
 
 # nginx state for serving content
 FROM nginx:alpine
