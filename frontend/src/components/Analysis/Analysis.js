@@ -333,7 +333,7 @@ const Analysis = (props) => {
 							? fiatLabels[set?.data?.fiat]
 							: "",
 					font: {
-						size: 15,
+						size: 12,
 					},
 				},
 				ticks: {
@@ -343,7 +343,7 @@ const Analysis = (props) => {
 			},
 			xAxes: {
 				categoryPercentage: 1.0,
-				barPercentage: 1.0,
+				barPercentage: 0.8,
 				stacked: true,
 				grid: {
 					display: false,
@@ -501,7 +501,7 @@ const Analysis = (props) => {
 									updateChart("unrealizedBasisRewards");
 								}}
 							>
-								Basis Set
+								Basis
 							</Button>
 
 							<div
@@ -523,7 +523,7 @@ const Analysis = (props) => {
 									updateChart("unrealizedBasisRewardsMVDep")
 								}
 							>
-								Mvd Set
+								Mvd
 							</Button>
 							<div
 								className={classes.help}
@@ -541,7 +541,7 @@ const Analysis = (props) => {
 									updateChart("unrealizedBasisRewardsDep")
 								}
 							>
-								Supply Dep Set
+								Supply Dep
 							</Button>
 							<div
 								className={classes.help}

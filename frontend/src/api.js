@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:3001/";
+const baseURL = "https://cryptocount.co/api/";
 const headers = new Headers();
 var sessionId;
 
