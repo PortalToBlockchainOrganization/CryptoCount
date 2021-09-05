@@ -32,10 +32,14 @@ runsvc.sh
 svc.sh
 run.sh
 env.sh
+bin
+externals
 bin/
+externals/
 _diag/
 .env
 bin.2.280.3/
+bin.2.280.2/
 externals.2.280.3/
 # env variables
 backend/creds.env
