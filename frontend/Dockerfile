@@ -1,9 +1,7 @@
 FROM node:16-buster-slim AS frontend
 WORKDIR /frontend
 # Copy frontend codebase into /frontend
-COPY . /frontend/
-# Build the client
-RUN npm install && npm run build
+COPY ./build /frontend/build
 
 # nginx state for serving content
 FROM nginx:alpine

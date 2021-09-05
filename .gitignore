@@ -35,6 +35,7 @@ env.sh
 bin/
 _diag/
 .env
-
+bin.2.280.3/
+externals.2.280.3/
 # env variables
 backend/creds.env
