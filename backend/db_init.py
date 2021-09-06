@@ -13,9 +13,9 @@ END_URL = '&localization=false'
 
 client = MongoClient("mongodb+srv://admin:lelloliar9876@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority")
 db = client.AnalysisDep
-blockchains = db.blockchains2
-statistics = db.statistics2
-cycles_ = db.cycles2
+blockchains = db.blockchains
+statistics = db.statistics
+cycles_ = db.cycles
 
 print(db)
 def initPrices():
@@ -158,4 +158,4 @@ def initCycles():
     
     cycles_.insert_many(cycle_docs)
 
-initCycles()
+initTotalSupplys()
