@@ -313,7 +313,9 @@ router.post("/Unrel", function (req, res) {
 	var vld = req.validator;
 	var body = req.body;
 	var unrel_obj = {};
-	const { address, fiat, basisDate } = body;
+    const { address, fiat, basisDate } = body;
+    var prsId = req.session.prsId;
+
 	console.log(address);
 	console.log(fiat);
 	console.log(basisDate);
@@ -536,12 +538,15 @@ async function getPrices(fiat) {
 	let priceAndMarketCapData = await BlockchainModel.find();
 	let finalData = {};
 	for (i = 0; i < priceAndMarketCapData.length; i++) {
-		let date = priceAndMarketCapData[i].date;
-		//why cant identifier at end be var?
-		let priceN = priceAndMarketCapData[i][price];
+        let date = priceAndMarketCapData[i].date;
+        // convert year month day to month day year
+        var date_arr1 = date.toString().split('-')
+        var date_arr2 = [date_arr1[1], date_arr1[2], date_arr1[0]]
+        date = date_arr2.join('-')
+
+        let priceN = priceAndMarketCapData[i][price];
 		let marketCapN = priceAndMarketCapData[i][marketCap];
-		date_iso_str = date.toISOString().slice(0, 10);
-		finalData[date_iso_str] = priceN;
+		finalData[date] = priceN;
 	}
 	return finalData;
 }
