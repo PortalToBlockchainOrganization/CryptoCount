@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-console.log(process.env.creds);
 const server = "127.0.0.1:27017";
 const database = "cryptocount";
 const MONGOURI = `mongodb+srv://admin:${process.env.creds}@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority`;
@@ -23,4 +22,3 @@ const InitiateMongoServer = async () => {
 };
 
 module.exports = InitiateMongoServer;
-

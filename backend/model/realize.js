@@ -1,18 +1,19 @@
 const mongoose = require("mongoose");
 
 const realizeSchema = mongoose.Schema({
-    userid: {
-        type: String,
-        required: true,
-    },
-    version: { // to keep track of mulitple versions of similar sets (fiat, basisPrice, address)
-        type: Number,
-        required: true,
-    },
-    unrealizedRewards: {
-        type: [mongoose.Schema.Types.Mixed],
-        default: [],
-    },
+	userid: {
+		type: String,
+		required: true,
+	},
+	version: {
+		// to keep track of mulitple versions of similar sets (fiat, basisPrice, address)
+		type: Number,
+		required: true,
+	},
+	unrealizedRewards: {
+		type: [mongoose.Schema.Types.Mixed],
+		default: [],
+	},
 	unrealizedBasisRewards: {
 		type: [mongoose.Schema.Types.Mixed],
 		default: [],
@@ -24,11 +25,11 @@ const realizeSchema = mongoose.Schema({
 	unrealizedBasisRewardsMVDep: {
 		type: [mongoose.Schema.Types.Mixed],
 		default: [],
-    },
-    realizedRewards: {
-        type: [mongoose.Schema.Types.Mixed],
-        default: [],
-    },
+	},
+	realizedRewards: {
+		type: [mongoose.Schema.Types.Mixed],
+		default: [],
+	},
 	realizedBasisRewards: {
 		type: [mongoose.Schema.Types.Mixed],
 		default: [],
@@ -66,6 +67,10 @@ const realizeSchema = mongoose.Schema({
 		required: false,
 	},
 	unrealizedBasisMVDepAgg: {
+		type: Number,
+		required: false,
+	},
+	unrealizedRewardAgg: {
 		type: Number,
 		required: false,
 	},

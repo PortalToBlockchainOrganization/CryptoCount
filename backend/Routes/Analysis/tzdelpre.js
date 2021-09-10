@@ -150,13 +150,13 @@ async function getPricesAndMarketCap(fiat) {
 	let priceAndMarketCapData = await BlockchainModel.find();
 	let finalData = [];
 	for (i = 0; i < priceAndMarketCapData.length; i++) {
-        let date = priceAndMarketCapData[i].date;
-        // convert year month day to month day year
-        var date_arr1 = date.toString().split('-')
-        var date_arr2 = [date_arr1[1], date_arr1[2], date_arr1[0]]
-        date = date_arr2.join('-')
+		let date = priceAndMarketCapData[i].date;
+		// convert year month day to month day year
+		var date_arr1 = date.toString().split("-");
+		var date_arr2 = [date_arr1[1], date_arr1[2], date_arr1[0]];
+		date = date_arr2.join("-");
 
-        let priceN = priceAndMarketCapData[i][price];
+		let priceN = priceAndMarketCapData[i][price];
 		let marketCapN = priceAndMarketCapData[i][marketCap];
 		finalObj = {
 			date: date,
@@ -336,7 +336,7 @@ async function realizeRew(realizedQuantity, setId) {
 	// let realizedQuantity = 900
 
 	//get the realizehistoryobject from the db
-    let foundRealizeHistory = await RealizeSet.findOne({ _id: setId });
+	let foundRealizeHistory = await RealizeSet.findOne({ _id: setId });
 
 	//CANNOT ACCESS UNREALIZED REWARD SET // WORKAROUND HERE
 	//y no access unrealized? walkaround
@@ -369,18 +369,16 @@ async function realizeRew(realizedQuantity, setId) {
 	realzingRewardBasis = [];
 	realzingRewardBasisDep = [];
 	realzingRewardBasisMVDep = [];
-	
 
-	let iter1length = unrealrewards.length
+	let iter1length = unrealrewards.length;
 
-	//REWARDS BUCKET 
+	//REWARDS BUCKET
 	for (i = 0; i < iter1length; i++) {
 		//quantity of unrealized rewward
 		let currentQuantity = unrealrewards[i].rewardQuantity;
 		//CONDITION 1, if the rewards is less than the realizing q
 		if (currentQuantity < realizedQuantity) {
-
-			let realizingObj = unrealrewards[i]
+			let realizingObj = unrealrewards[i];
 			realizingRewardQ.push(realizingObj);
 			let realizingObj2 = unrealizedBasisRewards[i];
 			realzingRewardBasis.push(realizingObj2);
@@ -392,15 +390,14 @@ async function realizeRew(realizedQuantity, setId) {
 		}
 	}
 
-	for(i = 0; i < realizingRewardQ ; i++){
-		unrealrewards.shift() 
-		unrealizedBasisRewards.shift()
-		unrealizedBasisRewardsDep.shift()
-		unrealizedBasisRewardsMVDep.shift()
+	for (i = 0; i < realizingRewardQ; i++) {
+		unrealrewards.shift();
+		unrealizedBasisRewards.shift();
+		unrealizedBasisRewardsDep.shift();
+		unrealizedBasisRewardsMVDep.shift();
 	}
 
-
-	let iter2length = unrealrewards.length
+	let iter2length = unrealrewards.length;
 
 	for (i = 0; i < iter2length; i++) {
 		//CONDITION 2, if realizng q is greater than realized q and thats not zero
@@ -475,31 +472,32 @@ async function realizeRew(realizedQuantity, setId) {
 
 			//end reward realzing
 			break;
-
 		}
 	}
 
+	//BASIS BUCKET
 
+	let percentOfBasisRealizing =
+		realizedQuantity / foundRealizeHistory.unrealXTZBasis;
 
-    //BASIS BUCKET 
+	let realizingXTZbasis = realizedQuantity;
 
-    
+	let realizingBasisP =
+		foundRealizeHistory.unrealBasisP * percentOfBasisRealizing;
 
-	let percentOfBasisRealizing = realizedQuantity / foundRealizeHistory.unrealXTZBasis 
+	// throw 'stop execution';
+	let realizingBasisDep =
+		foundRealizeHistory.unrealBasisDep * percentOfBasisRealizing;
+	let realizingBasisMVdep =
+		foundRealizeHistory.unrealBasisMVDep * percentOfBasisRealizing;
 
-    let realizingXTZbasis = realizedQuantity
-  
-    let realizingBasisP = foundRealizeHistory.unrealBasisP * percentOfBasisRealizing
-
-    // throw 'stop execution';
-	let realizingBasisDep = foundRealizeHistory.unrealBasisDep * percentOfBasisRealizing
-    let realizingBasisMVdep = foundRealizeHistory.unrealBasisMVDep * percentOfBasisRealizing
-
-	let unrealizedXTZBasis = foundRealizeHistory.unrealXTZBasis - realizingXTZbasis
-	let unrealizedBasisP = foundRealizeHistory.unrealBasisP - realizingBasisP
-	let unrealizedBasisDep = foundRealizeHistory.unrealBasisDep - realizingBasisDep
-    let unrealizedBasisMVdep = foundRealizeHistory.unrealBasisMVDep - realizingBasisMVdep
-    
+	let unrealizedXTZBasis =
+		foundRealizeHistory.unrealXTZBasis - realizingXTZbasis;
+	let unrealizedBasisP = foundRealizeHistory.unrealBasisP - realizingBasisP;
+	let unrealizedBasisDep =
+		foundRealizeHistory.unrealBasisDep - realizingBasisDep;
+	let unrealizedBasisMVdep =
+		foundRealizeHistory.unrealBasisMVDep - realizingBasisMVdep;
 
 	//re aggregate
 	let unrealizedRewardAgg = 0;
@@ -539,9 +537,9 @@ async function realizeRew(realizedQuantity, setId) {
 		realizingRewardBasis: realzingRewardBasis,
 		unrealizedBasisRewards: unrealizedBasisRewards,
 		realizingRewardBasisDep: realzingRewardBasisDep,
-		unrealizedBasisRewardsDep : unrealizedBasisRewardsDep,
+		unrealizedBasisRewardsDep: unrealizedBasisRewardsDep,
 		realizingRewardBasisMVDep: realzingRewardBasisMVDep,
-		unrealizedBasisRewardsMVDep : unrealizedBasisRewardsMVDep,
+		unrealizedBasisRewardsMVDep: unrealizedBasisRewardsMVDep,
 		unrealizedRewardAgg: unrealizedRewardAgg,
 		unrealizedBasisAgg: unrealizedBasisAgg,
 		unrealizedDepAgg: unrealizedDepAgg,
@@ -566,9 +564,9 @@ async function realizeRew(realizedQuantity, setId) {
 		realizedRewards: foundRealizeHistory.realizedRewards, //again not working ~ unrealized rewards and realized rewards from .find()
 		realizedBasisRewards: foundRealizeHistory.realizedBasisRewards,
 		realizedBasisRewardsDep: foundRealizeHistory.realizedBasisRewardsDep,
-        realizedBasisRewardsMVDep: foundRealizeHistory.realizedBasisRewardsMVDep,
-        _id: foundRealizeHistory._id
-
+		realizedBasisRewardsMVDep:
+			foundRealizeHistory.realizedBasisRewardsMVDep,
+		_id: foundRealizeHistory._id,
 	};
 
 	return realizedObj;
@@ -740,19 +738,10 @@ async function analysis(address, basisDate, fiat) {
 		let date = basisRewards[i].date;
 		let nextDate = basisRewards[i + 1].date;
 		for (j = 0; j < tranArray.length; j++) {
-			if (
-				formatDate(tranArray[j].date) ==
-				formatDate(date) 
-			) {
+			if (formatDate(tranArray[j].date) == formatDate(date)) {
 				tranVal = tranArray[j].amounnt;
-			} else if (
-				formatDate(tranArray[j].date) >
-				formatDate(date) 
-			) {
-				if (
-					formatDate(tranArray[j].date) <
-					formatDate(nextDate) 
-				) {
+			} else if (formatDate(tranArray[j].date) > formatDate(date)) {
+				if (formatDate(tranArray[j].date) < formatDate(nextDate)) {
 					tranVal = tranArray[j].amounnt;
 				}
 			}
@@ -826,19 +815,10 @@ async function analysis(address, basisDate, fiat) {
 		date = basisRewards[i].date;
 		nextDate = basisRewards[i + 1].date;
 		for (j = 0; j < tranArray.length; j++) {
-			if (
-				formatDate(tranArray[j].date) ==
-				formatDate(date) 
-			) {
+			if (formatDate(tranArray[j].date) == formatDate(date)) {
 				tranVal = tranArray[j].amounnt;
-			} else if (
-				formatDate(tranArray[j].date)  >
-				formatDate(date) 
-			) {
-				if (
-					formatDate(tranArray[j].date)  <
-					formatDate(nextDate) 
-				) {
+			} else if (formatDate(tranArray[j].date) > formatDate(date)) {
+				if (formatDate(tranArray[j].date) < formatDate(nextDate)) {
 					tranVal = tranArray[j].amounnt;
 				}
 			}
@@ -872,22 +852,28 @@ async function analysis(address, basisDate, fiat) {
 	basisRewardMVDepletion.push(rewardMVDepletionObj);
 
 	//use book vals mvdepletion object to find correspoiindg bvs with the correct basis bal'
-	let totalRewards = 0
-	for(i = 0; i < rewards.length; i++){
-		totalRewards += rewards[i].rewardQuantity
+	let totalRewards = 0;
+	for (i = 0; i < rewards.length; i++) {
+		totalRewards += rewards[i].rewardQuantity;
 	}
-	
 
+	let xtzBasis =
+		basisBalances[
+			Object.keys(basisBalances)[Object.keys(basisBalances).length - 1]
+		] /
+			1000000 -
+		totalRewards;
 
+	let percentOfRew = totalRewards / xtzBasis;
 
-	let xtzBasis = basisBalances[Object.keys(basisBalances)[Object.keys(basisBalances).length - 1]] / 1000000 - totalRewards
-
-	let percentOfRew = totalRewards / xtzBasis
-
-
-	let basisP = bookValsBasis[bookValsBasis.length - 1].bvBas * (1 - percentOfRew)
-	let basisDep = bookValsDepletion[bookValsDepletion.length - 1].bvDep * (1 - percentOfRew)
-	let basisMVdep = bookValsMVDepletion[bookValsMVDepletion.length - 1].bvMvDep * (1 - percentOfRew)
+	let basisP =
+		bookValsBasis[bookValsBasis.length - 1].bvBas * (1 - percentOfRew);
+	let basisDep =
+		bookValsDepletion[bookValsDepletion.length - 1].bvDep *
+		(1 - percentOfRew);
+	let basisMVdep =
+		bookValsMVDepletion[bookValsMVDepletion.length - 1].bvMvDep *
+		(1 - percentOfRew);
 
 	//aggregate
 	let unrealizedRewardAgg = 0;
@@ -900,7 +886,6 @@ async function analysis(address, basisDate, fiat) {
 		unrealizedDepAgg += basisRewardDepletion[i].rewBasisDepletion;
 		unrealizedMVDAgg += basisRewardMVDepletion[i].rewBasisMVDepletion;
 	}
-
 
 	//RETURN OBJECT
 	let analysisResObj = {
@@ -920,7 +905,7 @@ async function analysis(address, basisDate, fiat) {
 		xtzBasis: xtzBasis,
 		basisP: basisP,
 		basisDep: basisDep,
-		basisMVdep: basisMVdep
+		basisMVdep: basisMVdep,
 	};
 
 	return analysisResObj;
@@ -992,14 +977,14 @@ async function realizeHistoryObjectConstructor() {
 async function saveRealize(realizing_obj) {
 	//api post save with rebuilt object from realize
 	let savedObject = {
-        realizedBasisRewards : [],
-        realizedBasisRewardsDep : [],
-        realizedBasisRewardsMVDep : [],
-        realxtzBasis:NaN,
-        realBasisP:NaN,
-        realBasisDep:NaN,
-        realBasisMVDep:NaN
-    }
+		realizedBasisRewards: [],
+		realizedBasisRewardsDep: [],
+		realizedBasisRewardsMVDep: [],
+		realxtzBasis: NaN,
+		realBasisP: NaN,
+		realBasisDep: NaN,
+		realBasisMVDep: NaN,
+	};
 	//iterate over the realizing object and push onto realized, and rm from realizing
 	for (i = 0; i < realizing_obj.realizingRewards.length; i++) {
 		//savedObject.realizedRewards.push(savedObject.realizingRewards[i])    //raw rewards still not working
@@ -1014,18 +999,16 @@ async function saveRealize(realizing_obj) {
 		);
 	}
 
+	savedObject.realxtzBasis = realizing_obj.realizingXTZBasis;
+	savedObject.realBasisP = realizing_obj.realizingBasisP;
+	savedObject.realBasisDep = realizing_obj.realizingBasisDep;
+	savedObject.realBasisMVDep = realizing_obj.realizingBasisMVDep;
 
-	savedObject.realxtzBasis = realizing_obj.realizingXTZBasis
-	savedObject.realBasisP = realizing_obj.realizingBasisP
-	savedObject.realBasisDep = realizing_obj.realizingBasisDep
-    savedObject.realBasisMVDep = realizing_obj.realizingBasisMVDep
-
-    // clear session in route end point instead
+	// clear session in route end point instead
 	// savedObject.realizingRewards = [];
 	// savedObject.realzingRewardBasis = [];
 	// savedObject.realzingRewardBasisDep = [];
 	// savedObject.realzingRewardBasisMVDep = [];
-
 
 	//adjust aggs
 
@@ -1040,7 +1023,7 @@ async function autoAnalysis(address, fiat) {
 	//DATA DEPENDCEIES
 	let rewards = await getRewards(address);
 	let basisBalances = await getBalances(address);
-    let pricesForUser = await getPricesAndMarketCap(fiat);
+	let pricesForUser = await getPricesAndMarketCap(fiat);
 	let tranArray = await getTransactions(address);
 	let basisPrice = await avgBasisPrice(address, fiat);
 
@@ -1057,20 +1040,21 @@ async function autoAnalysis(address, fiat) {
 	let basisValue = Object.values(basisBalances)[0];
 
 	let bookVal = basisPrice * (basisValue / 1000000);
-	let bookValsBasis = []
+	let bookValsBasis = [];
 	let bvBasObj = {
-	    "date": rewards[0].date,
-	    "bvBas": bookVal
-	}
-	bookValsBasis.push(bvBasObj)
+		date: rewards[0].date,
+		bvBas: bookVal,
+	};
+	bookValsBasis.push(bvBasObj);
 
-	for(i = 1; i < rewards.length - 1; i++){
-	    bookVal = bookValsBasis[i-1].bvBas + rewards[i].rewardQuantity * basisPrice
-	    bvBasObj = {
-	        "date": rewards[i].date,
-	        "bvBas": bookVal
-	    }
-	    bookValsBasis.push(bvBasObj)
+	for (i = 1; i < rewards.length - 1; i++) {
+		bookVal =
+			bookValsBasis[i - 1].bvBas + rewards[i].rewardQuantity * basisPrice;
+		bvBasObj = {
+			date: rewards[i].date,
+			bvBas: bookVal,
+		};
+		bookValsBasis.push(bvBasObj);
 	}
 
 	//SUPPLY DEPLETION REWARDS OBJECT
@@ -1105,7 +1089,6 @@ async function autoAnalysis(address, fiat) {
 
 	let basisRewardDepletion = [];
 
-
 	for (i = 0; i < basisRewards.length; i++) {
 		let tranVal = 0;
 		let date = basisRewards[i].date;
@@ -1124,24 +1107,15 @@ async function autoAnalysis(address, fiat) {
 			let nextDate = basisRewards[i + 1].date;
 			// for positive values obtain price at date of tranasaction
 			for (j = 0; j < tranArray.length; j++) {
-				if (
-					formatDate(tranArray[j].date) ==
-					formatDate(date) 
-				) {
+				if (formatDate(tranArray[j].date) == formatDate(date)) {
 					tranVal = tranArray[j].amounnt;
-				} else if (
-					formatDate(tranArray[j].date) >
-					formatDate(date) 
-				) {
-					if (
-						formatDate(tranArray[j].date)  <
-						formatDate(nextDate) 
-					) {
+				} else if (formatDate(tranArray[j].date) > formatDate(date)) {
+					if (formatDate(tranArray[j].date) < formatDate(nextDate)) {
 						tranVal = tranArray[j].amounnt;
 					}
 				}
 			}
-            let depletion =
+			let depletion =
 				bookValsDepletion[i - 1].bvDep *
 				(1 - supply[i - 1].supply / supply[i].supply);
 			let bookVal =
@@ -1187,7 +1161,7 @@ async function autoAnalysis(address, fiat) {
 	for (let i = 0; i < basisRewards.length; i++) {
 		for (let j = 0; j < pricesForUser.length; j++) {
 			let date1 = formatDate(basisRewards[i].date);
-			let date2 = formatDate(pricesForUser[j].date)
+			let date2 = formatDate(pricesForUser[j].date);
 			if (date1 == date2) {
 				let date = pricesForUser[j].date;
 				let marketCap = pricesForUser[j].marketCap;
@@ -1228,18 +1202,10 @@ async function autoAnalysis(address, fiat) {
 		} else if (i > 0 && i < basisRewards.length - 1) {
 			nextDate = basisRewards[i + 1].date;
 			for (j = 0; j < tranArray.length; j++) {
-				if (
-					formatDate(tranArray[j].date) == formatDate(date)
-				) {
+				if (formatDate(tranArray[j].date) == formatDate(date)) {
 					tranVal = tranArray[j].amounnt;
-				} else if (
-					formatDate(tranArray[j].date) >
-					formatDate(date) 
-				) {
-					if (
-						formatDate(tranArray[j].date) <
-						formatDate(nextDate)
-					) {
+				} else if (formatDate(tranArray[j].date) > formatDate(date)) {
+					if (formatDate(tranArray[j].date) < formatDate(nextDate)) {
 						tranVal = tranArray[j].amounnt;
 					}
 				}
@@ -1266,7 +1232,6 @@ async function autoAnalysis(address, fiat) {
 			bookValsMVDepletion.push(bvMVDepObj);
 			basisRewardMVDepletion.push(rewardMVDepletionObj);
 		} else {
-
 			let MVdepletion =
 				bookValsMVDepletion[i - 1].bvMvDep *
 				(mvdAnal[i].marketCap / mvdAnal[i - 1].marketCap -
@@ -1296,37 +1261,48 @@ async function autoAnalysis(address, fiat) {
        let basisQ = balances[today -1]
     }
     */
-   //use book vals mvdepletion object to find correspoiindg bvs with the correct basis bal'
-	let totalRewards = 0
-	for(i = 0; i < rewards.length; i++){
-		totalRewards += rewards[i].rewardQuantity
+	//use book vals mvdepletion object to find correspoiindg bvs with the correct basis bal'
+	let totalRewards = 0;
+	for (i = 0; i < rewards.length; i++) {
+		totalRewards += rewards[i].rewardQuantity;
 	}
-	
 
+	let xtzBasis =
+		basisBalances[
+			Object.keys(basisBalances)[Object.keys(basisBalances).length - 1]
+		] /
+			1000000 -
+		totalRewards;
 
+	let percentOfRew = totalRewards / xtzBasis;
 
-	let xtzBasis = basisBalances[Object.keys(basisBalances)[Object.keys(basisBalances).length - 1]] / 1000000 - totalRewards
-
-	let percentOfRew = totalRewards / xtzBasis
-
-
-	let basisP = bookValsBasis[bookValsBasis.length - 1].bvBas * (1 - percentOfRew)
-	let basisDep = bookValsDepletion[bookValsDepletion.length - 1].bvDep * (1 - percentOfRew)
-	let basisMVdep = bookValsMVDepletion[bookValsMVDepletion.length - 1].bvMvDep * (1 - percentOfRew)
-
+	let basisP =
+		bookValsBasis[bookValsBasis.length - 1].bvBas * (1 - percentOfRew);
+	let basisDep =
+		bookValsDepletion[bookValsDepletion.length - 1].bvDep *
+		(1 - percentOfRew);
+	let basisMVdep =
+		bookValsMVDepletion[bookValsMVDepletion.length - 1].bvMvDep *
+		(1 - percentOfRew);
 
 	//aggregate
 	let unrealizedRewardAgg = 0;
 	let unrealizedBasisAgg = 0;
 	let unrealizedDepAgg = 0;
-    let unrealizedMVDAgg = 0;
-	for (i = 0; i < rewards.length && i < basisRewards.length && i < basisRewardDepletion.length && i < basisRewardMVDepletion.length; i++) {
+	let unrealizedMVDAgg = 0;
+	for (
+		i = 0;
+		i < rewards.length &&
+		i < basisRewards.length &&
+		i < basisRewardDepletion.length &&
+		i < basisRewardMVDepletion.length;
+		i++
+	) {
 		unrealizedRewardAgg += rewards[i].rewardQuantity;
 		unrealizedBasisAgg += basisRewards[i].basisReward;
 		unrealizedDepAgg += basisRewardDepletion[i].rewBasisDepletion;
 		unrealizedMVDAgg += basisRewardMVDepletion[i].rewBasisMVDepletion;
 	}
-
 
 	//RETURN OBJECT
 	analysisResObj = {
@@ -1346,7 +1322,7 @@ async function autoAnalysis(address, fiat) {
 		xtzBasis: xtzBasis,
 		basisP: basisP,
 		basisDep: basisDep,
-		basisMVdep: basisMVdep
+		basisMVdep: basisMVdep,
 	};
 
 	return analysisResObj;
@@ -1357,8 +1333,7 @@ async function avgBasisPrice(address, fiat) {
 
 	let balanceObject = await getBalances(address); //balances are EOD
 
-    let priceObject = await getPricesAndMarketCap(fiat);
-    
+	let priceObject = await getPricesAndMarketCap(fiat);
 
 	//POSTIVE TRANSACTIONS OBJECT
 	let positiveTrans = [];

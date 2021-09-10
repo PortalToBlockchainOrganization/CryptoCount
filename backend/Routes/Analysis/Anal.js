@@ -98,8 +98,10 @@ router.post("/Auto", function (req, res) {
 					basisDate: body["basisDate"],
 					unrealizedRewards: unrel_obj.unrealizedRewards,
 					unrealizedBasisRewards: unrel_obj.unrealizedBasisRewards,
-					unrealizedBasisRewardsDep: unrel_obj.unrealizedBasisRewardsDep,
-					unrealizedBasisRewardsMVDep: unrel_obj.unrealizedBasisRewardsMVDep,
+					unrealizedBasisRewardsDep:
+						unrel_obj.unrealizedBasisRewardsDep,
+					unrealizedBasisRewardsMVDep:
+						unrel_obj.unrealizedBasisRewardsMVDep,
 					unrealXTZBasis: unrel_obj.xtzBasis,
 					unrealBasisP: unrel_obj.basisP,
 					unrealBasisDep: unrel_obj.basisDep,
@@ -108,7 +110,7 @@ router.post("/Auto", function (req, res) {
 					unrealizedRewardAgg: unrel_obj.unrealizedRewardAgg,
 					unrealizedBasisAgg: unrel_obj.unrealizedBasisAgg,
 					unrealizedDepAgg: unrel_obj.unrealizedDepAgg,
-					unrealizedMVDAgg: unrel_obj.unrealizedMVDAgg
+					unrealizedMVDAgg: unrel_obj.unrealizedMVDAgg,
 				});
 				rel_obj.save(function (err, doc) {
 					if (err) cb(err);
@@ -146,15 +148,15 @@ router.post("/Save", function (req, res) {
 						_id: body.setId,
 					},
 					function (err, docs) {
-                        if (err) cb(err);
+						if (err) cb(err);
 						cb(null, docs);
 					}
 				);
 			},
 			function (realObj, cb) {
 				// probably should add check to make sure realizing object equals
-                // the session realizing object
-                realObj = realObj[0]
+				// the session realizing object
+				realObj = realObj[0];
 				if (
 					!(
 						realObj.realizedRewards &&
@@ -191,15 +193,19 @@ router.post("/Save", function (req, res) {
 					realizedBasisMVDep =
 						realObj.realizedBasisMVDep +
 						ssn_real.realizingBasisMVDep;
-					realizedRewards = realObj.realizedRewards.concat(ssn_real.realizingRewards
+					realizedRewards = realObj.realizedRewards.concat(
+						ssn_real.realizingRewards
 					);
-					realizedBasisRewards = realObj.realizedBasisRewards.concat(ssn_real.realizingRewardBasis
+					realizedBasisRewards = realObj.realizedBasisRewards.concat(
+						ssn_real.realizingRewardBasis
 					);
 					realizedBasisRewardsDep =
-						realObj.realizedBasisRewardsDep.concat(ssn_real.realizingRewardBasisDep
+						realObj.realizedBasisRewardsDep.concat(
+							ssn_real.realizingRewardBasisDep
 						);
 					realizedBasisRewardsMVDep =
-						realObj.realizedBasisRewardsMVDep.concat(ssn_real.realizingRewardBasisMVDep
+						realObj.realizedBasisRewardsMVDep.concat(
+							ssn_real.realizingRewardBasisMVDep
 						);
 				}
 				// find obj and update unrealized values
@@ -313,8 +319,8 @@ router.post("/Unrel", function (req, res) {
 	var vld = req.validator;
 	var body = req.body;
 	var unrel_obj = {};
-    const { address, fiat, basisDate } = body;
-    var prsId = req.session.prsId;
+	const { address, fiat, basisDate } = body;
+	var prsId = req.session.prsId;
 
 	console.log(address);
 	console.log(fiat);
@@ -358,9 +364,12 @@ router.post("/Unrel", function (req, res) {
 							address: body["address"],
 							basisDate: body["basisDate"],
 							unrealizedRewards: unrel_obj.unrealizedRewards,
-							unrealizedBasisRewards: unrel_obj.unrealizedBasisRewards,
-							unrealizedBasisRewardsDep: unrel_obj.unrealizedBasisRewardsDep,
-							unrealizedBasisRewardsMVDep: unrel_obj.unrealizedBasisRewardsMVDep,
+							unrealizedBasisRewards:
+								unrel_obj.unrealizedBasisRewards,
+							unrealizedBasisRewardsDep:
+								unrel_obj.unrealizedBasisRewardsDep,
+							unrealizedBasisRewardsMVDep:
+								unrel_obj.unrealizedBasisRewardsMVDep,
 							unrealXTZBasis: unrel_obj.xtzBasis,
 							unrealBasisP: unrel_obj.basisP,
 							unrealBasisDep: unrel_obj.basisDep,
@@ -369,7 +378,7 @@ router.post("/Unrel", function (req, res) {
 							unrealizedRewardAgg: unrel_obj.unrealizedRewardAgg,
 							unrealizedBasisAgg: unrel_obj.unrealizedBasisAgg,
 							unrealizedDepAgg: unrel_obj.unrealizedDepAgg,
-							unrealizedMVDAgg: unrel_obj.unrealizedMVDAgg
+							unrealizedMVDAgg: unrel_obj.unrealizedMVDAgg,
 						},
 					},
 					{ new: true },
@@ -538,13 +547,13 @@ async function getPrices(fiat) {
 	let priceAndMarketCapData = await BlockchainModel.find();
 	let finalData = {};
 	for (i = 0; i < priceAndMarketCapData.length; i++) {
-        let date = priceAndMarketCapData[i].date;
-        // convert year month day to month day year
-        var date_arr1 = date.toString().split('-')
-        var date_arr2 = [date_arr1[1], date_arr1[2], date_arr1[0]]
-        date = date_arr2.join('-')
+		let date = priceAndMarketCapData[i].date;
+		// convert year month day to month day year
+		var date_arr1 = date.toString().split("-");
+		var date_arr2 = [date_arr1[1], date_arr1[2], date_arr1[0]];
+		date = date_arr2.join("-");
 
-        let priceN = priceAndMarketCapData[i][price];
+		let priceN = priceAndMarketCapData[i][price];
 		let marketCapN = priceAndMarketCapData[i][marketCap];
 		finalData[date] = priceN;
 	}

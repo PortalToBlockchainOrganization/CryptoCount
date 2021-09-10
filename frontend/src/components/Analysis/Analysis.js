@@ -116,6 +116,16 @@ const Analysis = (props) => {
 		}
 	};
 
+	// click handler
+	const handleMax = (e /** DOM event, click */) => {
+		// prevent page from refreshing
+		e.preventDefault();
+
+		// quantityRealize is Ref
+		quantityRealize.current.value =
+			set["data"]["unrealizedRewardAgg"].toFixed(0);
+	};
+
 	const getData = useCallback(
 		(setToRender) => {
 			// get the last date from realizing set
@@ -365,11 +375,21 @@ const Analysis = (props) => {
 			legend: {
 				display: true,
 			},
+			title: {
+				display: true,
+				text: "Block Reward Entries",
+				align: "start",
+				font: {
+					size: 15,
+				},
+			},
 		},
 	};
 
 	// load the fiat flag from directory
 	let path = require(`../../Assets/Flags/${params.fiat}.PNG`);
+
+	// const { register, setValue } = useForm();
 
 	// current set data
 	const [currentSet, setCurrentSet] = useState();
@@ -417,6 +437,7 @@ const Analysis = (props) => {
 					</div>
 				</div>
 				<div className={classes.ChartParams}>
+					<text>Staking Basis: </text>
 					<div className={classes.BarContainer}>
 						<div className={classes.Bar}>
 							{currentSet &&
@@ -476,6 +497,15 @@ const Analysis = (props) => {
 							/>
 						</div>
 					</div>
+					{/* <div>
+						{data !== undefined ? data.basisPrice.toFixed(2) : null}
+					</div> */}
+					<div>
+						<text>Basis Cost: </text>
+						{set?.data?.basisPrice &&
+							set?.data?.basisPrice.toFixed(2)}{" "}
+						{/*{("   ", set["data"]?.fiat)} */}
+					</div>
 					<div>
 						<img
 							className={classes.fiatImg}
@@ -484,12 +514,11 @@ const Analysis = (props) => {
 						/>
 						{props.fiat}
 					</div>
-					{/* <div>
-						{data !== undefined ? data.basisPrice.toFixed(2) : null}
-					</div> */}
-					<div>
-						{set?.data?.basisPrice &&
-							set?.data?.basisPrice.toFixed(2)}
+					<div
+						className={classes.help}
+						tooltip-data="Your calcualted basis cost from positive additions to your staking basis"
+					>
+						<HelpOutlineRoundedIcon className={classes.helpIcon} />
 					</div>
 				</div>
 				<div className={classes.setToggles}>
@@ -571,6 +600,7 @@ const Analysis = (props) => {
 									type="number"
 									placeholder="0 XTZ"
 									ref={quantityRealize}
+									// {...register("Realize")}
 								/>
 								<div
 									className={classes.help}
@@ -580,6 +610,19 @@ const Analysis = (props) => {
 										className={classes.helpIcon}
 									/>
 								</div>
+								<div>
+									<Button
+										variant="primary"
+										onClick={handleMax}
+									>
+										MaxRewards
+									</Button>
+								</div>
+								{/*
+									<div>
+									<Button variant="danger">hello</Button>
+									</div>
+									*/}
 							</div>
 						</div>
 						<Button type="submit" variant="danger">
@@ -595,7 +638,10 @@ const Analysis = (props) => {
 								{currentSet["incomeToReport"]
 									.toFixed(2)
 									.concat(" ", set["data"]?.fiat)}
-								<div className={classes.help}>
+								<div
+									className={classes.help}
+									tooltip-data="This is your fair reward income"
+								>
 									<HelpOutlineRoundedIcon
 										className={classes.helpIcon}
 									/>
