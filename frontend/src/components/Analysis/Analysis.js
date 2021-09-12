@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { chartOptions } from "./chartJsOptions";
+import React, { useEffect, useState } from "react";
+import { getData } from "./ChartData";
 import { useHistory } from "react-router-dom";
 import { Button, Spinner, Form, Modal } from "react-bootstrap";
 import { Bar } from "react-chartjs-2";
-import moment from "moment";
 import classes from "./Analysis.module.css";
 import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";
 /**
@@ -14,49 +15,6 @@ import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";
  */
 const Analysis = (props) => {
 	const history = useHistory();
-	const fiatLabels = {
-		AED: "United Arab Emirates Dirham",
-		ARS: "Argentine Peso",
-		AUD: "Australian Dollar",
-		BDT: "Bangladeshi Taka",
-		BRL: "Brazilian Real",
-		CAD: "Canadian Dollar",
-		CHF: "Swiss Franc",
-		CLP: "Chilean Peso",
-		CNY: "Chinese Yuan",
-		CZK: "Czech Koruna",
-		DKK: "Danish Krone",
-		EUR: "Euro",
-		GBP: "Pound sterling",
-		HKD: "Hong Kong Dollar",
-		HUF: "Hungarian Forint",
-		IDR: "Indonesian Rupiah",
-		IKR: "Icelandic Króna",
-		ILS: "Israeli New Shekel",
-		INR: "Indian Rupee",
-		JPY: "Japanese Yen",
-		KRW: "South Korean won",
-		MMK: "Myanmar Kyat",
-		MXN: "Mexican Peso",
-		MYR: "Malaysian Ringgit",
-		NGN: "Nigerian Naira",
-		NOK: "Norwegian krone",
-		NZD: "New Zealand Dollar",
-		PHP: "Philippine peso",
-		PKR: "Pakistani Rupee",
-		PLN: "Poland złoty",
-		RUB: "Russian Ruble",
-		SEK: "Swedish Krona",
-		SGD: "Singapore Dollar",
-		THB: "Thai Baht",
-		TRY: "Turkish lira",
-		TWD: "New Taiwan dollar",
-		UAH: "Ukrainian hryvnia",
-		USD: "United States Dollar",
-		VEB: "Venezuelan bolivar",
-		VND: "Vietnamese dong",
-		ZAR: "South African Rand",
-	};
 	const {
 		params,
 		set,
@@ -74,7 +32,7 @@ const Analysis = (props) => {
 
 	const updateChart = (setToRender) => {
 		// update chart based on button press
-		setCurrentSet(getData(setToRender));
+		setCurrentSet(getData(setToRender, set, params, getUnrealizedSet));
 	};
 
 	const goHome = () => {
@@ -126,265 +84,8 @@ const Analysis = (props) => {
 			set["data"]["unrealizedRewardAgg"].toFixed(0);
 	};
 
-	const getData = useCallback(
-		(setToRender) => {
-			// get the last date from realizing set
-			// const getMaxDate = (key) => {
-			// 	// default returns realizingBasisReward max date
-			// 	if (!key) {
-			// 		key = "realizingRewardBasis";
-			// 	}
-			// 	if (set["data"] !== undefined) {
-			// 		return set["data"][key][set["data"][key].length - 1][
-			// 			"date"
-			// 		];
-			// 	}
-			// 	return;
-			// };
-
-			// mapping for unrealized and realizing set
-			let mapping = {
-				unrealizedBasisRewards: "realizingRewardBasis",
-				unrealizedBasisRewardsDep: "realizingRewardBasisDep",
-				unrealizedBasisRewardsMVDep: "realizingRewardBasisMVDep",
-			};
-
-			let realMapping = {
-				unrealizedBasisRewards: "realizedBasisRewards",
-				unrealizedBasisRewardsDep: "realizedBasisRewardsDep",
-				unrealizedBasisRewardsMVDep: "realizedBasisRewardsMVDep",
-			};
-
-			// if there is no current data and if the id is not a duplicate
-			let tempParams = params;
-
-			// if there is no set data and it's not loading get unrealized set
-			if (set?._id !== undefined && set["isLoading"] === undefined) {
-				tempParams["histObjId"] = set["_id"];
-				getUnrealizedSet(tempParams);
-				//autoUnrealized(tempParams);
-			}
-
-			// if the current set is not loading
-			if (
-				set !== null &&
-				set.data !== undefined &&
-				set.isLoading !== undefined
-			) {
-				console.log(set);
-				// get subset data to render default is basis rewards
-				let incomeToReport;
-				setToRender = setToRender
-					? setToRender
-					: "unrealizedBasisRewards";
-
-				/* reward key for the quantity within the list of objects for 
-				each set */
-				let rewardKey = null;
-				if (setToRender === "unrealizedBasisRewards") {
-					rewardKey = "basisReward";
-					incomeToReport = "realizingBasisAgg";
-				} else if (setToRender === "unrealizedBasisRewardsDep") {
-					rewardKey = "rewBasisDepletion";
-					incomeToReport = "realizingDepAgg";
-				} else {
-					rewardKey = "rewBasisMVDepletion";
-					incomeToReport = "realizingMVDAgg";
-				}
-				// initializing data to be returned as currentSet
-				// let dates = [];
-				// let basisRewards = [];
-				let realizingRewards = [];
-				let realizedRewards = [];
-				// chart js data
-				let data = {
-					labels: [],
-					datasets: [
-						{
-							label: "Realized Rewards",
-							backgroundColor: "rgba(255, 99, 132, 0.9)",
-							borderRadius: 3,
-							barThickness: 15,
-							data: [],
-						},
-						{
-							label: "Realizing Rewards",
-							backgroundColor: "rgba(242, 120, 75, 0.9)",
-							borderRadius: 3,
-							barThickness: 15,
-							data: [],
-						},
-						{
-							label: "Unrealized Rewards",
-							backgroundColor: "rgba(191, 191, 191, 0.9)",
-							borderRadius: 3,
-							barThickness: 15,
-							data: [],
-						},
-					],
-					hoverOffset: 4,
-					address: set["data"]?.address,
-					fiat: set["data"]?.fiat,
-					basisDate: set["data"]?.basisDate,
-					basisPrice: set["data"]?.basisPrice,
-					incomeToReport:
-						set["data"][incomeToReport] +
-						set["data"]?.realizingBasisAgg,
-				};
-
-				let currentRealizingSet = mapping[setToRender];
-				let currentRealizedSet = realMapping[setToRender];
-
-				// get all dates, all dates are accounted for in realized and unrealized sets
-				if (data.labels.length === 0) {
-					set?.data[currentRealizedSet].map(({ date }) => {
-						return data.labels.push(
-							new moment(date).format("MMM DD, YYYY")
-						);
-					});
-
-					set?.data[`${setToRender}`].map(({ date }) => {
-						return data.labels.push(
-							new moment(date).format("MMM DD, YYYY")
-						);
-					});
-				}
-				// if realized set, render
-				if (set?.data?.realizedRewards) {
-					realizedRewards = set.data[currentRealizedSet].map(
-						(element) => {
-							return data.datasets[0].data.push(
-								element[`${rewardKey}`]
-							);
-						}
-					);
-				}
-
-				if (set?.data?.realizingRewards) {
-					// if realized Set skip those dates
-					if (realizedRewards.length > 0) {
-						realizingRewards = new Array(realizedRewards.length);
-						data.datasets[1].data = realizingRewards;
-					}
-					realizingRewards = set.data[currentRealizingSet].map(
-						(element) => {
-							return data.datasets[1].data.push(
-								element[`${rewardKey}`]
-							);
-						}
-					);
-				}
-
-				// if realizing rewards is greater than 0 add the length of
-				// realizing to unrealized as nulls
-				if (set?.data?.realizingRewards?.length > 0) {
-					// create empty elements in unrealized set
-					//  up to size of realizing set
-					data.datasets[2].data = new Array(
-						data.datasets[1].data.length
-					);
-				}
-
-				if (set?.data?.realizedRewards.length > 0) {
-					data.datasets[2].data = new Array(
-						data.datasets[0].data.length
-					);
-				}
-
-				if (
-					set?.data?.realizedRewards?.length > 0 &&
-					set?.data?.realizingRewards?.length > 0
-				) {
-					data.datasets[2].data = new Array(
-						data.datasets[1].data.length
-					);
-				}
-				let d0L = data?.datasets[0]?.data?.length;
-				let d1L = data?.datasets[1]?.data?.length;
-
-				set?.data[`${setToRender}`].map((element, index) => {
-					if (set?.data?.realizedRewards.length > 0) {
-						if (index > d1L - d0L - 1) {
-							return data.datasets[2].data.push(
-								element[`${rewardKey}`]
-							);
-						}
-					} else {
-						if (index > data.datasets[1].data.length - 1) {
-							return data.datasets[2].data.push(
-								element[`${rewardKey}`]
-							);
-						}
-					}
-					return null;
-				});
-
-				data["realizingRatio"] =
-					set["data"]["realizingBasisP"] /
-					set["data"]["unrealizedBasisP"];
-				return data;
-			}
-		},
-		//autoUnrealized
-		[set, params, getUnrealizedSet]
-	);
-
 	// chart js options
-	const options = {
-		scales: {
-			yAxes: {
-				grid: {
-					drawTicks: false,
-				},
-				title: {
-					display: true,
-					text:
-						set?.data !== undefined
-							? fiatLabels[set?.data?.fiat]
-							: "",
-					font: {
-						size: 15,
-					},
-				},
-				ticks: {
-					precision: 0,
-					beginAtZero: true,
-				},
-			},
-			xAxes: {
-				categoryPercentage: 1.0,
-				barPercentage: 1.0,
-				stacked: true,
-				grid: {
-					display: false,
-					drawTicks: false,
-				},
-				title: {
-					display: true,
-					text: "Date",
-					font: {
-						size: 15,
-					},
-				},
-				ticks: {
-					beginAtZero: true,
-				},
-			},
-		},
-		plugins: {
-			legend: {
-				display: true,
-			},
-			title: {
-				display: true,
-				text: "Block Reward Entries",
-				align: "start",
-				font: {
-					size: 15,
-				},
-			},
-		},
-	};
+	const options = chartOptions(set);
 
 	// load the fiat flag from directory
 	let path = require(`../../Assets/Flags/${params.fiat}.PNG`);
@@ -395,8 +96,8 @@ const Analysis = (props) => {
 	const [currentSet, setCurrentSet] = useState();
 	// rerender the chart
 	useEffect(() => {
-		setCurrentSet(getData());
-	}, [getData]);
+		setCurrentSet(getData(null, set, params, getUnrealizedSet));
+	}, [set, params, getUnrealizedSet]);
 
 	// if duplicate address detected show duplicate modal
 	if (set?.dupId) {
@@ -437,71 +138,77 @@ const Analysis = (props) => {
 					</div>
 				</div>
 				<div className={classes.ChartParams}>
-					<text>Staking Basis: </text>
-					<div className={classes.BarContainer}>
-						<div className={classes.Bar}>
-							{currentSet &&
-							!isNaN(currentSet["realizingRatio"]) ? (
-								<>
-									<div
-										className={classes.Realizing}
-										style={{
-											flex: currentSet
-												? currentSet["realzingRatio"]
-												: null,
-										}}
-										tooltip-data={
-											currentSet
-												? `Realizing: ${(
-														currentSet[
-															"realizingRatio"
-														] * 100
-												  ).toFixed(2)}%`
-												: null
-										}
-									>
-										&nbsp;
-									</div>
-									<div
-										className={classes.Unrealized}
-										style={{
-											flex: currentSet
-												? 1 -
-												  currentSet["realizingRatio"] +
-												  100
-												: null,
-										}}
-										tooltip-data={
-											currentSet
-												? `Unrealized: ${(
-														(1 -
+					<div>
+						<div className={classes.Label}>Staking Basis: </div>
+						<div className={classes.BarContainer}>
+							<div className={classes.Bar}>
+								{currentSet &&
+								!isNaN(currentSet["realizingRatio"]) ? (
+									<>
+										<div
+											className={classes.Realizing}
+											style={{
+												flex: currentSet
+													? currentSet[
+															"realzingRatio"
+													  ]
+													: null,
+											}}
+											tooltip-data={
+												currentSet
+													? `Realizing: ${(
 															currentSet[
 																"realizingRatio"
-															]) *
-														100
-												  ).toFixed(2)}%`
-												: null
-										}
-									>
-										&nbsp;
-									</div>
-								</>
-							) : null}
-						</div>
-						<div
-							className={classes.help}
-							tooltip-data="Your staking basis powers your block rewards"
-						>
-							<HelpOutlineRoundedIcon
-								className={classes.helpIcon}
-							/>
+															] * 100
+													  ).toFixed(2)}%`
+													: null
+											}
+										>
+											&nbsp;
+										</div>
+										<div
+											className={classes.Unrealized}
+											style={{
+												flex: currentSet
+													? 1 -
+													  currentSet[
+															"realizingRatio"
+													  ] +
+													  100
+													: null,
+											}}
+											tooltip-data={
+												currentSet
+													? `Unrealized: ${(
+															(1 -
+																currentSet[
+																	"realizingRatio"
+																]) *
+															100
+													  ).toFixed(2)}%`
+													: null
+											}
+										>
+											&nbsp;
+										</div>
+									</>
+								) : null}
+							</div>
+							<div
+								className={classes.help}
+								tooltip-data="Your staking basis powers your block rewards"
+							>
+								<HelpOutlineRoundedIcon
+									className={classes.helpIcon}
+								/>
+							</div>
 						</div>
 					</div>
 					{/* <div>
 						{data !== undefined ? data.basisPrice.toFixed(2) : null}
 					</div> */}
 					<div>
-						<text>Basis Cost: </text>
+						<div className={classes.Label}>Basis Cost: </div>
 						{set?.data?.basisPrice &&
 							set?.data?.basisPrice.toFixed(2)}{" "}
 						{/*{("   ", set["data"]?.fiat)} */}
@@ -516,7 +223,7 @@ const Analysis = (props) => {
 					</div>
 					<div
 						className={classes.help}
-						tooltip-data="Your calcualted basis cost from positive additions to your staking basis"
+						tooltip-data="Your calculated basis cost from positive additions to your staking basis"
 					>
 						<HelpOutlineRoundedIcon className={classes.helpIcon} />
 					</div>
@@ -618,11 +325,6 @@ const Analysis = (props) => {
 										MaxRewards
 									</Button>
 								</div>
-								{/*
-									<div>
-									<Button variant="danger">hello</Button>
-									</div>
-									*/}
 							</div>
 						</div>
 						<Button type="submit" variant="danger">

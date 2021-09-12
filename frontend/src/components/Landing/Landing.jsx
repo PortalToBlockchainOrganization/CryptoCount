@@ -144,6 +144,7 @@ const Landing = (props) => {
 								</div>
 								<Form.Control
 									type="email"
+									autoComplete="email"
 									placeholder="email@cryptocount.com"
 									onChange={handleEmailChange}
 								/>

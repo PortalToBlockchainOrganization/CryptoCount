@@ -1,10 +1,10 @@
 import React from "react";
 import { useCallback } from "react";
-import { Spinner } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
 import classes from "./History.module.css";
 import { useHistory } from "react-router";
 
-const History = ({ user, realizedHistory, getHistory }) => {
+const History = ({ user, realizedHistory, getHistory, getSet, setParams }) => {
 	const browserHistory = useHistory();
 	const [history, setHistory] = React.useState([]);
 	const [body, setBody] = React.useState([]);
@@ -31,6 +31,12 @@ const History = ({ user, realizedHistory, getHistory }) => {
 	]);
 
 	React.useEffect(() => {
+		const handleView = (id, address, fiat, date) => {
+			console.log(id);
+			getSet(id);
+			setParams({ address: address, fiat, basisDate: date });
+			browserHistory.push("/analysis");
+		};
 		getTableData();
 		let temp = history?.map((obj, objIdx) => {
 			return (
@@ -38,11 +44,26 @@ const History = ({ user, realizedHistory, getHistory }) => {
 					<td>{obj.address}</td>
 					<td>{obj.fiat}</td>
 					<td>{obj.basisDate.substring(0, 10)}</td>
+					<td>
+						<Button
+							variant="danger"
+							onClick={() =>
+								handleView(
+									obj.id,
+									obj.address,
+									obj.fiat,
+									obj.basisDate.substring(0, 10)
+								)
+							}
+						>
+							View
+						</Button>
+					</td>
 				</tr>
 			);
 		});
 		setBody(temp);
-	}, [getTableData, history]);
+	}, [getTableData, history, browserHistory, getSet, setParams]);
 
 	if (
 		realizedHistory.isLoading === false &&
@@ -91,6 +112,7 @@ const History = ({ user, realizedHistory, getHistory }) => {
 							<th>Address</th>
 							<th>Fiat</th>
 							<th>Basis Date</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody className={classes.Body}>{body}</tbody>

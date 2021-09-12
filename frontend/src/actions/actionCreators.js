@@ -242,6 +242,7 @@ export function getHistory(cb) {
 						set?.fiat
 					) {
 						let tempParams = {
+							id: set["_id"],
 							address: set["address"],
 							fiat: set["fiat"],
 							basisDate: set["basisDate"]

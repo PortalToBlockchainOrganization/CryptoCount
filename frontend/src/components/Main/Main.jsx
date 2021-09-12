@@ -15,7 +15,9 @@ const AnalysisBlock = ({ component: Component, ...rest }) => {
 			{...rest}
 			render={(props) =>
 				isAuthed === true ? (
-					rest.params && rest.params["address"] !== undefined ? (
+					rest.params &&
+					(rest.params["address"] !== undefined ||
+						rest.set !== null) ? (
 						<Component {...rest} />
 					) : (
 						<>
@@ -39,7 +41,8 @@ const Main = (props) => {
 	const [canAccessAnalysis, setCanAccessAnalysis] = React.useState(false);
 	const { user, realizedHistory, getHistory, resetSet } = props;
 
-	if (props?.params?.fiat && props?.set !== null) {
+	console.log(props.params.fiat || Object.keys(props.set) > 0);
+	if (props?.params?.fiat || Object.keys(props?.set) > 0) {
 		if (!canAccessAnalysis) {
 			setCanAccessAnalysis(true);
 		}
@@ -99,6 +102,8 @@ const Main = (props) => {
 						user={user}
 						getHistory={getHistory}
 						realizedHistory={realizedHistory}
+						getSet={props.getSet}
+						setParams={props.setParams}
 					/>
 				</ProtectedRoute>
 				<AnalysisBlock

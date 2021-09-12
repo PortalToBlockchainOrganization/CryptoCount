@@ -254,3 +254,10 @@
 .Realizing:hover .realizingTooltip {
 	visibility: visible;
 }
+
+.Label {
+	font-size: 0.9rem;
+	color: black;
+	opacity: 0.5;
+	margin-right: 0.5rem;
+}
