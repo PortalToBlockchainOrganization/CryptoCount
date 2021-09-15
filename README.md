@@ -1,5 +1,5 @@
 # CryptoCount
-CryptoCount is built for cryptocurrency block reward income tax reporting. Report your optimized block reward income with cost basis and depreciation accounting. CryptoCount is compatible with the Tezos blockchain and is a technology product of PTBO.
+CryptoCount is built for cryptocurrency block reward income tax reporting. It specialized in delivering statments of income to block reward holders. Report your optimized block reward income with cost basis and depreciation accounting. CryptoCount is compatible with the Tezos blockchain and is a technology product of PTBO.
 
 # Server
 cd backend
