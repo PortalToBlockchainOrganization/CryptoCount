@@ -57,7 +57,15 @@ const SignInHooks = (props) => {
 						>
 							Sign in
 						</Button>
-						<p className="mt-4">
+						<p className="mt-3">
+							<a
+								className={classes.RegisterLink}
+								href="/reset-password"
+							>
+								Forgot password?
+							</a>
+						</p>
+						<p className="mt-0">
 							Need an account?{" "}
 							<a
 								className={classes.RegisterLink}

@@ -7,6 +7,7 @@ import "./Main.css";
 import ErrDialog from "../ConfDialog/ErrDialog";
 import History from "../History/History";
 import ProtectedRoute from "../ProtectedRoute";
+import ResetPassword from "../ResetPassword/ResetPassword";
 
 const AnalysisBlock = ({ component: Component, ...rest }) => {
 	const isAuthed = rest.isAuthed();
@@ -92,6 +93,7 @@ const Main = (props) => {
 					exact
 					render={() => <SignInHooks {...props} />}
 				/>
+				<Route path="/reset-password" exact component={ResetPassword} />
 				<Route
 					path="/register"
 					exact
