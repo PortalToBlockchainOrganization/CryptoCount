@@ -27,12 +27,14 @@ const Analysis = (props) => {
 	} = props;
 	// const [isLoading, setIsLoading] = useState(set["isLoading"])
 	const [showModal, setShowModal] = useState(true);
+	const [active, setActive] = useState("unrealizedBasisRewards");
 
 	const quantityRealize = React.createRef();
 
 	const updateChart = (setToRender) => {
 		// update chart based on button press
 		setCurrentSet(getData(setToRender, set, params, getUnrealizedSet));
+		setActive(setToRender);
 	};
 
 	const goHome = () => {
@@ -232,7 +234,11 @@ const Analysis = (props) => {
 					<div className={classes.basisSet}>
 						<div className={classes.buttonAndInfo}>
 							<Button
-								variant="outline-danger"
+								variant={
+									active === "unrealizedBasisRewards"
+										? "danger"
+										: "outline-danger"
+								}
 								onClick={() => {
 									updateChart("unrealizedBasisRewards");
 								}}
@@ -254,7 +260,11 @@ const Analysis = (props) => {
 					<div className={classes.depletionSet}>
 						<div className={classes.buttonAndInfo}>
 							<Button
-								variant="outline-danger"
+								variant={
+									active === "unrealizedBasisRewardsMVDep"
+										? "danger"
+										: "outline-danger"
+								}
 								onClick={() =>
 									updateChart("unrealizedBasisRewardsMVDep")
 								}
@@ -272,7 +282,11 @@ const Analysis = (props) => {
 						</div>
 						<div className={classes.buttonAndInfo}>
 							<Button
-								variant="outline-danger"
+								variant={
+									active === "unrealizedBasisRewardsDep"
+										? "danger"
+										: "outline-danger"
+								}
 								onClick={() =>
 									updateChart("unrealizedBasisRewardsDep")
 								}
