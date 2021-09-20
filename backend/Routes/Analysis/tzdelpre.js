@@ -505,10 +505,16 @@ async function realizeRew(realizedQuantity, setId) {
 	let unrealizedDepAgg = 0;
 	let unrealizedMVDAgg = 0;
 	for (i = 0; i < unrealrewards.length; i++) {
-		unrealizedRewardAgg += unrealrewards[i].rewardQuantity;
-		unrealizedBasisAgg += unrealizedBasisRewards[i].basisReward;
-		unrealizedDepAgg += unrealizedBasisRewardsDep[i].rewBasisDepletion;
-		unrealizedMVDAgg += unrealizedBasisRewardsMVDep[i].rewBasisMVDepletion;
+		try{
+			unrealizedRewardAgg += unrealrewards[i].rewardQuantity;
+			unrealizedBasisAgg += unrealizedBasisRewards[i].basisReward;
+			unrealizedDepAgg += unrealizedBasisRewardsDep[i].rewBasisDepletion;
+			unrealizedMVDAgg += unrealizedBasisRewardsMVDep[i].rewBasisMVDepletion;
+		}
+	
+		catch(e){
+			break
+		}
 	}
 
 	//re aggregate
@@ -517,10 +523,15 @@ async function realizeRew(realizedQuantity, setId) {
 	let realizingDepAgg = 0;
 	let realizingMVdAgg = 0;
 	for (i = 0; i < realizingRewardQ.length; i++) {
-		realizingRewardAgg += realizingRewardQ[i].rewardQuantity;
-		realizingBasisAgg += realzingRewardBasis[i].basisReward;
-		realizingDepAgg += realzingRewardBasisDep[i].rewBasisDepletion;
-		realizingMVdAgg += realzingRewardBasisMVDep[i].rewBasisMVDepletion;
+		try{
+			realizingRewardAgg += realizingRewardQ[i].rewardQuantity;
+			realizingBasisAgg += realzingRewardBasis[i].basisReward;
+			realizingDepAgg += realzingRewardBasisDep[i].rewBasisDepletion;
+			realizingMVdAgg += realzingRewardBasisMVDep[i].rewBasisMVDepletion;
+		}
+		catch(e){
+			break
+		}
 	}
 
 	//realize out of bookvalue - rewards = basis
