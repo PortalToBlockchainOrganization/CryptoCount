@@ -109,3 +109,56 @@
 .NavActive {
 	border-bottom: 2px solid #dc3545;
 }
+
+.Log {
+	display: flex;
+	align-items: center;
+}
+
+.MenuButton {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	margin-left: 5px;
+	padding: 5px 10px 5px 10px;
+	border: 1px solid rgb(235, 235, 235);
+	border-radius: 5px;
+}
+
+.MenuButton:hover {
+	cursor: pointer;
+	background-color: rgb(235, 235, 235);
+}
+
+.MenuWrapper {
+	position: absolute;
+	position: absolute;
+	right: 0;
+	margin-right: 50px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.Menu {
+	margin-top: 10px;
+	display: flex;
+	justify-content: center;
+	margin-left: auto;
+	z-index: 100;
+	padding: 15px;
+	border-radius: 5px;
+	height: 75px;
+	background-color: white;
+	box-shadow: 0px 1px 5px rgb(0 0 0 / 12%);
+}
+
+.Link {
+	color: #dc3545;
+}
+
+.Link:hover {
+	text-decoration: none;
+	color: #97101d;
+}

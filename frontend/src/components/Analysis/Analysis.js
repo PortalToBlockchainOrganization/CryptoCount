@@ -378,6 +378,7 @@ const Analysis = (props) => {
 	) : (
 		<div className={classes.SpinnerWrapper}>
 			<Spinner animation="border" variant="danger" />
+			<div className={classes.SpinnerText}>Analyzing your data...</div>
 		</div>
 	);
 };

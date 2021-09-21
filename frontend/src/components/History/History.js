@@ -8,7 +8,6 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams }) => {
 	const browserHistory = useHistory();
 	const [history, setHistory] = React.useState([]);
 	const [body, setBody] = React.useState([]);
-
 	const pushToHistory = (data) => {
 		let temp = history;
 		temp.push(data);
@@ -37,10 +36,12 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams }) => {
 			setParams({ address: address, fiat, basisDate: date });
 			browserHistory.push("/analysis");
 		};
+
 		getTableData();
 		let temp = history?.map((obj, objIdx) => {
 			return (
 				<tr key={objIdx}>
+					<td>{obj.createdAt.split("T")[0]}</td>
 					<td>{obj.address}</td>
 					<td>{obj.fiat}</td>
 					<td>{obj.basisDate.substring(0, 10)}</td>
@@ -59,16 +60,25 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams }) => {
 							View
 						</Button>
 					</td>
+					<td>
+						<Button variant="danger" disabled>
+							Delete
+						</Button>
+					</td>
 				</tr>
 			);
 		});
 		setBody(temp);
 	}, [getTableData, history, browserHistory, getSet, setParams]);
 
-	if (
-		realizedHistory.isLoading === false &&
-		realizedHistory?.history?.length === 0
-	) {
+	if (realizedHistory.isLoading) {
+		return (
+			<div className={classes.Wrapper}>
+				<Spinner animation="border" variant="danger" />
+			</div>
+		);
+	}
+	if (realizedHistory?.isLoading === false && user?.setIds?.length === 0) {
 		return (
 			<div className={classes.EmptyWrapper}>
 				<div className={classes.Empty}>
@@ -109,10 +119,12 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams }) => {
 				<table>
 					<thead>
 						<tr>
+							<th>Created At</th>
 							<th>Address</th>
 							<th>Fiat</th>
 							<th>Basis Date</th>
 							<th>Action</th>
+							<th>Delete</th>
 						</tr>
 					</thead>
 					<tbody className={classes.Body}>{body}</tbody>
