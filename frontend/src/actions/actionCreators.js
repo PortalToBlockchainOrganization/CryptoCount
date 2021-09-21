@@ -235,6 +235,7 @@ export function getHistory(cb) {
 		let history = [];
 		api.getSets().then((res) => {
 			res.json().then((res) => {
+				console.log(res);
 				history = res.map((set) => {
 					if (
 						set?.realizedBasisRewards?.length > 0 &&
@@ -242,6 +243,7 @@ export function getHistory(cb) {
 						set?.fiat
 					) {
 						let tempParams = {
+							createdAt: set["createdAt"],
 							id: set["_id"],
 							address: set["address"],
 							fiat: set["fiat"],

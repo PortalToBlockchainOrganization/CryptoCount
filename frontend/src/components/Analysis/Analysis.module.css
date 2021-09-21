@@ -261,3 +261,8 @@
 	opacity: 0.5;
 	margin-right: 0.5rem;
 }
+
+.SpinnerText {
+	margin-left: 5px;
+	color: gray;
+}

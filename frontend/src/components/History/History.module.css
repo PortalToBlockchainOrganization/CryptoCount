@@ -1,18 +1,19 @@
 .Page {
 	height: 100vh;
 	width: 100vw;
-	overflow-y: scroll;
 }
 
 .Wrapper {
 	position: relative;
-	height: 95vh;
+	height: calc(100vh - 120px);
 	width: 100%;
 	top: 56px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	overflow-y: scroll;
 }
+
 .EmptyWrapper {
 	width: 100%;
 	display: flex;
@@ -27,6 +28,14 @@ table {
 	min-width: 350px;
 	border-radius: 4px;
 	box-shadow: 0 4px 12px rgb(0 0 0 / 8%), 0 0 1px rgb(1 0 0 / 10%);
+}
+
+tr > th {
+	color: rgb(77, 77, 77);
+	font-weight: 500;
+}
+tr > td {
+	color: rgb(61, 61, 61);
 }
 tr th,
 tr td {
