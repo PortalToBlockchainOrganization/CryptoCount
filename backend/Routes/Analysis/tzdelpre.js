@@ -177,6 +177,7 @@ async function getRewards(address) {
 
 	//call baker history object
 	const rewardFetch = await getBakerHistory(address);
+	
 
 	//call cycles days object
 	const cycles = await getCyclesDays();
@@ -194,7 +195,7 @@ async function getRewards(address) {
 		//if before irl cycle end
 		for (
 			let i = rewardFetch[j].cycleStart;
-			i <= cycleEnd || i < rewardFetch[j].cycleEnd + 1;
+			i <= cycleEnd || i < rewardFetch[j].cycleEnd;
 			i++
 		) {
 			urlObj = {
@@ -224,26 +225,32 @@ async function getRewards(address) {
 		promises.push(
 			promiseGet(url.url)
 				.then((urlObj) => {
-					let payoutArray = urlObj.data.payouts;
-					// console.log(payoutArray)
-					let addressProperty = "address";
-					let amountProperty = "amount";
-					if (payoutArray === undefined) {
-						console.log(urlObj);
-					}
-
-					for (let i = 0; i < payoutArray.length; i++) {
-						if (address === payoutArray[i][addressProperty]) {
-							amount = payoutArray[i][amountProperty];
-							if (amount < 0.0001 && amount > 0) {
-								amount = amount * 10000;
+					try{
+						let payoutArray = urlObj.data.payouts;
+						let addressProperty = "address";
+						let amountProperty = "amount";
+						if (payoutArray === undefined) {
+							console.log(urlObj);
+						}else{
+							for (let i = 0; i < payoutArray.length; i++) {
+								if (address == payoutArray[i][addressProperty]) {
+									let amount = payoutArray[i][amountProperty];
+									if (amount < 0.0001 && amount > 0) {
+										amount = amount * 10000;
+									}
+									var rewardObject = {
+										quantity: amount,
+										cycle: urlObj.data.cycle,
+									};
+									console.log(rewardObject)
+									return rewardObject;
+								}
 							}
-							rewardObject = {
-								quantity: amount,
-								cycle: urlObj.data.cycle,
-							};
-							return rewardObject;
 						}
+						resolve(payoutArray)
+					}catch(e){
+						console.log(`Could not get data from url: ${url}`);
+						reject(new Error(err));
 					}
 				})
 				.catch((err) => {
@@ -267,6 +274,7 @@ async function getRewards(address) {
 			console.log(err);
 		});
 
+
 	let rewardsByDay = [];
 	let rewardByDayObj = {};
 	for (i = 0; i < rewards.length; i++) {
@@ -279,9 +287,55 @@ async function getRewards(address) {
 		};
 		rewardsByDay.push(rewardByDayObj);
 	}
+	console.log(rewardsByDay)
 
-	return rewardsByDay;
+	//get trans
+	//transaction tzkt url - https://api.tzkt.io/v1/operations/transactions?anyof.sender.target={$address} will return operations where sender OR target is equal to the specified value. This parameter is useful when you need to retrieve all transactions associated with a specified account.
+	let url2 = `https://api.tzkt.io/v1/operations/transactions?anyof.sender.target=${address}`;
+	const response2 = await axios.get(url2);
+
+	let objectArray = [];
+	let object = {};
+	for (i = 0; i < response2.data.length; i++) {
+		//each baker address in the object
+		if (response2.data[i].target.address == address) {
+			date = new Date(response2.data[i].timestamp);
+			amount = response2.data[i].amount / 1000000;
+			object = {
+				date: date,
+				amounnt: amount,
+			};
+			objectArray.push(object);
+		} else if (response2.data[i].sender.address == address) {
+			date = new Date(response2.data[i].timestamp);
+			amount = (response2.data[i].amount / 1000000) * -1;
+			object = {
+				date: date,
+				amounnt: amount,
+			};
+			objectArray.push(object);
+		}
+		for (j = 0; j < rewardFetch.length; j++) {
+			//check for baker transactions
+			let baker = rewardFetch[j].baker;
+			let sender = response2.data[i].sender.address;
+			let target = response2.data[i].target.address;
+			if (sender == baker || target == baker) {
+				objectArray.pop();
+			}
+		}
+	}
+	console.log(objectArray)
+
+
+
+	//GET TRANSACTIONS HERE FOR ONE CALL OF REWARD FETCH
+
+
+	//ADD TRANSACTIONS TO RETURN
+	return [ rewardsByDay, objectArray ];
 }
+
 
 //level 2
 //function get tranasactions
@@ -654,14 +708,8 @@ async function realizeRew(realizedQuantity, setId) {
 
 async function analysis(address, basisDate, fiat) {
 	//label objects by blocks, delete repeats, remove clutter
-
-	//DATA DEPENDCEIES
-	let rewards = await getRewards(address);
-
-	let basisBalances = await getBalances(address);
 	let pricesForUser = await getPricesAndMarketCap(fiat);
-	let tranArray = await getTransactions(address);
-	//BASIS REWARD OBJECT
+	console.log('done w price and market')
 	let basisPrice = 0;
 	for (let i = 0; i < pricesForUser.length; i++) {
 		const a = formatDate(pricesForUser[i].date);
@@ -670,42 +718,33 @@ async function analysis(address, basisDate, fiat) {
 			basisPrice = pricesForUser[i].price;
 		}
 	}
+	
+	//DATA DEPENDCEIES
+	//ADD tran
+	var values= await getRewards(address);
+	var rewards = values[0] 
+	var tranArray = values[1] 
+	console.log('done w rewards')
+	console.log(rewards)
 
-	let basisRewards = [];
-	for (let i = 0; i < rewards.length; i++) {
-		reward = rewards[i].rewardQuantity;
-		basisRewardsObj = {
-			date: rewards[i].date,
-			basisReward: reward * basisPrice,
-		};
-		basisRewards.push(basisRewardsObj);
-	}
+	//let {basisBalances, pricesForUser, tranArray, basisPrice} = depencies(address, fiat)
+	let basisBalances = await getBalances(address);
+	console.log('done w balances')
 
-	// fill in dates missing in gaps with previous value
-	//book value for basis rewards is unnessarry, it is calculeted for depletion
-	let basisValue = basisBalances[basisDate];
-	let bookVal = basisPrice * (basisValue / 1000000);
 
-	let bookValsBasis = [];
-	let bvBasObj = {
-		date: basisRewards[0].date,
-		bvBas: bookVal,
-	};
-	bookValsBasis.push(bvBasObj);
+	//let tranArray = await getTransactions(address);
+	// console.log('done w trans'
 
-	for (i = 1; i < basisRewards.length - 1; i++) {
-		bookVal = bookValsBasis[i - 1].bvBas + basisRewards[i].basisReward;
-		bvBasObj = {
-			date: basisRewards[i].date,
-			bvBas: bookVal,
-		};
-		bookValsBasis.push(bvBasObj);
-	}
 
-	//SUPPLY DEPLETION REWARDS OBJECT
+
+
+//SUPPLY DEPLETION REWARDS OBJECT
 	//Dependency Object
-	const supplyDocs = await StatisticModel.find();
 	let totalSupplys = [];
+	let supply = [];
+	let mvdAnal = [];
+
+	const supplyDocs = await StatisticModel.find();    
 	for (let i = 0; i < supplyDocs.length; i++) {
 		const d = supplyDocs[i].dateString;
 		totalSupply = supplyDocs[i].totalSupply;
@@ -715,10 +754,8 @@ async function analysis(address, basisDate, fiat) {
 		};
 		totalSupplys.push(totalSupplyObj);
 	}
-
-	let supply = [];
-	for (let i = 0; i < basisRewards.length; i++) {
-		let date = basisRewards[i].date;
+	for (let i = 0; i < rewards.length; i++) {
+		let date = rewards[i].date;
 		for (j = 0; j < totalSupplys.length; j++) {
 			if (date == totalSupplys[j].date) {
 				supplyObj = {
@@ -729,72 +766,12 @@ async function analysis(address, basisDate, fiat) {
 			}
 		}
 	}
-
-	//
-	//main object construction
-	let bookValsDepletion = [];
-	let bvDepObj = {
-		date: basisRewards[0].date,
-		bvDep: bookVal,
-	};
-	bookValsDepletion.push(bvDepObj);
-	let basisRewardDepletion = [];
-	let rewardDepletionObj = {
-		date: basisRewards[0].date,
-		rewBasisDepletion: basisRewards[0].basisReward, //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
-	};
-	basisRewardDepletion.push(rewardDepletionObj);
-	for (i = 1; i < basisRewards.length - 1; i++) {
-		let tranVal = 0;
-		let date = basisRewards[i].date;
-		let nextDate = basisRewards[i + 1].date;
-		for (j = 0; j < tranArray.length; j++) {
-			if (formatDate(tranArray[j].date) == formatDate(date)) {
-				tranVal = tranArray[j].amounnt;
-			} else if (formatDate(tranArray[j].date) > formatDate(date)) {
-				if (formatDate(tranArray[j].date) < formatDate(nextDate)) {
-					tranVal = tranArray[j].amounnt;
-				}
-			}
-		}
-
-		let depletion =
-			bookValsDepletion[i - 1].bvDep *
-			(1 - supply[i - 1].supply / supply[i].supply);
-
-		let bookVal =
-			bookValsDepletion[i - 1].bvDep +
-			basisRewards[i].basisReward -
-			depletion +
-			tranVal * basisPrice;
-
-		let bvDepObj = {
-			date: basisRewards[i].date,
-			bvDep: bookVal,
-		};
-		let percentage = basisRewards[i].basisReward / bookVal;
-
-		rewardDepletionObj = {
-			date: basisRewards[i].date,
-			rewBasisDepletion:
-				basisRewards[i].basisReward - depletion * percentage, //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
-		};
-		bookValsDepletion.push(bvDepObj);
-		basisRewardDepletion.push(rewardDepletionObj);
-	}
-	rewardDepletionObj = {
-		date: basisRewards[basisRewards.length - 1].date,
-		rewBasisDepletion: basisRewards[basisRewards.length - 1].basisReward, //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
-	};
-	basisRewardDepletion.push(rewardDepletionObj);
-
-	//MARKET VALUE DEPLETION REWARDS OBJECT
+//MARKET VALUE DEPLETION REWARDS OBJECT
 	//Dependency Object
-	let mvdAnal = [];
-	for (let i = 0; i < basisRewards.length; i++) {
+	for (let i = 0; i < rewards.length; i++) {
 		for (let j = 0; j < pricesForUser.length; j++) {
-			let date1 = formatDate(basisRewards[i].date);
-			let date2 = formatDate(pricesForUser[j].date);
+			let date1 = formatDate(rewards[i].date);
+			let date2 = formatDate(pricesForUser[j].date)
 			if (date1 == date2) {
 				let date = pricesForUser[j].date;
 				let marketCap = pricesForUser[j].marketCap;
@@ -808,99 +785,157 @@ async function analysis(address, basisDate, fiat) {
 			}
 		}
 	}
-	//main object construction
+
+
+	let basisValue = Object.values(basisBalances)[0];
+	let bookVal = basisPrice * (basisValue / 1000000);
+
+
 	let bookValsMVDepletion = [];
+    let bookValsDepletion = [];
+	let bookValsBasis = []
+
 	let bvMvDepObj = {
-		date: basisRewards[0].date,
-		bvMvDep: bookVal,
+		"date": rewards[0].date,
+		"bvMvDep": bookVal,
 	};
-	bookValsMVDepletion.push(bvMvDepObj);
-	let basisRewardMVDepletion = [];
-	let rewardMVDepletionObj = {
-		date: basisRewards[0].date,
-		rewBasisMVDepletion: basisRewards[0].basisReward,
+	let bvDepObj = {
+		"date": rewards[0].date,
+		"bvDep": bookVal,
 	};
-	basisRewardMVDepletion.push(rewardMVDepletionObj);
-	for (i = 1; i < basisRewards.length - 1; i++) {
-		let tranVal = 0;
-		date = basisRewards[i].date;
-		nextDate = basisRewards[i + 1].date;
-		for (j = 0; j < tranArray.length; j++) {
-			if (formatDate(tranArray[j].date) == formatDate(date)) {
-				tranVal = tranArray[j].amounnt;
-			} else if (formatDate(tranArray[j].date) > formatDate(date)) {
-				if (formatDate(tranArray[j].date) < formatDate(nextDate)) {
-					tranVal = tranArray[j].amounnt;
-				}
-			}
-		}
-		let MVdepletion =
-			bookValsMVDepletion[i - 1].bvMvDep *
-			(mvdAnal[i].marketCap / mvdAnal[i - 1].marketCap -
-				mvdAnal[i].price / mvdAnal[i - 1].price);
-		bookVal =
-			bookValsMVDepletion[i - 1].bvMvDep +
-			basisRewards[i].basisReward -
-			MVdepletion +
-			tranVal * basisPrice;
-		let bvMVDepObj = {
-			date: basisRewards[i].date,
-			bvMvDep: bookVal,
-		};
-		let percentage = basisRewards[i].basisReward / bookVal;
-		rewardMVDepletionObj = {
-			date: basisRewards[i].date,
-			rewBasisMVDepletion:
-				basisRewards[i].basisReward - MVdepletion * percentage,
-		};
-		bookValsMVDepletion.push(bvMVDepObj);
-		basisRewardMVDepletion.push(rewardMVDepletionObj);
+	let bvBasObj = {
+	    "date": rewards[0].date,
+	    "bvBas": bookVal
 	}
-	rewardMVDepletionObj = {
-		date: basisRewards[basisRewards.length - 1].date,
-		rewBasisMVDepletion: basisRewards[basisRewards.length - 1].basisReward,
-	};
-	basisRewardMVDepletion.push(rewardMVDepletionObj);
+	bookValsMVDepletion.push(bvMvDepObj)
+	bookValsDepletion.push(bvDepObj);
+	bookValsBasis.push(bvBasObj)
 
-	//use book vals mvdepletion object to find correspoiindg bvs with the correct basis bal'
-	let totalRewards = 0;
+
+	for(i = 1; i < rewards.length - 1; i++){
+	    bookVal = bookValsBasis[i-1].bvBas + rewards[i].rewardQuantity * basisPrice
+	    bvBasObj = {
+	        "date": rewards[i].date,
+	        "bvBas": bookVal
+	    }
+	    bookValsBasis.push(bvBasObj)
+	}
+
+    let basisRewardDepletion = [];
+    let basisRewards = [];
+    let basisRewardMVDepletion = [];
+	
 	for (i = 0; i < rewards.length; i++) {
-		totalRewards += rewards[i].rewardQuantity;
+		let basisRewardObj = {
+			"date": rewards[i].date,
+			"basisReward": rewards[i].rewardQuantity * basisPrice,
+		};
+		basisRewards.push(basisRewardObj);
+
+	}
+	//book value for basis rewards is unnessarry, it is calculeted for depletion
+	for (i = 0; i < rewards.length && i < mvdAnal.length; i++) {
+		if (i > 0 && i < basisRewards.length - 1) {
+			let tranVal = 0;
+			let date = rewards[i].date;
+			let nextDate = basisRewards[i + 1].date;
+			// for positive values obtain price at date of tranasaction
+			for (j = 0; j < tranArray.length; j++) {
+				try{
+					if (
+						formatDate(tranArray[j].date) ==
+						formatDate(date) 
+					) {
+						tranVal = tranArray[j].amounnt;
+					} else if (
+						formatDate(tranArray[j].date) >
+						formatDate(date) 
+					) {
+						if (
+							formatDate(tranArray[j].date)  <
+							formatDate(nextDate) 
+						) {
+							tranVal = tranArray[j].amounnt;
+						}
+					}
+				}
+				catch(e){break}
+				
+			}
+			let depletion = bookValsDepletion[i - 1].bvDep * (1 - supply[i - 1].supply / supply[i].supply);
+			let bookVal = bookValsDepletion[i - 1].bvDep + basisRewards[i].basisReward - depletion + tranVal * basisPrice;
+			let bvDepObj = {
+					date: date,
+					bvDep: bookVal,
+				};
+			let percentage = basisRewards[i].basisReward / bookVal;
+			let rewardDepletionObj = {
+					date: date,
+					rewBasisDepletion:
+						basisRewards[i].basisReward - depletion * percentage, //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
+				};
+			bookValsDepletion.push(bvDepObj);
+			basisRewardDepletion.push(rewardDepletionObj);
+
+			let MVdepletion = bookValsMVDepletion[i - 1].bvMvDep * (mvdAnal[i].marketCap / mvdAnal[i - 1].marketCap - mvdAnal[i].price / mvdAnal[i - 1].price);
+			bookVal = bookValsMVDepletion[i - 1].bvMvDep +	basisRewards[i].basisReward - MVdepletion + tranVal * basisPrice;
+			let bvMVDepObj = {
+					date: basisRewards[i].date,
+					bvMvDep: bookVal,
+				};
+			percentage = basisRewards[i].basisReward / bookVal;
+			let rewardMVDepletionObj = {
+					date: basisRewards[i].date,
+					rewBasisMVDepletion:
+						basisRewards[i].basisReward - MVdepletion * percentage,
+				};
+			bookValsMVDepletion.push(bvMVDepObj);
+			basisRewardMVDepletion.push(rewardMVDepletionObj);
+		}
+
 	}
 
-	let xtzBasis =
-		basisBalances[
-			Object.keys(basisBalances)[Object.keys(basisBalances).length - 1]
-		] /
-			1000000 -
-		totalRewards;
+	let totalRewards = 0
+	for(i = 0; i < rewards.length; i++){
+		totalRewards += rewards[i].rewardQuantity
+	}
+	
+	
 
-	let percentOfRew = totalRewards / xtzBasis;
 
-	let basisP =
-		bookValsBasis[bookValsBasis.length - 1].bvBas * (1 - percentOfRew);
-	let basisDep =
-		bookValsDepletion[bookValsDepletion.length - 1].bvDep *
-		(1 - percentOfRew);
-	let basisMVdep =
-		bookValsMVDepletion[bookValsMVDepletion.length - 1].bvMvDep *
-		(1 - percentOfRew);
+
+	let xtzBasis = basisBalances[Object.keys(basisBalances)[Object.keys(basisBalances).length - 1]] / 1000000 - totalRewards
+
+	let percentOfRew = totalRewards / xtzBasis
+
+
+	let basisP = bookValsBasis[bookValsBasis.length - 1].bvBas * (1 - percentOfRew)
+	let basisDep = bookValsDepletion[bookValsDepletion.length - 1].bvDep * (1 - percentOfRew)
+	let basisMVdep = bookValsMVDepletion[bookValsMVDepletion.length - 1].bvMvDep * (1 - percentOfRew)
+
 
 	//aggregate
 	let unrealizedRewardAgg = 0;
 	let unrealizedBasisAgg = 0;
 	let unrealizedDepAgg = 0;
 	let unrealizedMVDAgg = 0;
-	for (i = 0; i < rewards.length; i++) {
-		unrealizedRewardAgg += rewards[i].rewardQuantity;
-		unrealizedBasisAgg += basisRewards[i].basisReward;
-		unrealizedDepAgg += basisRewardDepletion[i].rewBasisDepletion;
-		unrealizedMVDAgg += basisRewardMVDepletion[i].rewBasisMVDepletion;
+	for (i = 0; i < rewards.length && i < basisRewards.length && i < basisRewardDepletion.length && i < basisRewardMVDepletion.length; i++) {
+		try{
+			unrealizedRewardAgg += rewards[i].rewardQuantity;
+			unrealizedBasisAgg += basisRewards[i].basisReward;
+			unrealizedDepAgg += basisRewardDepletion[i].rewBasisDepletion;
+			unrealizedMVDAgg += basisRewardMVDepletion[i].rewBasisMVDepletion;
+		}
+		catch(e){break}
+		
 	}
+	
+
 
 	//RETURN OBJECT
-	let analysisResObj = {
+	analysisResObj = {
 		//need basis rewards, mvd rewards, dep rewards
+		//"basisQ": basisQ,
 		unrealizedRewards: rewards,
 		unrealizedBasisRewards: basisRewards,
 		unrealizedBasisRewardsDep: basisRewardDepletion,
@@ -911,12 +946,11 @@ async function analysis(address, basisDate, fiat) {
 		unrealizedMVDAgg: unrealizedMVDAgg,
 		address: address,
 		fiat: fiat,
-		basisDate: basisDate,
 		basisPrice: basisPrice,
 		xtzBasis: xtzBasis,
 		basisP: basisP,
 		basisDep: basisDep,
-		basisMVdep: basisMVdep,
+		basisMVdep: basisMVdep
 	};
 
 	return analysisResObj;
@@ -933,57 +967,6 @@ analysis(address, '2021-02-28', 'USD').then((value) => {
 
 //REALIZE OBJECTS
 
-//convert analysis object into realize history object
-
-async function realizeHistoryObjectConstructor() {
-	//analysis object call
-	let analysisObject = await analysis(address, "2021-02-28", "USD");
-
-	//aggregate each set
-	let totalBasisReward = 0;
-	for (i = 0; i < analysisObject[0].basisRewards.length; i++) {
-		totalBasisReward += analysisObject[0].basisRewards[i].basisReward;
-	}
-	let totalBasisRewardDep = 0;
-	for (i = 0; i < analysisObject[0].basisRewardsDep.length; i++) {
-		totalBasisRewardDep +=
-			analysisObject[0].basisRewardsDep[i].rewBasisDepletion;
-	}
-	let totalBasisRewardMVdep = 0;
-	for (i = 0; i < analysisObject[0].basisRewardsMVdep.length; i++) {
-		totalBasisRewardMVdep +=
-			analysisObject[0].basisRewardsMVdep[i].rewBasisMVDepletion;
-	}
-
-	let realizeHistoryObject = {
-		//parse the analysis object
-		unrealizedBasisRewards: analysisObject[0].basisRewards, // list of pair of dates and values
-		unrealizedBasisRewardsDep: analysisObject[0].basisRewardsDep, // list of pair of dates and values
-		unrealizedBasisRewardsMVdep: analysisObject[0].basisRewardsMVdep, // list of pair of dates and values
-
-		//empty realized sets
-		realizedBasisRewards: [], // list of pair of dates and values
-		realizedBasisRewardsDep: [], // list of pair of dates and values
-		realizedBasisRewardsMVdep: [], // list of pair of dates and values
-
-		//the descriptors
-		fiat: analysisObject[0].fiat, // desc
-		address: analysisObject[0].address, // desc
-		basisDate: analysisObject[0].basisDate, // desc
-		basisPrice: analysisObject[0].basisPrice, // desc
-
-		unrealizedBasisAgg: totalBasisReward, // single vals
-		unrealizedDepAgg: totalBasisRewardDep, // single vals
-		unrealizedMVdAgg: totalBasisRewardMVdep, // single vals
-		realizedBasisAgg: 0, // single vals
-		realizedDepAgg: 0, // single vals
-		realizedMVdAgg: 0, // single vals
-
-		id: 1,
-	};
-
-	return realizeHistoryObject;
-}
 
 async function saveRealize(realizing_obj) {
 	//api post save with rebuilt object from realize
@@ -1032,46 +1015,86 @@ async function autoAnalysis(address, fiat) {
 	//label objects by blocks, delete repeats, remove clutter
 
 	//DATA DEPENDCEIES
-	let rewards = await getRewards(address);
+	//ADD tran
+	var values= await getRewards(address);
+	var rewards = values[0] 
+	var tranArray = values[1] 
+	console.log('done w rewards')
+	console.log(rewards)
+
+	//let {basisBalances, pricesForUser, tranArray, basisPrice} = depencies(address, fiat)
 	let basisBalances = await getBalances(address);
+	console.log('done w balances')
+
 	let pricesForUser = await getPricesAndMarketCap(fiat);
-	let tranArray = await getTransactions(address);
-	let basisPrice = await avgBasisPrice(address, fiat);
+	console.log('done w price and market')
 
-	//BASIS REWARD OBJECT
-	let basisRewards = [];
-	for (i = 0; i < rewards.length; i++) {
-		let basisRewardObj = {
-			date: rewards[i].date,
-			basisReward: rewards[i].rewardQuantity * basisPrice,
-		};
-		basisRewards.push(basisRewardObj);
-	}
-	//book value for basis rewards is unnessarry, it is calculeted for depletion
-	let basisValue = Object.values(basisBalances)[0];
+	//let tranArray = await getTransactions(address);
+	// console.log('done w trans')
 
-	let bookVal = basisPrice * (basisValue / 1000000);
-	let bookValsBasis = [];
-	let bvBasObj = {
-		date: rewards[0].date,
-		bvBas: bookVal,
-	};
-	bookValsBasis.push(bvBasObj);
-
-	for (i = 1; i < rewards.length - 1; i++) {
-		bookVal =
-			bookValsBasis[i - 1].bvBas + rewards[i].rewardQuantity * basisPrice;
-		bvBasObj = {
-			date: rewards[i].date,
-			bvBas: bookVal,
-		};
-		bookValsBasis.push(bvBasObj);
+	//POSTIVE TRANSACTIONS OBJECT
+	let positiveTrans = [];
+	for (i = 0; i < tranArray.length; i++) {
+		if (tranArray[i].amounnt > 0) {
+			object = {
+				date: tranArray[i].date,
+				amount: tranArray[i].amounnt,
+			};
+			positiveTrans.push(object);
+		}
 	}
 
-	//SUPPLY DEPLETION REWARDS OBJECT
+	//VET SAME DAY ~NULL~ NET POSITIVE TRANSACTIONS - looking for real increases to the basis
+	let netPositives = [];
+	for (i = 0; i < positiveTrans.length; i++) {
+		let date = await formatDate(positiveTrans[i].date);
+		//let prevDayUnformatted = await addDays(date, 0) // 2 into this funciton moves date up by 1
+		//let prevDay = await formatDate(prevDayUnformatted)
+		let value = positiveTrans[i].amount;
+
+		//balance object
+		let bal1 = basisBalances[date];
+		//let index = Object.keys(balanceObject).indexOf(date)
+		//let bal2 = balanceObject[prevDay]
+		//if postive trans value  - balance - positive trans value < 0
+		if (bal1 - value < 0) {
+		} else {
+			object = {
+				date: positiveTrans[i].date,
+				amount: positiveTrans[i].amount,
+			};
+			netPositives.push(object);
+		}
+	}
+	// rn - if it stayed in longer than a day than its going to be part of the average
+	let netPositiveTotal = 0
+	let priceByincreaseTotal = 0
+	let significantPrices = [];
+	for (i = 0; i < netPositives.length; i++) {
+		let date = await formatDate(netPositives[i].date);
+		for (j = 0; j < pricesForUser.length; j++) {
+			let priceDate = await formatDate(pricesForUser[j].date);
+			if (priceDate == date) {
+				significantPrices.push(pricesForUser[j].price);
+			}
+		}
+		netPositiveTotal += netPositives[i].amount
+		priceByincreaseTotal += netPositives[i].amount * significantPrices[i]
+	}
+
+	let basisPrice = priceByincreaseTotal / netPositiveTotal;
+	console.log('done w price')
+
+
+
+
+//SUPPLY DEPLETION REWARDS OBJECT
 	//Dependency Object
-	const supplyDocs = await StatisticModel.find();
 	let totalSupplys = [];
+	let supply = [];
+	let mvdAnal = [];
+
+	const supplyDocs = await StatisticModel.find();    
 	for (let i = 0; i < supplyDocs.length; i++) {
 		const d = supplyDocs[i].dateString;
 		totalSupply = supplyDocs[i].totalSupply;
@@ -1081,9 +1104,8 @@ async function autoAnalysis(address, fiat) {
 		};
 		totalSupplys.push(totalSupplyObj);
 	}
-	let supply = [];
-	for (let i = 0; i < basisRewards.length; i++) {
-		let date = basisRewards[i].date;
+	for (let i = 0; i < rewards.length; i++) {
+		let date = rewards[i].date;
 		for (j = 0; j < totalSupplys.length; j++) {
 			if (date == totalSupplys[j].date) {
 				supplyObj = {
@@ -1094,85 +1116,12 @@ async function autoAnalysis(address, fiat) {
 			}
 		}
 	}
-
-	//main object construction
-	let bookValsDepletion = [];
-
-	let basisRewardDepletion = [];
-
-	for (i = 0; i < basisRewards.length; i++) {
-		let tranVal = 0;
-		let date = basisRewards[i].date;
-		if (i == 0) {
-			let bvDepObj = {
-				date: date,
-				bvDep: bookVal,
-			};
-			bookValsDepletion.push(bvDepObj);
-			let rewardDepletionObj = {
-				date: date,
-				rewBasisDepletion: basisRewards[i].basisReward, // - (depletion * percentage)  //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
-			};
-			basisRewardDepletion.push(rewardDepletionObj);
-		} else if (i > 0 && i < basisRewards.length - 1) {
-			let nextDate = basisRewards[i + 1].date;
-			// for positive values obtain price at date of tranasaction
-			for (j = 0; j < tranArray.length; j++) {
-				if (formatDate(tranArray[j].date) == formatDate(date)) {
-					tranVal = tranArray[j].amounnt;
-				} else if (formatDate(tranArray[j].date) > formatDate(date)) {
-					if (formatDate(tranArray[j].date) < formatDate(nextDate)) {
-						tranVal = tranArray[j].amounnt;
-					}
-				}
-			}
-			let depletion =
-				bookValsDepletion[i - 1].bvDep *
-				(1 - supply[i - 1].supply / supply[i].supply);
-			let bookVal =
-				bookValsDepletion[i - 1].bvDep +
-				basisRewards[i].basisReward -
-				depletion +
-				tranVal * basisPrice;
-			let bvDepObj = {
-				date: date,
-				bvDep: bookVal,
-			};
-			let percentage = basisRewards[i].basisReward / bookVal;
-			let rewardDepletionObj = {
-				date: date,
-				rewBasisDepletion:
-					basisRewards[i].basisReward - depletion * percentage, //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
-			};
-			bookValsDepletion.push(bvDepObj);
-			basisRewardDepletion.push(rewardDepletionObj);
-		} else {
-			//let depletion = bookValsDepletion[i-1].bvDep * (1 - supply[i-1].supply / supply[i].supply)
-			let bookVal =
-				bookValsDepletion[i - 1].bvDep +
-				basisRewards[i].basisReward +
-				tranVal * basisPrice; //subtract depletion from this once db updated and supply works
-			let bvDepObj = {
-				date: date,
-				bvDep: bookVal,
-			};
-			//let percentage = basisRewards[i].basisReward / bookVal
-			rewardDepletionObj = {
-				date: date,
-				rewBasisDepletion: basisRewards[i].basisReward, // - (depletion * percentage)  //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
-			};
-			bookValsDepletion.push(bvDepObj);
-			basisRewardDepletion.push(rewardDepletionObj);
-		}
-	}
-
-	//MARKET VALUE DEPLETION REWARDS OBJECT
+//MARKET VALUE DEPLETION REWARDS OBJECT
 	//Dependency Object
-	let mvdAnal = [];
-	for (let i = 0; i < basisRewards.length; i++) {
+	for (let i = 0; i < rewards.length; i++) {
 		for (let j = 0; j < pricesForUser.length; j++) {
-			let date1 = formatDate(basisRewards[i].date);
-			let date2 = formatDate(pricesForUser[j].date);
+			let date1 = formatDate(rewards[i].date);
+			let date2 = formatDate(pricesForUser[j].date)
 			if (date1 == date2) {
 				let date = pricesForUser[j].date;
 				let marketCap = pricesForUser[j].marketCap;
@@ -1186,134 +1135,152 @@ async function autoAnalysis(address, fiat) {
 			}
 		}
 	}
-	//main object construction
+
+
+	let basisValue = Object.values(basisBalances)[0];
+	let bookVal = basisPrice * (basisValue / 1000000);
+
+
 	let bookValsMVDepletion = [];
+    let bookValsDepletion = [];
+	let bookValsBasis = []
+
 	let bvMvDepObj = {
-		date: basisRewards[0].date,
-		bvMvDep: bookVal,
+		"date": rewards[0].date,
+		"bvMvDep": bookVal,
 	};
-	bookValsMVDepletion.push(bvMvDepObj);
+	let bvDepObj = {
+		"date": rewards[0].date,
+		"bvDep": bookVal,
+	};
+	let bvBasObj = {
+	    "date": rewards[0].date,
+	    "bvBas": bookVal
+	}
+	bookValsMVDepletion.push(bvMvDepObj)
+	bookValsDepletion.push(bvDepObj);
+	bookValsBasis.push(bvBasObj)
 
-	let basisRewardMVDepletion = [];
 
-	for (i = 0; i < basisRewards.length && i < mvdAnal.length; i++) {
-		let tranVal = 0;
-		date = basisRewards[i].date;
-		if (i == 0) {
-			let bvDepObj = {
-				date: date,
-				bvDep: bookVal,
-			};
-			bookValsDepletion.push(bvDepObj);
-			let rewardDepletionObj = {
-				date: date,
-				rewBasisDepletion: basisRewards[i].basisReward, // - (depletion * percentage)  //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
-			};
-			basisRewardMVDepletion.push(rewardDepletionObj);
-		} else if (i > 0 && i < basisRewards.length - 1) {
-			nextDate = basisRewards[i + 1].date;
+	for(i = 1; i < rewards.length - 1; i++){
+	    bookVal = bookValsBasis[i-1].bvBas + rewards[i].rewardQuantity * basisPrice
+	    bvBasObj = {
+	        "date": rewards[i].date,
+	        "bvBas": bookVal
+	    }
+	    bookValsBasis.push(bvBasObj)
+	}
+
+    let basisRewardDepletion = [];
+    let basisRewards = [];
+    let basisRewardMVDepletion = [];
+	
+	for (i = 0; i < rewards.length; i++) {
+		let basisRewardObj = {
+			"date": rewards[i].date,
+			"basisReward": rewards[i].rewardQuantity * basisPrice,
+		};
+		basisRewards.push(basisRewardObj);
+
+	}
+	//book value for basis rewards is unnessarry, it is calculeted for depletion
+	for (i = 0; i < rewards.length && i < mvdAnal.length; i++) {
+		if (i > 0 && i < basisRewards.length - 1) {
+			let tranVal = 0;
+			let date = rewards[i].date;
+			let nextDate = basisRewards[i + 1].date;
+			// for positive values obtain price at date of tranasaction
 			for (j = 0; j < tranArray.length; j++) {
-				if (formatDate(tranArray[j].date) == formatDate(date)) {
-					tranVal = tranArray[j].amounnt;
-				} else if (formatDate(tranArray[j].date) > formatDate(date)) {
-					if (formatDate(tranArray[j].date) < formatDate(nextDate)) {
+				try{
+					if (
+						formatDate(tranArray[j].date) ==
+						formatDate(date) 
+					) {
 						tranVal = tranArray[j].amounnt;
+					} else if (
+						formatDate(tranArray[j].date) >
+						formatDate(date) 
+					) {
+						if (
+							formatDate(tranArray[j].date)  <
+							formatDate(nextDate) 
+						) {
+							tranVal = tranArray[j].amounnt;
+						}
 					}
 				}
+				catch(e){break}
+				
 			}
-			let MVdepletion =
-				bookValsMVDepletion[i - 1].bvMvDep *
-				(mvdAnal[i].marketCap / mvdAnal[i - 1].marketCap -
-					mvdAnal[i].price / mvdAnal[i - 1].price);
-			bookVal =
-				bookValsMVDepletion[i - 1].bvMvDep +
-				basisRewards[i].basisReward -
-				MVdepletion +
-				tranVal * basisPrice;
-			let bvMVDepObj = {
-				date: basisRewards[i].date,
-				bvMvDep: bookVal,
-			};
+			let depletion = bookValsDepletion[i - 1].bvDep * (1 - supply[i - 1].supply / supply[i].supply);
+			let bookVal = bookValsDepletion[i - 1].bvDep + basisRewards[i].basisReward - depletion + tranVal * basisPrice;
+			let bvDepObj = {
+					date: date,
+					bvDep: bookVal,
+				};
 			let percentage = basisRewards[i].basisReward / bookVal;
-			let rewardMVDepletionObj = {
-				date: basisRewards[i].date,
-				rewBasisMVDepletion:
-					basisRewards[i].basisReward - MVdepletion * percentage,
-			};
-			bookValsMVDepletion.push(bvMVDepObj);
-			basisRewardMVDepletion.push(rewardMVDepletionObj);
-		} else {
-			let MVdepletion =
-				bookValsMVDepletion[i - 1].bvMvDep *
-				(mvdAnal[i].marketCap / mvdAnal[i - 1].marketCap -
-					mvdAnal[i].price / mvdAnal[i - 1].price);
-			bookVal =
-				bookValsMVDepletion[i - 1].bvMvDep +
-				basisRewards[i].basisReward -
-				MVdepletion +
-				tranVal * basisPrice;
+			let rewardDepletionObj = {
+					date: date,
+					rewBasisDepletion:
+						basisRewards[i].basisReward - depletion * percentage, //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
+				};
+			bookValsDepletion.push(bvDepObj);
+			basisRewardDepletion.push(rewardDepletionObj);
+
+			let MVdepletion = bookValsMVDepletion[i - 1].bvMvDep * (mvdAnal[i].marketCap / mvdAnal[i - 1].marketCap - mvdAnal[i].price / mvdAnal[i - 1].price);
+			bookVal = bookValsMVDepletion[i - 1].bvMvDep +	basisRewards[i].basisReward - MVdepletion + tranVal * basisPrice;
 			let bvMVDepObj = {
-				date: basisRewards[i].date,
-				bvMvDep: bookVal,
-			};
-			let percentage = basisRewards[i].basisReward / bookVal;
+					date: basisRewards[i].date,
+					bvMvDep: bookVal,
+				};
+			percentage = basisRewards[i].basisReward / bookVal;
 			let rewardMVDepletionObj = {
-				date: basisRewards[i].date,
-				rewBasisMVDepletion:
-					basisRewards[i].basisReward - MVdepletion * percentage,
-			};
+					date: basisRewards[i].date,
+					rewBasisMVDepletion:
+						basisRewards[i].basisReward - MVdepletion * percentage,
+				};
 			bookValsMVDepletion.push(bvMVDepObj);
 			basisRewardMVDepletion.push(rewardMVDepletionObj);
 		}
+
 	}
 
-	/*
-    if(balances[today] < balances [today -1]){
-       let basisQ = balances[today -1]
-    }
-    */
-	//use book vals mvdepletion object to find correspoiindg bvs with the correct basis bal'
-	let totalRewards = 0;
-	for (i = 0; i < rewards.length; i++) {
-		totalRewards += rewards[i].rewardQuantity;
+	let totalRewards = 0
+	for(i = 0; i < rewards.length; i++){
+		totalRewards += rewards[i].rewardQuantity
 	}
+	
+	
 
-	let xtzBasis =
-		basisBalances[
-			Object.keys(basisBalances)[Object.keys(basisBalances).length - 1]
-		] /
-			1000000 -
-		totalRewards;
 
-	let percentOfRew = totalRewards / xtzBasis;
 
-	let basisP =
-		bookValsBasis[bookValsBasis.length - 1].bvBas * (1 - percentOfRew);
-	let basisDep =
-		bookValsDepletion[bookValsDepletion.length - 1].bvDep *
-		(1 - percentOfRew);
-	let basisMVdep =
-		bookValsMVDepletion[bookValsMVDepletion.length - 1].bvMvDep *
-		(1 - percentOfRew);
+	let xtzBasis = basisBalances[Object.keys(basisBalances)[Object.keys(basisBalances).length - 1]] / 1000000 - totalRewards
+
+	let percentOfRew = totalRewards / xtzBasis
+
+
+	let basisP = bookValsBasis[bookValsBasis.length - 1].bvBas * (1 - percentOfRew)
+	let basisDep = bookValsDepletion[bookValsDepletion.length - 1].bvDep * (1 - percentOfRew)
+	let basisMVdep = bookValsMVDepletion[bookValsMVDepletion.length - 1].bvMvDep * (1 - percentOfRew)
+
 
 	//aggregate
 	let unrealizedRewardAgg = 0;
 	let unrealizedBasisAgg = 0;
 	let unrealizedDepAgg = 0;
 	let unrealizedMVDAgg = 0;
-	for (
-		i = 0;
-		i < rewards.length &&
-		i < basisRewards.length &&
-		i < basisRewardDepletion.length &&
-		i < basisRewardMVDepletion.length;
-		i++
-	) {
-		unrealizedRewardAgg += rewards[i].rewardQuantity;
-		unrealizedBasisAgg += basisRewards[i].basisReward;
-		unrealizedDepAgg += basisRewardDepletion[i].rewBasisDepletion;
-		unrealizedMVDAgg += basisRewardMVDepletion[i].rewBasisMVDepletion;
+	for (i = 0; i < rewards.length && i < basisRewards.length && i < basisRewardDepletion.length && i < basisRewardMVDepletion.length; i++) {
+		try{
+			unrealizedRewardAgg += rewards[i].rewardQuantity;
+			unrealizedBasisAgg += basisRewards[i].basisReward;
+			unrealizedDepAgg += basisRewardDepletion[i].rewBasisDepletion;
+			unrealizedMVDAgg += basisRewardMVDepletion[i].rewBasisMVDepletion;
+		}
+		catch(e){break}
+		
 	}
+	
+
 
 	//RETURN OBJECT
 	analysisResObj = {
@@ -1333,11 +1300,12 @@ async function autoAnalysis(address, fiat) {
 		xtzBasis: xtzBasis,
 		basisP: basisP,
 		basisDep: basisDep,
-		basisMVdep: basisMVdep,
+		basisMVdep: basisMVdep
 	};
 
 	return analysisResObj;
 }
+
 
 async function avgBasisPrice(address, fiat) {
 	let transObject = await getTransactions(address);
@@ -1381,7 +1349,8 @@ async function avgBasisPrice(address, fiat) {
 		}
 	}
 	// rn - if it stayed in longer than a day than its going to be part of the average
-
+	let netPositiveTotal = 0
+	let priceByincreaseTotal = 0
 	let significantPrices = [];
 	for (i = 0; i < netPositives.length; i++) {
 		let date = await formatDate(netPositives[i].date);
@@ -1391,19 +1360,15 @@ async function avgBasisPrice(address, fiat) {
 				significantPrices.push(priceObject[j].price);
 			}
 		}
+		netPositiveTotal += netPositives[i].amount
+		priceByincreaseTotal += netPositives[i].amount * significantPrices[i]
 	}
 
-	let totalPrice = 0;
-	let totalQuantity = 0;
-	for (i = 0; i < significantPrices.length; i++) {
-		totalPrice += significantPrices[i];
-		totalQuantity += 1;
-	}
-
-	let avgBasisPriceVal = totalPrice / totalQuantity;
+	let avgBasisPriceVal = priceByincreaseTotal / netPositiveTotal;
 
 	return avgBasisPriceVal;
 }
+
 
 function formatDate(date) {
 	var d = new Date(date),
