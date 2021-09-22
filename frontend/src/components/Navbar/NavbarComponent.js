@@ -2,31 +2,9 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { Nav, Navbar } from "react-bootstrap";
 import classes from "./Navbar.module.css";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Menu from "../Menu/Menu";
 
 const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
-	const [menuActive, setMenuActive] = React.useState(false);
-	const wrapper = React.createRef();
-	console.log(menuActive);
-
-	React.useEffect(() => {
-		// add when mounted
-		const handleMenuClick = (e) => {
-			if (wrapper.current.contains(e.target)) {
-				return;
-			}
-			setMenuActive(false);
-		};
-		if (menuActive) {
-			document.addEventListener("mousedown", handleMenuClick); // return function to be called when unmounted
-		} else {
-			document.removeEventListener("mousedown", handleMenuClick);
-		}
-		return () => {
-			document.removeEventListener("mousedown", handleMenuClick);
-		};
-	}, [menuActive, wrapper]);
-
 	let analysisStyle = classes.NavLinkDisabled;
 	if (canAccessAnalysis) {
 		analysisStyle = classes.NavLink;
@@ -39,7 +17,7 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 	};
 
 	return (
-		<div ref={wrapper}>
+		<div>
 			<Navbar expand="sm" className={classes.NavWrapper}>
 				<NavLink to="/">
 					<Navbar.Brand>
@@ -125,30 +103,17 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 							<div className={classes.MenuWrapper}>
 								<div className={classes.Log}>
 									Logged in as:
-									<div
-										className={classes.MenuButton}
-										onClick={() =>
-											setMenuActive(!menuActive)
-										}
-									>
-										{user.firstName} {user.lastName}
-										<ExpandMoreIcon />
-									</div>
-								</div>
-								{menuActive && (
-									<div
-										className={classes.Menu}
-										onClick={() => console.log("CLICKED")}
+									<Menu
+										label={`${user.firstName} ${user.lastName}`}
 									>
 										<NavLink
-											className={classes.Link}
 											to="change-password"
+											className={classes.Link}
 										>
 											Change Password
 										</NavLink>
-										<hr />
-									</div>
-								)}
+									</Menu>
+								</div>
 							</div>
 						) : null}
 					</Navbar.Text>

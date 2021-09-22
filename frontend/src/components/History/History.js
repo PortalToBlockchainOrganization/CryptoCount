@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import { Button, Spinner } from "react-bootstrap";
 import classes from "./History.module.css";
 import { useHistory } from "react-router";
+import Menu from "../Menu/Menu";
 
 const History = ({ user, realizedHistory, getHistory, getSet, setParams }) => {
 	const browserHistory = useHistory();
@@ -45,25 +46,31 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams }) => {
 					<td>{obj.address}</td>
 					<td>{obj.fiat}</td>
 					<td>{obj.basisDate.substring(0, 10)}</td>
-					<td>
-						<Button
-							variant="danger"
-							onClick={() =>
-								handleView(
-									obj.id,
-									obj.address,
-									obj.fiat,
-									obj.basisDate.substring(0, 10)
-								)
-							}
-						>
-							View
-						</Button>
-					</td>
-					<td>
-						<Button variant="danger" disabled>
-							Delete
-						</Button>
+					<td className={classes.Actions}>
+						<Menu>
+							<div className={classes.Buttons}>
+								<Button
+									className={classes.Button}
+									variant="outline-danger"
+									onClick={() =>
+										handleView(
+											obj.id,
+											obj.address,
+											obj.fiat,
+											obj.basisDate.substring(0, 10)
+										)
+									}
+								>
+									View
+								</Button>
+								<Button
+									className={classes.Button}
+									variant="danger"
+								>
+									Delete
+								</Button>
+							</div>
+						</Menu>
 					</td>
 				</tr>
 			);
@@ -124,7 +131,6 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams }) => {
 							<th>Fiat</th>
 							<th>Basis Date</th>
 							<th>Action</th>
-							<th>Delete</th>
 						</tr>
 					</thead>
 					<tbody className={classes.Body}>{body}</tbody>
