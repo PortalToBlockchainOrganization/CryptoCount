@@ -9,6 +9,7 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
+    - run: cd ~/CryptoCount && git pull origin master
     - run: cd ~ && sudo docker-compose down
     - run: sudo docker system prune -a -f
     - run: cd ~ && sudo docker-compose up -d --build
