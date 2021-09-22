@@ -38,6 +38,8 @@ bin/
 externals/
 _diag/
 .env
+bin.*/
+externals.*/
 bin.2.280.3/
 bin.2.280.2/
 externals.2.280.3/
