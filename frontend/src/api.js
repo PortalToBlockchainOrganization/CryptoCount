@@ -159,6 +159,14 @@ export function getSets() {
 	return get("Anal/");
 }
 
+export function forgotPassword(emailObj) {
+	return post("Prss/forgotpw", emailObj);
+}
+
+export function changePassword(userWithNewPassword) {
+	return post("/");
+}
+
 const errMap = {
 	Internal: "An Internal Server Error Occurred",
 	Forbidden: "You are Forbidden from Viewing the Requested Page",

@@ -2,29 +2,23 @@ import React, { useState } from "react";
 import { Form, FormGroup, FormControl, Button } from "react-bootstrap";
 import ResetConfirmation from "./ResetConfirmation";
 import classes from "./ResetPassword.module.css";
+import { forgotPassword } from "../../api";
 const ResetPassword = (props) => {
 	const [email, setEmail] = useState("");
 	const [emailSent, setEmailSent] = useState(false);
 
-	let handleSubmit = (event) => {
+	let handleSubmit = async (event) => {
 		console.log(email);
-		// props.signIn({ email }, () => {
-		// 	if (props.user._id !== null) {
-		// 		props.history.push("/history");
-		// 		if (
-		// 			props.location.state &&
-		// 			props.location.state.from !== undefined
-		// 		) {
-		// 			props.history.push(props.location.state.from);
-		// 		}
-
-		// 		if (props.params.address) {
-		// 			props.analPost(props.params);
-		// 		}
-		// 	}
-		// });
-		setEmailSent(true);
 		event.preventDefault();
+		try {
+			const res = await forgotPassword({ email: email });
+			if (res.status === 200) {
+				setEmailSent(true);
+			}
+		} catch (error) {
+			console.log(error);
+			return;
+		}
 	};
 	if (emailSent) {
 		return <ResetConfirmation email={email} />;
