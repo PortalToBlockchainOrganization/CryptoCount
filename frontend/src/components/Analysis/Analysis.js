@@ -6,7 +6,7 @@ import { Button, Spinner, Form, Modal } from "react-bootstrap";
 import { Bar } from "react-chartjs-2";
 import classes from "./Analysis.module.css";
 import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";
-import jsPDF from "jspdf"
+import jsPDF from "jspdf";
 /**
  * Component for the Analysis page. Renders a chart displaying realized,
  * unrealized, and realizing sets. Allows user to query for sets, realize,
@@ -89,6 +89,7 @@ const Analysis = (props) => {
 
 	const handleDownload = (e) => {
 		e.preventDefault();
+<<<<<<< HEAD
 
 		var doc = new jsPDF()
 
@@ -117,6 +118,27 @@ const Analysis = (props) => {
         doc.save("TezosRewardIncomeStatement.pdf")
     };
 
+=======
+		// 	const doc = new jsPDF()
+		//     doc.setFontSize(18);
+		//     doc.addImage(myImage, 'JPEG', 20, 25, 23, 23, 'PTBO Logo');
+		//     doc.text("PORTAL TO BLOCKCHAIN ORGANIZATION", 50, 35)
+		//     doc.setFontSize(12);
+		//     doc.text("STATEMENT OF TEZOS BLOCK REWARD INCOME", 50, 40)
+		//     doc.setFontSize(10)
+		//     doc.text("CALCULATED BY CRYPTOCOUNT", 25, 60)
+		//     doc.text("Name: Bob Smith", 25, 67)
+		//     doc.text("Delegator Address: tz1asdflasdhf;kjasdf;s", 25, 74)
+		//     doc.text("FIAT: USD", 25, 81)
+		//     doc.text("QUANTITY OF REWARDS SOLD: 1000", 25, 88)
+		//     doc.text("AVERAGE BASIS COST: 2.01 USD", 25, 95)
+		//     doc.text("REWARD INCOME: 10,000 USD", 25, 102)
+		//     //var income = set["data"]["realizingRewardBasisAgg"]
+		//     //doc.text(income, 10, 10)
+		//     doc.save("realize.pdf")
+		// }; */
+	};
+>>>>>>> origin/development
 
 	// chart js options
 	const options = chartOptions(set);
@@ -404,7 +426,13 @@ const Analysis = (props) => {
 								</div>
 							</div>
 						</div>
+<<<<<<< HEAD
 						<Button variant="danger" onClick={handleDownload}>Download Statement</Button>
+=======
+						<Button variant="danger" onClick={handleDownload}>
+							Download
+						</Button>
+>>>>>>> origin/development
 						<Button
 							type="submit"
 							variant="danger"

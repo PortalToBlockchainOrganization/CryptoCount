@@ -39,7 +39,7 @@ tr > td {
 }
 tr th,
 tr td {
-	padding: 15px;
+	padding: 20px;
 }
 tr th:first-child,
 tr td:first-child {
@@ -51,22 +51,22 @@ tr th {
 
 /* top-left border-radius */
 tr:first-child th:first-child {
-	border-top-left-radius: 6px;
+	border-top-left-radius: 5px;
 }
 
 /* top-right border-radius */
 tr:first-child th:last-child {
-	border-top-right-radius: 6px;
+	border-top-right-radius: 5px;
 }
 
 /* bottom-left border-radius */
 tr:last-child td:first-child {
-	border-bottom-left-radius: 6px;
+	border-bottom-left-radius: 5px;
 }
 
 /* bottom-right border-radius */
 tr:last-child td:last-child {
-	border-bottom-right-radius: 6px;
+	border-bottom-right-radius: 5px;
 }
 
 .Empty {
@@ -96,4 +96,23 @@ tr:last-child td:last-child {
 .HomePageLink:hover {
 	color: rgb(184, 38, 38);
 	border-bottom: 1px solid rgb(184, 38, 38);
+}
+
+.Actions {
+	position: relative;
+}
+
+.Buttons {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+
+	justify-content: space-between;
+
+	align-items: center;
+}
+
+.Button {
+	margin-bottom: 10px;
+	min-width: 50px;
 }

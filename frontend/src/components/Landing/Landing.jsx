@@ -131,7 +131,7 @@ const Landing = (props) => {
 				</div>
 				<a
 					className="download-link"
-					href="https://chrome.google.com/webstore/category/extensions"
+					href="https://chrome.google.com/webstore/detail/cryptocount/bkcakdddagaipncnpoehneegdlhdlmjf"
 					target="_blank"
 					rel="noreferrer"
 				>

@@ -8,6 +8,7 @@ import ErrDialog from "../ConfDialog/ErrDialog";
 import History from "../History/History";
 import ProtectedRoute from "../ProtectedRoute";
 import ResetPassword from "../ResetPassword/ResetPassword";
+import ChangePassword from "../ChangePassword/ChangePassword";
 
 const AnalysisBlock = ({ component: Component, ...rest }) => {
 	const isAuthed = rest.isAuthed();
@@ -42,7 +43,6 @@ const Main = (props) => {
 	const [canAccessAnalysis, setCanAccessAnalysis] = React.useState(false);
 	const { user, realizedHistory, getHistory, resetSet } = props;
 
-	console.log(props.params.fiat || Object.keys(props.set) > 0);
 	if (props?.params?.fiat || Object.keys(props?.set) > 0) {
 		if (!canAccessAnalysis) {
 			setCanAccessAnalysis(true);
@@ -93,6 +93,13 @@ const Main = (props) => {
 					exact
 					render={() => <SignInHooks {...props} />}
 				/>
+				<ProtectedRoute
+					exact
+					path="/change-password"
+					isAuthed={signedIn}
+				>
+					<ChangePassword email={user["email"]} />
+				</ProtectedRoute>
 				<Route path="/reset-password" exact component={ResetPassword} />
 				<Route
 					path="/register"
