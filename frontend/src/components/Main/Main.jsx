@@ -98,7 +98,7 @@ const Main = (props) => {
 					path="/change-password"
 					isAuthed={signedIn}
 				>
-					<ChangePassword />
+					<ChangePassword email={user["email"]} />
 				</ProtectedRoute>
 				<Route path="/reset-password" exact component={ResetPassword} />
 				<Route

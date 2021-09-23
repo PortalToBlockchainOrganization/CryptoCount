@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import { Form, FormGroup, FormControl, Button } from "react-bootstrap";
 import classes from "./ChangePassword.module.css";
-const ChangePassword = () => {
+import { changePassword } from "../../api";
+import ChangeConfirmation from "./ChangeConfirmation";
+
+const ChangePassword = (props) => {
+	console.log(props);
 	const [currentPassword, setCurrentPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
 	const [confirmNewPassword, setConfirmNewPassword] = useState("");
 	const [canSubmit, setCanSubmit] = useState(false);
+	const [error, setError] = useState(false);
+	const [resetSuccessful, setResetSuccessful] = useState(false);
 
 	React.useEffect(() => {
 		if (
@@ -18,31 +24,41 @@ const ChangePassword = () => {
 			setCanSubmit(false);
 		}
 	}, [currentPassword, newPassword, confirmNewPassword]);
-	const handleSubmit = (event) => {
-		// props.signIn({ email }, () => {
-		// 	if (props.user._id !== null) {
-		// 		props.history.push("/history");
-		// 		if (
-		// 			props.location.state &&
-		// 			props.location.state.from !== undefined
-		// 		) {
-		// 			props.history.push(props.location.state.from);
-		// 		}
 
-		// 		if (props.params.address) {
-		// 			props.analPost(props.params);
-		// 		}
-		// 	}
-		// });
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		try {
+			const res = await changePassword({
+				email: props.email,
+				password: currentPassword,
+				new_password: newPassword,
+			});
+			if (res.status === 200) {
+				setResetSuccessful(true);
+			}
+		} catch (error) {
+			console.log(error);
+			setError(true);
+		}
 		// setEmailSent(true);
 		event.preventDefault();
 	};
+
+	if (resetSuccessful) {
+		return <ChangeConfirmation />;
+	}
+
 	return (
 		<section className={classes.SignInWrapper}>
 			<div className={classes.Form}>
 				<h2>Change Password</h2>
 				<Form>
 					<FormGroup>
+						{error && (
+							<div className={classes.Mismatch}>
+								Incorrect password entered
+							</div>
+						)}
 						<Form.Label>Current password</Form.Label>
 						<FormControl
 							className="mb-2"

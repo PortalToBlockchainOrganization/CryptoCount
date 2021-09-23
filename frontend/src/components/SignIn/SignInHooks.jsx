@@ -9,12 +9,14 @@ const SignInHooks = (props) => {
 	let signIn = (event) => {
 		props.signIn({ email, password }, () => {
 			if (props.user._id !== null) {
-				props.history.push("/history");
+				// props.history.push("/history");
 				if (
 					props.location.state &&
 					props.location.state.from !== undefined
 				) {
 					props.history.push(props.location.state.from);
+				} else {
+					props.history.push("/");
 				}
 
 				if (props.params.address) {

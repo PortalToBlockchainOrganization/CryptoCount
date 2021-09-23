@@ -164,7 +164,7 @@ export function forgotPassword(emailObj) {
 }
 
 export function changePassword(userWithNewPassword) {
-	return post("/");
+	return post("Prss/changepw", userWithNewPassword);
 }
 
 const errMap = {

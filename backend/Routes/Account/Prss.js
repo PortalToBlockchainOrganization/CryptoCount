@@ -14,6 +14,83 @@ router.baseURL = "/Prss";
 const User = require("../../model/User.js");
 const Temp_Pw = require("../../model/temp_pw.js");
 
+router.post("/changepw", function (req, res) {
+	console.log(req.body);
+	var vld = req.validator;
+	async.waterfall(
+		[
+			function (cb) {
+				// check if user is user
+				if (
+					vld.hasFields(
+						req.body,
+						["email", "password", "new_password"],
+						cb
+					)
+				)
+					if (req.body.password.startsWith("temp_")) {
+						Temp_Pw.find(
+							{ email: req.body.email },
+							function (err, docs) {
+								if (err) cb(err);
+								cb(null, docs);
+							}
+						);
+					} else {
+						User.find(
+							{ email: req.body.email },
+							function (err, docs) {
+								if (err) cb(err);
+								cb(null, docs);
+							}
+						);
+					}
+			},
+			async function (result, cb) {
+				if (
+					vld.check(
+						result.length &&
+							(await bcrypt.compare(
+								req.body.password,
+								result[0].password
+							)),
+						"Incorrect Pw",
+						null,
+						cb
+					)
+				) {
+					console.log("INCORRECT PASSWORD");
+					return;
+				}
+			},
+			function (extra, cb) {
+				bcrypt.genSalt(10, cb);
+			},
+			function (salt, cb) {
+				console.log(salt);
+				bcrypt.hash(req.body["new_password"], salt, cb);
+			},
+			function (pw_hash, cb) {
+				User.findOneAndUpdate(
+					{ email: req.body.email },
+					{ $set: { password: pw_hash } },
+					function (err, docs) {
+						if (err) cb(err);
+						cb(null, docs);
+					}
+				);
+			},
+			function (result, cb) {
+				console.log(result);
+				return res.status(200).json({});
+			},
+		],
+		function (err) {
+			if (err) console.log(err);
+		}
+	);
+});
+
 // forgot password
 router.post("/forgotpw", function (req, res) {
 	// if found - check to see if temp pw already made
