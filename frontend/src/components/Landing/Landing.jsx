@@ -241,14 +241,14 @@ const Landing = (props) => {
 						<div className="text">
 							<h2>Count Before You Sell.</h2>
 							<p>
-								If I  sell some of my crypto rewards, how much income would I report?
+								If I  sell my crypto rewards, how much income would I report?
 							</p>
 						</div>
 					</div>
 					<div className="p-gif">
 						<p className="text">
 							Get an official statement of block reward income
-							with Crypto Count before you sell at an exchange.{" "}
+							calculated by CryptoCount.{" "}
 							<br />
 							<br />
 						</p>
