@@ -14,6 +14,7 @@ router.baseURL = "/Prss";
 const User = require("../../model/User.js");
 const Temp_Pw = require("../../model/temp_pw.js");
 
+// change password
 router.post("/changepw", function (req, res) {
 	console.log(req.body);
 	var vld = req.validator;
@@ -46,25 +47,32 @@ router.post("/changepw", function (req, res) {
 						);
 					}
 			},
-			async function (result, cb) {
-				if (
-					vld.check(
-						result.length &&
-							(await bcrypt.compare(
-								req.body.password,
-								result[0].password
-							)),
-						"Incorrect Pw",
-						null,
-						cb
-					)
-				) {
-					console.log("INCORRECT PASSWORD");
-					return;
+			function (result, cb) {
+				console.log("checking if email was found");
+				if (vld.check(result.length, "E-mail not found", null, cb)) {
+					console.log("email was found");
+					bcrypt.compare(
+						req.body.password,
+						result[0].password,
+						function (err, match) {
+							console.log("checking bcrypt results");
+							if (err) {
+								console.log(err);
+								console.log("err");
+								res.status(400).json({ err });
+								return;
+							} else {
+								cb(null, match);
+							}
+						}
+					);
 				}
 			},
-			function (extra, cb) {
-				bcrypt.genSalt(10, cb);
+			function (match, cb) {
+				// check to see result of bcrypt compare
+				if (vld.check(match, "Incorrect Password", null, cb)) {
+					bcrypt.genSalt(10, cb);
+				}
 			},
 			function (salt, cb) {
 				console.log(salt);
@@ -82,7 +90,7 @@ router.post("/changepw", function (req, res) {
 			},
 			function (result, cb) {
 				console.log(result);
-				return res.status(200).json({});
+				res.status(200).json({});
 			},
 		],
 		function (err) {
@@ -101,7 +109,6 @@ router.post("/forgotpw", function (req, res) {
 	//              - send unhashed pw in email
 	// if not found - reject
 	var vld = req.validator;
-	console.log(req);
 	async.waterfall(
 		[
 			function (cb) {
@@ -126,7 +133,7 @@ router.post("/forgotpw", function (req, res) {
 			function (result, cb) {
 				if (
 					vld.check(
-						result.length < 3,
+						result.length < 1,
 						"Too many forgot password requests",
 						null,
 						cb

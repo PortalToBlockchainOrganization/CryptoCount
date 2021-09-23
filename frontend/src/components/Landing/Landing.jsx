@@ -131,7 +131,7 @@ const Landing = (props) => {
 				</div>
 				<a
 					className="download-link"
-					href="https://chrome.google.com/webstore/category/extensions"
+					href="https://chrome.google.com/webstore/detail/cryptocount/bkcakdddagaipncnpoehneegdlhdlmjf"
 					target="_blank"
 					rel="noreferrer"
 				>
@@ -241,7 +241,8 @@ const Landing = (props) => {
 						<div className="text">
 							<h2>Count Before You Sell.</h2>
 							<p>
-								If I  sell some of my crypto rewards, how much income would I report?
+								If I sell some of my crypto rewards, how much
+								income would I report?
 							</p>
 						</div>
 					</div>
