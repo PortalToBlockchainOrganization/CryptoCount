@@ -50,8 +50,9 @@
 }
 
 .fiatImg {
-	width: 30px;
-	height: 30px;
+	width: 50px;
+	height: 50px;
+	border-radius: 5px;
 	object-fit: contain;
 }
 
@@ -252,4 +253,16 @@
 
 .Realizing:hover .realizingTooltip {
 	visibility: visible;
+}
+
+.Label {
+	font-size: 0.9rem;
+	color: black;
+	opacity: 0.5;
+	margin-right: 0.5rem;
+}
+
+.SpinnerText {
+	margin-left: 5px;
+	color: gray;
 }

@@ -1,0 +1,17 @@
+.main {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 30vh;
+	width: 100vw;
+	color: rgb(87, 87, 87);
+}
+.email {
+	margin-top: 20px;
+}
+
+.userEmail {
+	font-weight: 500;
+	color: rgb(46, 46, 46);
+}

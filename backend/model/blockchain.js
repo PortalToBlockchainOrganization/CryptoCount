@@ -1,10 +1,8 @@
 let mongoose = require("mongoose");
 
-//Henrik <3s Emma ;)
-
 let blockchainSchema = new mongoose.Schema({
 	date: {
-		type: Date,
+		type: String,
 		required: true,
 		unique: true,
 	},
@@ -256,4 +254,4 @@ let blockchainSchema = new mongoose.Schema({
 	},
 });
 
-module.exports = mongoose.model("Blockchain", blockchainSchema);
+module.exports = mongoose.model("Blockchains2", blockchainSchema);

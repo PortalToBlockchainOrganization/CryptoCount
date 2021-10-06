@@ -17,6 +17,53 @@ const RealizeHistObj = require("../../model/realize.js");
 const BlockchainModel = require("../../model/blockchain.js");
 const User = require("../../model/User.js");
 
+// given a set id to delete check if user is assoc to it then remove it from db
+router.delete("/:setId", function(req,res) {
+    var setId = req.params.setId
+    var ssn = req.session;
+    async.waterfall(
+        [
+            function(cb){
+                // pull user's set ids and confirm the requested set is present
+                User.find({_id: ssn.prsId}, function(err, docs){
+                    if(err) cb(err);
+                    cb(null, docs[0].setIds)
+                })
+            },
+            function(setIds, cb){
+                if(setIds.includes(setId)){
+                    // delete the set from the realize database
+                    RealizeHistObj.deleteOne({_id: setId}, function(err, docs){
+                        if (err) cb(err);
+                        cb(null, docs)
+                    })
+                }
+                else{
+                    // return a 404 with the error set to set not found
+                    res.status(404).json({error: 'Set Not Found'})
+                    cb('Set Not Found')
+                }
+            },
+            function(docs, cb){
+                // delete the set from the users set ids
+                User.findOneAndUpdate(
+                    {_id: ssn.prsId}, 
+                    {$pull: { setIds: setId}},
+                    function (err, doc) {
+                        if (err) cb(err);
+                        cb(null, doc);
+                    });
+            },
+            function(doc, cb){
+                res.status(200).json(doc[0])
+                cb()
+            }],
+            function(err){
+                if(err) console.log(err);
+            }
+    );
+});
+
 // given obj id - get obj (BETA)
 router.get("/:objId", function (req, res) {
 	objId = req.params.objId;
@@ -45,6 +92,8 @@ router.get("/", function (req, res) {
 	async.waterfall(
 		[
 			function (cb) {
+                console.log('getting all user sets')
+                console.log(user_id)
 				RealizeHistObj.find({ userid: user_id }, function (err, doc) {
 					if (err) cb(err);
 					cb(null, doc);
@@ -98,8 +147,10 @@ router.post("/Auto", function (req, res) {
 					basisDate: body["basisDate"],
 					unrealizedRewards: unrel_obj.unrealizedRewards,
 					unrealizedBasisRewards: unrel_obj.unrealizedBasisRewards,
-					unrealizedBasisRewardsDep: unrel_obj.unrealizedBasisRewardsDep,
-					unrealizedBasisRewardsMVDep: unrel_obj.unrealizedBasisRewardsMVDep,
+					unrealizedBasisRewardsDep:
+						unrel_obj.unrealizedBasisRewardsDep,
+					unrealizedBasisRewardsMVDep:
+						unrel_obj.unrealizedBasisRewardsMVDep,
 					unrealXTZBasis: unrel_obj.xtzBasis,
 					unrealBasisP: unrel_obj.basisP,
 					unrealBasisDep: unrel_obj.basisDep,
@@ -108,13 +159,27 @@ router.post("/Auto", function (req, res) {
 					unrealizedRewardAgg: unrel_obj.unrealizedRewardAgg,
 					unrealizedBasisAgg: unrel_obj.unrealizedBasisAgg,
 					unrealizedDepAgg: unrel_obj.unrealizedDepAgg,
-					unrealizedMVDAgg: unrel_obj.unrealizedMVDAgg
+					unrealizedMVDAgg: unrel_obj.unrealizedMVDAgg,
 				});
 				rel_obj.save(function (err, doc) {
 					if (err) cb(err);
 					cb(null, doc);
 				});
+            },
+            function (rel_doc, cb) {
+				// associate the new realize history obj with the user
+				if (rel_doc) {
+					User.findOneAndUpdate(
+						{ _id: prsId },
+						{ $addToSet: { setIds: rel_doc._id } },
+						function (err, doc) {
+                            if (err) cb(err);
+							cb(null, rel_doc);
+						}
+					);
+				}
 			},
+            // add set to user sets 
 			function (result, cb) {
 				//after creating new rel db obj,
 				// add the send unrel to FE
@@ -146,15 +211,15 @@ router.post("/Save", function (req, res) {
 						_id: body.setId,
 					},
 					function (err, docs) {
-                        if (err) cb(err);
+						if (err) cb(err);
 						cb(null, docs);
 					}
 				);
 			},
 			function (realObj, cb) {
 				// probably should add check to make sure realizing object equals
-                // the session realizing object
-                realObj = realObj[0]
+				// the session realizing object
+				realObj = realObj[0];
 				if (
 					!(
 						realObj.realizedRewards &&
@@ -172,8 +237,20 @@ router.post("/Save", function (req, res) {
 					realizedRewards = ssn_real.realizingRewards;
 					realizedBasisRewards = ssn_real.realizingRewardBasis;
 					realizedBasisRewardsDep = ssn_real.realizingRewardBasisDep;
-					realizedBasisRewardsMVDep =
-						ssn_real.realizingRewardBasisMVDep;
+					realizedBasisRewardsMVDep = ssn_real.realizingRewardBasisMVDep;
+					unrealizedRewards = ssn_real.unrealizedRewards;
+					//unrealizedRewardAgg =  ssn_real.unrealizedRewardAgg;
+					//unrealizedBasisAgg = ssn_real.unrealizedBasisAgg;
+					//unrealizedDepAgg = ssn_real.unrealizedDepAgg;
+					//unrealizedMVDAgg = ssn_real.unrealizedMVDAgg;
+					//unrealizedXTZBasis: ssn_real.unrealizedXTZBasis,
+					//unrealizedBasisP: ssn_real.unrealizedBasisP,
+					//unrealizedBasisDep: ssn_real.unrealizedBasisDep,
+					//unrealizedBasisMVDep: ssn_real.unrealizedBasisMVDep,
+					unrealizedBasisRewards = ssn_real.unrealizedBasisRewards;
+					unrealizedBasisRewardsDep = ssn_real.unrealizedBasisRewardsDep;
+					unrealizedBasisRewardsMVDep = ssn_real.unrealizedBasisRewardsMVDep;
+					
 				} else {
 					// add and extend existing realized lists/values
 					realizedRewardAgg =
@@ -191,16 +268,42 @@ router.post("/Save", function (req, res) {
 					realizedBasisMVDep =
 						realObj.realizedBasisMVDep +
 						ssn_real.realizingBasisMVDep;
-					realizedRewards = realObj.realizedRewards.concat(ssn_real.realizingRewards
+					realizedRewards = realObj.realizedRewards.concat(
+						ssn_real.realizingRewards
 					);
-					realizedBasisRewards = realObj.realizedBasisRewards.concat(ssn_real.realizingRewardBasis
+					realizedBasisRewards = realObj.realizedBasisRewards.concat(
+						ssn_real.realizingRewardBasis
 					);
 					realizedBasisRewardsDep =
-						realObj.realizedBasisRewardsDep.concat(ssn_real.realizingRewardBasisDep
+						realObj.realizedBasisRewardsDep.concat(
+							ssn_real.realizingRewardBasisDep
 						);
 					realizedBasisRewardsMVDep =
-						realObj.realizedBasisRewardsMVDep.concat(ssn_real.realizingRewardBasisMVDep
+						realObj.realizedBasisRewardsMVDep.concat(
+							ssn_real.realizingRewardBasisMVDep
 						);
+				}
+				for (i = 0; i < realizedRewards.length; i++) {
+					unrealizedRewards.shift();
+					unrealizedBasisRewards.shift();
+					unrealizedBasisRewardsDep.shift();
+					unrealizedBasisRewardsMVDep.shift();
+				}
+				let unrealizedRewardAgg = 0;
+				let unrealizedBasisAgg = 0;
+				let unrealizedDepAgg = 0;
+				let unrealizedMVDAgg = 0;
+				for (i = 0; i < unrealizedRewards.length; i++) {
+					try{
+						unrealizedRewardAgg += unrealrewards[i].rewardQuantity;
+						unrealizedBasisAgg += unrealizedBasisRewards[i].basisReward;
+						unrealizedDepAgg += unrealizedBasisRewardsDep[i].rewBasisDepletion;
+						unrealizedMVDAgg += unrealizedBasisRewardsMVDep[i].rewBasisMVDepletion;
+					}
+				
+					catch(e){
+						break
+					}
 				}
 				// find obj and update unrealized values
 				RealizeHistObj.findOneAndUpdate(
@@ -217,12 +320,9 @@ router.post("/Save", function (req, res) {
 							unrealizedBasisP: ssn_real.unrealizedBasisP,
 							unrealizedBasisDep: ssn_real.unrealizedBasisDep,
 							unrealizedBasisMVDep: ssn_real.unrealizedBasisMVDep,
-							unrealizedBasisRewards:
-								ssn_real.unrealizedBasisRewards,
-							unrealizedBasisRewardsDep:
-								ssn_real.unrealizedBasisRewardsDep,
-							unrealizedBasisRewardsMVDep:
-								ssn_real.unrealizedBasisRewardsMVDep,
+							unrealizedBasisRewards: ssn_real.unrealizedBasisRewards,
+							unrealizedBasisRewardsDep: ssn_real.unrealizedBasisRewardsDep,
+							unrealizedBasisRewardsMVDep: ssn_real.unrealizedBasisRewardsMVDep,
 							unrealizedRewards: ssn_real.unrealizedRewards,
 							realizedRewardAgg: realizedRewardAgg,
 							realizedDepAgg: realizedDepAgg,
@@ -242,8 +342,11 @@ router.post("/Save", function (req, res) {
 						new: true,
 					},
 					function (err, doc) {
-						if (err) cb(err);
-						cb(null, doc);
+                        if (err) cb(err);
+                        else{
+                            console.log(doc)
+                            cb(null, doc);
+                        }
 					}
 				);
 			},
@@ -297,8 +400,7 @@ router.post("/Realize", function (req, res) {
 				//     "realizingBasisMVDep": rel_obj["realizingBasisMVdep"]
 				// }
 				ssn.realizing = rel_obj;
-				console.log("rel_obj");
-				console.log(rel_obj);
+
 				res.status(200).json(rel_obj);
 				cb();
 			},
@@ -314,6 +416,8 @@ router.post("/Unrel", function (req, res) {
 	var body = req.body;
 	var unrel_obj = {};
 	const { address, fiat, basisDate } = body;
+	var prsId = req.session.prsId;
+
 	console.log(address);
 	console.log(fiat);
 	console.log(basisDate);
@@ -330,7 +434,6 @@ router.post("/Unrel", function (req, res) {
 				)
 					try {
 						unrel_obj = await analysis(address, basisDate, fiat);
-						console.log(unrel_obj);
 						return unrel_obj;
 					} catch (error) {
 						console.log("analysis error");
@@ -345,7 +448,6 @@ router.post("/Unrel", function (req, res) {
 				if (unrel_obj && unrel_obj.stack && unrel_obj.message) {
 					cb(unrel_obj, null);
 				}
-				console.log(body["histObjId"]);
 				RealizeHistObj.findOneAndUpdate(
 					{ _id: body["histObjId"] },
 					{
@@ -356,9 +458,12 @@ router.post("/Unrel", function (req, res) {
 							address: body["address"],
 							basisDate: body["basisDate"],
 							unrealizedRewards: unrel_obj.unrealizedRewards,
-							unrealizedBasisRewards: unrel_obj.unrealizedBasisRewards,
-							unrealizedBasisRewardsDep: unrel_obj.unrealizedBasisRewardsDep,
-							unrealizedBasisRewardsMVDep: unrel_obj.unrealizedBasisRewardsMVDep,
+							unrealizedBasisRewards:
+								unrel_obj.unrealizedBasisRewards,
+							unrealizedBasisRewardsDep:
+								unrel_obj.unrealizedBasisRewardsDep,
+							unrealizedBasisRewardsMVDep:
+								unrel_obj.unrealizedBasisRewardsMVDep,
 							unrealXTZBasis: unrel_obj.xtzBasis,
 							unrealBasisP: unrel_obj.basisP,
 							unrealBasisDep: unrel_obj.basisDep,
@@ -367,7 +472,7 @@ router.post("/Unrel", function (req, res) {
 							unrealizedRewardAgg: unrel_obj.unrealizedRewardAgg,
 							unrealizedBasisAgg: unrel_obj.unrealizedBasisAgg,
 							unrealizedDepAgg: unrel_obj.unrealizedDepAgg,
-							unrealizedMVDAgg: unrel_obj.unrealizedMVDAgg
+							unrealizedMVDAgg: unrel_obj.unrealizedMVDAgg,
 						},
 					},
 					{ new: true },
@@ -468,7 +573,11 @@ router.post("/", function (req, res) {
 						{ _id: prsId },
 						{ $addToSet: { setIds: rel_doc._id } },
 						function (err, doc) {
-							if (err) cb(err);
+                            if (err) cb(err);
+                            else{
+                                console.log("THIS IS IT")
+                                console.log(doc)
+                            }
 							cb(null, rel_doc._id);
 						}
 					);
@@ -537,11 +646,14 @@ async function getPrices(fiat) {
 	let finalData = {};
 	for (i = 0; i < priceAndMarketCapData.length; i++) {
 		let date = priceAndMarketCapData[i].date;
-		//why cant identifier at end be var?
+		// convert year month day to month day year
+		var date_arr1 = date.toString().split("-");
+		var date_arr2 = [date_arr1[1], date_arr1[2], date_arr1[0]];
+		date = date_arr2.join("-");
+
 		let priceN = priceAndMarketCapData[i][price];
 		let marketCapN = priceAndMarketCapData[i][marketCap];
-		date_iso_str = date.toISOString().slice(0, 10);
-		finalData[date_iso_str] = priceN;
+		finalData[date] = priceN;
 	}
 	return finalData;
 }

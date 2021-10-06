@@ -1,4 +1,7 @@
-const baseURL = "https://cryptocount.co/api/";
+const baseURL =
+	process.env.NODE_ENV === "development"
+		? "http://localhost:3001/"
+		: "https://cryptocount/api/";
 const headers = new Headers();
 var sessionId;
 
@@ -18,10 +21,11 @@ var sessionId;
 // 5. Signin and signout operations that retain relevant
 //    sessionId data.  Successful signin returns promise
 //    resolving to newly signed in user.
-headers.set("Content-Type", "application/JSON");
-
+headers.set("Content-Type", "application/json");
+console.log(process.env.NODE_ENV);
 const reqConf = {
 	headers: headers,
+	credentials: process.env.NODE_ENV === "development" ? "include" : false,
 };
 
 function safeFetch(method, endpoint, body) {
@@ -101,6 +105,11 @@ export function register(user) {
 	return post("Prss", user);
 }
 
+export function deleteSet(id){
+    return del(`Anal/${id}`, {
+    });
+}
+
 export function analPost(params) {
 	if (params) {
 		return post("Anal", {
@@ -153,6 +162,14 @@ export function getSet(setId) {
 
 export function getSets() {
 	return get("Anal/");
+}
+
+export function forgotPassword(emailObj) {
+	return post("Prss/forgotpw", emailObj);
+}
+
+export function changePassword(userWithNewPassword) {
+	return post("Prss/changepw", userWithNewPassword);
 }
 
 const errMap = {

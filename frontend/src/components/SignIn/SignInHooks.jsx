@@ -9,12 +9,14 @@ const SignInHooks = (props) => {
 	let signIn = (event) => {
 		props.signIn({ email, password }, () => {
 			if (props.user._id !== null) {
-				props.history.push("/history");
+				// props.history.push("/history");
 				if (
 					props.location.state &&
 					props.location.state.from !== undefined
 				) {
 					props.history.push(props.location.state.from);
+				} else {
+					props.history.push("/");
 				}
 
 				if (props.params.address) {
@@ -57,7 +59,15 @@ const SignInHooks = (props) => {
 						>
 							Sign in
 						</Button>
-						<p className="mt-4">
+						<p className="mt-3">
+							<a
+								className={classes.RegisterLink}
+								href="/reset-password"
+							>
+								Forgot password?
+							</a>
+						</p>
+						<p className="mt-0">
 							Need an account?{" "}
 							<a
 								className={classes.RegisterLink}

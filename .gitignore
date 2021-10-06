@@ -7,6 +7,8 @@ frontend/public/manifest-extension.json
 frontend/build/
 frontend/live/
 .env
+frontend/.env
+backend/.env
 .credentials
 .credentials_rsaparams
 .path

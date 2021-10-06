@@ -3,7 +3,16 @@ function realizedHistory(state = {}, action) {
 		case "CREATE_HISTORY_STARTED":
 			return action.payload;
 		case "CREATE_HISTORY_SUCCEEDED":
-			return { isLoading: false, history: action.payload };
+            console.log("CREATE_HISTORY_SUCCEEDED", action.payload)
+            return { isLoading: false, history: action.payload };
+        case "NEW_SET_CREATED":
+            var temp = state
+            console.log(temp)
+            temp.push(action.payload)
+            return temp
+        case "REMOVE_SET":
+            var temp = state.realizedHistory.history.filter(set => set.id !== action.payload);
+            return {isLoading: false, history: temp};
 		case "SIGN_OUT":
 			return {};
 		default:

@@ -1,3 +1,5 @@
+@import url('http://fonts.cdnfonts.com/css/louis-george-cafe');
+
 .wrapper {
 	display: block;
 	height: calc(100vh - 57px);
@@ -22,26 +24,45 @@
 	justify-content: center;
 	align-items: center;
 }
-.logo-container {
+/* .logo-container {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 }
 .logo {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	border-radius: 5px;
 	height: 50%;
-	width: 45%;
 }
 
 .logo-name {
 	font-size: 5em;
-	font-family: "Source Sans Pro", sans-serif;
-	font-weight: 600;
-	color: #4b4b4b;
+	font-family: 'Louis George Cafe', sans-serif;
+	font-weight: 700;
+	color: #2e2e2e;
+} */
+
+.logo-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
-.name-one-liner {
-	margin-left: 50px;
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    height: 50%;
+}
+
+.logo-name {
+    font-size: 5em;
+    font-family: 'Louis George Café', sans-serif;
+    font-weight: 700;
+    color: #2e2e2e;
 }
 
 p {
@@ -61,7 +82,6 @@ p {
 	display: flex;
 	justify-content: center;
 	margin-top: 25px;
-
 }
 
 .password {
@@ -101,6 +121,7 @@ p {
 	margin: 20px;
 	padding: 20px;
 	width: 100vw;
+	opacity: 0.75;
 }
 
 .tutorial {
@@ -128,12 +149,54 @@ p {
 } */
 .p-gif {
 	font-size: 1.5em;
-	height: 100%;
+	height: 75vh;
 	color: #2e2e2e;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
+}
+
+.download-link {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	margin: 5px;
+	color: rgb(117, 0, 0);
+
+	background-color: rgb(252, 231, 235);
+	border-radius: 100px;
+	padding: 5px 20px 5px 20px;
+	min-width: 225px;
+	min-height: 40px;
+	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+	transition: all 100ms ease-in-out;
+}
+
+.download-link:hover {
+	text-decoration: none;
+	color: rgb(73, 2, 2);
+	transform: scale(1.05);
+}
+
+.download-link:active {
+	transform: scale(0.95);
+}
+
+.download-link img {
+	margin-left: 5px;
+	height: 30px;
+}
+
+.ptbo-link {
+	border-radius: 5px;
+	width: 35px;
+	height: 30px;
+}
+
+#firefox-link {
+    opacity: 0.6; /* Real browsers */
+    filter: alpha(opacity = 60); /* MSIE */
 }
 
 @media (max-width: 1300px) {

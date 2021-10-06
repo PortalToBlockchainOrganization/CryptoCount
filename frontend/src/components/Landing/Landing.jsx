@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, OverlayTrigger, Tooltip, Popover } from "react-bootstrap";
 import VerticalModal from "../VerticalModal/VerticalModal";
 import "./Landing.css";
 import tezos from "../../Assets/Orgs/Tezos.png";
@@ -10,6 +10,8 @@ import lottie from "lottie-web";
 import womenThinking from "../../Assets/womenThinking.json";
 import womenComputer from "../../Assets/womenComputer.json";
 import womenSigning from "../../Assets/womenSigning.json";
+import chrome from "../../Assets/chrome.svg";
+import firefox from "../../Assets/firefox.svg";
 
 const Landing = (props) => {
 	// Begin POST data states
@@ -120,30 +122,72 @@ const Landing = (props) => {
 				<section className="static-wrapper">
 					<div className="logo-container">
 						<img className="logo" src="./logo.png" alt="logo" />
-						<div className="name-one-liner">
-							<h1 className="logo-name">CryptoCount</h1>
-						</div>
 					</div>
 				</section>
+				<br />
+				<br />
+				<div className="name-one-liner">
+					<h1 className="logo-name">CryptoCount</h1>
+				</div>
+				<a
+					className="download-link"
+					href="https://chrome.google.com/webstore/detail/cryptocount/bkcakdddagaipncnpoehneegdlhdlmjf"
+					target="_blank"
+					rel="noreferrer"
+				>
+					Download for Chrome (ALPHA)
+					<img src={chrome} alt="chrome-web-store" />
+				</a>
+                <OverlayTrigger
+                    placement="right"
+                    overlay={(
+                        <Popover>
+                          <Popover.Title as="h3">
+                          In Development
+                          </Popover.Title>
+                        </Popover>
+                      )} >
+                    <a
+                        id='firefox-link'
+                        className="download-link"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        Download for FireFox{" "}
+                        <img src={firefox} alt="firefox-add-on" />
+                    </a>
+                </OverlayTrigger>
+				<a
+					className="download-link"
+					href="https://www.portaltoblockchain.org/"
+					target="_blank"
+					rel="noreferrer"
+				>
+					Developer Hub
+					<img className="ptbo-link" src={ptbo} alt="ptbo" />
+				</a>
 				<div className="form">
 					<Form onSubmit={handleSignIn}>
-						<Form.Group controlId="formBasicEmail">
-							<Form.Label>
-								Enter Your Delegation Address
-							</Form.Label>
-							<Form.Control
-								type="text"
-								placeholder="Delegation Address"
-								onChange={handleDelegationChange}
-							/>
-						</Form.Group>
+						{props.signedIn() ? (
+							<Form.Group controlId="formBasicEmail">
+								<Form.Label>
+									Enter Your Delegation Address
+								</Form.Label>
+								<Form.Control
+									type="text"
+									placeholder="Delegation Address"
+									onChange={handleDelegationChange}
+								/>
+							</Form.Group>
+						) : null}
 						{props.signedIn() ? null : (
 							<Form.Group>
 								<div className="mb-3">
-									Or Sign In To Your Account
+									Sign In To Your Account
 								</div>
 								<Form.Control
 									type="email"
+									autoComplete="email"
 									placeholder="email@cryptocount.com"
 									onChange={handleEmailChange}
 								/>
@@ -206,16 +250,15 @@ const Landing = (props) => {
 						<div className="text">
 							<h2>Count Before You Sell.</h2>
 							<p>
-								If I want to sell some of my crypto rewards or
-								its staking basis, what would I report for my
-								taxes?
+								If I  sell my crypto rewards, how much income would I report?
 							</p>
 						</div>
 					</div>
 					<div className="p-gif">
 						<p className="text">
-							Count your crypto rewards and basis with Crypto
-							Count before you sell at an exchange. <br />
+							Get an official statement of block reward income
+							calculated by CryptoCount.{" "}
+							<br />
 							<br />
 						</p>
 						<div className="animation" id="women-computer" />
@@ -223,9 +266,8 @@ const Landing = (props) => {
 					<div className="p-gif">
 						<div className="animation" id="women-signing" />
 						<p className="text">
-							Realize amounts of crypto in CryptoCount with your
-							country's currency. Use CryptoCount's calculation of
-							your economically fair income for your taxes.
+							Report your economically fair income to your
+							countries' IRS.
 						</p>
 					</div>
 				</div>

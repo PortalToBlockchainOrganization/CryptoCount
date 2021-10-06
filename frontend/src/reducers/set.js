@@ -40,6 +40,8 @@ function set(state = {}, action) {
 				action.payload["realizingBasisP"];
 			tempSet["data"]["realizingMVDAgg"] =
 				action.payload["realizingMVDAgg"];
+			tempSet["data"]["unrealizedRewardAgg"] =
+				action.payload["unrealizedRewardAgg"];
 			tempSet["isLoading"] = false;
 			return tempSet;
 		case "SAVE_REALIZE":

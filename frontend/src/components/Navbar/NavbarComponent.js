@@ -2,10 +2,10 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { Nav, Navbar } from "react-bootstrap";
 import classes from "./Navbar.module.css";
+import Menu from "../Menu/Menu";
 
 const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 	let analysisStyle = classes.NavLinkDisabled;
-
 	if (canAccessAnalysis) {
 		analysisStyle = classes.NavLink;
 	}
@@ -17,7 +17,7 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 	};
 
 	return (
-		<>
+		<div>
 			<Navbar expand="sm" className={classes.NavWrapper}>
 				<NavLink to="/">
 					<Navbar.Brand>
@@ -99,14 +99,29 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 				<div className={classes.Beta}>beta version 0.0.1</div>
 				{true ? (
 					<Navbar.Text className={classes.Name}>
-						{signedIn() ? `Logged in as: ${user.firstName}
-							${user.lastName}` : null}
+						{signedIn() ? (
+							<div className={classes.MenuWrapper}>
+								<div className={classes.Log}>
+									Logged in as:
+									<Menu
+										label={`${user.firstName} ${user.lastName}`}
+									>
+										<NavLink
+											to="change-password"
+											className={classes.Link}
+										>
+											Change Password
+										</NavLink>
+									</Menu>
+								</div>
+							</div>
+						) : null}
 					</Navbar.Text>
 				) : (
 					""
 				)}
 			</div>
-		</>
+		</div>
 	);
 };
 

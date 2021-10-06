@@ -1,18 +1,19 @@
 .Page {
 	height: 100vh;
 	width: 100vw;
-	overflow-y: scroll;
 }
 
 .Wrapper {
 	position: relative;
-	height: 95vh;
+	height: calc(100vh - 120px);
 	width: 100%;
 	top: 56px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	overflow-y: scroll;
 }
+
 .EmptyWrapper {
 	width: 100%;
 	display: flex;
@@ -28,9 +29,17 @@ table {
 	border-radius: 4px;
 	box-shadow: 0 4px 12px rgb(0 0 0 / 8%), 0 0 1px rgb(1 0 0 / 10%);
 }
+
+tr > th {
+	color: rgb(77, 77, 77);
+	font-weight: 500;
+}
+tr > td {
+	color: rgb(61, 61, 61);
+}
 tr th,
 tr td {
-	padding: 15px;
+	padding: 20px;
 }
 tr th:first-child,
 tr td:first-child {
@@ -42,22 +51,22 @@ tr th {
 
 /* top-left border-radius */
 tr:first-child th:first-child {
-	border-top-left-radius: 6px;
+	border-top-left-radius: 5px;
 }
 
 /* top-right border-radius */
 tr:first-child th:last-child {
-	border-top-right-radius: 6px;
+	border-top-right-radius: 5px;
 }
 
 /* bottom-left border-radius */
 tr:last-child td:first-child {
-	border-bottom-left-radius: 6px;
+	border-bottom-left-radius: 5px;
 }
 
 /* bottom-right border-radius */
 tr:last-child td:last-child {
-	border-bottom-right-radius: 6px;
+	border-bottom-right-radius: 5px;
 }
 
 .Empty {
@@ -87,4 +96,23 @@ tr:last-child td:last-child {
 .HomePageLink:hover {
 	color: rgb(184, 38, 38);
 	border-bottom: 1px solid rgb(184, 38, 38);
+}
+
+.Actions {
+	position: relative;
+}
+
+.Buttons {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+
+	justify-content: space-between;
+
+	align-items: center;
+}
+
+.Button {
+	margin-bottom: 10px;
+	min-width: 50px;
 }

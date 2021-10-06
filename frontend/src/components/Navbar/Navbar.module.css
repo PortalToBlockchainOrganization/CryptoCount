@@ -109,3 +109,24 @@
 .NavActive {
 	border-bottom: 2px solid #dc3545;
 }
+
+.Log {
+	display: flex;
+	align-items: center;
+}
+
+.MenuWrapper {
+	position: absolute;
+	position: absolute;
+	right: 0;
+	margin-right: 50px;
+}
+
+.Link {
+	color: #dc3545;
+}
+
+.Link:hover {
+	text-decoration: none;
+	color: #97101d;
+}
