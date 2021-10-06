@@ -7,28 +7,47 @@ var { Session, router } = require("./Routes/Session.js");
 var Validator = require("./Routes/Validator.js");
 var async = require("async");
 const InitiateMongoServer = require("./config/db");
+require("dotenv").config();
 
 // Initiate Mongo Server
 InitiateMongoServer();
 
 // Initiate Express (this) Server
 var app = express();
-app.use(cors({
-	origin: "https://cryptocount.co", credentials: true, methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"]
-}));
+app.use(
+	cors({
+		origin:
+			process.env.DEV_ENV === "LOCAL"
+				? "http://localhost:3000"
+				: "https://cryptocount.co",
+		credentials: true,
+		methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
+	})
+);
 
 // Static paths to be served like index.html and all client side js
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(function (req, res, next) {
-	  const allowedOrigins = ['http://127.0.0.1:80', 'http://localhost:80', 'http://54.201.255.116', 'http://54.201.255.116:1', 'http://54.201.255.116:80', 'http://cryptocount.co', 'https://cryptocount.co'];
-	  const origin = req.headers.origin;
-	  if (allowedOrigins.includes(origin)) {
-	       res.setHeader('Access-Control-Allow-Origin', origin);
-	  }
+	const allowedOrigins = [
+		"http://127.0.0.1:80",
+		"http://localhost:80",
+		"http://54.201.255.116",
+		"http://54.201.255.116:1",
+		"http://54.201.255.116:80",
+		"http://cryptocount.co",
+		"https://cryptocount.co",
+	];
+	const origin = req.headers.origin;
+	if (allowedOrigins.includes(origin)) {
+		res.setHeader("Access-Control-Allow-Origin", origin);
+	}
 	res.header("Access-Control-Allow-Headers", "Content-Type, Location");
 	res.header("Access-Control-Expose-Headers", "Content-Type, Location");
-	res.header("Access-Control-Allow-Methods", "DELETE, PUT, GET, POST, OPTIONS");
+	res.header(
+		"Access-Control-Allow-Methods",
+		"DELETE, PUT, GET, POST, OPTIONS"
+	);
 	next();
 });
 
@@ -56,12 +75,14 @@ app.use(router);
 // Check general login.  If OK, add Validator to |req| and continue processing,
 // otherwise respond immediately with 401 and noLogin error tag.
 app.use(function (req, res, next) {
-    console.log(req.path);
-    console.log(req.method)
-    console.log(req.session)
+	console.log(req.path);
+	console.log(req.method);
+	console.log(req.session);
+	console.log(req.body);
 	if (
-        req.path === "/Anal/Cal" ||
-        req.method === "GET"  ||
+		req.path === "/Prss/forgotpw" ||
+		req.path === "/Anal/Cal" ||
+		req.method === "GET" ||
 		req.session ||
 		(req.method === "POST" &&
 			(req.path === "/Prss" || req.path === "/Ssns"))
@@ -69,9 +90,10 @@ app.use(function (req, res, next) {
 		req.validator = new Validator(req, res);
 		next();
 	} else {
-        console.log('is this really happening')
-        res.status(401).end();
-}});
+		console.log("is this really happening");
+		res.status(401).end();
+	}
+});
 // Add DB connection, with smart chkQry method, to |req|
 // app.use(CnnPool.router);
 

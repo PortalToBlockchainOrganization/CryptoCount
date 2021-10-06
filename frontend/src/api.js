@@ -1,3 +1,4 @@
+
 const baseURL =
 	process.env.NODE_ENV === "development"
 		? "http://localhost:3001/"
@@ -22,10 +23,9 @@ var sessionId;
 //    sessionId data.  Successful signin returns promise
 //    resolving to newly signed in user.
 headers.set("Content-Type", "application/json");
-console.log(process.env.NODE_ENV);
 const reqConf = {
 	headers: headers,
-	credentials: process.env.NODE_ENV === "development" ? "include" : false,
+	// credentials: process.env.NODE_ENV === "development" ? "include" : "omit",
 };
 
 function safeFetch(method, endpoint, body) {
