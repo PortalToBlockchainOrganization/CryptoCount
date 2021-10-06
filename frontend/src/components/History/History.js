@@ -5,8 +5,9 @@ import classes from "./History.module.css";
 import { useHistory } from "react-router";
 import Menu from "../Menu/Menu";
 
-const History = ({ user, realizedHistory, getHistory, getSet, setParams }) => {
+const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteSet }) => {
 	const browserHistory = useHistory();
+	// history component state
 	const [history, setHistory] = React.useState([]);
 	const [body, setBody] = React.useState([]);
 	const pushToHistory = (data) => {
@@ -36,9 +37,19 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams }) => {
 			getSet(id);
 			setParams({ address: address, fiat, basisDate: date });
 			browserHistory.push("/analysis");
-		};
+        };
+        
+        const removeSet = (id) => {
+			let temp = history.filter(obj => obj.id !== id);
+			console.log("HISTORY W/ REMOVED: ", temp);
+			// updating component state
+			setHistory(temp);
+            console.log(id)
+            deleteSet(id);
+        }
 
-		getTableData();
+        getTableData();
+        console.log(history, "This is History")
 		let temp = history?.map((obj, objIdx) => {
 			return (
 				<tr key={objIdx}>
@@ -65,7 +76,12 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams }) => {
 								</Button>
 								<Button
 									className={classes.Button}
-									variant="danger"
+                                    variant="danger"
+                                    onClick={() =>
+										removeSet(
+											obj.id
+										)
+									}
 								>
 									Delete
 								</Button>
@@ -76,7 +92,7 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams }) => {
 			);
 		});
 		setBody(temp);
-	}, [getTableData, history, browserHistory, getSet, setParams]);
+	}, [getTableData, history, browserHistory, getSet, setParams, deleteSet, setHistory]);
 
 	if (realizedHistory.isLoading) {
 		return (
@@ -85,7 +101,7 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams }) => {
 			</div>
 		);
 	}
-	if (realizedHistory?.isLoading === false && user?.setIds?.length === 0) {
+	if (realizedHistory?.isLoading === false && (realizedHistory?.history == null || realizedHistory?.history?.length === 0)) {
 		return (
 			<div className={classes.EmptyWrapper}>
 				<div className={classes.Empty}>
@@ -109,17 +125,21 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams }) => {
 		);
 	}
 
-	if (
-		!realizedHistory?.isLoading &&
-		user?.setIds?.length >= 1 &&
-		!realizedHistory?.history
-	) {
-		return (
-			<div className={classes.Empty}>
-				It looks like there was an error loading your sets.
-			</div>
-		);
-	}
+	// if (
+	// 	!realizedHistory?.isLoading &&
+	// 	user?.setIds?.length >= 1 &&
+	// 	!realizedHistory?.history
+	// ) {
+    //     console.log('just deleted a set',
+    //     realizedHistory,
+    //     user
+    //     )
+	// 	return (
+	// 		<div className={classes.Empty}>
+	// 			It looks like there was an error loading your sets.
+	// 		</div>
+	// 	);
+	// }
 	return history?.length >= 1 ? (
 		<div className={classes.Page}>
 			<div className={classes.Wrapper}>

@@ -42,6 +42,23 @@ export function register(data, cb) {
 	};
 }
 
+export function deleteSet(set, cb) {
+    return (dispatch, prevState) => {
+        console.log(set)
+		api.deleteSet(set)
+			.then(() => {
+				if (cb) {
+					cb();
+                }
+                return dispatch({type: "REMOVE_SET", payload:set})
+			})
+			.catch((error) =>
+				dispatch({ type: "DELETE_SET_ERR", details: error })
+			);
+	};
+}
+
+
 export function closeErr(cb) {
 	return (dispatch, prevState) => {
 		return dispatch({ type: "CLOSE_ERR" });
@@ -154,7 +171,8 @@ export function autoUnrealized(params, cb) {
 					dispatch({
 						type: "CREATE_SET_SUCCEEDED",
 						payload: data,
-					});
+                    });
+
 					if (cb) cb();
 					return;
 				});
@@ -235,10 +253,9 @@ export function getHistory(cb) {
 		let history = [];
 		api.getSets().then((res) => {
 			res.json().then((res) => {
-				console.log(res);
 				history = res.map((set) => {
 					if (
-						set?.realizedBasisRewards?.length > 0 &&
+						(set?.unrealizedRewards?.length > 0 || set?.realizedRewards?.length) &&
 						set?.address &&
 						set?.fiat
 					) {
@@ -258,6 +275,7 @@ export function getHistory(cb) {
 				});
 			});
 		});
+		console.log("FINAL HISTORY:", history);
 		dispatch({ type: "CREATE_HISTORY_SUCCEEDED", payload: history });
 		return Promise.all(history);
 

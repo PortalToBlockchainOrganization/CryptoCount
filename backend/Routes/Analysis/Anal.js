@@ -17,6 +17,53 @@ const RealizeHistObj = require("../../model/realize.js");
 const BlockchainModel = require("../../model/blockchain.js");
 const User = require("../../model/User.js");
 
+// given a set id to delete check if user is assoc to it then remove it from db
+router.delete("/:setId", function(req,res) {
+    var setId = req.params.setId
+    var ssn = req.session;
+    async.waterfall(
+        [
+            function(cb){
+                // pull user's set ids and confirm the requested set is present
+                User.find({_id: ssn.prsId}, function(err, docs){
+                    if(err) cb(err);
+                    cb(null, docs[0].setIds)
+                })
+            },
+            function(setIds, cb){
+                if(setIds.includes(setId)){
+                    // delete the set from the realize database
+                    RealizeHistObj.deleteOne({_id: setId}, function(err, docs){
+                        if (err) cb(err);
+                        cb(null, docs)
+                    })
+                }
+                else{
+                    // return a 404 with the error set to set not found
+                    res.status(404).json({error: 'Set Not Found'})
+                    cb('Set Not Found')
+                }
+            },
+            function(docs, cb){
+                // delete the set from the users set ids
+                User.findOneAndUpdate(
+                    {_id: ssn.prsId}, 
+                    {$pull: { setIds: setId}},
+                    function (err, doc) {
+                        if (err) cb(err);
+                        cb(null, doc);
+                    });
+            },
+            function(doc, cb){
+                res.status(200).json(doc[0])
+                cb()
+            }],
+            function(err){
+                if(err) console.log(err);
+            }
+    );
+});
+
 // given obj id - get obj (BETA)
 router.get("/:objId", function (req, res) {
 	objId = req.params.objId;
@@ -45,6 +92,8 @@ router.get("/", function (req, res) {
 	async.waterfall(
 		[
 			function (cb) {
+                console.log('getting all user sets')
+                console.log(user_id)
 				RealizeHistObj.find({ userid: user_id }, function (err, doc) {
 					if (err) cb(err);
 					cb(null, doc);
@@ -116,7 +165,21 @@ router.post("/Auto", function (req, res) {
 					if (err) cb(err);
 					cb(null, doc);
 				});
+            },
+            function (rel_doc, cb) {
+				// associate the new realize history obj with the user
+				if (rel_doc) {
+					User.findOneAndUpdate(
+						{ _id: prsId },
+						{ $addToSet: { setIds: rel_doc._id } },
+						function (err, doc) {
+                            if (err) cb(err);
+							cb(null, rel_doc);
+						}
+					);
+				}
 			},
+            // add set to user sets 
 			function (result, cb) {
 				//after creating new rel db obj,
 				// add the send unrel to FE
@@ -279,8 +342,11 @@ router.post("/Save", function (req, res) {
 						new: true,
 					},
 					function (err, doc) {
-						if (err) cb(err);
-						cb(null, doc);
+                        if (err) cb(err);
+                        else{
+                            console.log(doc)
+                            cb(null, doc);
+                        }
 					}
 				);
 			},
@@ -334,8 +400,7 @@ router.post("/Realize", function (req, res) {
 				//     "realizingBasisMVDep": rel_obj["realizingBasisMVdep"]
 				// }
 				ssn.realizing = rel_obj;
-				console.log("rel_obj");
-				console.log(rel_obj);
+
 				res.status(200).json(rel_obj);
 				cb();
 			},
@@ -369,7 +434,6 @@ router.post("/Unrel", function (req, res) {
 				)
 					try {
 						unrel_obj = await analysis(address, basisDate, fiat);
-						console.log(unrel_obj);
 						return unrel_obj;
 					} catch (error) {
 						console.log("analysis error");
@@ -384,7 +448,6 @@ router.post("/Unrel", function (req, res) {
 				if (unrel_obj && unrel_obj.stack && unrel_obj.message) {
 					cb(unrel_obj, null);
 				}
-				console.log(body["histObjId"]);
 				RealizeHistObj.findOneAndUpdate(
 					{ _id: body["histObjId"] },
 					{
@@ -510,7 +573,11 @@ router.post("/", function (req, res) {
 						{ _id: prsId },
 						{ $addToSet: { setIds: rel_doc._id } },
 						function (err, doc) {
-							if (err) cb(err);
+                            if (err) cb(err);
+                            else{
+                                console.log("THIS IS IT")
+                                console.log(doc)
+                            }
 							cb(null, rel_doc._id);
 						}
 					);

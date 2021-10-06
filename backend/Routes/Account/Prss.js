@@ -75,7 +75,6 @@ router.post("/changepw", function (req, res) {
 				}
 			},
 			function (salt, cb) {
-				console.log(salt);
 				bcrypt.hash(req.body["new_password"], salt, cb);
 			},
 			function (pw_hash, cb) {
@@ -89,7 +88,6 @@ router.post("/changepw", function (req, res) {
 				);
 			},
 			function (result, cb) {
-				console.log(result);
 				res.status(200).json({});
 			},
 		],
@@ -160,7 +158,6 @@ router.post("/forgotpw", function (req, res) {
 				});
 			},
 			function (result, cb) {
-				console.log(result);
 				res.status(200).json({});
 			},
 		],
@@ -209,7 +206,6 @@ router.post("/", function (req, res) {
 	if (admin && !body.password) body.password = "*"; // Blocking password
 	body.whenRegistered = new Date();
 
-	console.log(body);
 
 	async.waterfall(
 		[

@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, OverlayTrigger, Tooltip, Popover } from "react-bootstrap";
 import VerticalModal from "../VerticalModal/VerticalModal";
 import "./Landing.css";
 import tezos from "../../Assets/Orgs/Tezos.png";
@@ -135,19 +135,28 @@ const Landing = (props) => {
 					target="_blank"
 					rel="noreferrer"
 				>
-					Download for Chrome
+					Download for Chrome (ALPHA)
 					<img src={chrome} alt="chrome-web-store" />
 				</a>
-				<a
-					className="download-link"
-					href="https://addons.mozilla.org/en-US/firefox/"
-					target="_blank"
-					rel="noreferrer"
-				>
-					Download for FireFox{" "}
-					<img src={firefox} alt="firefox-add-on" />
-				</a>
-
+                <OverlayTrigger
+                    placement="right"
+                    overlay={(
+                        <Popover>
+                          <Popover.Title as="h3">
+                          In Development
+                          </Popover.Title>
+                        </Popover>
+                      )} >
+                    <a
+                        id='firefox-link'
+                        className="download-link"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        Download for FireFox{" "}
+                        <img src={firefox} alt="firefox-add-on" />
+                    </a>
+                </OverlayTrigger>
 				<a
 					className="download-link"
 					href="https://www.portaltoblockchain.org/"

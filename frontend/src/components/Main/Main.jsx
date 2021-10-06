@@ -112,7 +112,8 @@ const Main = (props) => {
 						getHistory={getHistory}
 						realizedHistory={realizedHistory}
 						getSet={props.getSet}
-						setParams={props.setParams}
+                        setParams={props.setParams}
+                        deleteSet={props.deleteSet}
 					/>
 				</ProtectedRoute>
 				<AnalysisBlock

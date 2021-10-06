@@ -38,6 +38,10 @@ const Analysis = (props) => {
 		setActive(setToRender);
 	};
 
+    const numberWithCommas = (x) => {
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+
 	const goHome = () => {
 		/* remove redux params and send user back to home if they choose not
 		to overwrite */
@@ -89,7 +93,6 @@ const Analysis = (props) => {
 
 	const handleDownload = (e) => {
 		e.preventDefault();
-<<<<<<< HEAD
 
 		var doc = new jsPDF()
 
@@ -105,40 +108,19 @@ const Analysis = (props) => {
 		doc.text("HOST BLOCKCHAIN: TEZOS " , 25, 60)
 		doc.text("TEZOS DELEGATOR ADDRESS: " + set["data"]["address"], 25, 67)
 		doc.text("FIAT: " + set["data"]["fiat"], 25, 74)
-		doc.text("QUANTITY OF REWARDS SOLD: " + set["data"]["realizingRewardAgg"] + " XTZ", 25, 81)
+		doc.text("QUANTITY OF REWARDS SOLD: " + numberWithCommas(set["data"]["realizingRewardAgg"]) + " XTZ", 25, 81)
 		doc.text("AVERAGE BASIS COST: " + set["data"]["basisPrice"].toFixed(2) + " " + set["data"]["fiat"], 25, 88)
-		doc.text("TRUE REWARD INCOME: "+ set["data"]["realizingBasisAgg"].toFixed(2) + " " + set["data"]["fiat"], 25, 95)
+		doc.text("TRUE REWARD INCOME: "+ numberWithCommas(set["data"]["realizingBasisAgg"].toFixed(2)) + " " + set["data"]["fiat"], 25, 95)
 		//var doc = [props][pdfDocument]
 		//doc.setFontSize(12)
 		doc.text("CALCULATED ON BEHALF OF", 25, 109)
 
-		doc.text("NAME: bob brown ", 25, 116)
-		doc.text("EMAIL: bobbrown@gmail.com", 25, 123)
+		doc.text("NAME: " + set["firstName"] + set["lastName"], 25, 116)
+		doc.text("EMAIL: " + set["email"], 25, 123)
 
         doc.save("TezosRewardIncomeStatement.pdf")
     };
 
-=======
-		// 	const doc = new jsPDF()
-		//     doc.setFontSize(18);
-		//     doc.addImage(myImage, 'JPEG', 20, 25, 23, 23, 'PTBO Logo');
-		//     doc.text("PORTAL TO BLOCKCHAIN ORGANIZATION", 50, 35)
-		//     doc.setFontSize(12);
-		//     doc.text("STATEMENT OF TEZOS BLOCK REWARD INCOME", 50, 40)
-		//     doc.setFontSize(10)
-		//     doc.text("CALCULATED BY CRYPTOCOUNT", 25, 60)
-		//     doc.text("Name: Bob Smith", 25, 67)
-		//     doc.text("Delegator Address: tz1asdflasdhf;kjasdf;s", 25, 74)
-		//     doc.text("FIAT: USD", 25, 81)
-		//     doc.text("QUANTITY OF REWARDS SOLD: 1000", 25, 88)
-		//     doc.text("AVERAGE BASIS COST: 2.01 USD", 25, 95)
-		//     doc.text("REWARD INCOME: 10,000 USD", 25, 102)
-		//     //var income = set["data"]["realizingRewardBasisAgg"]
-		//     //doc.text(income, 10, 10)
-		//     doc.save("realize.pdf")
-		// }; */
-	};
->>>>>>> origin/development
 
 	// chart js options
 	const options = chartOptions(set);
@@ -408,14 +390,14 @@ const Analysis = (props) => {
 								</div>
 					</Form>
 				)}
-				{currentSet && !isNaN(currentSet["incomeToReport"]) ? (
+				{currentSet ? (
 					<div className={classes.setToggles}>
 						<Form.Label>Income to Report:</Form.Label>
 						<div className={classes.quantGroup}>
 							<div className={classes.buttonAndInfo}>
-								{currentSet["incomeToReport"]
-									.toFixed(2)
-									.concat(" ", set["data"]?.fiat)}
+								{isNaN(currentSet["incomeToReport"]) ? ('0.00') : (numberWithCommas(currentSet["incomeToReport"]
+									.toFixed(2))
+									.concat(" ", set["data"]?.fiat))}
 								<div
 									className={classes.help}
 									tooltip-data="This is your fair reward income"
@@ -426,17 +408,12 @@ const Analysis = (props) => {
 								</div>
 							</div>
 						</div>
-<<<<<<< HEAD
-						<Button variant="danger" onClick={handleDownload}>Download Statement</Button>
-=======
-						<Button variant="danger" onClick={handleDownload}>
-							Download
-						</Button>
->>>>>>> origin/development
+						<Button variant="danger" disabled={isNaN(currentSet["incomeToReport"])} onClick={handleDownload}>Download Statement</Button>
 						<Button
 							type="submit"
 							variant="danger"
-							onClick={handleSave}
+                            onClick={handleSave}
+                            disabled={isNaN(currentSet["incomeToReport"])}
 						>
 							Save
 						</Button>

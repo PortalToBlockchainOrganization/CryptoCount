@@ -105,6 +105,11 @@ export function register(user) {
 	return post("Prss", user);
 }
 
+export function deleteSet(id){
+    return del(`Anal/${id}`, {
+    });
+}
+
 export function analPost(params) {
 	if (params) {
 		return post("Anal", {

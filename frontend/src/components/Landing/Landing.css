@@ -1,3 +1,5 @@
+@import url('http://fonts.cdnfonts.com/css/louis-george-cafe');
+
 .wrapper {
 	display: block;
 	height: calc(100vh - 57px);
@@ -22,7 +24,7 @@
 	justify-content: center;
 	align-items: center;
 }
-.logo-container {
+/* .logo-container {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -37,9 +39,30 @@
 
 .logo-name {
 	font-size: 5em;
-	font-family: 'Louis George Cafe', sans-serif;;
+	font-family: 'Louis George Cafe', sans-serif;
 	font-weight: 700;
 	color: #2e2e2e;
+} */
+
+.logo-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    height: 50%;
+}
+
+.logo-name {
+    font-size: 5em;
+    font-family: 'Louis George Café', sans-serif;
+    font-weight: 700;
+    color: #2e2e2e;
 }
 
 p {
@@ -169,6 +192,11 @@ p {
 	border-radius: 5px;
 	width: 35px;
 	height: 30px;
+}
+
+#firefox-link {
+    opacity: 0.6; /* Real browsers */
+    filter: alpha(opacity = 60); /* MSIE */
 }
 
 @media (max-width: 1300px) {

@@ -242,7 +242,6 @@ async function getRewards(address) {
 										quantity: amount,
 										cycle: urlObj.data.cycle,
 									};
-									console.log(rewardObject)
 									return rewardObject;
 								}
 							}
@@ -287,7 +286,6 @@ async function getRewards(address) {
 		};
 		rewardsByDay.push(rewardByDayObj);
 	}
-	console.log(rewardsByDay)
 
 	//get trans
 	//transaction tzkt url - https://api.tzkt.io/v1/operations/transactions?anyof.sender.target={$address} will return operations where sender OR target is equal to the specified value. This parameter is useful when you need to retrieve all transactions associated with a specified account.
@@ -325,7 +323,6 @@ async function getRewards(address) {
 			}
 		}
 	}
-	console.log(objectArray)
 
 
 
@@ -766,7 +763,6 @@ async function analysis(address, basisDate, fiat) {
 	var rewards = values[0] 
 	var tranArray = values[1] 
 	console.log('done w rewards')
-	console.log(rewards)
 
 	//let {basisBalances, pricesForUser, tranArray, basisPrice} = depencies(address, fiat)
 	let basisBalances = await getBalances(address);
@@ -1061,7 +1057,6 @@ async function autoAnalysis(address, fiat) {
 	var rewards = values[0] 
 	var tranArray = values[1] 
 	console.log('done w rewards')
-	console.log(rewards)
 
 	//let {basisBalances, pricesForUser, tranArray, basisPrice} = depencies(address, fiat)
 	let basisBalances = await getBalances(address);
