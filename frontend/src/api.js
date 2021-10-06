@@ -1,4 +1,7 @@
-const baseURL = "https://cryptocount/api/";
+const baseURL =
+	process.env.NODE_ENV === "development"
+		? "http://localhost:3001/"
+		: "https://cryptocount.co/api/"
 const headers = new Headers();
 var sessionId;
 
