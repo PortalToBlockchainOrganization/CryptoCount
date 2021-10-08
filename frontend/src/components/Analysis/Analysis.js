@@ -115,7 +115,7 @@ const Analysis = (props) => {
 		//doc.setFontSize(12)
 		doc.text("CALCULATED ON BEHALF OF", 25, 109)
 
-		doc.text("NAME: " + set["firstName"] + set["lastName"], 25, 116)
+		doc.text("NAME: " + set["firstName"] + ' ' + set["lastName"], 25, 116)
 		doc.text("EMAIL: " + set["email"], 25, 123)
 
         doc.save("TezosRewardIncomeStatement.pdf")
