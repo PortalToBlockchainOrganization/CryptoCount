@@ -23,8 +23,8 @@ var Session = function(user, res) {
    res.cookie(cookieName, authToken, {maxAge: duration, httpOnly: true }); // 1
    this.id = ssnsById.length;
    this.authToken = authToken;
-   this.firstName = user.firstname;
-   this.lastName = user.lastname;
+   this.firstName = user.firstName;
+   this.lastName = user.lastName;
    this.prsId = user._id;
    this.email = user.email;
    this.role = user.role;
