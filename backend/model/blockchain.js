@@ -254,4 +254,4 @@ let blockchainSchema = new mongoose.Schema({
 	},
 });
 
-module.exports = mongoose.model("Blockchains2", blockchainSchema);
+module.exports = mongoose.model("Blockchains", blockchainSchema);
