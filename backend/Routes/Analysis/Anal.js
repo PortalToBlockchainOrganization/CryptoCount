@@ -400,7 +400,9 @@ router.post("/Realize", function (req, res) {
 				//     "realizingBasisMVDep": rel_obj["realizingBasisMVdep"]
 				// }
 				ssn.realizing = rel_obj;
-
+				rel_obj['email'] = ssn.email 
+				rel_obj['firstName'] = ssn.firstName
+				rel_obj['lastName'] = ssn.lastName
 				res.status(200).json(rel_obj);
 				cb();
 			},
