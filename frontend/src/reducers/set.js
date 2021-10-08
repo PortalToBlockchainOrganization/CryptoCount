@@ -43,6 +43,9 @@ function set(state = {}, action) {
 			tempSet["data"]["unrealizedRewardAgg"] =
 				action.payload["unrealizedRewardAgg"];
 			tempSet["isLoading"] = false;
+			tempSet["email"] = action.payload["email"]
+		    	tempSet["firstName"] = action.payload["firstName"]
+		    	tempSet["lastName"] = action.payload["lastName"]
 			return tempSet;
 		case "SAVE_REALIZE":
 			return action.payload;
