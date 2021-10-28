@@ -4,6 +4,8 @@ import { Button, Spinner } from "react-bootstrap";
 import classes from "./History.module.css";
 import { useHistory } from "react-router";
 import Menu from "../Menu/Menu";
+import Image from "../../Assets/Orgs/Tezos.png";
+
 
 const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteSet }) => {
 	const browserHistory = useHistory();
@@ -53,6 +55,7 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 		let temp = history?.map((obj, objIdx) => {
 			return (
 				<tr key={objIdx}>
+					<td><img className="logo1" width="40" height="50" src={Image} alt="logo" /></td>
 					<td>{obj.createdAt.split("T")[0]}</td>
 					<td>{obj.address}</td>
 					<td>{obj.fiat}</td>
@@ -146,10 +149,11 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 				<table>
 					<thead>
 						<tr>
+							<th>Blockchain</th>
 							<th>Created At</th>
 							<th>Address</th>
 							<th>Fiat</th>
-							<th>Basis Date</th>
+							<th>Basis</th>
 							<th>Action</th>
 						</tr>
 					</thead>

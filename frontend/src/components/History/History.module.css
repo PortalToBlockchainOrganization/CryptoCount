@@ -3,6 +3,13 @@
 	width: 100vw;
 }
 
+.logo1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+}
+
 .Wrapper {
 	position: relative;
 	height: calc(100vh - 120px);

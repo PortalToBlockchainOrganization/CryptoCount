@@ -11,8 +11,9 @@ function realizedHistory(state = {}, action) {
             temp.push(action.payload)
             return temp
         case "REMOVE_SET":
-            var temp = state.realizedHistory.history.filter(set => set.id !== action.payload);
-            return {isLoading: false, history: temp};
+            var temp = state
+            temp = state.history.filter(set => set.id !== action.payload);
+            return {isLoading: false, history: temp};
 		case "SIGN_OUT":
 			return {};
 		default:

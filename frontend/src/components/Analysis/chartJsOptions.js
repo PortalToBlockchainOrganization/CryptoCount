@@ -1,5 +1,16 @@
 import { fiatLabels } from "./fiatLabels";
 export const chartOptions = (set) => {
+	const Title = (()=> {
+		//img.concat
+		// var first4 = set?.data?.address.slice(0,4)
+		// first4.concat("...")
+		// var last4 = set?.data?.address.slice(25)
+		// first4.concat(last4)
+		// first4.concat(' ',"Block Reward Entries")
+		// console.log(first4)
+		var first4 = set?.data?.address
+		return first4
+	})
 	return {
 		scales: {
 			yAxes: {

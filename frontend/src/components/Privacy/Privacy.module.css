@@ -1,0 +1,56 @@
+.APIWrapper {
+	justify-content: center;
+	margin-top: 100px;
+	color: var(--gray);
+	padding: 20px 0px 0px 80px;
+    width: 100%;
+}
+
+.API {
+    width: 100%;
+	overflow: "auto";
+}
+
+.code {
+	font-size: 16px;
+	color: rgb(32, 10, 32);
+	font-weight: 500;
+	background-color: rgb(243, 243, 243);
+	border-radius: 5px;
+	margin: 5px;
+	padding: 5px 0px 5px 5px;
+}
+
+.HR {
+	height: 3px;
+	background-color: var(--n_purple);
+	border: none;
+	width: 15%;
+	margin: 10px 0 0;
+}
+
+.Header {
+	color: var(--dark-gray);
+	display: flex;
+	flex-direction: column;
+	align-items: left;
+}
+
+.EP {
+	color: var(--dark-gray);
+}
+
+.Name {
+	font-weight: bold;
+	margin-bottom: 10px;
+	margin-top: 20px;
+}
+
+.EndPoint {
+	color: var(--dark-gray);
+	margin-bottom: 8px;
+}
+
+[role=navigation] {
+    overflow-y: auto !important
+    }

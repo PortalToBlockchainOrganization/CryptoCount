@@ -13,6 +13,7 @@
 	height: 100%;
 }
 
+
 .NavLink {
 	text-decoration: none;
 	font-weight: 500;
@@ -23,6 +24,7 @@
 	transition: color 0.2s ease-out;
 	height: 100%;
 	padding: 15px;
+	
 }
 
 .NavLinkDisabled:before {

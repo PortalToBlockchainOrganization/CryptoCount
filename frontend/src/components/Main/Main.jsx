@@ -9,6 +9,8 @@ import History from "../History/History";
 import ProtectedRoute from "../ProtectedRoute";
 import ResetPassword from "../ResetPassword/ResetPassword";
 import ChangePassword from "../ChangePassword/ChangePassword";
+import About from "../About/About"
+import Privacy from "../Privacy/Privacy"
 
 const AnalysisBlock = ({ component: Component, ...rest }) => {
 	const isAuthed = rest.isAuthed();
@@ -56,6 +58,7 @@ const Main = (props) => {
 		props.closeErr();
 	};
 
+
 	const signOut = () => {
 		setCanAccessAnalysis(false);
 		props.signOut();
@@ -88,6 +91,18 @@ const Main = (props) => {
 						/>
 					)}
 				/>
+				<About
+				path="/about"
+				exact
+				strict
+				componenet={About}>About
+				</About>
+				<Privacy
+				path="/privacy"
+				exact
+				strict
+				componenet={Privacy}>Privacy
+				</Privacy>
 				<Route
 					path="/signin"
 					exact
@@ -132,6 +147,7 @@ const Main = (props) => {
 					saveRealizing={props.saveRealizing}
 					getHistory={props.getHistory}
 				/>
+
 				<Route>
 					<Redirect to="/" />
 				</Route>

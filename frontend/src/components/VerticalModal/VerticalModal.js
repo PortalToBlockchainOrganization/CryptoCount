@@ -128,7 +128,7 @@ const VerticalModal = (props) => {
 								</div>
 								<div
 									className={classes.help}
-									tooltip-data="Automatically calculates your basis price by taking the average price of additions to your staking basis"
+									tooltip-data="Calculates the weighted average of additions to your staking basis."
 								>
 									<HelpOutlineRoundedIcon
 										className={classes.helpIcon}
@@ -151,7 +151,7 @@ const VerticalModal = (props) => {
 								</div>
 								<div
 									className={classes.help}
-									tooltip-data="Allows you to manually select a day to count as your basis price."
+									tooltip-data="Manually select a day to count as your basis price."
 								>
 									<HelpOutlineRoundedIcon
 										className={classes.helpIcon}

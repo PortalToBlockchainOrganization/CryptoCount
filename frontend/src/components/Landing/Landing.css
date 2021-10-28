@@ -48,6 +48,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+	margin-bottom: -20px;;
 }
 
 .logo {
@@ -55,7 +56,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 5px;
-    height: 50%;
+    height: 15vw;
 }
 
 .logo-name {
@@ -64,6 +65,22 @@
     font-weight: 700;
     color: #2e2e2e;
 }
+
+.logo-tagline {
+    font-size: 1.5em;
+    font-family: 'Louis George Café', sans-serif;
+    font-weight: 700;
+    color: #2e2e2e;
+}
+
+.logo-tagline2 {
+    font-size: 1.5em;
+    font-family: 'Louis George Café', sans-serif;
+    font-weight: 700;
+    color: #2e2e2e;
+	margin-top: 30px;
+}
+
 
 p {
 	font-size: 1em;
@@ -184,6 +201,37 @@ p {
 }
 
 .download-link img {
+	margin-left: 5px;
+	height: 30px;
+}
+
+.download-link1 {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	margin: 5px;
+	color: rgb(117, 0, 0);
+	margin-top: 30px;
+	background-color: rgb(252, 231, 235);
+	border-radius: 100px;
+	padding: 5px 20px 5px 20px;
+	min-width: 225px;
+	min-height: 40px;
+	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+	transition: all 100ms ease-in-out;
+}
+
+.download-link1:hover {
+	text-decoration: none;
+	color: rgb(73, 2, 2);
+	transform: scale(1.05);
+}
+
+.download-link1:active {
+	transform: scale(0.95);
+}
+
+.download-link1 img {
 	margin-left: 5px;
 	height: 30px;
 }

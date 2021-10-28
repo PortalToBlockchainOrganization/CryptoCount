@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, FormGroup, Button, Alert } from "react-bootstrap";
+import {Link} from "react-router-dom";
+
 
 import classes from "./Register.module.css";
 
@@ -43,6 +45,10 @@ const RegisterHooks = (props) => {
 			props.history.push("/");
 		});
 	};
+
+	let toggleTerms = (e) => {
+		setTerms(!termsAccepted);
+		};
 
 	// let toggleTerms = (e) => {
 	// 	setTerms(e.target.value);
@@ -116,11 +122,13 @@ const RegisterHooks = (props) => {
 				/>
 
 				<Form.Check
-					id="termsAccepted"
-					value={termsAccepted}
-					onChange={(e) => setTerms(e.target.value)}
-					label={"Do you accept the terms and conditions?"}
-				/>
+				id="termsAccepted"
+				value={termsAccepted}
+				onChange={(e) => toggleTerms(e)}
+				label={
+                 <div>Do you accept our <Link to="/privacy">terms and conditions</Link>?
+                 </div>}
+/>
 				{password !== password2 ? (
 					<Alert className="mt-4" variant="warning">
 						Passwords don't match

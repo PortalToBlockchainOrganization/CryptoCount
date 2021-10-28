@@ -33,6 +33,7 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 				<Navbar.Toggle />
 				<Navbar.Collapse>
 					<Nav className={classes.Nav} variant="pills">
+		
 						{signedIn() ? (
 							<>
 								<NavLink
@@ -59,9 +60,33 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								>
 									Realized History
 								</NavLink>
+								<NavLink
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									to="/about"
+									>
+										About</NavLink>
+								<NavLink
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									to="/privacy"
+									>
+										Privacy</NavLink>
 							</>
-						) : (
+						) : (			
 							<Nav className={classes.AccountNav}>
+								<NavLink
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									to="/privacy"
+									>
+										Privacy</NavLink>
+							<NavLink
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									to="/about"
+									>
+										About</NavLink>
 								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}

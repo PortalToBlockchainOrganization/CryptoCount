@@ -12,6 +12,7 @@ import womenComputer from "../../Assets/womenComputer.json";
 import womenSigning from "../../Assets/womenSigning.json";
 import chrome from "../../Assets/chrome.svg";
 import firefox from "../../Assets/firefox.svg";
+import {Link} from "react-router-dom";
 
 const Landing = (props) => {
 	// Begin POST data states
@@ -129,8 +130,71 @@ const Landing = (props) => {
 				<div className="name-one-liner">
 					<h1 className="logo-name">CryptoCount</h1>
 				</div>
+				<div className="name-one-liner">
+					<h2 className="logo-tagline">Generate block reward income statements.</h2>
+				</div>
+				<div className="form">
+					<Form onSubmit={handleSignIn}>
+						{props.signedIn() ? (
+							<Form.Group controlId="formBasicEmail">
+								<Form.Label>
+									Enter Your Delegation Address
+								</Form.Label>
+								<Form.Control
+									type="text"
+									placeholder="Tezos Delegation Address"
+									onChange={handleDelegationChange}
+								/>
+							</Form.Group>
+						) : null}
+						{props.signedIn() ? null : (
+							<Form.Group>
+								<div className="mb-3">
+								Sign In or Register <Link to="/register">Here!</Link>
+								</div>
+								<Form.Control
+									type="email"
+									autoComplete="email"
+									placeholder="email address"
+									onChange={handleEmailChange}
+								/>
+								<Form.Control
+									className="password"
+									type="password"
+									placeholder="password"
+									onChange={handlePasswordChange}
+								/>
+							</Form.Group>
+						)}
+						<Button
+							className="button-continue"
+							disabled={
+								addrs["delAddrs"].length > 0 ? "" : "disabled"
+							}
+							variant="outline-danger"
+							block
+							onClick={handleDelegationSubmit}
+						>
+							Continue
+						</Button>
+
+						{props.signedIn() ? null : (
+							<Button
+								disabled={email.length > 0 ? "" : "disabled"}
+								variant="danger"
+								block
+								type="submit"
+							>
+								Sign in
+							</Button>
+						)}
+					</Form>
+				</div>
+				<div className="name-one-liner">
+					<h2 className="logo-tagline2">Download the browser extension for easy annual block reward realizations.</h2>
+				</div>
 				<a
-					className="download-link"
+					className="download-link1"
 					href="https://chrome.google.com/webstore/detail/cryptocount/bkcakdddagaipncnpoehneegdlhdlmjf"
 					target="_blank"
 					rel="noreferrer"
@@ -166,63 +230,6 @@ const Landing = (props) => {
 					Developer Hub
 					<img className="ptbo-link" src={ptbo} alt="ptbo" />
 				</a>
-				<div className="form">
-					<Form onSubmit={handleSignIn}>
-						{props.signedIn() ? (
-							<Form.Group controlId="formBasicEmail">
-								<Form.Label>
-									Enter Your Delegation Address
-								</Form.Label>
-								<Form.Control
-									type="text"
-									placeholder="Delegation Address"
-									onChange={handleDelegationChange}
-								/>
-							</Form.Group>
-						) : null}
-						{props.signedIn() ? null : (
-							<Form.Group>
-								<div className="mb-3">
-									Sign In To Your Account
-								</div>
-								<Form.Control
-									type="email"
-									autoComplete="email"
-									placeholder="email@cryptocount.com"
-									onChange={handleEmailChange}
-								/>
-								<Form.Control
-									className="password"
-									type="password"
-									placeholder="password"
-									onChange={handlePasswordChange}
-								/>
-							</Form.Group>
-						)}
-						<Button
-							className="button-continue"
-							disabled={
-								addrs["delAddrs"].length > 0 ? "" : "disabled"
-							}
-							variant="outline-danger"
-							block
-							onClick={handleDelegationSubmit}
-						>
-							Continue
-						</Button>
-
-						{props.signedIn() ? null : (
-							<Button
-								disabled={email.length > 0 ? "" : "disabled"}
-								variant="danger"
-								block
-								type="submit"
-							>
-								Sign in
-							</Button>
-						)}
-					</Form>
-				</div>
 				<VerticalModal
 					basisDate={basisDate}
 					handleDateInput={handleDateInput}
@@ -267,7 +274,7 @@ const Landing = (props) => {
 						<div className="animation" id="women-signing" />
 						<p className="text">
 							Report your economically fair income to your
-							countries' IRS.
+							countries' internal revenue service.
 						</p>
 					</div>
 				</div>

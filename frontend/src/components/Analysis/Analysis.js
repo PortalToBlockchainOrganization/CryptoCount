@@ -108,14 +108,15 @@ const Analysis = (props) => {
 		doc.text("HOST BLOCKCHAIN: TEZOS " , 25, 60)
 		doc.text("TEZOS DELEGATOR ADDRESS: " + set["data"]["address"], 25, 67)
 		doc.text("FIAT: " + set["data"]["fiat"], 25, 74)
-		doc.text("QUANTITY OF REWARDS SOLD: " + numberWithCommas(set["data"]["realizingRewardAgg"]) + " XTZ", 25, 81)
+		var qRewSold = set["data"]["realizingRewardAgg"].toFixed(2)
+		doc.text("QUANTITY OF REWARDS SOLD: " + numberWithCommas(qRewSold) + " XTZ", 25, 81)
 		doc.text("AVERAGE BASIS COST: " + set["data"]["basisPrice"].toFixed(2) + " " + set["data"]["fiat"], 25, 88)
 		doc.text("TRUE REWARD INCOME: "+ numberWithCommas(set["data"]["realizingBasisAgg"].toFixed(2)) + " " + set["data"]["fiat"], 25, 95)
 		//var doc = [props][pdfDocument]
 		//doc.setFontSize(12)
 		doc.text("CALCULATED ON BEHALF OF", 25, 109)
 
-		doc.text("NAME: " + set["firstName"] + ' ' + set["lastName"], 25, 116)
+		doc.text("NAME: " + set["firstName"] + set["lastName"], 25, 116)
 		doc.text("EMAIL: " + set["email"], 25, 123)
 
         doc.save("TezosRewardIncomeStatement.pdf")
@@ -234,7 +235,7 @@ const Analysis = (props) => {
 							</div>
 							<div
 								className={classes.help}
-								tooltip-data="Your staking basis powers your block rewards"
+								tooltip-data="This is a representation of your staking basis."
 							>
 								<HelpOutlineRoundedIcon
 									className={classes.helpIcon}
@@ -261,7 +262,7 @@ const Analysis = (props) => {
 					</div>
 					<div
 						className={classes.help}
-						tooltip-data="The average cost of additions to your staking basis"
+						tooltip-data="The weighted average cost of additions to your staking basis"
 					>
 						<HelpOutlineRoundedIcon className={classes.helpIcon} />
 					</div>
@@ -284,7 +285,7 @@ const Analysis = (props) => {
 
 							<div
 								className={classes.help}
-								tooltip-data="Your rewards times your average basis cost, without depletion."
+								tooltip-data="Rewards times average basis cost, no depletion."
 							>
 								<HelpOutlineRoundedIcon
 									className={classes.helpIcon}
@@ -309,7 +310,7 @@ const Analysis = (props) => {
 							</Button>
 							<div
 								className={classes.help}
-								tooltip-data="Market Value Dilution accounting set"
+								tooltip-data="Accounting set with market value depletion added to the entries."
 							>
 								<HelpOutlineRoundedIcon
 									className={classes.helpIcon}
@@ -331,7 +332,7 @@ const Analysis = (props) => {
 							</Button>
 							<div
 								className={classes.help}
-								tooltip-data="Circulating supply depletion accounting set"
+								tooltip-data="Accounting set with depletion by supply additions added to the entries."
 							>
 								<HelpOutlineRoundedIcon
 									className={classes.helpIcon}
