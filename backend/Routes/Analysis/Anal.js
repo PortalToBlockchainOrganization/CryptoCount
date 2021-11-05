@@ -121,50 +121,62 @@ router.post("/Auto", function (req, res) {
 	async.waterfall(
 		[
 			async function (cb) {
-				if (vld.hasFields(body, ["address", "fiat"]))
-					try {
-						unrel_obj = await autoAnalysis(address, fiat);
-						console.log(unrel_obj);
-						return unrel_obj;
-					} catch (error) {
-						console.log("analysis error");
-						console.log(error);
-						return error;
-					}
-			},
+                if (vld.hasFields(body, ["address", "fiat"])){
+                    try{
+                        let url = `https://api.tzkt.io/v1/delegates/${address}`;
+                        let response = await axios.get(url);
+                        return response
+                    } catch(error){
+                        return error
+                    }
+                }
+            },
+            async function(address_check){
+                try {
+                    if (address_check.isAxiosError) {
+                        throw new Error('Bad Address')
+                    }
+                    unrel_obj = await autoAnalysis(address, fiat);
+                    return unrel_obj;
+                } catch (error) {
+                    return error;
+                }
+            },
 			function (unrel_obj, cb) {
 				// here we check to see if our previous function returned a
 				// error in the catch block and we instantly jump to the callback
-				// by passing the error in
+                // by passing the error in
 				if (unrel_obj && unrel_obj.stack && unrel_obj.message) {
 					cb(unrel_obj, null);
-				}
-				rel_obj = new RealizeHistObj({
-					userid: prsId,
-					version: 0,
-					fiat: body["fiat"],
-					address: body["address"],
-					basisDate: body["basisDate"],
-					unrealizedRewards: unrel_obj.unrealizedRewards,
-					unrealizedBasisRewards: unrel_obj.unrealizedBasisRewards,
-					unrealizedBasisRewardsDep:
-						unrel_obj.unrealizedBasisRewardsDep,
-					unrealizedBasisRewardsMVDep:
-						unrel_obj.unrealizedBasisRewardsMVDep,
-					unrealXTZBasis: unrel_obj.xtzBasis,
-					unrealBasisP: unrel_obj.basisP,
-					unrealBasisDep: unrel_obj.basisDep,
-					unrealBasisMVDep: unrel_obj.basisMVdep,
-					basisPrice: unrel_obj.basisPrice,
-					unrealizedRewardAgg: unrel_obj.unrealizedRewardAgg,
-					unrealizedBasisAgg: unrel_obj.unrealizedBasisAgg,
-					unrealizedDepAgg: unrel_obj.unrealizedDepAgg,
-					unrealizedMVDAgg: unrel_obj.unrealizedMVDAgg,
-				});
-				rel_obj.save(function (err, doc) {
-					if (err) cb(err);
-					cb(null, doc);
-				});
+                }
+                else{
+                    rel_obj = new RealizeHistObj({
+                        userid: prsId,
+                        version: 0,
+                        fiat: body["fiat"],
+                        address: body["address"],
+                        basisDate: body["basisDate"],
+                        unrealizedRewards: unrel_obj.unrealizedRewards,
+                        unrealizedBasisRewards: unrel_obj.unrealizedBasisRewards,
+                        unrealizedBasisRewardsDep:
+                            unrel_obj.unrealizedBasisRewardsDep,
+                        unrealizedBasisRewardsMVDep:
+                            unrel_obj.unrealizedBasisRewardsMVDep,
+                        unrealXTZBasis: unrel_obj.xtzBasis,
+                        unrealBasisP: unrel_obj.basisP,
+                        unrealBasisDep: unrel_obj.basisDep,
+                        unrealBasisMVDep: unrel_obj.basisMVdep,
+                        basisPrice: unrel_obj.basisPrice,
+                        unrealizedRewardAgg: unrel_obj.unrealizedRewardAgg,
+                        unrealizedBasisAgg: unrel_obj.unrealizedBasisAgg,
+                        unrealizedDepAgg: unrel_obj.unrealizedDepAgg,
+                        unrealizedMVDAgg: unrel_obj.unrealizedMVDAgg,
+                    });
+                    rel_obj.save(function (err, doc) {
+                        if (err) cb(err);
+                        cb(null, doc);
+                    });
+                }
             },
             function (rel_doc, cb) {
 				// associate the new realize history obj with the user
@@ -191,7 +203,11 @@ router.post("/Auto", function (req, res) {
 			},
 		],
 		function (err) {
-			if (err) console.log(err);
+			if (err){
+                console.log('LAST FUNC',err);
+                res.status(400).json('bad address')
+            } 
+                
 		}
 	);
 });
