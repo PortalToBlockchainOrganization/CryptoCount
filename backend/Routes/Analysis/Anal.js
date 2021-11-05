@@ -205,7 +205,7 @@ router.post("/Auto", function (req, res) {
 		function (err) {
 			if (err){
                 console.log('LAST FUNC',err);
-                res.status(400).json('bad address')
+                res.status(400).json([{tag: 'badAddress'}])
             } 
                 
 		}
