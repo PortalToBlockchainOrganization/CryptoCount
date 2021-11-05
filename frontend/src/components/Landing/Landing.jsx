@@ -13,6 +13,7 @@ import womenSigning from "../../Assets/womenSigning.json";
 import chrome from "../../Assets/chrome.svg";
 import firefox from "../../Assets/firefox.svg";
 import {Link} from "react-router-dom";
+import bb from "../../Assets/bb.png";
 
 const Landing = (props) => {
 	// Begin POST data states
@@ -190,6 +191,19 @@ const Landing = (props) => {
 						)}
 					</Form>
 				</div>
+                <div className="name-one-liner">
+                    <h2 className="logo-tagline2">Interested in Staking? Visit Baking Bad for the latest Tezos Delegator information.</h2>
+                </div>
+                <a
+                    className="download-link1"
+                    href="https://baking-bad.org/"
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    Baking-Bad
+                    <img src={bb} alt="chrome-web-store" />
+                </a>
+
 				<div className="name-one-liner">
 					<h2 className="logo-tagline2">Download the browser extension for easy annual block reward realizations.</h2>
 				</div>
@@ -302,13 +316,13 @@ const Landing = (props) => {
 						alt="Tezos Foundation"
 					/>
 				</a>
-				<a
+				<div
 					href="portaltoblockchain.org"
 					target="_blank"
 					rel="noreferrer"
 				>
 					<img className="t-logo" src={ptbo} alt="ptbo" />
-				</a>
+				</div>
 			</div>
 		</div>
 	);

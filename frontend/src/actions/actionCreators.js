@@ -178,7 +178,8 @@ export function autoUnrealized(params, cb) {
 				});
 			})
 			.catch((err) => {
-				console.log(err);
+                console.log(err)
+				dispatch({ type: "BAD_ADDRESS_ERROR", details: err });
 			});
 	};
 }

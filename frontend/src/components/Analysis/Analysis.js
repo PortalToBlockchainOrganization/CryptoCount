@@ -105,20 +105,22 @@ const Analysis = (props) => {
 		doc.setFontSize(10)
 		doc.text("CALCULATED BY CRYPTOCOUNT", 50, 45)
 		//doc.addImage(tezLogo, 'JPEG', 20, 25, 23, 23, 'Tezos Logo');
-		doc.text("HOST BLOCKCHAIN: TEZOS " , 25, 60)
-		doc.text("TEZOS DELEGATOR ADDRESS: " + set["data"]["address"], 25, 67)
-		doc.text("FIAT: " + set["data"]["fiat"], 25, 74)
-		var qRewSold = set["data"]["realizingRewardAgg"].toFixed(2)
-		doc.text("QUANTITY OF REWARDS SOLD: " + numberWithCommas(qRewSold) + " XTZ", 25, 81)
-		doc.text("AVERAGE BASIS COST: " + set["data"]["basisPrice"].toFixed(2) + " " + set["data"]["fiat"], 25, 88)
-		doc.text("TRUE REWARD INCOME: "+ numberWithCommas(set["data"]["realizingBasisAgg"].toFixed(2)) + " " + set["data"]["fiat"], 25, 95)
-		//var doc = [props][pdfDocument]
-		//doc.setFontSize(12)
-		doc.text("CALCULATED ON BEHALF OF", 25, 109)
+        doc.text("HOST BLOCKCHAIN: TEZOS " , 25, 60)
+        doc.text("TEZOS DELEGATOR ADDRESS: " + set["data"]["address"], 25, 67)
+        doc.text("FIAT: " + set["data"]["fiat"], 25, 74)
+        var qRewSold = set["data"]["realizingRewardAgg"].toFixed(2)
+        doc.text("PERIOD START: " + set["data"]["realizingRewards"][0]["date"], 25, 88);
+        var last = set["data"]["realizingRewards"].length
+        doc.text("PERIOD END: " + set["data"]["realizingRewards"][last - 1]["date"], 25, 95);
+        doc.text("QUANTITY OF REWARDS SOLD: " + numberWithCommas(qRewSold) + " XTZ", 25, 102)
+        doc.text("AVERAGE BASIS COST: " + set["data"]["basisPrice"].toFixed(2) + " " + set["data"]["fiat"], 25, 109)
+        doc.text("TRUE REWARD INCOME: "+ numberWithCommas(set["data"]["realizingBasisAgg"].toFixed(2)) + " " + set["data"]["fiat"], 25, 116)
+        //var doc = [props][pdfDocument]
+        //doc.setFontSize(12)
+        doc.text("CALCULATED ON BEHALF OF", 25, 130)
 
-		doc.text("NAME: " + set["firstName"] + set["lastName"], 25, 116)
-		doc.text("EMAIL: " + set["email"], 25, 123)
-
+        doc.text("NAME: " + set["firstName"] + set["lastName"], 25, 137)
+        doc.text("EMAIL: " + set["email"], 25, 144)
         doc.save("TezosRewardIncomeStatement.pdf")
     };
 
@@ -428,8 +430,43 @@ const Analysis = (props) => {
 								</div>
 					</div>
 				) : null}
+                {currentSet ? (
+                    <div className={classes.setToggles}>
+                            <Form.Label>Period Start:</Form.Label>
+                        <div className={classes.quantGroup}>
+                            <div className={classes.buttonAndInfo}>
+                                {isNaN(currentSet["incomeToReport"]) ? ('N/A') : (set["data"]["realizingRewards"][0]["date"])}
+                                <div
+                                    className={classes.help}
+                                    tooltip-data="This is the start of your income period"
+                                >
+                                    <HelpOutlineRoundedIcon
+                                        className={classes.helpIcon}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    <div >
+                            <>Period End:</>
+                        </div>
+                        <div className={classes.quantGroup}>
+                            <div className={classes.buttonAndInfo}>
+                                {isNaN(currentSet["incomeToReport"]) ? ('N/A') : (set["data"]["realizingRewards"][set["data"]["realizingRewards"].length - 1]["date"])}
+                                <div
+                                    className={classes.help}
+                                    tooltip-data="This is the end of your income period"
+                                >
+                                    <HelpOutlineRoundedIcon
+                                        className={classes.helpIcon}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ): null}
 			</div>
 		</div>
+        
 	) : (
 		<div className={classes.SpinnerWrapper}>
 			<Spinner animation="border" variant="danger" />

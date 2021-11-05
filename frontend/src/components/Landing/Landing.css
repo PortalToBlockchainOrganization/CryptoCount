@@ -8,7 +8,8 @@
 	overflow-x: hidden;
 }
 .lp-container {
-	margin-top: 46px;
+    margin-top: 46px;
+    margin-bottom: 180px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -19,6 +20,7 @@
 	width: 100vw;
 }
 .static-wrapper {
+    margin-top: 120px;
 	width: 100vw;
 	display: flex;
 	justify-content: center;
@@ -57,6 +59,7 @@
     justify-content: center;
     border-radius: 5px;
     height: 15vw;
+    margin-top: 15px;
 }
 
 .logo-name {
@@ -180,7 +183,6 @@ p {
 	align-items: center;
 	margin: 5px;
 	color: rgb(117, 0, 0);
-
 	background-color: rgb(252, 231, 235);
 	border-radius: 100px;
 	padding: 5px 20px 5px 20px;

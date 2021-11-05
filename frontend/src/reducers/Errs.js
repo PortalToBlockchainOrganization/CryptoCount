@@ -10,6 +10,8 @@ export default function Errs(state = [], action) {
          return action.details;
       case 'MISSING_MSG_ERR':
          return action.details;
+      case 'BAD_ADDRESS_ERROR':
+          return action.details;
       default:
          return state;
    }

@@ -54,8 +54,14 @@ const Main = (props) => {
 		return Object.keys(props.user).length !== 0; // Nonempty Prss obj
 	};
 
-	const closeErr = () => {
-		props.closeErr();
+	const closeErr = (errs) => {
+        console.log(errs)
+        let redir = false
+        if (errs[0].tag === 'badAddress')
+            redir = true
+        props.closeErr();
+        if (redir)
+            props.history.push("/");
 	};
 
 
@@ -159,7 +165,7 @@ const Main = (props) => {
 				title="Error Notice"
 				body={props.Errs}
 				buttons={["OK"]}
-				onClose={() => closeErr()}
+				onClose={() => closeErr(props.Errs)}
 			/>
 		</div>
 	);

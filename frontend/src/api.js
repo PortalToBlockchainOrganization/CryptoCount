@@ -1,8 +1,4 @@
-
-const baseURL =
-	process.env.NODE_ENV === "development"
-		? "http://localhost:3001/"
-		: "https://cryptocount.co/api/"
+const baseURL = "http://localhost:3001/"
 const headers = new Headers();
 var sessionId;
 
@@ -23,9 +19,10 @@ var sessionId;
 //    sessionId data.  Successful signin returns promise
 //    resolving to newly signed in user.
 headers.set("Content-Type", "application/json");
+console.log(process.env.NODE_ENV);
 const reqConf = {
 	headers: headers,
-	// credentials: process.env.NODE_ENV === "development" ? "include" : "omit",
+	credentials: process.env.NODE_ENV === "development" ? "include" : false,
 };
 
 function safeFetch(method, endpoint, body) {
@@ -189,7 +186,8 @@ const errMap = {
 	dupTitle: "Conversation title duplicates an existing one",
 	dupEnrollment: "Duplicate enrollment",
 	forbiddenField: "Field in body not allowed.",
-	queryFailed: "Query failed (server problem).",
+    queryFailed: "Query failed (server problem).",
+    badAddress: "Invalid delegation address.",
 };
 
 /**
