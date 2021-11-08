@@ -95,6 +95,28 @@ router.get("/:objId", function (req, res) {
                     return set
                 }
             },
+            function(unrel_obj, cb){
+                RealizeHistObj.findOneAndUpdate({_id: objId}, {$set: {
+                    unrealizedRewards: unrel_obj.unrealizedRewards,
+                    unrealizedBasisRewards: unrel_obj.unrealizedBasisRewards,
+                    unrealizedBasisRewardsDep:
+                        unrel_obj.unrealizedBasisRewardsDep,
+                    unrealizedBasisRewardsMVDep:
+                        unrel_obj.unrealizedBasisRewardsMVDep,
+                    unrealXTZBasis: unrel_obj.xtzBasis,
+                    unrealBasisP: unrel_obj.basisP,
+                    unrealBasisDep: unrel_obj.basisDep,
+                    unrealBasisMVDep: unrel_obj.basisMVdep,
+                    basisPrice: unrel_obj.basisPrice,
+                    unrealizedRewardAgg: unrel_obj.unrealizedRewardAgg,
+                    unrealizedBasisAgg: unrel_obj.unrealizedBasisAgg,
+                    unrealizedDepAgg: unrel_obj.unrealizedDepAgg,
+                    unrealizedMVDAgg: unrel_obj.unrealizedMVDAgg,
+                }}, {new: true}, (err, doc) => {
+					if (err) cb(err);
+					cb(null, doc);                
+                });
+            },
 			function (set, cb) {
 				res.status(200).json(set);
 			},
@@ -254,7 +276,9 @@ router.post("/Save", function (req, res) {
 			function (realObj, cb) {
 				// probably should add check to make sure realizing object equals
 				// the session realizing object
-				realObj = realObj[0];
+                realObj = realObj[0];
+                console.log('unrealiedRewards', ssn_real.unrealizedRewards)
+                console.log('realizingRewards', ssn_real.realizingRewards)
 				if (
 					!(
 						realObj.realizedRewards &&
@@ -287,7 +311,11 @@ router.post("/Save", function (req, res) {
 					unrealizedBasisRewardsMVDep = ssn_real.unrealizedBasisRewardsMVDep;
 					
 				} else {
-					// add and extend existing realized lists/values
+                    // add and extend existing realized lists/values
+                    unrealizedRewards = ssn_real.unrealizedRewards;
+                    unrealizedBasisRewards = ssn_real.unrealizedBasisRewards;
+					unrealizedBasisRewardsDep = ssn_real.unrealizedBasisRewardsDep;
+					unrealizedBasisRewardsMVDep = ssn_real.unrealizedBasisRewardsMVDep;
 					realizedRewardAgg =
 						realObj.realizedRewardAgg + ssn_real.realizingRewardAgg;
 					realizedDepAgg =
@@ -319,22 +347,7 @@ router.post("/Save", function (req, res) {
 						);
 				}
 
-				let unrealizedRewardAgg = 0;
-				let unrealizedBasisAgg = 0;
-				let unrealizedDepAgg = 0;
-				let unrealizedMVDAgg = 0;
-				for (i = 0; i < unrealizedRewards.length; i++) {
-					try{
-						unrealizedRewardAgg += unrealrewards[i].rewardQuantity;
-						unrealizedBasisAgg += unrealizedBasisRewards[i].basisReward;
-						unrealizedDepAgg += unrealizedBasisRewardsDep[i].rewBasisDepletion;
-						unrealizedMVDAgg += unrealizedBasisRewardsMVDep[i].rewBasisMVDepletion;
-					}
 				
-					catch(e){
-						break
-					}
-				}
 				// find obj and update unrealized values
 				RealizeHistObj.findOneAndUpdate(
 					{
