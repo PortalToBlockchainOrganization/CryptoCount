@@ -53,7 +53,7 @@ const VerticalModal = (props) => {
 		"TRY",
 		"THB",
 		"PHP",
-		"VEB",
+		"VEF",
 		"UAH",
 		"ARS",
 	];
