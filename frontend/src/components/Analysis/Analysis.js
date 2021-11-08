@@ -119,7 +119,7 @@ const Analysis = (props) => {
         //doc.setFontSize(12)
         doc.text("CALCULATED ON BEHALF OF", 25, 130)
 
-        doc.text("NAME: " + set["firstName"] + set["lastName"], 25, 137)
+        doc.text("NAME: " + set["firstName"] + ' ' + set["lastName"], 25, 137)
         doc.text("EMAIL: " + set["email"], 25, 144)
         doc.save("TezosRewardIncomeStatement.pdf")
     };
@@ -435,7 +435,8 @@ const Analysis = (props) => {
                             <Form.Label>Period Start:</Form.Label>
                         <div className={classes.quantGroup}>
                             <div className={classes.buttonAndInfo}>
-                                {isNaN(currentSet["incomeToReport"]) ? ('N/A') : (set["data"]["realizingRewards"][0]["date"])}
+                                {console.log(currentSet)}
+                                {(isNaN(currentSet["incomeToReport"]) ||  set["data"]["realizingRewards"] === undefined) ? ('N/A') : (set["data"]["realizingRewards"][0]["date"])}
                                 <div
                                     className={classes.help}
                                     tooltip-data="This is the start of your income period"
@@ -451,7 +452,7 @@ const Analysis = (props) => {
                         </div>
                         <div className={classes.quantGroup}>
                             <div className={classes.buttonAndInfo}>
-                                {isNaN(currentSet["incomeToReport"]) ? ('N/A') : (set["data"]["realizingRewards"][set["data"]["realizingRewards"].length - 1]["date"])}
+                                {(isNaN(currentSet["incomeToReport"]) ||  set["data"]["realizingRewards"] === undefined) ? ('N/A') : (set["data"]["realizingRewards"][set["data"]["realizingRewards"].length - 1]["date"])}
                                 <div
                                     className={classes.help}
                                     tooltip-data="This is the end of your income period"
