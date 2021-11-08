@@ -10,6 +10,7 @@ const {
 	saveRealize,
 	autoAnalysis,
 } = require("./tzdelpre.js");
+const {updateSet} = require("./setUpdater.js")
 
 router.baseURL = "/Anal";
 
@@ -75,7 +76,25 @@ router.get("/:objId", function (req, res) {
 					if (err) cb(err);
 					cb(null, doc);
 				});
-			},
+            },
+            async function(set){
+                // check if date of the set is older than 2 days
+                var twoDaysAgo = new Date();
+                twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+                var lastModifiedDate = set.updatedAt
+                if (lastModifiedDate < twoDaysAgo){
+                    try{
+                       var updatedSet = await updateSet(set)
+                       return updatedSet
+                    }
+                    catch(error){
+                        return error;
+                    }
+                }
+                else{
+                    return set
+                }
+            },
 			function (set, cb) {
 				res.status(200).json(set);
 			},
@@ -146,6 +165,7 @@ router.post("/Auto", function (req, res) {
 				// here we check to see if our previous function returned a
 				// error in the catch block and we instantly jump to the callback
                 // by passing the error in
+                console.log('unrel_obj - post auto', unrel_obj)
 				if (unrel_obj && unrel_obj.stack && unrel_obj.message) {
 					cb(unrel_obj, null);
                 }
@@ -204,7 +224,6 @@ router.post("/Auto", function (req, res) {
 		],
 		function (err) {
 			if (err){
-                console.log('LAST FUNC',err);
                 res.status(400).json([{tag: 'badAddress'}])
             } 
                 
@@ -299,12 +318,7 @@ router.post("/Save", function (req, res) {
 							ssn_real.realizingRewardBasisMVDep
 						);
 				}
-				for (i = 0; i < realizedRewards.length; i++) {
-					unrealizedRewards.shift();
-					unrealizedBasisRewards.shift();
-					unrealizedBasisRewardsDep.shift();
-					unrealizedBasisRewardsMVDep.shift();
-				}
+
 				let unrealizedRewardAgg = 0;
 				let unrealizedBasisAgg = 0;
 				let unrealizedDepAgg = 0;
