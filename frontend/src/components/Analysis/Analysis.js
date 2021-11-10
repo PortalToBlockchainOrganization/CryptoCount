@@ -114,7 +114,7 @@ const Analysis = (props) => {
         doc.text("PERIOD END: " + set["data"]["realizingRewards"][last - 1]["date"], 25, 95);
         doc.text("QUANTITY OF REWARDS SOLD: " + numberWithCommas(qRewSold) + " XTZ", 25, 102)
         doc.text("AVERAGE BASIS COST: " + set["data"]["basisPrice"].toFixed(2) + " " + set["data"]["fiat"], 25, 109)
-        doc.text("TRUE REWARD INCOME: "+ numberWithCommas(set["data"]["realizingBasisAgg"].toFixed(2)) + " " + set["data"]["fiat"], 25, 116)
+        doc.text("TRUE REWARD INCOME: "+ numberWithCommas(currentSet["incomeToReport"].toFixed(2)) + " " + set["data"]["fiat"], 25, 116)
         //var doc = [props][pdfDocument]
         //doc.setFontSize(12)
         doc.text("CALCULATED ON BEHALF OF", 25, 130)
@@ -398,7 +398,7 @@ const Analysis = (props) => {
 						<Form.Label>Income to Report:</Form.Label>
 						<div className={classes.quantGroup}>
 							<div className={classes.buttonAndInfo}>
-								{isNaN(currentSet["incomeToReport"]) ? ('0.00') : (numberWithCommas(set["data"]["realizingBasisAgg"]
+								{isNaN(currentSet["incomeToReport"]) ? ('0.00') : (numberWithCommas(currentSet["incomeToReport"]
 									.toFixed(2))
 									.concat(" ", set["data"]?.fiat))}
 								<div
