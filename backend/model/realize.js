@@ -121,8 +121,11 @@ const realizeSchema = mongoose.Schema({
 	createdAt: {
 		type: Date,
 		default: Date.now(),
-	},
-});
+    },
+},
+{
+    timestamps: true
+  });
 
 // export model user with UserSchema
 module.exports = mongoose.model("realize", realizeSchema);
