@@ -1,4 +1,7 @@
-const baseURL = "http://localhost:3001/"
+const baseURL =
+	process.env.NODE_ENV === "development"
+		? "http://localhost:3001/"
+        : "https://cryptocount.co/api/"
 const headers = new Headers();
 var sessionId;
 
@@ -22,7 +25,7 @@ headers.set("Content-Type", "application/json");
 console.log(process.env.NODE_ENV);
 const reqConf = {
 	headers: headers,
-	credentials: process.env.NODE_ENV === "development" ? "include" : false,
+	// credentials: process.env.NODE_ENV === "development" ? "include" : "omit",
 };
 
 function safeFetch(method, endpoint, body) {
