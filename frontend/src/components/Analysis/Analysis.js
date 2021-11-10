@@ -398,7 +398,7 @@ const Analysis = (props) => {
 						<Form.Label>Income to Report:</Form.Label>
 						<div className={classes.quantGroup}>
 							<div className={classes.buttonAndInfo}>
-								{isNaN(currentSet["incomeToReport"]) ? ('0.00') : (numberWithCommas(currentSet["incomeToReport"]
+								{isNaN(currentSet["incomeToReport"]) ? ('0.00') : (numberWithCommas(set["data"]["realizingBasisAgg"]
 									.toFixed(2))
 									.concat(" ", set["data"]?.fiat))}
 								<div
