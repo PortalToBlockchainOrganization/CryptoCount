@@ -77,7 +77,7 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 			basisDate: set["data"]?.basisDate,
 			basisPrice: set["data"]?.basisPrice,
 			incomeToReport:
-				set["data"][incomeToReport] + set["data"]?.realizingBasisAgg,
+				set["data"][incomeToReport] //+ set["data"]?.realizingBasisAgg,
 		};
 
 		let currentRealizingSet = mapping[setToRender];
