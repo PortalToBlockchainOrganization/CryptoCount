@@ -271,7 +271,7 @@ const Landing = (props) => {
 						<div className="text">
 							<h2>Count Before You Sell.</h2>
 							<p>
-								If I  sell my crypto rewards, how much income would I report?
+								If i sell block rewards, what do i report for income?
 							</p>
 						</div>
 					</div>
