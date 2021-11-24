@@ -139,7 +139,7 @@ const Landing = (props) => {
 						{props.signedIn() ? (
 							<Form.Group controlId="formBasicEmail">
 								<Form.Label>
-									Enter Your Delegation Address
+									Paste Your Delegation Address
 								</Form.Label>
 								<Form.Control
 									type="text"
@@ -271,7 +271,7 @@ const Landing = (props) => {
 						<div className="text">
 							<h2>Count Before You Sell.</h2>
 							<p>
-								If i sell block rewards, what do i report for income?
+								If I sell block rewards, what do I report for income?
 							</p>
 						</div>
 					</div>
