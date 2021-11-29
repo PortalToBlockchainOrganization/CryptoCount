@@ -14,10 +14,10 @@ const About = () => {
                 CryptoCount delivers income statements to block reward holders, offering an accounting interface for users to visualize their block rewards.
                 <br />
 				<br />
-                The statements are generated when a user selects a quantity of rewards to realize.
+                Statements are generated when a user selects a quantity of rewards to realize.
                 <br />
 				<br />
-                The downloadable statements can be delivered to authorities for tax reporting. 
+                Downloadable statements can be delivered to authorities for tax reporting. 
                 <br />
 				<br />
                 The CryptoCount project supports integration to an existing app. The one-click react component is in the <a href="https://www.portaltoblockchain.org/about">Client Module</a> section of the PTBO website. 
