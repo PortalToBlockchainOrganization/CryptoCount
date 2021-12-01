@@ -198,7 +198,7 @@ async function getRewards(address) {
 		//if before irl cycle end
 		for (
 			let i = rewardFetch[j].cycleStart;
-			i < rewardFetch[j].cycleEnd;
+		    i < rewardFetch[j].cycleEnd;
 			i++
 		) {
 			urlObj = {
