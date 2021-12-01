@@ -75,6 +75,9 @@ async function getBakerHistory(address) {
 			prevObj.cycleEnd = cycleEnd;
 		}
 	}
+	const cycleDocs = await CycleModel.find().sort({cycleNumber: 1});
+    	let prevObj = rewardFetch[rewardFetch.length - 1];
+    	prevObj.cycleEnd = cycleDocs[cycleDocs.length -1].cycleNumber;
 	return rewardFetch;
 }
 
@@ -195,7 +198,7 @@ async function getRewards(address) {
 		//if before irl cycle end
 		for (
 			let i = rewardFetch[j].cycleStart;
-			i <= cycleEnd || i < rewardFetch[j].cycleEnd;
+			i < rewardFetch[j].cycleEnd;
 			i++
 		) {
 			urlObj = {
