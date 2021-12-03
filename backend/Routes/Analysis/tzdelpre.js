@@ -172,15 +172,59 @@ async function getPricesAndMarketCap(fiat) {
 	return finalData;
 }
 
-//level 2
 async function getRewards(address) {
 	//URL SET OBJECT CONSTRUCTION
 
 	//call cycle doc object
     const cycleDocs = await CycleModel.find().sort({cycleNumber: 1});
 
+    //BAKER HISTORY OBJECT CONSTRUCTION
+	let url = `https://api.tzkt.io/v1/rewards/delegators/${address}?cycle.ge=0`;
+	const response = await axios.get(url);
+	let delegatorHistory = [];
+	let delegatorHistObj = {};
+	//delegator history object
+	for (let i = 0; i < response.data.length; i++) {
+		const element = response.data[i];
+
+		delegatorHistObj = {
+			baker: element.baker.address,
+			cycle: element.cycle,
+			balance: element.balance, //in mu tez
+		};
+		delegatorHistory.push(delegatorHistObj);
+	}
+
+	//reward fetch object
+	let rewardFetch = [];
+	let rewardFetchObj = {};
+
+	let i = delegatorHistory.length - 1;
+	rewardFetchObj = {
+		baker: delegatorHistory[i].baker,
+		cycleStart: delegatorHistory[i].cycle,
+	};
+	rewardFetch.push(rewardFetchObj);
+
+	for (let j = delegatorHistory.length - 2; j > 0; j--) {
+		const element = delegatorHistory[j];
+		if (element.baker !== delegatorHistory[j + 1].baker) {
+			rewardFetchObj = {
+				baker: element.baker,
+				cycleStart: element.cycle,
+			};
+			rewardFetch.push(rewardFetchObj);
+			let cycleEnd = delegatorHistory[j + 1].cycle;
+			let index = rewardFetch.length - 2;
+			let prevObj = rewardFetch[index];
+			prevObj.cycleEnd = cycleEnd;
+		}
+	}
+    let prevObj = rewardFetch[rewardFetch.length - 1];
+    prevObj.cycleEnd = cycleDocs[cycleDocs.length -1].cycleNumber;
+    //let rewardFetch[lastElement].cycleEnd = cycleDocs[length].cycleNumber;
+
 	//call baker history object
-	const rewardFetch = await getBakerHistory(address);
 	
 
 	//call cycles days object
@@ -335,6 +379,7 @@ async function getRewards(address) {
 	//ADD TRANSACTIONS TO RETURN
 	return [ rewardsByDay, objectArray ];
 }
+
 
 
 //level 2
