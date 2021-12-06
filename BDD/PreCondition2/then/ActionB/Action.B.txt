@@ -1,0 +1,4 @@
+When - user clicks Max button
+
+Then - income to report is read and statement is downloaded.
+
