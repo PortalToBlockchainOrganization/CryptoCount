@@ -1,0 +1,3 @@
+When - User enters specific quantity 
+
+Then - Income to Report is read and statement is downloaded.
