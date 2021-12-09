@@ -20,6 +20,9 @@ const About = () => {
                 Statements are generated when a user selects a quantity of rewards to realize.
                 <br />
 				<br />
+                CryptoCount supports 40 countries and 1 blockchain. 
+                <br />
+				<br />
                 Downloadable statements can be delivered to authorities for tax reporting. 
                 <br />
 				<br />
@@ -27,9 +30,6 @@ const About = () => {
                 <br />
 				<br />
                 The software was designed from literature authored by Sutherland and Landoni(2020), listed in the <a href="https://www.portaltoblockchain.org/literature">Academic Literature</a> section of the PTBO website. 
-                <br />
-				<br />
-                CryptoCount supports 40 countries and 1 blockchain. 
                 <br />
 				<br />
                 Contact us <a href="https://www.portaltoblockchain.org/literature">Here</a>. 
