@@ -16,8 +16,8 @@ const About = () => {
 				<br />
 		The website visualizes block rewards and delivers income statements for users.	
 		<br />
+				<br />
                 Statements are generated when a user selects a quantity of rewards to realize.
-				<br/>
                 <br />
 				<br />
                 Downloadable statements can be delivered to authorities for tax reporting. 
