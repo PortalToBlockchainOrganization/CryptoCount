@@ -32,7 +32,7 @@ const About = () => {
                 CryptoCount supports 40 countries and 1 blockchain. 
                 <br />
 				<br />
-                Contact us <a href="https://www.portaltoblockchain.org/literature">Here</a><. 
+                Contact us <a href="https://www.portaltoblockchain.org/literature">Here</a>. 
 			</div>
 		</div>
 	);
