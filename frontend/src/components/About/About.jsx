@@ -20,19 +20,19 @@ const About = () => {
                 Downloadable statements can be delivered to authorities for tax reporting. 
                 <br />
 				<br />
-                The CryptoCount project supports integration to an existing app. The one-click react component is in the <a href="https://www.portaltoblockchain.org/about">Client Module</a> section of the PTBO website. 
+                This project supports data integration to an existing app. Pre-built react components and API documentation are located in the <a href="https://www.portaltoblockchain.org/about">Client Module</a> and <a href="https://www.portaltoblockchain.org/api">API</a> sections of the Portal To Blockchain Organization(PTBO) website. 
                 <br />
 				<br />
-                CryptoCount currently supplies financial data and accounting services to Tezos block reward delegators.
+                CryptoCount supplies tax optimized financial data and accounting services for Tezos block reward delegators.
                 <br />
 				<br />
-                The software was designed from the literature by Sutherland and Landoni in the <a href="https://www.portaltoblockchain.org/literature">Academic Literature</a> section of the PTBO website. 
+                The software was designed from literature authored by Sutherland and Landoni(2020), listed in the <a href="https://www.portaltoblockchain.org/literature">Academic Literature</a> section of the PTBO website. 
                 <br />
 				<br />
-                CryptoCount currently supports 40 countries and 1 blockchain. 
+                CryptoCount supports 40 countries and 1 blockchain. 
                 <br />
 				<br />
-                Contact us to if you want to supply feedback, need module integration assistance, or would like to have CryptoCount integrated into your blockchain. 
+                Contact us <a href="https://www.portaltoblockchain.org/literature">Here</a><. 
 			</div>
 		</div>
 	);
