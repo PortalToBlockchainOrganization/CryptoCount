@@ -126,7 +126,7 @@ const RegisterHooks = (props) => {
 				value={termsAccepted}
 				onChange={(e) => toggleTerms(e)}
 				label={
-                 <div>Do you accept our <Link to="/privacy">terms and conditions</Link>?
+                 <div>Accept the <Link to="/privacy">terms and conditions</Link>?
                  </div>}
 />
 				{password !== password2 ? (
