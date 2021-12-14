@@ -1,6 +1,0 @@
-When - user enters cryptocount. 
-
-Action - User reads "interested in staking Tezos? Visit baking bad for the latest delegator information".
-
-Then - User enters baking-bad and gets information as to who to stake with. 
-
