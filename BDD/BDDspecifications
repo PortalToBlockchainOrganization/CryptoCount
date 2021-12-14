@@ -1,0 +1,45 @@
+Analysis
++--- Manual - Manually select basis price by selecting date
+  +---- 40 Fiat Currency Selections
+	        -----> outputs 3 accounting sets
++--- Auto - automatically calculate the weighted avg of additions to staking basis
+  +---- 40 Fiat Currency Selections
+	         -----> outputs 3 accounting sets
+  
+Delivery
++---- Website
++---- Browser Plug In App
++---- Third Party Data integration
+
+Information
++---- Where to Delegate Info
++---- Analysis Program Specifications From Academic Literature
++---- About The CryptoCount Project
+
+Third Party Developer 
++---- API
+	+---- Auto Tezos Delegator Reward Realization
+	+---- Auto Tezos Delegator Reward Book Value
++---- Client Module
+	+---- Realize Field With Max Button
+		+---- Pre Code params from global states into component 
+		+---- Downloads Statement
+	+---- Calculated Basis Price 
+
+Users
++--- Account
+     +----- ChangePassword
+     +----- ForgotPassword
+     +----- ViewRealizedHistory
+     +--- Saved Realization
+            +--- Update Saved Realization History
+            
+Visualization
++--- Block Reward Accounting Entry Graph
++--- Color change when realizing a quantity
++--- Staking Basis Representation 
++--- Income To Report
++--- Period Statisitics
++--- Downloadable Statement             
+                     
+
