@@ -14,7 +14,7 @@ const About = () => {
 		CryptoCount supplies tax optimized financial data and accounting services for Tezos block reward delegators.				
                 <br />
 				<br />
-		The website visualizes block rewards and delivers income statements for users.	
+		The website visualizes block rewards and delivers income statements to users.	
 		<br />
 				<br />
                 Statements are generated when a user selects a quantity of rewards to realize.
