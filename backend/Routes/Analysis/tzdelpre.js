@@ -176,154 +176,123 @@ async function getRewards(address) {
 	//URL SET OBJECT CONSTRUCTION
 
 	//call cycle doc object
-    const cycleDocs = await CycleModel.find().sort({cycleNumber: 1});
+   
+//call cycle doc object
+    const cycleDocs = await CycleModel.find().sort({cycleNumber: 1});
 
-    //BAKER HISTORY OBJECT CONSTRUCTION
-	let url = `https://api.tzkt.io/v1/rewards/delegators/${address}?cycle.ge=0`;
-	const response = await axios.get(url);
-	let delegatorHistory = [];
-	let delegatorHistObj = {};
-	//delegator history object
-	for (let i = 0; i < response.data.length; i++) {
-		const element = response.data[i];
+    //BAKER HISTORY OBJECT CONSTRUCTION
+    let url = `https://api.tzkt.io/v1/rewards/delegators/${address}?cycle.ge=0`;
+    const response = await axios.get(url);
+    let delegatorHistory = [];
+    let delegatorHistObj = {};
+    //delegator history object
+    for (let i = 0; i < response.data.length; i++) {
+    const element = response.data[i];
 
-		delegatorHistObj = {
-			baker: element.baker.address,
-			cycle: element.cycle,
-			balance: element.balance, //in mu tez
-		};
-		delegatorHistory.push(delegatorHistObj);
-	}
+    delegatorHistObj = {
+    baker: element.baker.address,
+    cycle: element.cycle,
+    balance: element.balance, //in mu tez
+    };
+    delegatorHistory.push(delegatorHistObj);
+    }
 
-	//reward fetch object
-	let rewardFetch = [];
-	let rewardFetchObj = {};
+    //reward fetch object
+    let rewardFetch = [];
+    let rewardFetchObj = {};
 
-	let i = delegatorHistory.length - 1;
-	rewardFetchObj = {
-		baker: delegatorHistory[i].baker,
-		cycleStart: delegatorHistory[i].cycle,
-	};
-	rewardFetch.push(rewardFetchObj);
+    let i = delegatorHistory.length - 1;
+    rewardFetchObj = {
+    baker: delegatorHistory[i].baker,
+    cycleStart: delegatorHistory[i].cycle,
+    };
+    rewardFetch.push(rewardFetchObj);
 
-	for (let j = delegatorHistory.length - 2; j > 0; j--) {
-		const element = delegatorHistory[j];
-		if (element.baker !== delegatorHistory[j + 1].baker) {
-			rewardFetchObj = {
-				baker: element.baker,
-				cycleStart: element.cycle,
-			};
-			rewardFetch.push(rewardFetchObj);
-			let cycleEnd = delegatorHistory[j + 1].cycle;
-			let index = rewardFetch.length - 2;
-			let prevObj = rewardFetch[index];
-			prevObj.cycleEnd = cycleEnd;
-		}
-	}
-    let prevObj = rewardFetch[rewardFetch.length - 1];
-    prevObj.cycleEnd = cycleDocs[cycleDocs.length -1].cycleNumber;
-    //let rewardFetch[lastElement].cycleEnd = cycleDocs[length].cycleNumber;
+    for (let j = delegatorHistory.length - 2; j > 0; j--) {
+        const element = delegatorHistory[j];
+        if (element.baker !== delegatorHistory[j + 1].baker) {
+            rewardFetchObj = {
+                    baker: element.baker,
+                    cycleStart: element.cycle,
+                };
+            rewardFetch.push(rewardFetchObj);
+            let cycleEnd = delegatorHistory[j + 1].cycle;
+            let index = rewardFetch.length - 2;
+            let prevObj = rewardFetch[index];
+            prevObj.cycleEnd = cycleEnd;
+        }
+    }
+        let prevObj = rewardFetch[rewardFetch.length - 1];
+        prevObj.cycleEnd = cycleDocs[cycleDocs.length -1].cycleNumber;
+        //let rewardFetch[lastElement].cycleEnd = cycleDocs[length].cycleNumber;
 
-	//call baker history object
-	
+    console.log("rewards fetch")
+    console.log(rewardFetch)
+    //call baker history object
 
-	//call cycles days object
-	const cycles = await getCyclesDays();
-	let length = cycleDocs.length - 1;
-	let cycleEnd = cycleDocs[length].cycleNumber;
 
-	//url object construction
-	let urls = rewardFetch.length;
-	let urlSet = [];
-	let urlObj = {};
+    //call cycles days object
+    const cycles = await getCyclesDays();
+    let length = cycleDocs.length - 1;
+    let cycleEnd = cycleDocs[length].cycleNumber;
 
-	for (let j = 0; j < urls; j++) {
-		let bakerAddress = rewardFetch[j].baker;
-		//if before irl cycle end
-		for (
-			let i = rewardFetch[j].cycleStart;
-		    i < rewardFetch[j].cycleEnd;
-			i++
-		) {
-			urlObj = {
-				url: `https://api.baking-bad.org/v2/rewards/${bakerAddress}?cycle=${i}`,
-			};
-			urlSet.push(urlObj);
-		}
-	}
+    //url object construction
+    let urls = rewardFetch.length;
+    let urlSet = [];
+    let urlObj = {};
 
-	//URL OBJECT USING
-	//define the query promise contructor here
-	function promiseGet(url) {
-		return new Promise((resolve, reject) => {
-			try {
-				payload = axios.get(url);
-				resolve(payload);
-			} catch (err) {
-				console.log(`Could not get data from url: ${url}`);
-				reject(new Error(err));
-			}
-			//add ids by cycle or something here
-		});
-	}
+    for (let j = 0; j < urls; j++) {
+        let bakerAddress = rewardFetch[j].baker;
+        //if before irl cycle end
+        for (let i = rewardFetch[j].cycleStart; i <= rewardFetch[j].cycleEnd; i++) {
+            urlSet.push(`https://api.baking-bad.org/v2/rewards/${bakerAddress}?cycle=${i}`);
+        }
+    }
 
-	var promises = [];
-	urlSet.forEach((url) => {
-		promises.push(
-			promiseGet(url.url)
-				.then((urlObj) => {
-					try{
-						let payoutArray = urlObj.data.payouts;
-						let addressProperty = "address";
-						let amountProperty = "amount";
-						if (payoutArray === undefined) {
-							console.log(urlObj);
-						}else{
-							for (let i = 0; i < payoutArray.length; i++) {
-								if (address == payoutArray[i][addressProperty]) {
-									let amount = payoutArray[i][amountProperty];
-									if (amount < 0.0001 && amount > 0) {
-										amount = amount * 10000;
-									}
-									var rewardObject = {
-										quantity: amount,
-										cycle: urlObj.data.cycle,
-									};
-									return rewardObject;
-								}
-							}
-						}
-						resolve(payoutArray)
-					}catch(e){
-						console.log(`Could not get data from url: ${url}`);
-						reject(new Error(err));
-					}
-				})
-				.catch((err) => {
-					console.log(err);
-				})
-		);
-	});
+    var j, temporary, chunk = 16;
+    var results = []
+    console.log(urlSet.length)
+    for (i = 0,j = urlSet.length; i < j; i += chunk) {
+        temporary = urlSet.slice(i, i + chunk);
+        result = await axios.all(temporary.map(url=> axios.get(url)));
+        // do whatever
+        results.push(...result)
+    }
+
+    console.log(results.length);
+
+    var rewards = results.map(urlObj =>{
+            let payoutArray = urlObj.data.payouts;
+            let addressProperty = "address";
+            let amountProperty = "amount";
+            if (payoutArray === undefined) {
+                console.log(urlObj);
+            }else{
+                for (let i = 0; i < payoutArray.length; i++) {
+                    if (address == payoutArray[i][addressProperty]) {
+                        let amount = payoutArray[i][amountProperty];
+                        if (amount < 0.0001 && amount > 0) {
+                            amount = amount * 10000;
+                        }
+                        var rewardObject = {
+                            quantity: amount,
+                            cycle: urlObj.data.cycle,
+                        };
+                        return rewardObject;
+                    }
+                }
+            }
+    })
 
 	//finish all promise models push all returned data up to the base level of the method execution
-	let rewards = [];
-	await Promise.all(promises)
-		.then((values) => {
-			values.forEach((element) => {
-				if (typeof element === "object") {
-					var reward = element;
-					rewards.push(reward);
-				}
-			});
-		})
-		.catch((err) => {
-			console.log(err);
-		});
-
 
 	let rewardsByDay = [];
-	let rewardByDayObj = {};
+    let rewardByDayObj = {};
+    console.log(rewards);
 	for (i = 0; i < rewards.length; i++) {
+        if (rewards[i] === undefined){
+            continue;
+        }
 		let c = rewards[i].cycle;
 		let date = cycles[c];
 		rewardByDayObj = {
@@ -379,8 +348,6 @@ async function getRewards(address) {
 	//ADD TRANSACTIONS TO RETURN
 	return [ rewardsByDay, objectArray ];
 }
-
-
 
 //level 2
 //function get tranasactions
