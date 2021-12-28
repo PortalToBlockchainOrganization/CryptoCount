@@ -9,30 +9,30 @@ const About = () => {
 					About CryptoCount 	
 					<hr className={classes.HR} />
 				</h1>
+            <br />
+				<br />
+		CryptoCount supplies tax optimized financial data to Tezos block reward delegators.				
                 <br />
 				<br />
-		CryptoCount supplies tax optimized financial data and accounting services for Tezos block reward delegators.				
-                <br />
-				<br />
-		The website visualizes block rewards and delivers income statements to users.	
+		The website visualizes block rewards and generates income statements to users.	
 		<br />
 				<br />
                 Statements are generated when a user selects a quantity of rewards to realize.
                 <br />
 				<br />
-                CryptoCount supports 40 countries and 1 blockchain. 
+				Downloadable statements can be delivered to authorities for income tax reporting. 
                 <br />
 				<br />
-                Downloadable statements can be delivered to authorities for tax reporting. 
+				CryptoCount supports 40 countries and 1 blockchain. 
                 <br />
 				<br />
-                This project supports data integration to an existing app. Pre-built react components and API documentation are located in the <a href="https://www.portaltoblockchain.org/about">Client Module</a> and <a href="https://www.portaltoblockchain.org/api">API</a> sections of the Portal To Blockchain Organization(PTBO) website. 
+                The project supports data integration to an existing app. Pre-built react components and API documentation are located in the <a href="https://www.portaltoblockchain.org/about">Client Module</a> and <a href="https://www.portaltoblockchain.org/api">API</a> sections of this site. 
                 <br />
 				<br />
-                The software was designed from literature authored by Sutherland and Landoni(2020), listed in the <a href="https://www.portaltoblockchain.org/literature">Academic Literature</a> section of the PTBO website. 
+                The software was designed from economic literature authored by Sutherland and Landoni(2020), listed in the <a href="https://www.portaltoblockchain.org/literature">Academic Literature</a> section of this site. 
                 <br />
 				<br />
-                Contact us <a href="https://www.portaltoblockchain.org/literature">Here</a>. 
+                Contact us <a href="https://www.portaltoblockchain.org">Here</a>. 
 			</div>
 		</div>
 	);
