@@ -129,7 +129,7 @@ const Landing = (props) => {
 				<br />
 				<br />
 				<div className="name-one-liner">
-					<h1 className="logo-name">CryptoCount</h1>
+					<h1 className="logo-name">CryptoCount TAX</h1>
 				</div>
 				<div className="name-one-liner">
 					<h2 className="logo-tagline">Generate block reward income statements.</h2>
