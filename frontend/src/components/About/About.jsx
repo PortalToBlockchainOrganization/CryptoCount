@@ -29,7 +29,7 @@ const About = () => {
                 The project supports data integration to an existing app. Pre-built react components and API documentation are located in the <a href="https://www.portaltoblockchain.org/client">Integrate CryptoCount</a> and <a href="https://www.portaltoblockchain.org/api">API</a> sections of the PTBO website. 
                 <br />
 				<br />
-                The software was designed from economic literature authored by Sutherland and Landoni(2020), listed in the <a href="https://www.portaltoblockchain.org/literature">Academic Literature</a> section of this site. 
+                The software was derived from economic literature authored by Sutherland and Landoni(2020), listed in the <a href="https://www.portaltoblockchain.org/literature">Academic Literature</a> section of this site. 
                 <br />
 				<br />
                 Contact us <a href="https://www.portaltoblockchain.org">Here</a>. 
