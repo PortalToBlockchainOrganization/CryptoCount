@@ -187,7 +187,6 @@ router.post("/Auto", function (req, res) {
 				// here we check to see if our previous function returned a
 				// error in the catch block and we instantly jump to the callback
                 // by passing the error in
-                console.log('unrel_obj - post auto', unrel_obj)
 				if (unrel_obj && unrel_obj.stack && unrel_obj.message) {
 					cb(unrel_obj, null);
                 }
@@ -552,7 +551,7 @@ router.post("/Cal", function (req, res) {
 			async function (cb) {
 				if (vld.hasFields(body, ["address", "fiat"]))
 					prices = await getPrices(body["fiat"]);
-				cal_vals = await getBalances(body["address"], prices);
+                cal_vals = await getBalancesAndPrices(body["address"], prices);
 				res.status(200).json({ cal_vals });
 			},
 		],
@@ -644,6 +643,51 @@ Date.prototype.addDays = function (days) {
 	date.setDate(date.getDate() + days);
 	return date;
 };
+
+async function getBalancesAndPrices(address, prices) {
+	let balances = {};
+	//offset from index
+	let offset = 0;
+	let resp_lens = 10000;
+	while (resp_lens === 10000) {
+		let url = `https://api.tzkt.io/v1/accounts/${address}/balance_history?offset=${offset}&limit=10000`;
+		const response = await axios.get(url);
+		resp_lens = response.data.length;
+		offset += response.data.length; // update lastId, length of offset is all so it gets the length, then stops again while true because it fills the return of the query
+		// api returns only changes
+		// for each date, check date ahead and fill all dates upto that date
+		for (let i = 0; i < response.data.length - 1; i++) {
+			const element = response.data[i];
+			//make this into normal date
+			var d1 = element.timestamp.substring(0, 10);
+			var d2 = response.data[i + 1].timestamp.substring(0, 10);
+
+			if (d1 === d2) {
+				balances[d1] = element.balance;
+			} else {
+				d1 = new Date(d1);
+				d2 = new Date(d2);
+				date_itr = d1;
+				while (date_itr < d2) {
+                    date_key = date_itr.toISOString().slice(0, 10);
+                    alt_date_key = convDate(date_key);
+					balances[date_key] = {
+						balance: response.data[i].balance,
+						price: prices[alt_date_key]
+					};
+					date_itr = date_itr.addDays(1);
+				}
+			}
+		}
+	}
+	return balances;
+}
+
+function convDate(date){
+    var temp = [];
+    temp = date.split('-');
+    return temp[1] + '-' + temp[2] + '-' + temp[0];
+}
 
 async function getBalances(address, price) {
 	let balances = {};
