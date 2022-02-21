@@ -80,6 +80,8 @@ const VerticalModal = (props) => {
 
 	// array of modal pages
 	let modalData = [
+		//blockchain
+		//consensus role
 		{
 			title: "Enter the fiat: ",
 			input: (

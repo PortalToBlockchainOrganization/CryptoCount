@@ -13,11 +13,15 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.0",
     "express-validator": "^6.10.0",
+    "fetch": "^1.1.0",
+    "gql-query-builder": "^3.5.7",
     "jsonwebtoken": "^8.5.1",
     "jspdf": "^2.4.0",
     "mongoose": "^5.12.0",
     "mysql": "^2.11.1",
-    "newman": "^5.1.2"
+    "near-api-js": "^0.44.2",
+    "newman": "^5.1.2",
+    "node-fetch": "^3.1.0"
   },
   "scripts": {
     "Ex1": "node ServerEx1.js",

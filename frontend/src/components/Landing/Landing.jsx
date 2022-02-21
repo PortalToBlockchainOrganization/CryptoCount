@@ -167,18 +167,6 @@ const Landing = (props) => {
 								/>
 							</Form.Group>
 						)}
-						<Button
-							className="button-continue"
-							disabled={
-								addrs["delAddrs"].length > 0 ? "" : "disabled"
-							}
-							variant="outline-danger"
-							block
-							onClick={handleDelegationSubmit}
-						>
-							Continue
-						</Button>
-
 						{props.signedIn() ? null : (
 							<Button
 								disabled={email.length > 0 ? "" : "disabled"}
@@ -189,6 +177,20 @@ const Landing = (props) => {
 								Sign in
 							</Button>
 						)}
+						<Button
+							className="button-continue"
+							disabled={
+								addrs["delAddrs"].length > 0 ? "" : "disabled"
+							}
+							variant="outline-danger"
+							background-color="green"
+							block
+							onClick={handleDelegationSubmit}
+						>
+							Skip Sign In
+						</Button>
+
+						
 					</Form>
 				</div>
                 <div className="name-one-liner">

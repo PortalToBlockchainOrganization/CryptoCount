@@ -136,8 +136,13 @@ export function getUnrealizedSet(params) {
 	});
 }
 
+
+//HERE FOR DOCS
+
 export function autoUnrealizedSet(params) {
 	return post("Anal/Auto", {
+		blockchain: params["blockchain"],
+		consensusRole: params["consensusRole"],
 		fiat: params["fiat"],
 		address: params["address"],
 	});

@@ -428,20 +428,6 @@ router.post("/Realize", function (req, res) {
 				if (rel_obj && rel_obj.stack && rel_obj.message) {
 					cb(rel_obj, null);
 				}
-				// ssn.realizing = { // save information on a session level
-				//     "realizingRewards": rel_obj["realizingRewards"],
-				//     "realizingBasisRewards": rel_obj["realizingRewardBasis"],
-				//     "realizingBasisRewardsDep": rel_obj["realizingRewardBasisDep"],
-				//     "realizingBasisRewardsMVDep": rel_obj["realizingRewardBasisMVDep"],
-				//     "realizingRewardAgg": rel_obj["realizingRewardAgg"],
-				//     "realizingBasisAgg": rel_obj["realizingBasisAgg"],
-				//     "realizingDepAgg": rel_obj["realizingDepAgg"],
-				//     "realizingMVDepAgg": rel_obj["realizingMVdAgg"],
-				//     "realizingXTZBasis": rel_obj["realizingXTZbasis"],
-				//     "realizingBasisP": rel_obj["realizingBasisP"],
-				//     "realizingBasisDep": rel_obj["realizingBasisDep"],
-				//     "realizingBasisMVDep": rel_obj["realizingBasisMVdep"]
-				// }
 				ssn.realizing = rel_obj;
 				rel_obj['email'] = ssn.email 
 				rel_obj['firstName'] = ssn.firstName

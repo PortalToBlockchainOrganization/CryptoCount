@@ -385,27 +385,109 @@ async function getTransactions(address) {
 async function realizeRew(realizedQuantity, setId) {
 	//take realize post api
 	// let realizedQuantity = 900
+	// date 1
+	//date 2
+
+	//Put this in the realize iteration below
+	for unrealized rewards
+		if date1 >= unrealized.date && unrealized.date <= date2	
+
+
+
+
+// list of basis price by date: 
+//for every true addition of staking basis
+//calculate basis price
+//push to basis price list with date caculated
+
+========================
+bp1 bp2 bp3 bp4 
+
+-----
+
+For all of the basis price date domains the realization touches
+
+
+use the basis price of the date value at the highest date value of the realization domain
+
+run an analysis for every basis price? 
+
+x history objects for one history object 
+
+main history object ~ current basis price
+
+each history object ~ basis price, calc at date
+
+iterate through main hisotry object
+
+
+realization quantity, date domain 
+
+quantity, basis price history objects, dates 
+
+   (-----) ~ realizng  	// date 1
+  						 //date 2
+[~~~~~~~~~~~~] ~ unrealized
+
+[~{bp1}~{bp2}~{bpf}] 
+
+bpn ele of bpf
+
+//get the date of the last real
+date 2 
+
+list of calc at dates
+
+for history.calcAt dates
+if date2 > history[i-1].calcAt && date2 <= history[i].calcAt
+return history[i]
+
+
+
+for unrealizrd of bpN
+if date1 >= unrealized[i].date && unrealized[i].date <= date2	
+push to realziing
+
+
+realization of bpn
+
+attach to bpf
+
+
+iter thru bpf
+bpNdate = 
+for unrealized rewards
+if date1 >= unrealized.date && unrealized.date <= date2	
+bpNdate = unrealized[i].date
+
+//get the history 
+for bpNs
+if date2 > bpNDate &&
+
+
+push to realize
+
+get the basis price for the most recent true addition in the unrealization domain in the realizing domain
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	var qSell = realizedQuantity
 
 	//get the realizehistoryobject from the db
 	let foundRealizeHistory = await RealizeSet.findOne({ _id: setId });
 
-	//CANNOT ACCESS UNREALIZED REWARD SET // WORKAROUND HERE
-	//y no access unrealized? walkaround
-	//let realizingRewardQ = foundRealizeHistory[0].unrealizedBasisRewards[2].basisReward
-	//let realizingRewardQ = foundRealizeHistory[0].unrealizedRewards[0].rewardQuantity
-	// for(i = 0; i < foundRealizeHistory.unrealizedBasisRewards.length; i++){
-	//     rewardQ = foundRealizeHistory.unrealizedBasisRewards[i].basisReward / basisPrice
-	//     date = foundRealizeHistory.unrealizedBasisRewards[i].date
-	//     reward = {
-	//         "date": date,
-	//         "q": rewardQ
-	//     }
-	//     unrealrewards.push(reward)
-	// }
-	//end patch
-
-	//other unrealized sets
 
 	let basisPrice = foundRealizeHistory.basisPrice;
 
@@ -532,7 +614,45 @@ async function realizeRew(realizedQuantity, setId) {
 		
 		}
 
-	//BASIS BUCKET
+	//re aggregate
+	let realizingRewardAgg = 0;
+	let realizingBasisAgg = 0;
+	let realizingDepAgg = 0;
+	let realizingMVdAgg = 0;
+	for (i = 0; i < realizingRewardQ.length; i++) {
+		try{
+			realizingRewardAgg += realizingRewardQ[i].rewardQuantity;
+			realizingBasisAgg += realzingRewardBasis[i].basisReward;
+			realizingDepAgg += realzingRewardBasisDep[i].rewBasisDepletion;
+			realizingMVdAgg += realzingRewardBasisMVDep[i].rewBasisMVDepletion;
+		}
+		catch(e){
+			break
+		}
+	}
+
+		//re aggregate
+		let unrealizedRewardAgg = 0;
+		let unrealizedBasisAgg = 0;
+		let unrealizedDepAgg = 0;
+		let unrealizedMVDAgg = 0;
+		for (i = 0; i < unrealrewards.length; i++) {
+			try{
+				unrealizedRewardAgg += unrealrewards[i].rewardQuantity;
+				unrealizedBasisAgg += unrealizedBasisRewards[i].basisReward;
+				unrealizedDepAgg += unrealizedBasisRewardsDep[i].rewBasisDepletion;
+				unrealizedMVDAgg += unrealizedBasisRewardsMVDep[i].rewBasisMVDepletion;
+			}
+		
+			catch(e){
+				break
+			}
+		}
+
+	//BASIS BUCKET\
+	//RECALCULATE REMOVE THE QUANTITY OF REWARDS FROM THE BASIS(S)
+	//SUBTRACT FROM THE XTZ ONE
+	//SUBTRACT REWARD BASIS AGGS FROM THE OTHER SETS
 
 	let percentOfBasisRealizing =
 		realizedQuantity / foundRealizeHistory.unrealXTZBasis;
@@ -556,40 +676,9 @@ async function realizeRew(realizedQuantity, setId) {
 	let unrealizedBasisMVdep =
 		foundRealizeHistory.unrealBasisMVDep - realizingBasisMVdep;
 
-	//re aggregate
-	let unrealizedRewardAgg = 0;
-	let unrealizedBasisAgg = 0;
-	let unrealizedDepAgg = 0;
-	let unrealizedMVDAgg = 0;
-	for (i = 0; i < unrealrewards.length; i++) {
-		try{
-			unrealizedRewardAgg += unrealrewards[i].rewardQuantity;
-			unrealizedBasisAgg += unrealizedBasisRewards[i].basisReward;
-			unrealizedDepAgg += unrealizedBasisRewardsDep[i].rewBasisDepletion;
-			unrealizedMVDAgg += unrealizedBasisRewardsMVDep[i].rewBasisMVDepletion;
-		}
-	
-		catch(e){
-			break
-		}
-	}
 
-	//re aggregate
-	let realizingRewardAgg = 0;
-	let realizingBasisAgg = 0;
-	let realizingDepAgg = 0;
-	let realizingMVdAgg = 0;
-	for (i = 0; i < realizingRewardQ.length; i++) {
-		try{
-			realizingRewardAgg += realizingRewardQ[i].rewardQuantity;
-			realizingBasisAgg += realzingRewardBasis[i].basisReward;
-			realizingDepAgg += realzingRewardBasisDep[i].rewBasisDepletion;
-			realizingMVdAgg += realzingRewardBasisMVDep[i].rewBasisMVDepletion;
-		}
-		catch(e){
-			break
-		}
-	}
+
+	//re aggrega
 
 	//realize out of bookvalue - rewards = basis
 	/*
@@ -1080,20 +1169,13 @@ async function autoAnalysis(address, fiat) {
 			positiveTrans.push(object);
 		}
 	}
-
 	//VET SAME DAY ~NULL~ NET POSITIVE TRANSACTIONS - looking for real increases to the basis
 	let netPositives = [];
 	for (i = 0; i < positiveTrans.length; i++) {
 		let date = await formatDate(positiveTrans[i].date);
-		//let prevDayUnformatted = await addDays(date, 0) // 2 into this funciton moves date up by 1
-		//let prevDay = await formatDate(prevDayUnformatted)
 		let value = positiveTrans[i].amount;
-
 		//balance object
 		let bal1 = basisBalances[date];
-		//let index = Object.keys(balanceObject).indexOf(date)
-		//let bal2 = balanceObject[prevDay]
-		//if postive trans value  - balance - positive trans value < 0
 		if (bal1 - value < 0) {
 		} else {
 			object = {
@@ -1119,6 +1201,8 @@ async function autoAnalysis(address, fiat) {
 		priceByincreaseTotal += netPositives[i].amount * significantPrices[i]
 	}
 
+
+
 	let basisPrice = priceByincreaseTotal / netPositiveTotal;
 	console.log('done w price')
 
@@ -1131,6 +1215,7 @@ async function autoAnalysis(address, fiat) {
 	let supply = [];
 	let mvdAnal = [];
 
+	//y do we do the procssing on this
 	const supplyDocs = await StatisticModel.find();    
 	for (let i = 0; i < supplyDocs.length; i++) {
 		const d = supplyDocs[i].dateString;
@@ -1249,7 +1334,7 @@ async function autoAnalysis(address, fiat) {
 				catch(e){break}
 				
 			}
-			let depletion = bookValsDepletion[i - 1].bvDep * (1 - supply[i - 1].supply / supply[i].supply);
+			let depletion = bookValsDepletion[i - 1].bvDep * (1 - supply[i - 1].supply / supply[i].supply);   // depletion is of accounts whole value, the reward is proportion of the accounts whole value so the depletion applicable to it as a sub asset is a propotion of the whole depletion 
 			let bookVal = bookValsDepletion[i - 1].bvDep + basisRewards[i].basisReward - depletion + tranVal * basisPrice;
 			let bvDepObj = {
 					date: date,
@@ -1286,16 +1371,8 @@ async function autoAnalysis(address, fiat) {
 	for(i = 0; i < rewards.length; i++){
 		totalRewards += rewards[i].rewardQuantity
 	}
-	
-	
-
-
-
-	let xtzBasis = basisBalances[Object.keys(basisBalances)[Object.keys(basisBalances).length - 1]] / 1000000 - totalRewards
-
+	let xtzBasis = basisBalances[Object.keys(basisBalances)[Object.keys(basisBalances).length - 1]] / 1000000 
 	let percentOfRew = totalRewards / xtzBasis
-
-
 	let basisP = bookValsBasis[bookValsBasis.length - 1].bvBas * (1 - percentOfRew)
 	let basisDep = bookValsDepletion[bookValsDepletion.length - 1].bvDep * (1 - percentOfRew)
 	let basisMVdep = bookValsMVDepletion[bookValsMVDepletion.length - 1].bvMvDep * (1 - percentOfRew)
@@ -1321,8 +1398,6 @@ async function autoAnalysis(address, fiat) {
 
 	//RETURN OBJECT
 	analysisResObj = {
-		//need basis rewards, mvd rewards, dep rewards
-		//"basisQ": basisQ,
 		unrealizedRewards: rewards,
 		unrealizedBasisRewards: basisRewards,
 		unrealizedBasisRewardsDep: basisRewardDepletion,

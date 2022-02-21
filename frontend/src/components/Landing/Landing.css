@@ -121,6 +121,7 @@ p {
 
 .button-continue:disabled {
 	cursor: not-allowed;
+	background-color: gold;
 }
 
 .t-logo {
