@@ -1,14 +1,14 @@
 
-const mongoose = require("mongoose");
-let CycleModel = require("../../model/cycle");
+//const mongoose = require("mongoose");
+//let CycleModel = require("../../model/cycle");
 let axios = require("axios");
-const { resolve } = require("bluebird");
-var http = require('http')
-var url = require('url')
-const httpService = require('./httpService'); // the above wrapper
-var request = require("request");
-const https = require('https')
-var fetch = require("fetch").fetchUrl;
+// const { resolve } = require("bluebird");
+// var http = require('http')
+// var url = require('url')
+// const httpService = require('./httpService'); // the above wrapper
+// var request = require("request");
+// const https = require('https')
+// var fetch = require("fetch").fetchUrl;
 
 async function getRewards(address) {
 	//URL SET OBJECT CONSTRUCTION
@@ -43,7 +43,7 @@ async function getRewards(address) {
 
 //staking pool operator
 
-https://cardano-mainnet.blockfrost.io/api/v0/pools/{pool_id}/history
+//https://cardano-mainnet.blockfrost.io/api/v0/pools/{pool_id}/history
 
 
 address = "stake1uxx9ukf9r6mk0egcjctgcyvkfksvannfc56d7sathqluclcjr4f76"
@@ -60,44 +60,44 @@ getRewards(address).then((value) => {
 
 
 
-  import * as gql from 'gql-query-builder'
+//   import * as gql from 'gql-query-builder'
 
-const query = gql({
-  operation: 'orders',
-  fields: [
-    'id',
-    'amount',
-    {
-     user: [
-        'id',
-        'name',
-        'email',
-        {
-          address: [
-            'city',
-            'country'
-          ]
-        }
-      ]
-    }
-  ]
-})
+// const query = gql({
+//   operation: 'orders',
+//   fields: [
+//     'id',
+//     'amount',
+//     {
+//      user: [
+//         'id',
+//         'name',
+//         'email',
+//         {
+//           address: [
+//             'city',
+//             'country'
+//           ]
+//         }
+//       ]
+//     }
+//   ]
+// })
 
-console.log(query)
+// console.log(query)
 
-// Output
-query {
-  orders  {
-    id,
-    amount,
-    user {
-      id,
-      name,
-      email,
-      address {
-        city,
-        country
-      }
-    }
-  }
-}
+// // Output
+// query {
+//   orders  {
+//     id,
+//     amount,
+//     user {
+//       id,
+//       name,
+//       email,
+//       address {
+//         city,
+//         country
+//       }
+//     }
+//   }
+// }

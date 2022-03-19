@@ -4,12 +4,15 @@
   "description": "Test",
   "main": "main.js",
   "dependencies": {
+    "@solana/web3.js": "^1.36.0",
     "async": "^2.0.0-rc.6",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.15.2",
+    "cargo": "^0.8.0",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.5",
+    "docker": "^1.0.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.0",
     "express-validator": "^6.10.0",
@@ -21,7 +24,9 @@
     "mysql": "^2.11.1",
     "near-api-js": "^0.44.2",
     "newman": "^5.1.2",
-    "node-fetch": "^3.1.0"
+    "node-fetch": "^3.1.0",
+    "web3": "^1.7.0",
+    "web3t": "^0.7.1"
   },
   "scripts": {
     "Ex1": "node ServerEx1.js",

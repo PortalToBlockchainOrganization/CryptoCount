@@ -10,6 +10,12 @@ const https = require('https')
 var fetch = require("fetch").fetchUrl;
 
 const nearAPI = require("near-api-js");
+const Web3 = require("web3")
+
+
+
+
+
 
 
 
@@ -111,21 +117,43 @@ const nearAPI = require("near-api-js");
 //     console.log(d.data)
 //     return d.data})
     
-// }
+// // }
 
-axios({
-      url: 'https://archival-rpc.mainnet.near.org',
-      method: 'post',
-      headers: {
-          "Content-Type": "application/json",
-        "X-API-KEY": "BQYeZAN1vMyjkjff5AZlVMmzjeS7yfOC"
-      },
-      data: {
+// axios({
+//       url: 'https://archival-rpc.mainnet.near.org',
+//       method: 'post',
+//       headers: {
+//           "Content-Type": "application/json",
+//         "X-API-KEY": "BQYeZAN1vMyjkjff5AZlVMmzjeS7yfOC"
+//       },
+//       data: {
        
-      }
-    }).then((result) => {
-      console.log(result.data)
-    });
+//       }
+//     }).then((result) => {
+//       console.log(result.data)
+//     });
+
+
+
+
+async function getNEAR(){
+  console.log(Web3)
+  //var myProvider = "https://archival-rpc.mainnet.near.org"
+  //Web3.setProvider(myProvider)
+
+  const web3 = new Web3(Web3.givenProvider || "https://archival-rpc.mainnet.near.org");
+console.log(web3)
+  // const web3 = new Web3(new Web3.providers.HttpProvider("https://archival-rpc.mainnet.near.org"))
+  // console.log(web3)
+  // web3.NEAR.getBalance("7eee5392d8c77b279a329f168ff336b22911f02e850ab518d199c946667de01c", function(err, result) {
+  //   if (err) {
+  //     console.log(err)
+  //   } else {
+  //     console.log(web3.utils.fromWei(result, "ether") + " ETH")
+  //   }
+  // })
+
+}
 
 
   getNEAR().then((value) => {
