@@ -4,7 +4,7 @@ let CycleModel = require('../models/cycle');
 let axios = require('axios');
 
 
-async function getRewards(address) {
+async function getBakerRewards(address) {
     let rewards = [];
     let flowins = {};
     let flowouts = {};
