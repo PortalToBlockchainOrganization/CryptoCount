@@ -364,7 +364,7 @@ const Analysis = (props) => {
 								/>
 								<div
 									className={classes.help}
-									tooltip-data="Enter a quantity of crypto you'd like to sell or select the MAX button. "
+									tooltip-data="Enter a quantity of crypto you'd like to sell, realizes in FIFO manner, or select the MAX button. "
 								>
 									<HelpOutlineRoundedIcon
 										className={classes.helpIcon}
