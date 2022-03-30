@@ -282,7 +282,7 @@ const Analysis = (props) => {
 									updateChart("unrealizedBasisRewards");
 								}}
 							>
-								Basis Set
+								FMV Set
 							</Button>
 
 							<div
@@ -308,11 +308,11 @@ const Analysis = (props) => {
 									updateChart("unrealizedBasisRewardsMVDep")
 								}
 							>
-								Mvd Set
+								MV Dilution Set
 							</Button>
 							<div
 								className={classes.help}
-								tooltip-data="Accounting set with market value depletion added to the entries."
+								tooltip-data="Fair market value rewards with market value depletion added to the entries."
 							>
 								<HelpOutlineRoundedIcon
 									className={classes.helpIcon}
@@ -330,11 +330,11 @@ const Analysis = (props) => {
 									updateChart("unrealizedBasisRewardsDep")
 								}
 							>
-								Supply Dep Set
+								Supply Depletion Set
 							</Button>
 							<div
 								className={classes.help}
-								tooltip-data="Accounting set with depletion by supply additions added to the entries."
+								tooltip-data="Fair market value rewards with depletion by supply additions added to the entries."
 							>
 								<HelpOutlineRoundedIcon
 									className={classes.helpIcon}
