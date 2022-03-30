@@ -378,7 +378,7 @@ const Analysis = (props) => {
 										variant="primary"
 										onClick={handleMax}
 									>
-										MAX
+										Max Rewards
 									</Button>
 								</div>
 							</div>
