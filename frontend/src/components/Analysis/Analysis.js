@@ -113,8 +113,8 @@ const Analysis = (props) => {
         var last = set["data"]["realizingRewards"].length
         doc.text("PERIOD END: " + set["data"]["realizingRewards"][last - 1]["date"], 25, 95);
         doc.text("QUANTITY OF REWARDS SOLD: " + numberWithCommas(qRewSold) + " XTZ", 25, 102)
-        doc.text("AVERAGE BASIS COST: " + set["data"]["basisPrice"].toFixed(2) + " " + set["data"]["fiat"], 25, 109)
-        doc.text("TRUE REWARD INCOME: "+ numberWithCommas(currentSet["incomeToReport"].toFixed(2)) + " " + set["data"]["fiat"], 25, 116)
+        doc.text("AVERAGE BASIS COST PER REWARD: " + set["data"]["basisPrice"].toFixed(2) + " " + set["data"]["fiat"], 25, 109)
+        doc.text("INCOME, FAIR MARKET VALUE: "+ numberWithCommas(currentSet["incomeToReport"].toFixed(2)) + " " + set["data"]["fiat"], 25, 116)
         //var doc = [props][pdfDocument]
         //doc.setFontSize(12)
         doc.text("CALCULATED ON BEHALF OF", 25, 130)
