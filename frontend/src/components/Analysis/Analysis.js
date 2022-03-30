@@ -290,7 +290,7 @@ const Analysis = (props) => {
 
 							<div
 								className={classes.help}
-								tooltip-data="Rewards times average basis cost, no depletion."
+								tooltip-data="Rewards times the price of Tezos on the day it was received, no depletion."
 							>
 								<HelpOutlineRoundedIcon
 									className={classes.helpIcon}
