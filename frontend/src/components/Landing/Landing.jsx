@@ -132,7 +132,7 @@ const Landing = (props) => {
 					<h1 className="logo-name">CryptoCount</h1>
 				</div>
 				<div className="name-one-liner">
-					<h2 className="logo-tagline">Generate block reward income statements.</h2>
+					<h2 className="logo-tagline">Generate fair market value and depreciation block reward income statements.</h2>
 				</div>
 				<div className="form">
 					<Form onSubmit={handleSignIn}>
