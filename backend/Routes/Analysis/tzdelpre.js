@@ -130,14 +130,14 @@ async function getBalances(address) {
 			var d2 = response.data[i + 1].timestamp.substring(0, 10);
 
 			if (d1 === d2) {
-				balances[d1] = element.balance;
+				balances[d1] = element.balance; // [date1, date2, date2, date3]
 			} else {
 				d1 = new Date(d1);
 				d2 = new Date(d2);
 				date_itr = d1;
 				while (date_itr < d2) {
 					date_key = date_itr.toISOString().slice(0, 10);
-					balances[date_key] = response.data[i].balance;
+					balances[date_key] = response.data[i].balance; // [date1.balance, date2(1st).balance, date2(2nd).balance]
 					date_itr = date_itr.addDays(1);
 				}
 			}
@@ -187,14 +187,14 @@ async function getRewards(address) {
     let delegatorHistObj = {};
     //delegator history object
     for (let i = 0; i < response.data.length; i++) {
-    const element = response.data[i];
+        const element = response.data[i];
 
-    delegatorHistObj = {
-    baker: element.baker.address,
-    cycle: element.cycle,
-    balance: element.balance, //in mu tez
-    };
-    delegatorHistory.push(delegatorHistObj);
+        delegatorHistObj = {
+        baker: element.baker.address,
+        cycle: element.cycle,
+        balance: element.balance, //in mu tez
+        };
+        delegatorHistory.push(delegatorHistObj);
     }
 
     //reward fetch object
@@ -209,7 +209,7 @@ async function getRewards(address) {
     rewardFetch.push(rewardFetchObj);
 
     for (let j = delegatorHistory.length - 2; j > 0; j--) {
-        const element = delegatorHistory[j];
+        const element = delegatorHistory[j]; // [baker1, baker2, baker3]
         if (element.baker !== delegatorHistory[j + 1].baker) {
             rewardFetchObj = {
                     baker: element.baker,
