@@ -1,0 +1,133 @@
+.NavWrapper {
+	box-shadow: 0 4px 12px rgb(0 0 0 / 8%), 0 0 1px rgb(1 0 0 / 10%);
+	padding: 0px 1em !important;
+	z-index: 100;
+	display: flex;
+}
+
+.Nav {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+.NavLink {
+	text-decoration: none;
+	font-weight: 500;
+	color: gray;
+	margin: 0px 10px;
+	padding: 10px;
+	text-align: center;
+	transition: color 0.2s ease-out;
+	height: 100%;
+	padding: 15px;
+}
+
+.NavLinkDisabled:before {
+	content: attr(tooltip-data);
+	position: absolute;
+	top: 50%;
+	transform: translate(-30%, 60%);
+	margin-left: 15px;
+	width: 200px;
+	padding: 5px;
+	border-radius: 3px;
+	background-color: rgb(116, 116, 116);
+	color: #fff;
+	text-align: center;
+	display: none;
+	font-size: 12px;
+}
+
+.NavLinkDisabled {
+	cursor: no-drop;
+	color: rgb(204, 204, 204);
+	text-decoration: none;
+	margin: 0 10px;
+	padding: 10px;
+	font-weight: 500;
+	padding: 15px;
+}
+
+.NavLinkDisabled:hover {
+	text-decoration: none;
+	color: rgb(148, 148, 148);
+}
+
+.NavLinkDisabled:hover:before {
+	display: block;
+}
+
+.NavLink:hover {
+	text-decoration: none;
+	color: #dc3545;
+}
+
+.AccountNav {
+	margin-left: auto;
+}
+
+.SignOut {
+	margin-left: auto;
+	width: 80px;
+	color: gray;
+	font-weight: 500;
+}
+
+.SignOut:hover {
+	color: #dc3545;
+	text-decoration: none;
+}
+
+.NameWrapper {
+	position: absolute;
+	width: 100%;
+	text-align: right;
+	z-index: 100;
+	display: flex;
+}
+
+.Beta {
+	color: lightgray;
+	justify-content: flex-start;
+	margin: 25px 25px 0px 50px;
+	width: 10%;
+}
+
+.Name {
+	color: gray;
+	width: 100%;
+	background-color: none;
+	margin: 10px 5px 0px;
+	margin-right: 2.5em;
+	z-index: 100;
+	justify-content: flex-end;
+}
+
+.NavActive {
+	border-bottom: 2px solid #dc3545;
+}
+
+.Log {
+	display: flex;
+	align-items: center;
+}
+
+.MenuWrapper {
+	position: absolute;
+	position: absolute;
+	right: 0;
+	margin-right: 50px;
+}
+
+.Link {
+	color: #dc3545;
+}
+
+.Link:hover {
+	text-decoration: none;
+	color: #97101d;
+}

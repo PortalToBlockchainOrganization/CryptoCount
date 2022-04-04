@@ -1,0 +1,256 @@
+@import url('https://fonts.cdnfonts.com/css/louis-george-cafe');
+
+.wrapper {
+	display: block;
+	height: calc(100vh - 57px);
+	min-height: 900px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+.lp-container {
+    margin-top: 46px;
+    margin-bottom: 180px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	max-height: 840px;
+	min-height: 740px;
+	width: 100vw;
+}
+.static-wrapper {
+    margin-top: 120px;
+	width: 100vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+/* .logo-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.logo {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 5px;
+	height: 50%;
+}
+
+.logo-name {
+	font-size: 5em;
+	font-family: 'Louis George Cafe', sans-serif;
+	font-weight: 700;
+	color: #2e2e2e;
+} */
+
+.logo-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+	margin-bottom: -20px;;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    height: 15vw;
+    margin-top: 15px;
+}
+
+.logo-name {
+    font-size: 5em;
+    font-family: 'Louis George Café', sans-serif;
+    font-weight: 700;
+    color: #2e2e2e;
+}
+
+.logo-tagline {
+    font-size: 1.5em;
+    font-family: 'Louis George Café', sans-serif;
+    font-weight: 700;
+    color: #2e2e2e;
+}
+
+.logo-tagline2 {
+    font-size: 1.5em;
+    font-family: 'Louis George Café', sans-serif;
+    font-weight: 700;
+    color: #2e2e2e;
+	margin-top: 30px;
+}
+
+
+p {
+	font-size: 1em;
+	margin: 0;
+	width: 400px;
+}
+
+.form {
+	display: flex;
+	justify-content: center;
+	margin-top: 25px;
+	height: 100vh;
+}
+
+.tez {
+	display: flex;
+	justify-content: center;
+	margin-top: 25px;
+}
+
+.password {
+	margin: 10px 0px;
+}
+
+@media (max-width: 570px) {
+	.logo-container {
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+	.name-one-liner {
+		margin-left: 25px;
+	}
+}
+
+.button-continue:disabled {
+	cursor: not-allowed;
+}
+
+.t-logo {
+	margin: 10px;
+	width: 40px;
+	border-radius: 5px;
+}
+
+.tFoundation {
+	margin: 10px;
+	width: 60px;
+}
+
+.poweredBy {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 20px;
+	padding: 20px;
+	width: 100vw;
+	opacity: 0.75;
+}
+
+.tutorial {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	overflow: hidden;
+}
+
+.text {
+	text-align: left;
+	margin: 100px;
+}
+.animation {
+	width: 400px;
+}
+
+/* h2 {
+	font-size: 1.5em;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	margin-left: 0.5em;
+} */
+.p-gif {
+	font-size: 1.5em;
+	height: 75vh;
+	color: #2e2e2e;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.download-link {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	margin: 5px;
+	color: rgb(117, 0, 0);
+	background-color: rgb(252, 231, 235);
+	border-radius: 100px;
+	padding: 5px 20px 5px 20px;
+	min-width: 225px;
+	min-height: 40px;
+	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+	transition: all 100ms ease-in-out;
+}
+
+.download-link:hover {
+	text-decoration: none;
+	color: rgb(73, 2, 2);
+	transform: scale(1.05);
+}
+
+.download-link:active {
+	transform: scale(0.95);
+}
+
+.download-link img {
+	margin-left: 5px;
+	height: 30px;
+}
+
+.download-link1 {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	margin: 5px;
+	color: rgb(117, 0, 0);
+	margin-top: 30px;
+	background-color: rgb(252, 231, 235);
+	border-radius: 100px;
+	padding: 5px 20px 5px 20px;
+	min-width: 225px;
+	min-height: 40px;
+	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+	transition: all 100ms ease-in-out;
+}
+
+.download-link1:hover {
+	text-decoration: none;
+	color: rgb(73, 2, 2);
+	transform: scale(1.05);
+}
+
+.download-link1:active {
+	transform: scale(0.95);
+}
+
+.download-link1 img {
+	margin-left: 5px;
+	height: 30px;
+}
+
+.ptbo-link {
+	border-radius: 5px;
+	width: 35px;
+	height: 30px;
+}
+
+#firefox-link {
+    opacity: 0.6; /* Real browsers */
+    filter: alpha(opacity = 60); /* MSIE */
+}
+
+@media (max-width: 1300px) {
+	.animation {
+		width: 30%;
+	}
+}

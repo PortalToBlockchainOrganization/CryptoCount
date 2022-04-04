@@ -1,0 +1,8 @@
+.nav-pills .nav-link.active {
+	color: white !important;
+	background-color: #ff0000 !important;
+}
+.signed-links {
+	display: flex !important;
+	flex-direction: row !important;
+}
