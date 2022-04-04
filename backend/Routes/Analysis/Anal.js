@@ -151,6 +151,95 @@ router.get("/", function (req, res) {
 });
 
 // beta auto basis price calculation
+router.post("/Noauth/Auto", function (req, res) {
+	var vld = req.validator;
+	var body = req.body;
+	var unrel_obj = {};
+	const { address, fiat } = body;
+	console.log(address);
+	console.log(fiat);
+	async.waterfall(
+		[
+			async function (cb) {
+                if (vld.hasFields(body, ["address", "fiat"])){
+                    try{
+                        let url = `https://api.tzkt.io/v1/delegates/${address}`;
+                        let response = await axios.get(url);
+                        return response
+                    } catch(error){
+                        return error
+                    }
+                }
+            },
+            async function(address_check){
+                try {
+                    if (address_check.isAxiosError) {
+                        throw new Error('Bad Address')
+                    }
+                    unrel_obj = await autoAnalysis(address, fiat);
+                    return unrel_obj;
+                } catch (error) {
+                    return error;
+                }
+            },
+			function (unrel_obj, cb) {
+				// here we check to see if our previous function returned a
+				// error in the catch block and we instantly jump to the callback
+                // by passing the error in
+                console.log('unrel_obj - post auto', unrel_obj)
+				if (unrel_obj && unrel_obj.stack && unrel_obj.message) {
+					cb(unrel_obj, null);
+                }
+                else{
+                    rel_obj = new RealizeHistObj({
+                        userid: "NOAUTH",
+                        version: 0,
+                        fiat: body["fiat"],
+                        address: body["address"],
+                        basisDate: body["basisDate"],
+                        unrealizedRewards: unrel_obj.unrealizedRewards,
+                        unrealizedBasisRewards: unrel_obj.unrealizedBasisRewards,
+                        unrealizedBasisRewardsDep:
+                            unrel_obj.unrealizedBasisRewardsDep,
+                        unrealizedBasisRewardsMVDep:
+                            unrel_obj.unrealizedBasisRewardsMVDep,
+                        unrealXTZBasis: unrel_obj.xtzBasis,
+                        unrealBasisP: unrel_obj.basisP,
+                        unrealBasisDep: unrel_obj.basisDep,
+                        unrealBasisMVDep: unrel_obj.basisMVdep,
+                        basisPrice: unrel_obj.basisPrice,
+                        unrealizedRewardAgg: unrel_obj.unrealizedRewardAgg,
+                        unrealizedBasisAgg: unrel_obj.unrealizedBasisAgg,
+                        unrealizedDepAgg: unrel_obj.unrealizedDepAgg,
+                        unrealizedMVDAgg: unrel_obj.unrealizedMVDAgg,
+                    });
+                    rel_obj.save(function (err, doc) {
+                        if (err) cb(err);
+                        cb(null, doc);
+                    });
+                }
+            },
+            // add set to user sets 
+			function (result, cb) {
+				//after creating new rel db obj,
+				// add the send unrel to FE
+				// console.log(result)
+				// console.log('results')
+				console.log(result);
+				res.status(200).json(result);
+				cb();
+			},
+		],
+		function (err) {
+			if (err){
+                res.status(400).json([{tag: 'badAddress'}])
+            } 
+                
+		}
+	);
+});
+
+// beta auto basis price calculation
 router.post("/Auto", function (req, res) {
 	var vld = req.validator;
 	var body = req.body;
@@ -398,6 +487,39 @@ router.post("/Save", function (req, res) {
 				ssn.realizing = {};
 				// send realObj to front end
 				res.status(200).json(real_obj);
+			},
+		],
+		function (err) {
+			if (err) console.log(err);
+		}
+	);
+});
+
+router.post("/Noauth/Realize", function (req, res) {
+	var body = req.body;
+	async.waterfall(
+		[
+			async function (cb) {
+				try {
+					rel_obj = await realizeRew(
+						body["realizedQuantity"],
+						body["setId"]
+					);
+
+					return rel_obj;
+				} catch (error) {
+					return error;
+				}
+			},
+			function (rel_obj, cb) {
+				if (rel_obj && rel_obj.stack && rel_obj.message) {
+					cb(rel_obj, null);
+				}
+				rel_obj['email'] = "N/A"
+				rel_obj['firstName'] = "N/A"
+				rel_obj['lastName'] = "N/A"
+				res.status(200).json(rel_obj);
+				cb();
 			},
 		],
 		function (err) {

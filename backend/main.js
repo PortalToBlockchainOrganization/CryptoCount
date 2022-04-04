@@ -80,6 +80,7 @@ app.use(function (req, res, next) {
 	console.log(req.session);
 	console.log(req.body);
 	if (
+		req.path.includes("Noauth") ||
 		req.path === "/Prss/forgotpw" ||
 		req.path === "/Anal/Cal" ||
 		req.method === "GET" ||
