@@ -1,5 +1,11 @@
 import React from "react";
-import { Form, Button, OverlayTrigger, Tooltip, Popover } from "react-bootstrap";
+import {
+	Form,
+	Button,
+	OverlayTrigger,
+	Tooltip,
+	Popover,
+} from "react-bootstrap";
 import VerticalModal from "../VerticalModal/VerticalModal";
 import "./Landing.css";
 import tezos from "../../Assets/Orgs/Tezos.png";
@@ -12,7 +18,7 @@ import womenComputer from "../../Assets/womenComputer.json";
 import womenSigning from "../../Assets/womenSigning.json";
 import chrome from "../../Assets/chrome.svg";
 import firefox from "../../Assets/firefox.svg";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import bb from "../../Assets/bb.png";
 
 const Landing = (props) => {
@@ -60,34 +66,34 @@ const Landing = (props) => {
 		if (props.set["data"] !== undefined) {
 			props.resetSet();
 		}
+
 		let params = {
 			address: addrs["delAddrs"],
 			basisDate: basisDate["basisDate"],
 			fiat: fiat,
 		};
 
-		if (selectedAnalysisType === "auto") {
-			props.setParams({
+		props.setParams({
+			fiat: params["fiat"],
+			address: params["address"],
+		});
+		props.autoUnrealized(
+			{
 				fiat: params["fiat"],
 				address: params["address"],
-			});
-			props.autoUnrealized(
-				{
-					fiat: params["fiat"],
-					address: params["address"],
-				},
-				() => {
-					props.history.push("/analysis");
-				}
-			);
-		} else {
-			props.setParams(params);
-			if (props.signedIn()) {
-				props.analPost(params, () => {
-					props.history.push("/analysis");
-				});
+			},
+			() => {
+				props.history.push("/analysis");
 			}
-		}
+		);
+		// } else {
+		// 	props.setParams(params);
+		// 	if (props.signedIn()) {
+		// 		props.analPost(params, () => {
+		// 			props.history.push("/analysis");
+		// 		});
+		// 	}
+		// }
 		props.history.push("/analysis");
 		setShowModal(false);
 		e.preventDefault();
@@ -132,41 +138,23 @@ const Landing = (props) => {
 					<h1 className="logo-name">CryptoCount</h1>
 				</div>
 				<div className="name-one-liner">
-					<h2 className="logo-tagline">Generate block reward income statements.</h2>
+					<h2 className="logo-tagline">
+						Generate block reward income statements.
+					</h2>
 				</div>
 				<div className="form">
 					<Form onSubmit={handleSignIn}>
-						{props.signedIn() ? (
-							<Form.Group controlId="formBasicEmail">
-								<Form.Label>
-									Paste Your Delegation Address
-								</Form.Label>
-								<Form.Control
-									type="text"
-									placeholder="Tezos Delegation Address"
-									onChange={handleDelegationChange}
-								/>
-							</Form.Group>
-						) : null}
-						{props.signedIn() ? null : (
-							<Form.Group>
-								<div className="mb-3">
-								Sign In or Register <Link to="/register">Here!</Link>
-								</div>
-								<Form.Control
-									type="email"
-									autoComplete="email"
-									placeholder="email address"
-									onChange={handleEmailChange}
-								/>
-								<Form.Control
-									className="password"
-									type="password"
-									placeholder="password"
-									onChange={handlePasswordChange}
-								/>
-							</Form.Group>
-						)}
+						<Form.Group controlId="formBasicEmail">
+							<Form.Label>
+								Paste Your Delegation Address
+							</Form.Label>
+							<Form.Control
+								type="text"
+								placeholder="Tezos Delegation Address"
+								onChange={handleDelegationChange}
+							/>
+						</Form.Group>
+
 						<Button
 							className="button-continue"
 							disabled={
@@ -178,34 +166,29 @@ const Landing = (props) => {
 						>
 							Continue
 						</Button>
-
-						{props.signedIn() ? null : (
-							<Button
-								disabled={email.length > 0 ? "" : "disabled"}
-								variant="danger"
-								block
-								type="submit"
-							>
-								Sign in
-							</Button>
-						)}
 					</Form>
 				</div>
-                <div className="name-one-liner">
-                    <h2 className="logo-tagline2">Interested in Staking? Visit Baking Bad for the latest Tezos Delegator information.</h2>
-                </div>
-                <a
-                    className="download-link1"
-                    href="https://baking-bad.org/"
-                    target="_blank"
-                    rel="noreferrer"
-                >
-                    Baking-Bad
-                    <img src={bb} alt="chrome-web-store" />
-                </a>
+				<div className="name-one-liner">
+					<h2 className="logo-tagline2">
+						Interested in Staking? Visit Baking Bad for the latest
+						Tezos Delegator information.
+					</h2>
+				</div>
+				<a
+					className="download-link1"
+					href="https://baking-bad.org/"
+					target="_blank"
+					rel="noreferrer"
+				>
+					Baking-Bad
+					<img src={bb} alt="chrome-web-store" />
+				</a>
 
 				<div className="name-one-liner">
-					<h2 className="logo-tagline2">Download the browser extension for easy annual block reward realizations.</h2>
+					<h2 className="logo-tagline2">
+						Download the browser extension for easy annual block
+						reward realizations.
+					</h2>
 				</div>
 				<a
 					className="download-link1"
@@ -216,25 +199,26 @@ const Landing = (props) => {
 					Download for Chrome (ALPHA)
 					<img src={chrome} alt="chrome-web-store" />
 				</a>
-                <OverlayTrigger
-                    placement="right"
-                    overlay={(
-                        <Popover>
-                          <Popover.Title as="h3">
-                          In Development
-                          </Popover.Title>
-                        </Popover>
-                      )} >
-                    <a
-                        id='firefox-link'
-                        className="download-link"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        Download for FireFox{" "}
-                        <img src={firefox} alt="firefox-add-on" />
-                    </a>
-                </OverlayTrigger>
+				<OverlayTrigger
+					placement="right"
+					overlay={
+						<Popover>
+							<Popover.Title as="h3">
+								In Development
+							</Popover.Title>
+						</Popover>
+					}
+				>
+					<a
+						id="firefox-link"
+						className="download-link"
+						target="_blank"
+						rel="noreferrer"
+					>
+						Download for FireFox{" "}
+						<img src={firefox} alt="firefox-add-on" />
+					</a>
+				</OverlayTrigger>
 				<a
 					className="download-link"
 					href="https://www.portaltoblockchain.org/"
@@ -271,15 +255,15 @@ const Landing = (props) => {
 						<div className="text">
 							<h2>Count Before You Sell.</h2>
 							<p>
-								If I sell block rewards, what do I report for income?
+								If I sell block rewards, what do I report for
+								income?
 							</p>
 						</div>
 					</div>
 					<div className="p-gif">
 						<p className="text">
 							Get an official statement of block reward income
-							calculated by CryptoCount.{" "}
-							<br />
+							calculated by CryptoCount. <br />
 							<br />
 						</p>
 						<div className="animation" id="women-computer" />

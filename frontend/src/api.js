@@ -1,7 +1,7 @@
 const baseURL =
 	process.env.NODE_ENV === "development"
 		? "http://localhost:3001/"
-        : "https://cryptocount.co/api/"
+		: "https://cryptocount.co/api/";
 const headers = new Headers();
 var sessionId;
 
@@ -25,7 +25,7 @@ headers.set("Content-Type", "application/json");
 console.log(process.env.NODE_ENV);
 const reqConf = {
 	headers: headers,
-	// credentials: process.env.NODE_ENV === "development" ? "include" : "omit",
+	credentials: process.env.NODE_ENV === "development" ? "include" : "omit",
 };
 
 function safeFetch(method, endpoint, body) {
@@ -105,9 +105,8 @@ export function register(user) {
 	return post("Prss", user);
 }
 
-export function deleteSet(id){
-    return del(`Anal/${id}`, {
-    });
+export function deleteSet(id) {
+	return del(`Anal/${id}`, {});
 }
 
 export function analPost(params) {
@@ -189,8 +188,8 @@ const errMap = {
 	dupTitle: "Conversation title duplicates an existing one",
 	dupEnrollment: "Duplicate enrollment",
 	forbiddenField: "Field in body not allowed.",
-    queryFailed: "Query failed (server problem).",
-    badAddress: "Invalid delegation address.",
+	queryFailed: "Query failed (server problem).",
+	badAddress: "Invalid delegation address.",
 };
 
 /**
