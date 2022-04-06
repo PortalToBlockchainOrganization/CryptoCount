@@ -181,7 +181,7 @@ async function getRewards(address) {
     const cycleDocs = await CycleModel.find().sort({cycleNumber: 1});
 
     //BAKER HISTORY OBJECT CONSTRUCTION
-    let url = `https://api.tzkt.io/v1/rewards/delegators/${address}?cycle.ge=0`;
+    let url = `https://api.tzkt.io/v1/rewards/delegators/${address}?cycle.ge=0&limit=10000`;
     const response = await axios.get(url);
     let delegatorHistory = [];
     let delegatorHistObj = {};
@@ -305,7 +305,7 @@ async function getRewards(address) {
 
 	//get trans
 	//transaction tzkt url - https://api.tzkt.io/v1/operations/transactions?anyof.sender.target={$address} will return operations where sender OR target is equal to the specified value. This parameter is useful when you need to retrieve all transactions associated with a specified account.
-	let url2 = `https://api.tzkt.io/v1/operations/transactions?anyof.sender.target=${address}`;
+	let url2 = `https://api.tzkt.io/v1/operations/transactions?anyof.sender.target=${address}&limit=10000`;
 	const response2 = await axios.get(url2);
 
 	let objectArray = [];
