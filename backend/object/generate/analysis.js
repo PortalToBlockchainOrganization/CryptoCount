@@ -1,5 +1,18 @@
 //analysis here
 
+
+//passes in
+mvdAnal
+totalSupplys
+rewards
+tranArray
+basisBalances
+pricesForUser //needs to be prices by day dict
+
+
+
+
+
 let basisValue = Object.values(basisBalances)[0];
 let bookVal = basisPrice * (basisValue / 1000000);
 

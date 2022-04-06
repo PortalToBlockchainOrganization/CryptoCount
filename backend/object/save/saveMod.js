@@ -2,8 +2,9 @@ async function saveRealize(realizing_obj) {
 	//api post save with rebuilt object from realize
 	let savedObject = {
 		realizedBasisRewards: [],
-		realizedBasisRewardsDep: [],
-		realizedBasisRewardsMVDep: [],
+		realizedFMVRewardsDep: [],
+		realizedFMVRewardsMVDep: [],
+		realizedFMVRewards: [],
 		realxtzBasis: NaN,
 		realBasisP: NaN,
 		realBasisDep: NaN,
@@ -16,10 +17,13 @@ async function saveRealize(realizing_obj) {
 			realizing_obj.realizingBasisRewards[i]
 		);
 		savedObject.realizedBasisRewardsDep.push(
-			realizing_obj.realizingBasisRewardsDep[i]
+			realizing_obj.realizingFMVRewardsDep[i]
 		);
 		savedObject.realizedBasisRewardsMVDep.push(
-			realizing_obj.realizingBasisRewardsMVDep[i]
+			realizing_obj.realizingFMVRewardsMVDep[i]
+		);
+		savedObject.realizedFMVRewards.push(
+			realizing_obj.realizingFMVRewards[i]
 		);
 	}
 

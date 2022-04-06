@@ -1,4 +1,4 @@
-realizing 
+realizing rewards/ date domain user enters
 
     passes date 1 date 2 // from date domain selection by user
 
@@ -42,9 +42,12 @@ realizing
 
 cap gains 
 
-    passes inputs outputs  // from user who has done the mapping expereience 
-
-    cap gains of i and os process 
+    passes the inputs outputs model  // from user who has done the mapping expereience 
+        {{input: x, date: y}, {output: realizingMHbasisQuantity, date: x}}
+        {{input: x, date: y}, {output: x, date: y}}
+        {{input: aggRewQInDomain, date1: x, date2: y}, {output: y, date:x}}
+        
+    cap gains() of i and os process 
 
             prices n doing
 

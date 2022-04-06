@@ -2,6 +2,7 @@ cap gains function this
 
     inputs 
     outputs
+    prices
 
                 {{input: x, date: y}, {output: realizingMHbasisQuantity, date: x}}
             {{input: x, date: y}, {output: x, date: y}}
