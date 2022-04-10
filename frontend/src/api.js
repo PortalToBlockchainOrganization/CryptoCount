@@ -25,7 +25,7 @@ headers.set("Content-Type", "application/json");
 console.log(process.env.NODE_ENV);
 const reqConf = {
 	headers: headers,
-	credentials: process.env.NODE_ENV === "development" ? "include" : "omit",
+	// credentials: process.env.NODE_ENV === "development" ? "include" : "omit",
 };
 
 function safeFetch(method, endpoint, body) {
@@ -136,7 +136,7 @@ export function getUnrealizedSet(params) {
 }
 
 export function autoUnrealizedSet(params) {
-	return post("Anal/Auto", {
+	return post("Noauth/Auto", {
 		fiat: params["fiat"],
 		address: params["address"],
 	});
