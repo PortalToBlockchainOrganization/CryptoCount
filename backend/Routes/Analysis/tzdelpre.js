@@ -181,7 +181,7 @@ async function getRewards(address) {
     const cycleDocs = await CycleModel.find().sort({cycleNumber: 1});
 
     //BAKER HISTORY OBJECT CONSTRUCTION
-    let url = `https://api.tzkt.io/v1/rewards/delegators/${address}?cycle.ge=0`;
+    let url = `https://api.tzkt.io/v1/rewards/delegators/${address}?cycle.ge=0&limit=10000`;
     const response = await axios.get(url);
     let delegatorHistory = [];
     let delegatorHistObj = {};
@@ -305,7 +305,7 @@ async function getRewards(address) {
 
 	//get trans
 	//transaction tzkt url - https://api.tzkt.io/v1/operations/transactions?anyof.sender.target={$address} will return operations where sender OR target is equal to the specified value. This parameter is useful when you need to retrieve all transactions associated with a specified account.
-	let url2 = `https://api.tzkt.io/v1/operations/transactions?anyof.sender.target=${address}`;
+	let url2 = `https://api.tzkt.io/v1/operations/transactions?anyof.sender.target=${address}&limit=10000`;
 	const response2 = await axios.get(url2);
 
 	let objectArray = [];
@@ -1080,6 +1080,12 @@ async function autoAnalysis(address, fiat) {
 
 	let pricesForUser = await getPricesAndMarketCap(fiat);
 	console.log('done w price and market')
+	let prices = {};
+	// convert document to dictionary for better find performance (date -> int: price -> number; date -> int: marketCap -> number)
+	for (let i = 0; i < pricesForUser.length; i++) {
+		const d = formatDate(pricesForUser[i].date)
+		prices[d] = pricesForUser[i].price;
+	}
 
 	//let tranArray = await getTransactions(address);
 	// console.log('done w trans')
@@ -1215,7 +1221,7 @@ async function autoAnalysis(address, fiat) {
 
 
 	for(i = 1; i < rewards.length - 1; i++){
-	    bookVal = bookValsBasis[i-1].bvBas + rewards[i].rewardQuantity * basisPrice
+	    bookVal = bookValsBasis[i-1].bvBas + rewards[i].rewardQuantity * prices[formatDate(rewards[i].date)]
 	    bvBasObj = {
 	        "date": rewards[i].date,
 	        "bvBas": bookVal
@@ -1230,7 +1236,7 @@ async function autoAnalysis(address, fiat) {
 	for (i = 0; i < rewards.length; i++) {
 		let basisRewardObj = {
 			"date": rewards[i].date,
-			"basisReward": rewards[i].rewardQuantity * basisPrice,
+			"basisReward": rewards[i].rewardQuantity * prices[formatDate(rewards[i].date)],
 		};
 		basisRewards.push(basisRewardObj);
 
@@ -1265,7 +1271,7 @@ async function autoAnalysis(address, fiat) {
 				
 			}
 			let depletion = bookValsDepletion[i - 1].bvDep * (1 - supply[i - 1].supply / supply[i].supply);
-			let bookVal = bookValsDepletion[i - 1].bvDep + basisRewards[i].basisReward - depletion + tranVal * basisPrice;
+			let bookVal = bookValsDepletion[i - 1].bvDep + basisRewards[i].basisReward - depletion + tranVal * prices[formatDate(rewards[i].date)];
 			let bvDepObj = {
 					date: date,
 					bvDep: bookVal,
@@ -1280,7 +1286,7 @@ async function autoAnalysis(address, fiat) {
 			basisRewardDepletion.push(rewardDepletionObj);
 
 			let MVdepletion = bookValsMVDepletion[i - 1].bvMvDep * (mvdAnal[i].marketCap / mvdAnal[i - 1].marketCap - mvdAnal[i].price / mvdAnal[i - 1].price);
-			bookVal = bookValsMVDepletion[i - 1].bvMvDep +	basisRewards[i].basisReward - MVdepletion + tranVal * basisPrice;
+			bookVal = bookValsMVDepletion[i - 1].bvMvDep +	basisRewards[i].basisReward - MVdepletion + tranVal * prices[formatDate(rewards[i].date)];
 			let bvMVDepObj = {
 					date: basisRewards[i].date,
 					bvMvDep: bookVal,

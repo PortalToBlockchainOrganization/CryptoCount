@@ -108,19 +108,22 @@ const Analysis = (props) => {
         doc.text("HOST BLOCKCHAIN: TEZOS " , 25, 60)
         doc.text("TEZOS DELEGATOR ADDRESS: " + set["data"]["address"], 25, 67)
         doc.text("FIAT: " + set["data"]["fiat"], 25, 74)
-        var qRewSold = set["data"]["realizingRewardAgg"].toFixed(2)
+          var qRewSold = set["data"]["realizingRewardAgg"].toFixed(2)
         doc.text("PERIOD START: " + set["data"]["realizingRewards"][0]["date"], 25, 88);
         var last = set["data"]["realizingRewards"].length
         doc.text("PERIOD END: " + set["data"]["realizingRewards"][last - 1]["date"], 25, 95);
-        doc.text("QUANTITY OF REWARDS SOLD: " + numberWithCommas(qRewSold) + " XTZ", 25, 102)
-        doc.text("AVERAGE BASIS COST: " + set["data"]["basisPrice"].toFixed(2) + " " + set["data"]["fiat"], 25, 109)
-        doc.text("TRUE REWARD INCOME: "+ numberWithCommas(currentSet["incomeToReport"].toFixed(2)) + " " + set["data"]["fiat"], 25, 116)
+        doc.text("QUANTITY OF REWARDS SOLD: " + numberWithCommas(qRewSold) + " XTZ", 25, 109)
+        doc.text("FAIR MARKET VALUE REWARD INCOME: "+ numberWithCommas(currentSet["incomeToReport"].toFixed(2)) + " " + set["data"]["fiat"], 25, 116)
+	doc.text("AVERAGE BASIS COST: " + set["data"]["basisPrice"].toFixed(2) + " " + set["data"]["fiat"], 25, 123)
+
         //var doc = [props][pdfDocument]
         //doc.setFontSize(12)
-        doc.text("CALCULATED ON BEHALF OF", 25, 130)
+        doc.text("CALCULATED ON BEHALF OF", 25, 137)
 
-        doc.text("NAME: " + set["firstName"] + ' ' + set["lastName"], 25, 137)
-        doc.text("EMAIL: " + set["email"], 25, 144)
+        doc.text("NAME: " + set["firstName"] + ' ' + set["lastName"], 25, 144)
+        doc.text("EMAIL: " + set["email"], 25, 151)
+
+
         doc.save("TezosRewardIncomeStatement.pdf")
     };
 
@@ -282,12 +285,12 @@ const Analysis = (props) => {
 									updateChart("unrealizedBasisRewards");
 								}}
 							>
-								Basis Set
+								FMV Set
 							</Button>
 
 							<div
 								className={classes.help}
-								tooltip-data="Rewards times average basis cost, no depletion."
+								tooltip-data="Rewards times the price of Tezos on the day it was received, no depletion."
 							>
 								<HelpOutlineRoundedIcon
 									className={classes.helpIcon}
@@ -308,11 +311,11 @@ const Analysis = (props) => {
 									updateChart("unrealizedBasisRewardsMVDep")
 								}
 							>
-								Mvd Set
+								MV Dilution Set
 							</Button>
 							<div
 								className={classes.help}
-								tooltip-data="Accounting set with market value depletion added to the entries."
+								tooltip-data="Fair market value rewards with market value depletion added to the entries."
 							>
 								<HelpOutlineRoundedIcon
 									className={classes.helpIcon}
@@ -330,11 +333,11 @@ const Analysis = (props) => {
 									updateChart("unrealizedBasisRewardsDep")
 								}
 							>
-								Supply Dep Set
+								Supply Depletion Set
 							</Button>
 							<div
 								className={classes.help}
-								tooltip-data="Accounting set with depletion by supply additions added to the entries."
+								tooltip-data="Fair market value rewards with depletion by supply additions added to the entries."
 							>
 								<HelpOutlineRoundedIcon
 									className={classes.helpIcon}
@@ -364,7 +367,7 @@ const Analysis = (props) => {
 								/>
 								<div
 									className={classes.help}
-									tooltip-data="Enter a quantity of crypto you'd like to sell or select the MAX button. "
+									tooltip-data="Enter a quantity of crypto you'd like to sell, realizes in FIFO manner, or select the MAX button. "
 								>
 									<HelpOutlineRoundedIcon
 										className={classes.helpIcon}
@@ -375,7 +378,7 @@ const Analysis = (props) => {
 										variant="primary"
 										onClick={handleMax}
 									>
-										MAX
+										Max Rewards
 									</Button>
 								</div>
 							</div>

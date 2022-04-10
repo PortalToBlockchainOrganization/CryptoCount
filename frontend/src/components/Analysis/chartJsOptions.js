@@ -58,7 +58,7 @@ export const chartOptions = (set) => {
 			},
 			title: {
 				display: true,
-				text: set?.data?.address.concat(' ',"Block Reward Entries"),
+				text: set?.data?.address.slice(0, 9).concat('... ',"Fair Market Value Block Reward Entries"),
 				align: "start",
 				font: {
 					size: 15,

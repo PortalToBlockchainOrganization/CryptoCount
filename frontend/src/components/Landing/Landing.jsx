@@ -139,7 +139,8 @@ const Landing = (props) => {
 				</div>
 				<div className="name-one-liner">
 					<h2 className="logo-tagline">
-						Generate block reward income statements.
+						Generate fair market value and depreciation block reward
+						income statements.
 					</h2>
 				</div>
 				<div className="form">
