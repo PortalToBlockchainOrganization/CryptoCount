@@ -10,7 +10,7 @@ const {
 	saveRealize,
 	autoAnalysis,
 } = require("./tzdelpre.js");
-const {updateSet} = require("./setUpdater.js")
+const { updateSet } = require("./setUpdater.js");
 
 router.baseURL = "/Anal";
 
@@ -19,50 +19,54 @@ const BlockchainModel = require("../../model/blockchain.js");
 const User = require("../../model/User.js");
 
 // given a set id to delete check if user is assoc to it then remove it from db
-router.delete("/:setId", function(req,res) {
-    var setId = req.params.setId
-    var ssn = req.session;
-    async.waterfall(
-        [
-            function(cb){
-                // pull user's set ids and confirm the requested set is present
-                User.find({_id: ssn.prsId}, function(err, docs){
-                    if(err) cb(err);
-                    cb(null, docs[0].setIds)
-                })
-            },
-            function(setIds, cb){
-                if(setIds.includes(setId)){
-                    // delete the set from the realize database
-                    RealizeHistObj.deleteOne({_id: setId}, function(err, docs){
-                        if (err) cb(err);
-                        cb(null, docs)
-                    })
-                }
-                else{
-                    // return a 404 with the error set to set not found
-                    res.status(404).json({error: 'Set Not Found'})
-                    cb('Set Not Found')
-                }
-            },
-            function(docs, cb){
-                // delete the set from the users set ids
-                User.findOneAndUpdate(
-                    {_id: ssn.prsId}, 
-                    {$pull: { setIds: setId}},
-                    function (err, doc) {
-                        if (err) cb(err);
-                        cb(null, doc);
-                    });
-            },
-            function(doc, cb){
-                res.status(200).json(doc[0])
-                cb()
-            }],
-            function(err){
-                if(err) console.log(err);
-            }
-    );
+router.delete("/:setId", function (req, res) {
+	var setId = req.params.setId;
+	var ssn = req.session;
+	async.waterfall(
+		[
+			function (cb) {
+				// pull user's set ids and confirm the requested set is present
+				User.find({ _id: ssn.prsId }, function (err, docs) {
+					if (err) cb(err);
+					cb(null, docs[0].setIds);
+				});
+			},
+			function (setIds, cb) {
+				if (setIds.includes(setId)) {
+					// delete the set from the realize database
+					RealizeHistObj.deleteOne(
+						{ _id: setId },
+						function (err, docs) {
+							if (err) cb(err);
+							cb(null, docs);
+						}
+					);
+				} else {
+					// return a 404 with the error set to set not found
+					res.status(404).json({ error: "Set Not Found" });
+					cb("Set Not Found");
+				}
+			},
+			function (docs, cb) {
+				// delete the set from the users set ids
+				User.findOneAndUpdate(
+					{ _id: ssn.prsId },
+					{ $pull: { setIds: setId } },
+					function (err, doc) {
+						if (err) cb(err);
+						cb(null, doc);
+					}
+				);
+			},
+			function (doc, cb) {
+				res.status(200).json(doc[0]);
+				cb();
+			},
+		],
+		function (err) {
+			if (err) console.log(err);
+		}
+	);
 });
 
 // given obj id - get obj (BETA)
@@ -76,47 +80,53 @@ router.get("/:objId", function (req, res) {
 					if (err) cb(err);
 					cb(null, doc);
 				});
-            },
-            async function(set){
-                // check if date of the set is older than 2 days
-                var twoDaysAgo = new Date();
-                twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-                var lastModifiedDate = set.updatedAt
-                if (lastModifiedDate < twoDaysAgo){
-                    try{
-                       var updatedSet = await updateSet(set)
-                       return updatedSet
-                    }
-                    catch(error){
-                        return error;
-                    }
-                }
-                else{
-                    return set
-                }
-            },
-            function(unrel_obj, cb){
-                RealizeHistObj.findOneAndUpdate({_id: objId}, {$set: {
-                    unrealizedRewards: unrel_obj.unrealizedRewards,
-                    unrealizedBasisRewards: unrel_obj.unrealizedBasisRewards,
-                    unrealizedBasisRewardsDep:
-                        unrel_obj.unrealizedBasisRewardsDep,
-                    unrealizedBasisRewardsMVDep:
-                        unrel_obj.unrealizedBasisRewardsMVDep,
-                    unrealXTZBasis: unrel_obj.xtzBasis,
-                    unrealBasisP: unrel_obj.basisP,
-                    unrealBasisDep: unrel_obj.basisDep,
-                    unrealBasisMVDep: unrel_obj.basisMVdep,
-                    basisPrice: unrel_obj.basisPrice,
-                    unrealizedRewardAgg: unrel_obj.unrealizedRewardAgg,
-                    unrealizedBasisAgg: unrel_obj.unrealizedBasisAgg,
-                    unrealizedDepAgg: unrel_obj.unrealizedDepAgg,
-                    unrealizedMVDAgg: unrel_obj.unrealizedMVDAgg,
-                }}, {new: true}, (err, doc) => {
-					if (err) cb(err);
-					cb(null, doc);                
-                });
-            },
+			},
+			async function (set) {
+				// check if date of the set is older than 2 days
+				var twoDaysAgo = new Date();
+				twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+				var lastModifiedDate = set.updatedAt;
+				if (lastModifiedDate < twoDaysAgo) {
+					try {
+						var updatedSet = await updateSet(set);
+						return updatedSet;
+					} catch (error) {
+						return error;
+					}
+				} else {
+					return set;
+				}
+			},
+			function (unrel_obj, cb) {
+				RealizeHistObj.findOneAndUpdate(
+					{ _id: objId },
+					{
+						$set: {
+							unrealizedRewards: unrel_obj.unrealizedRewards,
+							unrealizedBasisRewards:
+								unrel_obj.unrealizedBasisRewards,
+							unrealizedBasisRewardsDep:
+								unrel_obj.unrealizedBasisRewardsDep,
+							unrealizedBasisRewardsMVDep:
+								unrel_obj.unrealizedBasisRewardsMVDep,
+							unrealXTZBasis: unrel_obj.xtzBasis,
+							unrealBasisP: unrel_obj.basisP,
+							unrealBasisDep: unrel_obj.basisDep,
+							unrealBasisMVDep: unrel_obj.basisMVdep,
+							basisPrice: unrel_obj.basisPrice,
+							unrealizedRewardAgg: unrel_obj.unrealizedRewardAgg,
+							unrealizedBasisAgg: unrel_obj.unrealizedBasisAgg,
+							unrealizedDepAgg: unrel_obj.unrealizedDepAgg,
+							unrealizedMVDAgg: unrel_obj.unrealizedMVDAgg,
+						},
+					},
+					{ new: true },
+					(err, doc) => {
+						if (err) cb(err);
+						cb(null, doc);
+					}
+				);
+			},
 			function (set, cb) {
 				res.status(200).json(set);
 			},
@@ -133,8 +143,8 @@ router.get("/", function (req, res) {
 	async.waterfall(
 		[
 			function (cb) {
-                console.log('getting all user sets')
-                console.log(user_id)
+				console.log("getting all user sets");
+				console.log(user_id);
 				RealizeHistObj.find({ userid: user_id }, function (err, doc) {
 					if (err) cb(err);
 					cb(null, doc);
@@ -161,65 +171,65 @@ router.post("/Noauth/Auto", function (req, res) {
 	async.waterfall(
 		[
 			async function (cb) {
-                if (vld.hasFields(body, ["address", "fiat"])){
-                    try{
-                        let url = `https://api.tzkt.io/v1/delegates/${address}`;
-                        let response = await axios.get(url);
-                        return response
-                    } catch(error){
-                        return error
-                    }
-                }
-            },
-            async function(address_check){
-                try {
-                    if (address_check.isAxiosError) {
-                        throw new Error('Bad Address')
-                    }
-                    unrel_obj = await autoAnalysis(address, fiat);
-                    return unrel_obj;
-                } catch (error) {
-                    return error;
-                }
-            },
+				if (vld.hasFields(body, ["address", "fiat"])) {
+					try {
+						let url = `https://api.tzkt.io/v1/delegates/${address}`;
+						let response = await axios.get(url);
+						return response;
+					} catch (error) {
+						return error;
+					}
+				}
+			},
+			async function (address_check) {
+				try {
+					if (address_check.isAxiosError) {
+						throw new Error("Bad Address");
+					}
+					unrel_obj = await autoAnalysis(address, fiat);
+					return unrel_obj;
+				} catch (error) {
+					return error;
+				}
+			},
 			function (unrel_obj, cb) {
 				// here we check to see if our previous function returned a
 				// error in the catch block and we instantly jump to the callback
-                // by passing the error in
-                console.log('unrel_obj - post auto', unrel_obj)
+				// by passing the error in
+				console.log("unrel_obj - post auto", unrel_obj);
 				if (unrel_obj && unrel_obj.stack && unrel_obj.message) {
 					cb(unrel_obj, null);
-                }
-                else{
-                    rel_obj = new RealizeHistObj({
-                        userid: "NOAUTH",
-                        version: 0,
-                        fiat: body["fiat"],
-                        address: body["address"],
-                        basisDate: body["basisDate"],
-                        unrealizedRewards: unrel_obj.unrealizedRewards,
-                        unrealizedBasisRewards: unrel_obj.unrealizedBasisRewards,
-                        unrealizedBasisRewardsDep:
-                            unrel_obj.unrealizedBasisRewardsDep,
-                        unrealizedBasisRewardsMVDep:
-                            unrel_obj.unrealizedBasisRewardsMVDep,
-                        unrealXTZBasis: unrel_obj.xtzBasis,
-                        unrealBasisP: unrel_obj.basisP,
-                        unrealBasisDep: unrel_obj.basisDep,
-                        unrealBasisMVDep: unrel_obj.basisMVdep,
-                        basisPrice: unrel_obj.basisPrice,
-                        unrealizedRewardAgg: unrel_obj.unrealizedRewardAgg,
-                        unrealizedBasisAgg: unrel_obj.unrealizedBasisAgg,
-                        unrealizedDepAgg: unrel_obj.unrealizedDepAgg,
-                        unrealizedMVDAgg: unrel_obj.unrealizedMVDAgg,
-                    });
-                    rel_obj.save(function (err, doc) {
-                        if (err) cb(err);
-                        cb(null, doc);
-                    });
-                }
-            },
-            // add set to user sets 
+				} else {
+					rel_obj = new RealizeHistObj({
+						userid: "NOAUTH",
+						version: 0,
+						fiat: body["fiat"],
+						address: body["address"],
+						basisDate: body["basisDate"],
+						unrealizedRewards: unrel_obj.unrealizedRewards,
+						unrealizedBasisRewards:
+							unrel_obj.unrealizedBasisRewards,
+						unrealizedBasisRewardsDep:
+							unrel_obj.unrealizedBasisRewardsDep,
+						unrealizedBasisRewardsMVDep:
+							unrel_obj.unrealizedBasisRewardsMVDep,
+						unrealXTZBasis: unrel_obj.xtzBasis,
+						unrealBasisP: unrel_obj.basisP,
+						unrealBasisDep: unrel_obj.basisDep,
+						unrealBasisMVDep: unrel_obj.basisMVdep,
+						basisPrice: unrel_obj.basisPrice,
+						unrealizedRewardAgg: unrel_obj.unrealizedRewardAgg,
+						unrealizedBasisAgg: unrel_obj.unrealizedBasisAgg,
+						unrealizedDepAgg: unrel_obj.unrealizedDepAgg,
+						unrealizedMVDAgg: unrel_obj.unrealizedMVDAgg,
+					});
+					rel_obj.save(function (err, doc) {
+						if (err) cb(err);
+						cb(null, doc);
+					});
+				}
+			},
+			// add set to user sets
 			function (result, cb) {
 				//after creating new rel db obj,
 				// add the send unrel to FE
@@ -231,10 +241,9 @@ router.post("/Noauth/Auto", function (req, res) {
 			},
 		],
 		function (err) {
-			if (err){
-                res.status(400).json([{tag: 'badAddress'}])
-            } 
-                
+			if (err) {
+				res.status(400).json([{ tag: "badAddress" }]);
+			}
 		}
 	);
 });
@@ -251,78 +260,78 @@ router.post("/Auto", function (req, res) {
 	async.waterfall(
 		[
 			async function (cb) {
-                if (vld.hasFields(body, ["address", "fiat"])){
-                    try{
-                        let url = `https://api.tzkt.io/v1/delegates/${address}`;
-                        let response = await axios.get(url);
-                        return response
-                    } catch(error){
-                        return error
-                    }
-                }
-            },
-            async function(address_check){
-                try {
-                    if (address_check.isAxiosError) {
-                        throw new Error('Bad Address')
-                    }
-                    unrel_obj = await autoAnalysis(address, fiat);
-                    return unrel_obj;
-                } catch (error) {
-                    return error;
-                }
-            },
+				if (vld.hasFields(body, ["address", "fiat"])) {
+					try {
+						let url = `https://api.tzkt.io/v1/delegates/${address}`;
+						let response = await axios.get(url);
+						return response;
+					} catch (error) {
+						return error;
+					}
+				}
+			},
+			async function (address_check) {
+				try {
+					if (address_check.isAxiosError) {
+						throw new Error("Bad Address");
+					}
+					unrel_obj = await autoAnalysis(address, fiat);
+					return unrel_obj;
+				} catch (error) {
+					return error;
+				}
+			},
 			function (unrel_obj, cb) {
 				// here we check to see if our previous function returned a
 				// error in the catch block and we instantly jump to the callback
-                // by passing the error in
-                console.log('unrel_obj - post auto', unrel_obj)
+				// by passing the error in
+				console.log("unrel_obj - post auto", unrel_obj);
 				if (unrel_obj && unrel_obj.stack && unrel_obj.message) {
 					cb(unrel_obj, null);
-                }
-                else{
-                    rel_obj = new RealizeHistObj({
-                        userid: prsId,
-                        version: 0,
-                        fiat: body["fiat"],
-                        address: body["address"],
-                        basisDate: body["basisDate"],
-                        unrealizedRewards: unrel_obj.unrealizedRewards,
-                        unrealizedBasisRewards: unrel_obj.unrealizedBasisRewards,
-                        unrealizedBasisRewardsDep:
-                            unrel_obj.unrealizedBasisRewardsDep,
-                        unrealizedBasisRewardsMVDep:
-                            unrel_obj.unrealizedBasisRewardsMVDep,
-                        unrealXTZBasis: unrel_obj.xtzBasis,
-                        unrealBasisP: unrel_obj.basisP,
-                        unrealBasisDep: unrel_obj.basisDep,
-                        unrealBasisMVDep: unrel_obj.basisMVdep,
-                        basisPrice: unrel_obj.basisPrice,
-                        unrealizedRewardAgg: unrel_obj.unrealizedRewardAgg,
-                        unrealizedBasisAgg: unrel_obj.unrealizedBasisAgg,
-                        unrealizedDepAgg: unrel_obj.unrealizedDepAgg,
-                        unrealizedMVDAgg: unrel_obj.unrealizedMVDAgg,
-                    });
-                    rel_obj.save(function (err, doc) {
-                        if (err) cb(err);
-                        cb(null, doc);
-                    });
-                }
-            },
-            function (rel_doc, cb) {
+				} else {
+					rel_obj = new RealizeHistObj({
+						userid: prsId,
+						version: 0,
+						fiat: body["fiat"],
+						address: body["address"],
+						basisDate: body["basisDate"],
+						unrealizedRewards: unrel_obj.unrealizedRewards,
+						unrealizedBasisRewards:
+							unrel_obj.unrealizedBasisRewards,
+						unrealizedBasisRewardsDep:
+							unrel_obj.unrealizedBasisRewardsDep,
+						unrealizedBasisRewardsMVDep:
+							unrel_obj.unrealizedBasisRewardsMVDep,
+						unrealXTZBasis: unrel_obj.xtzBasis,
+						unrealBasisP: unrel_obj.basisP,
+						unrealBasisDep: unrel_obj.basisDep,
+						unrealBasisMVDep: unrel_obj.basisMVdep,
+						basisPrice: unrel_obj.basisPrice,
+						unrealizedRewardAgg: unrel_obj.unrealizedRewardAgg,
+						unrealizedBasisAgg: unrel_obj.unrealizedBasisAgg,
+						unrealizedDepAgg: unrel_obj.unrealizedDepAgg,
+						unrealizedMVDAgg: unrel_obj.unrealizedMVDAgg,
+					});
+					rel_obj.save(function (err, doc) {
+						if (err) cb(err);
+						cb(null, doc);
+					});
+				}
+			},
+			function (rel_doc, cb) {
 				// associate the new realize history obj with the user
 				if (rel_doc) {
 					User.findOneAndUpdate(
 						{ _id: prsId },
 						{ $addToSet: { setIds: rel_doc._id } },
 						function (err, doc) {
-                            if (err) cb(err);
+							if (err) cb(err);
 							cb(null, rel_doc);
 						}
 					);
 				}
 			},
-            // add set to user sets 
+			// add set to user sets
 			function (result, cb) {
 				//after creating new rel db obj,
 				// add the send unrel to FE
@@ -334,10 +343,9 @@ router.post("/Auto", function (req, res) {
 			},
 		],
 		function (err) {
-			if (err){
-                res.status(400).json([{tag: 'badAddress'}])
-            } 
-                
+			if (err) {
+				res.status(400).json([{ tag: "badAddress" }]);
+			}
 		}
 	);
 });
@@ -365,9 +373,9 @@ router.post("/Save", function (req, res) {
 			function (realObj, cb) {
 				// probably should add check to make sure realizing object equals
 				// the session realizing object
-                realObj = realObj[0];
-                console.log('unrealiedRewards', ssn_real.unrealizedRewards)
-                console.log('realizingRewards', ssn_real.realizingRewards)
+				realObj = realObj[0];
+				console.log("unrealiedRewards", ssn_real.unrealizedRewards);
+				console.log("realizingRewards", ssn_real.realizingRewards);
 				if (
 					!(
 						realObj.realizedRewards &&
@@ -385,7 +393,8 @@ router.post("/Save", function (req, res) {
 					realizedRewards = ssn_real.realizingRewards;
 					realizedBasisRewards = ssn_real.realizingRewardBasis;
 					realizedBasisRewardsDep = ssn_real.realizingRewardBasisDep;
-					realizedBasisRewardsMVDep = ssn_real.realizingRewardBasisMVDep;
+					realizedBasisRewardsMVDep =
+						ssn_real.realizingRewardBasisMVDep;
 					unrealizedRewards = ssn_real.unrealizedRewards;
 					//unrealizedRewardAgg =  ssn_real.unrealizedRewardAgg;
 					//unrealizedBasisAgg = ssn_real.unrealizedBasisAgg;
@@ -396,15 +405,18 @@ router.post("/Save", function (req, res) {
 					//unrealizedBasisDep: ssn_real.unrealizedBasisDep,
 					//unrealizedBasisMVDep: ssn_real.unrealizedBasisMVDep,
 					unrealizedBasisRewards = ssn_real.unrealizedBasisRewards;
-					unrealizedBasisRewardsDep = ssn_real.unrealizedBasisRewardsDep;
-					unrealizedBasisRewardsMVDep = ssn_real.unrealizedBasisRewardsMVDep;
-					
+					unrealizedBasisRewardsDep =
+						ssn_real.unrealizedBasisRewardsDep;
+					unrealizedBasisRewardsMVDep =
+						ssn_real.unrealizedBasisRewardsMVDep;
 				} else {
-                    // add and extend existing realized lists/values
-                    unrealizedRewards = ssn_real.unrealizedRewards;
-                    unrealizedBasisRewards = ssn_real.unrealizedBasisRewards;
-					unrealizedBasisRewardsDep = ssn_real.unrealizedBasisRewardsDep;
-					unrealizedBasisRewardsMVDep = ssn_real.unrealizedBasisRewardsMVDep;
+					// add and extend existing realized lists/values
+					unrealizedRewards = ssn_real.unrealizedRewards;
+					unrealizedBasisRewards = ssn_real.unrealizedBasisRewards;
+					unrealizedBasisRewardsDep =
+						ssn_real.unrealizedBasisRewardsDep;
+					unrealizedBasisRewardsMVDep =
+						ssn_real.unrealizedBasisRewardsMVDep;
 					realizedRewardAgg =
 						realObj.realizedRewardAgg + ssn_real.realizingRewardAgg;
 					realizedDepAgg =
@@ -436,7 +448,6 @@ router.post("/Save", function (req, res) {
 						);
 				}
 
-				
 				// find obj and update unrealized values
 				RealizeHistObj.findOneAndUpdate(
 					{
@@ -452,9 +463,12 @@ router.post("/Save", function (req, res) {
 							unrealizedBasisP: ssn_real.unrealizedBasisP,
 							unrealizedBasisDep: ssn_real.unrealizedBasisDep,
 							unrealizedBasisMVDep: ssn_real.unrealizedBasisMVDep,
-							unrealizedBasisRewards: ssn_real.unrealizedBasisRewards,
-							unrealizedBasisRewardsDep: ssn_real.unrealizedBasisRewardsDep,
-							unrealizedBasisRewardsMVDep: ssn_real.unrealizedBasisRewardsMVDep,
+							unrealizedBasisRewards:
+								ssn_real.unrealizedBasisRewards,
+							unrealizedBasisRewardsDep:
+								ssn_real.unrealizedBasisRewardsDep,
+							unrealizedBasisRewardsMVDep:
+								ssn_real.unrealizedBasisRewardsMVDep,
 							unrealizedRewards: ssn_real.unrealizedRewards,
 							realizedRewardAgg: realizedRewardAgg,
 							realizedDepAgg: realizedDepAgg,
@@ -474,11 +488,11 @@ router.post("/Save", function (req, res) {
 						new: true,
 					},
 					function (err, doc) {
-                        if (err) cb(err);
-                        else{
-                            console.log(doc)
-                            cb(null, doc);
-                        }
+						if (err) cb(err);
+						else {
+							console.log(doc);
+							cb(null, doc);
+						}
 					}
 				);
 			},
@@ -515,9 +529,9 @@ router.post("/Noauth/Realize", function (req, res) {
 				if (rel_obj && rel_obj.stack && rel_obj.message) {
 					cb(rel_obj, null);
 				}
-				rel_obj['email'] = "N/A"
-				rel_obj['firstName'] = "N/A"
-				rel_obj['lastName'] = "N/A"
+				rel_obj["email"] = "N/A";
+				rel_obj["firstName"] = "N/A";
+				rel_obj["lastName"] = "N/A";
 				res.status(200).json(rel_obj);
 				cb();
 			},
@@ -565,9 +579,9 @@ router.post("/Realize", function (req, res) {
 				//     "realizingBasisMVDep": rel_obj["realizingBasisMVdep"]
 				// }
 				ssn.realizing = rel_obj;
-				rel_obj['email'] = ssn.email 
-				rel_obj['firstName'] = ssn.firstName
-				rel_obj['lastName'] = ssn.lastName
+				rel_obj["email"] = ssn.email;
+				rel_obj["firstName"] = ssn.firstName;
+				rel_obj["lastName"] = ssn.lastName;
 				res.status(200).json(rel_obj);
 				cb();
 			},
@@ -740,11 +754,11 @@ router.post("/", function (req, res) {
 						{ _id: prsId },
 						{ $addToSet: { setIds: rel_doc._id } },
 						function (err, doc) {
-                            if (err) cb(err);
-                            else{
-                                console.log("THIS IS IT")
-                                console.log(doc)
-                            }
+							if (err) cb(err);
+							else {
+								console.log("THIS IS IT");
+								console.log(doc);
+							}
 							cb(null, rel_doc._id);
 						}
 					);

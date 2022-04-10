@@ -75,10 +75,10 @@ app.use(router);
 // Check general login.  If OK, add Validator to |req| and continue processing,
 // otherwise respond immediately with 401 and noLogin error tag.
 app.use(function (req, res, next) {
-	console.log(req.path);
-	console.log(req.method);
-	console.log(req.session);
-	console.log(req.body);
+	console.log("PATH: ", req.path);
+	console.log("METHOD: ", req.method);
+	console.log("SESSION: ", req.session);
+	console.log("BODY", req.body);
 	if (
 		req.path.includes("Noauth") ||
 		req.path === "/Prss/forgotpw" ||
@@ -89,6 +89,7 @@ app.use(function (req, res, next) {
 			(req.path === "/Prss" || req.path === "/Ssns"))
 	) {
 		req.validator = new Validator(req, res);
+		console.log(req.validator);
 		next();
 	} else {
 		console.log("is this really happening");
