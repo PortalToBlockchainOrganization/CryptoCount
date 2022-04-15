@@ -1276,11 +1276,11 @@ async function autoAnalysis(address, fiat) {
 					date: date,
 					bvDep: bookVal,
 				};
-			let percentage = basisRewards[i].basisReward /// bookVal;
+			//let percentage = basisRewards[i].basisReward /// bookVal;
 			let rewardDepletionObj = {
 					date: date,
 					rewBasisDepletion:
-						basisRewards[i].basisReward - depletion * percentage, //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
+						basisRewards[i].basisReward - depletion //* percentage, //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
 				};
 			bookValsDepletion.push(bvDepObj);
 			basisRewardDepletion.push(rewardDepletionObj);
@@ -1291,11 +1291,11 @@ async function autoAnalysis(address, fiat) {
 					date: basisRewards[i].date,
 					bvMvDep: bookVal,
 				};
-			percentage = basisRewards[i].basisReward /// bookVal;
+			//percentage = basisRewards[i].basisReward /// bookVal;
 			let rewardMVDepletionObj = {
 					date: basisRewards[i].date,
 					rewBasisMVDepletion:
-						basisRewards[i].basisReward - MVdepletion * percentage,
+						basisRewards[i].basisReward - MVdepletion //* percentage,
 				};
 			bookValsMVDepletion.push(bvMVDepObj);
 			basisRewardMVDepletion.push(rewardMVDepletionObj);
