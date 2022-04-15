@@ -137,7 +137,7 @@ async function getBalances(address) {
 				date_itr = d1;
 				while (date_itr < d2) {
 					date_key = date_itr.toISOString().slice(0, 10);
-					balances[date_key] = response.data[i].balance;
+					balances[date_key] = response.data[i].balance / 1000000;
 					date_itr = date_itr.addDays(1);
 				}
 			}
