@@ -1283,7 +1283,6 @@ async function autoAnalysis(address, fiat) {
 					bvMvDep: bookVal,
 				};
 			//let percentage = basisRewards[i].basisReward /// bookVal;
-			if(basisRewards[i].basisReward - depletion > 0){
 			
 				let rewardDepletionObj = {
 						date: date,
@@ -1292,9 +1291,9 @@ async function autoAnalysis(address, fiat) {
 					};
 				bookValsDepletion.push(bvDepObj);
 				basisRewardDepletion.push(rewardDepletionObj);
-			}
+			
 
-			else if(basisRewards[i].basisReward - MVdepletion > 0){
+			
 				//percentage = basisRewards[i].basisReward /// bookVal;
 				let rewardMVDepletionObj = {
 						date: basisRewards[i].date,
@@ -1303,7 +1302,7 @@ async function autoAnalysis(address, fiat) {
 					};
 				bookValsMVDepletion.push(bvMVDepObj);
 				basisRewardMVDepletion.push(rewardMVDepletionObj);
-			}
+			
 		}
 
 	}
