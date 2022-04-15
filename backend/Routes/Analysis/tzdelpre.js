@@ -1196,7 +1196,7 @@ async function autoAnalysis(address, fiat) {
 
 
 	let basisValue = Object.values(basisBalances)[0];
-	let bookVal = prices[formatDate(Object.values(basisBalances)[0])] * (basisValue);
+	let bookVal = prices[formatDate(Object.keys(basisBalances)[0])] * (basisValue);
 
 
 	let bookValsMVDepletion = [];
