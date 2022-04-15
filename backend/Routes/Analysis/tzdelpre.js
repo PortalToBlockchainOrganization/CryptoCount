@@ -1276,33 +1276,33 @@ async function autoAnalysis(address, fiat) {
 					date: date,
 					bvDep: bookVal,
 				};
-			//let percentage = basisRewards[i].basisReward /// bookVal;
-			if(basisRewards[i].basisReward - depletion > 0){
-			
-			let rewardDepletionObj = {
-					date: date,
-					rewBasisDepletion:
-						basisRewards[i].basisReward - depletion //* percentage, //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
-				};
-			bookValsDepletion.push(bvDepObj);
-			basisRewardDepletion.push(rewardDepletionObj);
-			}
-
 			let MVdepletion = bookValsMVDepletion[i - 1].bvMvDep * (mvdAnal[i].marketCap / mvdAnal[i - 1].marketCap - mvdAnal[i].price / mvdAnal[i - 1].price);
 			bookVal = bookValsMVDepletion[i - 1].bvMvDep +	basisRewards[i].basisReward - MVdepletion + tranVal * prices[formatDate(rewards[i].date)];
 			let bvMVDepObj = {
 					date: basisRewards[i].date,
 					bvMvDep: bookVal,
 				};
-			if(basisRewards[i].basisReward - MVdepletion > 0){
-			//percentage = basisRewards[i].basisReward /// bookVal;
-			let rewardMVDepletionObj = {
-					date: basisRewards[i].date,
-					rewBasisMVDepletion:
-						basisRewards[i].basisReward - MVdepletion //* percentage,
-				};
-			bookValsMVDepletion.push(bvMVDepObj);
-			basisRewardMVDepletion.push(rewardMVDepletionObj);
+			//let percentage = basisRewards[i].basisReward /// bookVal;
+			if(basisRewards[i].basisReward - depletion > 0){
+			
+				let rewardDepletionObj = {
+						date: date,
+						rewBasisDepletion:
+							basisRewards[i].basisReward - depletion //* percentage, //CHANGE THIS ADD DEPLETION AT THE RATIO OF THIS REWARD TO ACCOUNT BALANCE
+					};
+				bookValsDepletion.push(bvDepObj);
+				basisRewardDepletion.push(rewardDepletionObj);
+			}
+
+			else if(basisRewards[i].basisReward - MVdepletion > 0){
+				//percentage = basisRewards[i].basisReward /// bookVal;
+				let rewardMVDepletionObj = {
+						date: basisRewards[i].date,
+						rewBasisMVDepletion:
+							basisRewards[i].basisReward - MVdepletion //* percentage,
+					};
+				bookValsMVDepletion.push(bvMVDepObj);
+				basisRewardMVDepletion.push(rewardMVDepletionObj);
 			}
 		}
 
