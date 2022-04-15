@@ -1276,7 +1276,7 @@ async function autoAnalysis(address, fiat) {
 					date: date,
 					bvDep: bookVal,
 				};
-			let percentage = basisRewards[i].basisReward / bookVal;
+			let percentage = basisRewards[i].basisReward /// bookVal;
 			let rewardDepletionObj = {
 					date: date,
 					rewBasisDepletion:
@@ -1291,7 +1291,7 @@ async function autoAnalysis(address, fiat) {
 					date: basisRewards[i].date,
 					bvMvDep: bookVal,
 				};
-			percentage = basisRewards[i].basisReward / bookVal;
+			percentage = basisRewards[i].basisReward /// bookVal;
 			let rewardMVDepletionObj = {
 					date: basisRewards[i].date,
 					rewBasisMVDepletion:
