@@ -184,6 +184,28 @@ export function autoUnrealized(params, cb) {
 	};
 }
 
+export function noAuthUnrealizedSet(params, cb) {
+	return (dispatch) => {
+		dispatch(getUnrealizedSetStarted());
+		api.noAuthUnrealizedSet(params)
+			.then((res) => {
+				res.json().then((data) => {
+					dispatch({
+						type: "CREATE_SET_SUCCEEDED",
+						payload: data,
+					});
+
+					if (cb) cb();
+					return;
+				});
+			})
+			.catch((err) => {
+				console.log(err);
+				dispatch({ type: "BAD_ADDRESS_ERROR", details: err });
+			});
+	};
+}
+
 export function getRealizingSetStart() {
 	return { type: "CREATE_REALIZED_SET_STARTED" };
 }

@@ -136,7 +136,14 @@ export function getUnrealizedSet(params) {
 }
 
 export function autoUnrealizedSet(params) {
-	return post("Noauth/Auto", {
+	return post("Anal/Auto", {
+		fiat: params["fiat"],
+		address: params["address"],
+	});
+}
+
+export function noAuthUnrealizedSet(params) {
+	return post("Anal/Noauth/Auto", {
 		fiat: params["fiat"],
 		address: params["address"],
 	});
