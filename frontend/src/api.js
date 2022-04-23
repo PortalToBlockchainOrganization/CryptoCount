@@ -142,6 +142,13 @@ export function autoUnrealizedSet(params) {
 	});
 }
 
+export function noAuthUnrealizedSet(params) {
+	return post("Anal/Auto", {
+		fiat: params["fiat"],
+		address: params["address"],
+	});
+}
+
 export function getRealizingSet(setId, quantity) {
 	return post("Anal/Realize", {
 		setId: setId,

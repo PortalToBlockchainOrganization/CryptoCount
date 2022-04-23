@@ -18,7 +18,6 @@ import womenComputer from "../../Assets/womenComputer.json";
 import womenSigning from "../../Assets/womenSigning.json";
 import chrome from "../../Assets/chrome.svg";
 import firefox from "../../Assets/firefox.svg";
-import { Link } from "react-router-dom";
 import bb from "../../Assets/bb.png";
 
 const Landing = (props) => {
@@ -77,15 +76,27 @@ const Landing = (props) => {
 			fiat: params["fiat"],
 			address: params["address"],
 		});
-		props.autoUnrealized(
-			{
-				fiat: params["fiat"],
-				address: params["address"],
-			},
-			() => {
-				props.history.push("/analysis");
-			}
-		);
+		if (Object.keys(props.user).length >= 0) {
+			props.autoUnrealized(
+				{
+					fiat: params["fiat"],
+					address: params["address"],
+				},
+				() => {
+					props.history.push("/analysis");
+				}
+			);
+		} else {
+			props.noAuthUnRealizedSet(
+				{
+					fiat: params["fiat"],
+					address: params["address"],
+				},
+				() => {
+					props.history.push("/analysis");
+				}
+			);
+		}
 		// } else {
 		// 	props.setParams(params);
 		// 	if (props.signedIn()) {
