@@ -248,41 +248,122 @@ async function getRewards(address) {
             urlSet.push(`https://api.baking-bad.org/v2/rewards/${bakerAddress}?cycle=${i}`);
         }
     }
+	
+		//define the query promise contructor here
+	function promiseGet(url) {
+		return new Promise((resolve, reject) => {
+			try {
+				payload = axios.get(url) //, {httpsAgent: new https.Agent({ keepAlive: true }),timeout: 20000});
+				resolve(payload);
+			} catch (err) {
+				console.log(`Could not get data from url: ${url}`);
+				reject(new Error(err));
+			}
+			//add ids by cycle or something here
+		});
+	}
 
-    var j, temporary, chunk = 16;
-    var results = []
-    console.log(urlSet.length)
-    for (i = 0,j = urlSet.length; i < j; i += chunk) {
-        temporary = urlSet.slice(i, i + chunk);
-        result = await axios.all(temporary.map(url=> axios.get(url)));
-        // do whatever
-        results.push(...result)
-    }
+	var promises = [];
+	urlSet.forEach((url) => {
+		promises.push(
+			promiseGet(url)
+				.then((urlObj) => {
+					try{
+						let payoutArray = urlObj.data.payouts;
+						let addressProperty = "address";
+						let amountProperty = "amount";
+						if (payoutArray === undefined) {
+							console.log(urlObj);
+						}else{
+							for (let i = 0; i < payoutArray.length; i++) {
+								if (address == payoutArray[i][addressProperty]) {
+									let amount = payoutArray[i][amountProperty];
+									if (amount < 0.0001 && amount > 0) {
+										amount = amount * 10000;
+									}
+									var rewardObject = {
+										quantity: amount,
+										cycle: urlObj.data.cycle,
+									};
+									return rewardObject;
+								}
+							}
+						}
+						resolve(payoutArray)
+					}catch(e){
+						console.log(`Could not get data from url: ${url}`);
+						reject(new Error(err));
+					}
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+		);
+	});
 
-    console.log(results.length);
+	//finish all promise models push all returned data up to the base level of the method execution
+	let rewards = [];
+	await Promise.all(promises)
+		.then((values) => {
+			values.forEach((element) => {
+				if (typeof element === "object") {
+					var reward = element;
+					rewards.push(reward);
+				}
+			});
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+	
+	
+	
 
-    var rewards = results.map(urlObj =>{
-            let payoutArray = urlObj.data.payouts;
-            let addressProperty = "address";
-            let amountProperty = "amount";
-            if (payoutArray === undefined) {
-                console.log(urlObj);
-            }else{
-                for (let i = 0; i < payoutArray.length; i++) {
-                    if (address == payoutArray[i][addressProperty]) {
-                        let amount = payoutArray[i][amountProperty];
-                        if (amount < 0.0001 && amount > 0) {
-                            amount = amount * 10000;
-                        }
-                        var rewardObject = {
-                            quantity: amount,
-                            cycle: urlObj.data.cycle,
-                        };
-                        return rewardObject;
-                    }
-                }
-            }
-    })
+	
+	
+	
+	
+	//////
+	
+	
+
+   
+	// var j, temporary, chunk = 16;
+    // var results = []
+    // console.log(urlSet.length)
+    // for (i = 0,j = urlSet.length; i < j; i += chunk) {
+    //     temporary = urlSet.slice(i, i + chunk);
+    //     result = await axios.all(temporary.map(url=> axios.get(url)));
+    //     // do whatever
+    //     results.push(...result)
+    // }
+
+    // console.log(results.length);
+
+    // var rewards = results.map(urlObj =>{
+    //         let payoutArray = urlObj.data.payouts;
+    //         let addressProperty = "address";
+    //         let amountProperty = "amount";
+    //         if (payoutArray === undefined) {
+    //             console.log(urlObj);
+    //         }else{
+    //             for (let i = 0; i < payoutArray.length; i++) {
+    //                 if (address == payoutArray[i][addressProperty]) {
+    //                     let amount = payoutArray[i][amountProperty];
+    //                     if (amount < 0.0001 && amount > 0) {
+    //                         amount = amount * 10000;
+    //                     }
+    //                     var rewardObject = {
+    //                         quantity: amount,
+    //                         cycle: urlObj.data.cycle,
+    //                     };
+    //                     return rewardObject;
+    //                 }
+    //             }
+    //         }
+    // })
+    
+    
 
 	//finish all promise models push all returned data up to the base level of the method execution
 
