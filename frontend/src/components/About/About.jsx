@@ -10,29 +10,32 @@ const About = () => {
 					<hr className={classes.HR} />
 				</h1>
             <br />
+						
 				<br />
-		CryptoCount supplies tax optimized financial data to Tezos block reward delegators.				
+		<h2>
+		CryptoCount supplies tax optimized financial data to Tezos block reward delegators.			
                 <br />
 				<br />
-		The website visualizes block rewards and generates income statements to users.	
+		 The website visualizes Tezos protocol staking block rewards and generates income statements for users.
 		<br />
 				<br />
-                Statements are generated when a user selects a quantity of rewards to realize.
+                Statements are generated when a user selects a FIFO quantity of rewards to realize.
                 <br />
 				<br />
-				Downloadable statements can be delivered to authorities for income tax reporting. 
+				The downloadable statement can be delivered to authorities for income tax reporting. 
                 <br />
 				<br />
-				CryptoCount supports 40 countries and 1 blockchain. 
+				CryptoCount supports 40 countries and 1 the Tezos blockchain. 
                 <br />
 				<br />
-                The project supports data integration to an existing app. Pre-built react components and API documentation are located in the <a href="https://www.portaltoblockchain.org/client">Integrate CryptoCount</a> and <a href="https://www.portaltoblockchain.org/api">API</a> sections of the PTBO website. 
+                The project supports data integration into an existing app. Pre-built react components and API documentation optimal for layered staking systems are located in the <a href="https://www.portaltoblockchain.org/client">Integrate CryptoCount</a> and <a href="https://www.portaltoblockchain.org/api">API</a> sections of the PTBO website. 
                 <br />
 				<br />
                 The software was derived from economic literature authored by Sutherland and Landoni(2020), listed in the <a href="https://www.portaltoblockchain.org/literature">Academic Literature</a> section of this site. 
                 <br />
 				<br />
                 Contact us <a href="https://www.portaltoblockchain.org">Here</a>. 
+		</h2>
 			</div>
 		</div>
 	);
