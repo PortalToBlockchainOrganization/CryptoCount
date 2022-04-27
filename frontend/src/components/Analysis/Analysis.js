@@ -356,7 +356,7 @@ const Analysis = (props) => {
 						className={classes.setToggles}
 						onSubmit={handleRealizing}
 					>
-						<Form.Label>Enter Quantity Realized:</Form.Label>
+						<Form.Label>Enter FIFO Quantity Realized:</Form.Label>
 						<div className={classes.quantGroup}>
 							<div className={classes.buttonAndInfo}>
 								<Form.Control
