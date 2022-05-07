@@ -1,7 +1,7 @@
 import { chartOptions } from "./chartJsOptions";
 import React, { useEffect, useState } from "react";
 import { getData } from "./ChartData";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { Button, Spinner, Form, Modal } from "react-bootstrap";
 import { Bar } from "react-chartjs-2";
 import classes from "./Analysis.module.css";
@@ -152,20 +152,24 @@ const Analysis = (props) => {
 		doc.save("TezosRewardIncomeStatement.pdf");
 	};
 
-	// chart js options
-	const options = chartOptions(set);
-
-	// load the fiat flag from directory
-	let path = require(`../../Assets/Flags/${params.fiat}.PNG`);
-
-	// const { register, setValue } = useForm();
-
 	// current set data
 	const [currentSet, setCurrentSet] = useState();
 	// rerender the chart
 	useEffect(() => {
 		setCurrentSet(getData(null, set, params, getUnrealizedSet));
 	}, [set, params, getUnrealizedSet]);
+
+	// chart js options
+	const options = chartOptions(set);
+
+	// load the fiat flag from directory
+	if (params.fiat === undefined) {
+		history.push("/");
+		return <div></div>;
+	}
+	let path = require(`../../Assets/Flags/${params.fiat}.PNG`);
+
+	// const { register, setValue } = useForm();
 
 	// if duplicate address detected show duplicate modal
 	if (set?.dupId) {
@@ -449,17 +453,20 @@ const Analysis = (props) => {
 						>
 							Download Statement
 						</Button>
-						<Button
-							type="submit"
-							variant="danger"
-							onClick={handleSave}
-							disabled={
-								isNaN(currentSet["incomeToReport"]) &&
-								user === undefined
-							}
-						>
-							Save
-						</Button>
+						{user === undefined ? (
+							<Link to="/register">
+								<Button variant="danger">Save</Button>
+							</Link>
+						) : (
+							<Button
+								type="submit"
+								variant="danger"
+								onClick={handleSave}
+								disabled={isNaN(currentSet["incomeToReport"])}
+							>
+								Save
+							</Button>
+						)}
 						<div
 							className={classes.help}
 							tooltip-data="Save this realization or enter a new quantity."
