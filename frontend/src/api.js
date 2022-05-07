@@ -25,8 +25,11 @@ headers.set("Content-Type", "application/json");
 console.log(process.env.NODE_ENV);
 const reqConf = {
 	headers: headers,
-	// credentials: process.env.NODE_ENV === "development" ? "include" : "omit",
 };
+
+if (process.env.NODE_ENV === "development") {
+	reqConf["credentials"] = "include";
+}
 
 function safeFetch(method, endpoint, body) {
 	return fetch(baseURL + endpoint, {

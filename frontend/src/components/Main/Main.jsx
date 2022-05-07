@@ -65,6 +65,7 @@ const Main = (props) => {
 	const signOut = () => {
 		setCanAccessAnalysis(false);
 		props.signOut();
+		props.history.push("/");
 	};
 
 	if (signedIn() === undefined) {
