@@ -159,6 +159,14 @@ export function getRealizingSet(setId, quantity) {
 	});
 }
 
+export function noAuthGetRealizingSet(setId, quantity) {
+	console.log("API", setId, quantity);
+	return post("Anal/Noauth/Realize", {
+		setId: setId,
+		realizedQuantity: quantity,
+	});
+}
+
 export function saveRealize(setId, confirm_quantity) {
 	return post("Anal/Save", {
 		setId: setId,

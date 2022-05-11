@@ -22,6 +22,7 @@ const Analysis = (props) => {
 		getUnrealizedSet,
 		//autoUnrealized,
 		getRealizingSet,
+		noAuthRealizingSet,
 		deleteParams,
 		getSet,
 		saveRealizing,
@@ -65,12 +66,22 @@ const Analysis = (props) => {
 		request to get Realized
 		*/
 		e.preventDefault();
+
 		if (set["data"]["_id"] !== undefined && quantityRealize !== 0) {
-			getRealizingSet(
-				set["data"]["_id"],
-				quantityRealize.current.value,
-				updateChart
-			);
+			if (user === undefined) {
+				console.log("NOAUTH TRIGGERED");
+				noAuthRealizingSet(
+					set["data"]["_id"],
+					quantityRealize.current.value,
+					updateChart
+				);
+			} else {
+				getRealizingSet(
+					set["data"]["_id"],
+					quantityRealize.current.value,
+					updateChart
+				);
+			}
 		}
 	};
 

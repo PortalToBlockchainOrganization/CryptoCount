@@ -229,6 +229,26 @@ export function getRealizingSet(setId, quantity, cb) {
 	};
 }
 
+export function noAuthRealizingSet(setId, quantity, cb) {
+	console.log("NO AUTH REALIZING");
+	return (dispatch) => {
+		dispatch(getRealizingSetStart());
+		api.noAuthGetRealizingSet(setId, quantity).then((res) => {
+			res.json().then((res) => {
+				dispatch({
+					type: "ADD_REALIZING_SET",
+					payload: res,
+				});
+				if (cb) {
+					console.log("CB");
+					cb();
+				}
+				return;
+			});
+		});
+	};
+}
+
 export function startSaveRealizing() {
 	return { type: "START_SAVE_REALIZE", payload: { isLoading: true } };
 }
