@@ -11,25 +11,31 @@ const About = () => {
 				</h1>
             <br />
 				<br />
-		CryptoCount supplies tax optimized financial data to Tezos block reward delegators.				
+		Welcome to CryptoCount V0.2. We analize Tezos blockchain data to help Tezos delegators report their fair market value block reward tax income.				
                 <br />
 				<br />
-		The website visualizes block rewards and generates income statements to users.	
+		CryptoCount is a tool for passively tracking your Tezos assets' paralellel performance in the fiat world.  
 		<br />
 				<br />
-                Statements are generated when a user selects a quantity of rewards to realize.
+				CryptoCount is 100% idempotent (read-only). CryptoCount will never: change the state of your Tezos address's related assets, ask for your private keys, or, any verifiable "KYC" information. 
+				<br />
+				<br />
+				V0.3 will feature interfaces accounting for: capital gains generated from realizing your Tezos-native basis, Tezos-token conversion capital gains, token-based asset sale capital gains, and, fair market value tracking of Defi activities (Liquidity, Lending, Revenue Sharing).
+				<br />
+				<br />
+                You can generate a statements by selecting a quantity of rewards to realize.
                 <br />
 				<br />
-				Downloadable statements can be delivered to authorities for income tax reporting. 
+				The downloadable statements can be delivered to authorities for income tax reporting. 
                 <br />
 				<br />
 				CryptoCount supports 40 countries and 1 blockchain. 
                 <br />
 				<br />
-                The project supports data integration to an existing app. Pre-built react components and API documentation are located in the <a href="https://www.portaltoblockchain.org/client">Integrate CryptoCount</a> and <a href="https://www.portaltoblockchain.org/api">API</a> sections of the PTBO website. 
+                CryptoCount supports data integration to an existing app. Pre-built react components and API documentation are located in the <a href="https://www.portaltoblockchain.org/client">Integrate CryptoCount</a> and <a href="https://www.portaltoblockchain.org/api">API</a> sections of the PTBO website. 
                 <br />
 				<br />
-                The software was derived from economic literature authored by Sutherland and Landoni(2020), listed in the <a href="https://www.portaltoblockchain.org/literature">Academic Literature</a> section of this site. 
+                This software was derived from economic literature authored by Sutherland and Landoni(2020), listed in the <a href="https://www.portaltoblockchain.org/literature">Academic Literature</a> section of this site. 
                 <br />
 				<br />
                 Contact us <a href="https://www.portaltoblockchain.org">Here</a>. 

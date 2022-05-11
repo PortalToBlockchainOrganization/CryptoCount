@@ -142,7 +142,10 @@ const Landing = (props) => {
 			<div className="lp-container">
 				<section className="static-wrapper">
 					<div className="logo-container">
+						<img className="logo" src="./Tezos.png" alt="logo" />
+						<h1> X </h1>
 						<img className="logo" src="./logo.png" alt="logo" />
+						
 					</div>
 				</section>
 				<br />
@@ -267,27 +270,24 @@ const Landing = (props) => {
 					<div className="p-gif">
 						<div className="animation" id="women-thinking" />
 						<div className="text">
-							<h2>Count Before You Sell.</h2>
-							<p>
-								If I sell block rewards, what do I report for
-								income?
-							</p>
+							<h3>Simplify and organize your cryptocurrency accounting life with CryptoCount.</h3>
+							<br></br>
+							<Button href="/About">Learn More</Button>
 						</div>
 					</div>
 					<div className="p-gif">
-						<p className="text">
-							Get an official statement of block reward income
-							calculated by CryptoCount. <br />
-							<br />
-						</p>
+						<h3 className="text">
+							Understand your Web3 activities' paralellel fiat performance. 
+						</h3>
+						<Button href="/About">Learn More</Button>
 						<div className="animation" id="women-computer" />
 					</div>
 					<div className="p-gif">
 						<div className="animation" id="women-signing" />
-						<p className="text">
-							Report your economically fair income to your
-							countries' internal revenue service.
-						</p>
+						<h3 className="text">
+							Track your Tezos activities and save fiat realizations.
+						</h3>
+						<Button class="button" href="/About">Create Free No KYC Account</Button>
 					</div>
 				</div>
 			) : null}
