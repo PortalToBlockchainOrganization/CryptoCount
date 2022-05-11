@@ -11,6 +11,8 @@ import ResetPassword from "../ResetPassword/ResetPassword";
 import ChangePassword from "../ChangePassword/ChangePassword";
 import About from "../About/About";
 import Privacy from "../Privacy/Privacy";
+import Regulatory from "../Regulatory/Regulatory.js"
+import Blog from "../Blog/blog.js"
 
 const AnalysisBlock = ({ component: Component, ...rest }) => {
 	const isAuthed = rest.isAuthed();
@@ -101,6 +103,12 @@ const Main = (props) => {
 				<Privacy path="/privacy" exact strict componenet={Privacy}>
 					Privacy
 				</Privacy>
+				<Regulatory path="/regulatory" exact strict component={Regulatory}>
+					Regulatory
+				</Regulatory>
+				<Blog path="/blog" exact strict component={Blog}>
+					Blog
+					</Blog> 
 				<Route
 					path="/signin"
 					exact

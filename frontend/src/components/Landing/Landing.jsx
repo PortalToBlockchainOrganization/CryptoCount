@@ -287,7 +287,7 @@ const Landing = (props) => {
 						<h3 className="text">
 							Track your Tezos activities and save fiat realizations.
 						</h3>
-						<Button class="button" href="/About">Create Free No KYC Account</Button>
+						<Button class="button" href="/About">Create Free Account, No KYC</Button>
 					</div>
 				</div>
 			) : null}

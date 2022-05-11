@@ -75,18 +75,25 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 							</>
 						) : (			
 							<Nav className={classes.AccountNav}>
-								<NavLink
-									className={classes.NavLink}
-									activeClassName={classes.NavActive}
-									to="/privacy"
-									>
-										Privacy</NavLink>
+								
 							<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
 									to="/about"
 									>
 										About</NavLink>
+										<NavLink
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									to="/Regulatory"
+									>
+										Regulation Tracker</NavLink>
+										<NavLink
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									to="/blog"
+									>
+										Blog</NavLink>
 								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
@@ -101,6 +108,12 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								>
 									Register
 								</NavLink>
+								<NavLink
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									to="/privacy"
+									>
+										Privacy</NavLink>
 							</Nav>
 						)}
 					</Nav>
