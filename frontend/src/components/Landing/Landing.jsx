@@ -289,6 +289,13 @@ const Landing = (props) => {
 						</h3>
 						<Button class="button" href="/About">Create Free Account, No KYC</Button>
 					</div>
+					<div className="p-gif">
+						<div className="animation" id="women-signing" />
+						<h3 className="text">
+							Are you a business that hosts a layered staking operation? Use our API to generate statements for your users.
+						</h3>
+						<Button class="button" href="https://portaltoblockchain.org/api">Go to API</Button>
+					</div>
 				</div>
 			) : null}
 			<div className="poweredBy">

@@ -789,8 +789,17 @@ amount the cryptocurrency is sold for will be considered taxable and subject to 
 
 <br></br><br></br><br></br>
 
+<h3 id="Portugal">Portugal</h3>
+<h4>Summary: </h4>
+<br></br>
+<div></div>
+<h4>Source: </h4>
+<a href="https://www.loc.gov/item/2021666100/?loclr=bloglaw">Pending</a>
 
-<h3 id="Ireland">Russia</h3>
+<br></br><br></br><br></br>
+
+
+<h3 id="Russia">Russia</h3>
 <h4>Summary: </h4>
 <br></br>
 <div>B. Mining, Staking, and Airdropping
@@ -874,6 +883,7 @@ virtual currency).17
 </div>
 <h4>Source: </h4>
 <a href="https://www.loc.gov/item/2021666100/?loclr=bloglaw">U.S. Library of Congress</a>
+<br></br>
 <a href="https://www.skatteverket.se/">Swedish Government Calculator</a>
 
 <br></br><br></br><br></br>
@@ -936,7 +946,14 @@ VAT Act
 <a href="https://perma.cc/8X69-K9DL">Idk</a>
 <br></br><br></br><br></br>
 
+<h3 id="Ukraine">Ukraine</h3>
+<h4>Summary: </h4>
+<br></br>
+<div></div>
+<h4>Source: </h4>
+<a href="https://www.loc.gov/item/2021666100/?loclr=bloglaw">Pending</a>
 
+<br></br><br></br><br></br>
 
 
 <h3 id="UK">United Kingdom</h3>

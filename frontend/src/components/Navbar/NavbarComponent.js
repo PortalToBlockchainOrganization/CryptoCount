@@ -42,7 +42,7 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 									to="/"
 									exact
 								>
-									Home
+									Enter
 								</NavLink>
 								<NavLink
 									className={analysisStyle}
@@ -66,6 +66,24 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 									to="/about"
 									>
 										About</NavLink>
+										<NavLink
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									to="/regulatory"
+									>
+										Regulation Tracker</NavLink>
+										<NavLink
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									to="/blog"
+									>
+										Blog</NavLink>
+										<a
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									href="https://portaltoblockchain.org"
+									>
+										B2B</a>
 								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
@@ -75,7 +93,14 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 							</>
 						) : (			
 							<Nav className={classes.AccountNav}>
-								
+									<NavLink
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									to="/"
+									exact
+								>
+									Enter
+								</NavLink>
 							<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
@@ -94,6 +119,12 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 									to="/blog"
 									>
 										Blog</NavLink>
+										<a
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									href="https://portaltoblockchain.org"
+									>
+										B2B</a>
 								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
@@ -134,7 +165,7 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 				className={classes.NameWrapper}
 				style={{ backgroundColor: "transparent" }}
 			>
-				<div className={classes.Beta}>beta version 0.1.0</div>
+				<div className={classes.Beta}>Beta Version 0.2</div>
 				{true ? (
 					<Navbar.Text className={classes.Name}>
 						{signedIn() ? (
