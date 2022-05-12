@@ -1,14 +1,27 @@
 .APIWrapper {
 	justify-content: center;
 	margin-top: 100px;
-	color: var(--gray);
-	padding: 20px 0px 0px 80px;
+	color: black;
+	padding: 20px 40px 0px 80px;
     width: 100%;
 }
 
 .API {
     width: 100%;
 	overflow: "auto";
+}
+
+h2{
+    color:black;
+}
+h3{
+    color: black;
+}
+
+.regWrap{
+    margin-top: 100px;
+    width: 100%;
+    color:black;
 }
 
 .code {

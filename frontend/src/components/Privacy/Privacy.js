@@ -7,7 +7,7 @@ const Privacy = () => {
           		<div className={classes.APIWrapper}>
         <h1>Privacy Policy</h1>
         <li>Last updated: May 10, 2022</li>
-        <p>CryptoCount is 100% idempotent (read-only). CryptoCount will never: change the state of your Tezos address's related assets, ask for your private keys, or, any verifiable "KYC" information.</p>
+        <div>CryptoCount is 100% idempotent (read-only). CryptoCount will never: change the state of your Tezos address's related assets, ask for your private keys, or, any verifiable "KYC" information.</div>
         <li>TL;DR; We (The Portal To Blockchain Organization) do not sell your email, firstname, or lastname to any third parties.</li>
         <li>This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You.</li>
         <li>We use Your Personal data to provide and improve the Service. By using the Service, You agree to the collection and use of information in accordance with this Privacy Policy. This Privacy Policy has been created with the help of the <a href="https://www.termsfeed.com/privacy-policy-generator/" >Privacy Policy Generator</a>.</li>

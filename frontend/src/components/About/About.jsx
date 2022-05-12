@@ -11,7 +11,7 @@ const About = () => {
 				</h1>
             <br />
 				<br />
-		Welcome to CryptoCount V0.2. We analize Tezos blockchain data to help Tezos delegators report their fair market value block reward tax income.				
+		Welcome to CryptoCount V0.2. CryptoCount analyzes Tezos blockchain data to help Tezos delegators report their fair market value block reward tax income.				
                 <br />
 				<br />
 		CryptoCount is a tool for passively tracking your Tezos assets' paralellel performance in the fiat world.  

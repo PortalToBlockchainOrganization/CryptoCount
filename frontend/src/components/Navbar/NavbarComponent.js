@@ -85,7 +85,7 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 										<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
-									to="/Regulatory"
+									to="/regulatory"
 									>
 										Regulation Tracker</NavLink>
 										<NavLink
