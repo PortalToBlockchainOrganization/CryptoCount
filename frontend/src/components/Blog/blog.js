@@ -4,8 +4,8 @@ import classes from "./blog.css";
 const blog = () => {
 	return (
         <div>
-          		<div className={classes.APIWrapper}>
-            <p>the experience</p>
+          	<div className={classes.APIWrapper}>
+                    <h2>Blog</h2>
      
         </div>
       </div>
