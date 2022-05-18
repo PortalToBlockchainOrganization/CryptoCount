@@ -145,7 +145,6 @@ const Landing = (props) => {
 						<img className="logo" src="./Tezos.png" alt="logo" />
 						<h1> X </h1>
 						<img className="logo" src="./logo.png" alt="logo" />
-						
 					</div>
 				</section>
 				<br />
@@ -269,32 +268,63 @@ const Landing = (props) => {
 				<div className="tutorial">
 					<div className="p-gif">
 						<div className="animation" id="women-thinking" />
-						<div className="text">
-							<h3>Simplify and organize your cryptocurrency accounting life with CryptoCount.</h3>
-							<br></br>
-							<Button href="/About">Learn More</Button>
+						<div className="CTA">
+							<div className="text">
+								<h3>
+									Simplify and organize your cryptocurrency
+									accounting life with CryptoCount.
+								</h3>
+								<br />
+								<Button href="/About">Learn More</Button>
+							</div>
 						</div>
 					</div>
 					<div className="p-gif">
-						<h3 className="text">
-							Understand your Web3 activities' paralellel fiat performance. 
-						</h3>
-						<Button href="/About">Learn More</Button>
+						<div className="CTA">
+							<div className="text">
+								<h3>
+									Understand your Web3 activities' paralellel
+									fiat performance.
+								</h3>
+								<br />
+								<Button href="/About">Learn More</Button>
+							</div>
+						</div>
 						<div className="animation" id="women-computer" />
 					</div>
 					<div className="p-gif">
 						<div className="animation" id="women-signing" />
-						<h3 className="text">
-							Track your Tezos activities and save fiat realizations.
-						</h3>
-						<Button class="button" href="/About">Create Free Account, No KYC</Button>
+						<div className="CTA">
+							<div className="text">
+								<h3>
+									Track your Tezos activities and save fiat
+									realizations.
+								</h3>
+								<br />
+								<Button class="button" href="/About">
+									Create Free Account, No KYC
+								</Button>
+							</div>
+						</div>
 					</div>
 					<div className="p-gif">
-						<div className="animation" id="women-signing" />
-						<h3 className="text">
-							Are you a business that hosts a layered staking operation? Use our API to generate statements for your users.
-						</h3>
-						<Button class="button" href="https://portaltoblockchain.org/api">Go to API</Button>
+						<img className="ptbo-lp" src={ptbo} alt="ptbo-logo" />
+						<div className="CTA">
+							<div className="text">
+								<h3>
+									Are you a business that hosts a layered
+									staking operation? Use our API to generate
+									statements for your users.
+								</h3>
+								<br />
+								<Button
+									class="button"
+									href="https://portaltoblockchain.org/api"
+								>
+									Go to API
+								</Button>
+							</div>
+						</div>
 					</div>
 				</div>
 			) : null}

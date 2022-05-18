@@ -33,7 +33,6 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 				<Navbar.Toggle />
 				<Navbar.Collapse>
 					<Nav className={classes.Nav} variant="pills">
-		
 						{signedIn() ? (
 							<>
 								<NavLink
@@ -64,36 +63,41 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
 									to="/about"
-									>
-										About</NavLink>
-										<NavLink
+								>
+									About
+								</NavLink>
+								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
 									to="/regulatory"
-									>
-										Regulation Tracker</NavLink>
-										<NavLink
+								>
+									Regulation Tracker
+								</NavLink>
+								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
 									to="/blog"
-									>
-										Blog</NavLink>
-										<a
+								>
+									Blog
+								</NavLink>
+								<a
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
 									href="https://portaltoblockchain.org"
-									>
-										B2B</a>
+								>
+									B2B
+								</a>
 								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
 									to="/privacy"
-									>
-										Privacy</NavLink>
+								>
+									Privacy
+								</NavLink>
 							</>
-						) : (			
+						) : (
 							<Nav className={classes.AccountNav}>
-									<NavLink
+								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
 									to="/"
@@ -101,30 +105,34 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								>
 									Enter
 								</NavLink>
-							<NavLink
+								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
 									to="/about"
-									>
-										About</NavLink>
-										<NavLink
+								>
+									About
+								</NavLink>
+								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
 									to="/regulatory"
-									>
-										Regulation Tracker</NavLink>
-										<NavLink
+								>
+									Regulation Tracker
+								</NavLink>
+								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
 									to="/blog"
-									>
-										Blog</NavLink>
-										<a
+								>
+									Blog
+								</NavLink>
+								<a
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
 									href="https://portaltoblockchain.org"
-									>
-										B2B</a>
+								>
+									B2B
+								</a>
 								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
@@ -135,16 +143,10 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
-									to="/register"
-								>
-									Register
-								</NavLink>
-								<NavLink
-									className={classes.NavLink}
-									activeClassName={classes.NavActive}
 									to="/privacy"
-									>
-										Privacy</NavLink>
+								>
+									Privacy
+								</NavLink>
 							</Nav>
 						)}
 					</Nav>
