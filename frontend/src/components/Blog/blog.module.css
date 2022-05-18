@@ -1,14 +1,30 @@
 .APIWrapper {
+	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	margin-top: 100px;
-	color: var(--gray);
-	padding: 20px 50px 20px 80px;
-    width: 100%;
+	color: black;
+	padding: 20px 40px 20px 80px;
+	width: 100%;
+}
+
+.ImageWrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
 }
 
 .API {
-    width: 100%;
+	width: 100%;
 	overflow: "auto";
+	padding: 20px 40px 0px 80px;
+}
+
+.imgage {
+	display: flex;
+	justify-content: center;
+	width: 150px;
 }
 
 .code {
@@ -51,6 +67,6 @@
 	margin-bottom: 8px;
 }
 
-[role=navigation] {
-    overflow-y: auto !important
-    }
+[role="navigation"] {
+	overflow-y: auto !important;
+}

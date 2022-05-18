@@ -1,4 +1,4 @@
-@import url('https://fonts.cdnfonts.com/css/louis-george-cafe');
+@import url("https://fonts.cdnfonts.com/css/louis-george-cafe");
 
 .wrapper {
 	display: block;
@@ -8,8 +8,8 @@
 	overflow-x: hidden;
 }
 .lp-container {
-    margin-top: 46px;
-    margin-bottom: 180px;
+	margin-top: 46px;
+	margin-bottom: 180px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -20,7 +20,7 @@
 	width: 100vw;
 }
 .static-wrapper {
-    margin-top: 120px;
+	margin-top: 120px;
 	width: 100vw;
 	display: flex;
 	justify-content: center;
@@ -47,43 +47,44 @@
 } */
 
 .logo-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-	margin-bottom: -20px;;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-bottom: -20px;
 }
 
 .logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
-    height: 15vw;
-    margin-top: 15px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 5px;
+	height: 15vw;
+	margin-top: 15px;
+	margin-left: 50px;
+	margin-right: 50px;
 }
 
 .logo-name {
-    font-size: 5em;
-    font-family: 'Louis George Café', sans-serif;
-    font-weight: 700;
-    color: #2e2e2e;
+	font-size: 5em;
+	font-family: "Louis George Café", sans-serif;
+	font-weight: 700;
+	color: #2e2e2e;
 }
 
 .logo-tagline {
-    font-size: 1.5em;
-    font-family: 'Louis George Café', sans-serif;
-    font-weight: 700;
-    color: #2e2e2e;
+	font-size: 1.5em;
+	font-family: "Louis George Café", sans-serif;
+	font-weight: 700;
+	color: #2e2e2e;
 }
 
 .logo-tagline2 {
-    font-size: 1.5em;
-    font-family: 'Louis George Café', sans-serif;
-    font-weight: 700;
-    color: #2e2e2e;
+	font-size: 1.5em;
+	font-family: "Louis George Café", sans-serif;
+	font-weight: 700;
+	color: #2e2e2e;
 	margin-top: 30px;
 }
-
 
 p {
 	font-size: 1em;
@@ -96,6 +97,9 @@ p {
 	justify-content: center;
 	margin-top: 25px;
 	height: 100vh;
+	background-color: aliceblue;
+	padding: 20px 40px;
+	border-radius: 10px;
 }
 
 .tez {
@@ -155,7 +159,7 @@ p {
 
 .text {
 	text-align: left;
-	margin: 100px;
+	max-width: 500px;
 }
 .animation {
 	width: 400px;
@@ -175,6 +179,16 @@ p {
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
+}
+
+.CTA {
+	display: flex;
+	flex-direction: column;
+}
+
+.ptbo-lp {
+	margin: 20px;
+	border-radius: 5px;
 }
 
 .download-link {
@@ -245,8 +259,8 @@ p {
 }
 
 #firefox-link {
-    opacity: 0.6; /* Real browsers */
-    filter: alpha(opacity = 60); /* MSIE */
+	opacity: 0.6; /* Real browsers */
+	filter: alpha(opacity = 60); /* MSIE */
 }
 
 @media (max-width: 1300px) {

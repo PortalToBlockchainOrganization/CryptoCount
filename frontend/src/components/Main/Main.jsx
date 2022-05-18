@@ -9,8 +9,10 @@ import History from "../History/History";
 import ProtectedRoute from "../ProtectedRoute";
 import ResetPassword from "../ResetPassword/ResetPassword";
 import ChangePassword from "../ChangePassword/ChangePassword";
-import About from "../About/About"
-import Privacy from "../Privacy/Privacy"
+import About from "../About/About";
+import Privacy from "../Privacy/Privacy";
+import Regulatory from "../Regulatory/Regulatory.js"
+import Blog from "../Blog/blog.js"
 
 const AnalysisBlock = ({ component: Component, ...rest }) => {
 	const isAuthed = rest.isAuthed();
@@ -55,19 +57,17 @@ const Main = (props) => {
 	};
 
 	const closeErr = (errs) => {
-        console.log(errs)
-        let redir = false
-        if (errs[0].tag === 'badAddress')
-            redir = true
-        props.closeErr();
-        if (redir)
-            props.history.push("/");
+		console.log(errs);
+		let redir = false;
+		if (errs[0].tag === "badAddress") redir = true;
+		props.closeErr();
+		if (redir) props.history.push("/");
 	};
-
 
 	const signOut = () => {
 		setCanAccessAnalysis(false);
 		props.signOut();
+		props.history.push("/");
 	};
 
 	if (signedIn() === undefined) {
@@ -97,18 +97,18 @@ const Main = (props) => {
 						/>
 					)}
 				/>
-				<About
-				path="/about"
-				exact
-				strict
-				componenet={About}>About
+				<About path="/about" exact strict componenet={About}>
+					About
 				</About>
-				<Privacy
-				path="/privacy"
-				exact
-				strict
-				componenet={Privacy}>Privacy
+				<Privacy path="/privacy" exact strict componenet={Privacy}>
+					Privacy
 				</Privacy>
+				<Regulatory path="/regulatory" exact strict component={Regulatory}>
+					Regulatory
+				</Regulatory>
+				<Blog path="/blog" exact strict component={Blog}>
+					Blog
+					</Blog> 
 				<Route
 					path="/signin"
 					exact
@@ -133,27 +133,25 @@ const Main = (props) => {
 						getHistory={getHistory}
 						realizedHistory={realizedHistory}
 						getSet={props.getSet}
-                        setParams={props.setParams}
-                        deleteSet={props.deleteSet}
+						setParams={props.setParams}
+						deleteSet={props.deleteSet}
 					/>
 				</ProtectedRoute>
-				<AnalysisBlock
-					path="/analysis"
-					exact
-					strict
-					component={Analysis}
-					match={props.location}
-					params={props.params}
-					isAuthed={signedIn}
-					getUnrealizedSet={props.getUnrealizedSet}
-					set={props.set}
-					getRealizingSet={props.getRealizingSet}
-					deleteParams={props.deleteParams}
-					getSet={props.getSet}
-					saveRealizing={props.saveRealizing}
-					getHistory={props.getHistory}
-				/>
-
+				<Route exact path="/analysis">
+					<Analysis
+						match={props.location}
+						params={props.params}
+						isAuthed={signedIn}
+						getUnrealizedSet={props.getUnrealizedSet}
+						set={props.set}
+						getRealizingSet={props.getRealizingSet}
+						deleteParams={props.deleteParams}
+						getSet={props.getSet}
+						saveRealizing={props.saveRealizing}
+						getHistory={props.getHistory}
+						noAuthRealizingSet={props.noAuthRealizingSet}
+					/>
+				</Route>
 				<Route>
 					<Redirect to="/" />
 				</Route>

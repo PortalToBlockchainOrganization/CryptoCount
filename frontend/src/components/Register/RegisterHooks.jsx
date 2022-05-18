@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, FormGroup, Button, Alert } from "react-bootstrap";
-import {Link} from "react-router-dom";
-
+import { Link } from "react-router-dom";
 
 import classes from "./Register.module.css";
 
@@ -30,6 +29,8 @@ const RegisterHooks = (props) => {
 	// const [offerSignIn, setOffer] = useState(false);
 	const [enableBtn, setBtn] = useState(false);
 
+	console.log(Object.keys(props?.set).length > 0);
+	console.log(props.set);
 	let submit = () => {
 		const user = {
 			firstName,
@@ -39,16 +40,18 @@ const RegisterHooks = (props) => {
 			termsAccepted,
 			role,
 		};
-
 		props.register(user, () => {
 			props.signIn({ email, password });
+			if (Object.keys(props?.set).length > 0) {
+				props.history.push("/analysis");
+			}
 			props.history.push("/");
 		});
 	};
 
 	let toggleTerms = (e) => {
 		setTerms(!termsAccepted);
-		};
+	};
 
 	// let toggleTerms = (e) => {
 	// 	setTerms(e.target.value);
@@ -122,13 +125,17 @@ const RegisterHooks = (props) => {
 				/>
 
 				<Form.Check
-				id="termsAccepted"
-				value={termsAccepted}
-				onChange={(e) => toggleTerms(e)}
-				label={
-                 <div>Accept the <Link to="/privacy">terms and conditions</Link>?
-                 </div>}
-/>
+					id="termsAccepted"
+					value={termsAccepted}
+					onChange={(e) => toggleTerms(e)}
+					label={
+						<div>
+							Accept the{" "}
+							<Link to="/privacy">terms and conditions</Link>?
+							                 
+						</div>
+					}
+				/>
 				{password !== password2 ? (
 					<Alert className="mt-4" variant="warning">
 						Passwords don't match

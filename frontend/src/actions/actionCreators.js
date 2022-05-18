@@ -43,21 +43,20 @@ export function register(data, cb) {
 }
 
 export function deleteSet(set, cb) {
-    return (dispatch, prevState) => {
-        console.log(set)
+	return (dispatch, prevState) => {
+		console.log(set);
 		api.deleteSet(set)
 			.then(() => {
 				if (cb) {
 					cb();
-                }
-                return dispatch({type: "REMOVE_SET", payload:set})
+				}
+				return dispatch({ type: "REMOVE_SET", payload: set });
 			})
 			.catch((error) =>
 				dispatch({ type: "DELETE_SET_ERR", details: error })
 			);
 	};
 }
-
 
 export function closeErr(cb) {
 	return (dispatch, prevState) => {
@@ -167,18 +166,41 @@ export function autoUnrealized(params, cb) {
 		dispatch(getUnrealizedSetStarted());
 		api.autoUnrealizedSet(params)
 			.then((res) => {
+				console.log(res.json());
 				res.json().then((data) => {
 					dispatch({
 						type: "CREATE_SET_SUCCEEDED",
 						payload: data,
-                    });
+					});
 
 					if (cb) cb();
 					return;
 				});
 			})
 			.catch((err) => {
-                console.log(err)
+				console.log(err);
+				dispatch({ type: "BAD_ADDRESS_ERROR", details: err });
+			});
+	};
+}
+
+export function noAuthUnrealizedSet(params, cb) {
+	return (dispatch) => {
+		dispatch(getUnrealizedSetStarted());
+		api.noAuthUnrealizedSet(params)
+			.then((res) => {
+				res.json().then((data) => {
+					dispatch({
+						type: "CREATE_SET_SUCCEEDED",
+						payload: data,
+					});
+
+					if (cb) cb();
+					return;
+				});
+			})
+			.catch((err) => {
+				console.log(err);
 				dispatch({ type: "BAD_ADDRESS_ERROR", details: err });
 			});
 	};
@@ -192,6 +214,26 @@ export function getRealizingSet(setId, quantity, cb) {
 	return (dispatch) => {
 		dispatch(getRealizingSetStart());
 		api.getRealizingSet(setId, quantity).then((res) => {
+			res.json().then((res) => {
+				dispatch({
+					type: "ADD_REALIZING_SET",
+					payload: res,
+				});
+				if (cb) {
+					console.log("CB");
+					cb();
+				}
+				return;
+			});
+		});
+	};
+}
+
+export function noAuthRealizingSet(setId, quantity, cb) {
+	console.log("NO AUTH REALIZING");
+	return (dispatch) => {
+		dispatch(getRealizingSetStart());
+		api.noAuthGetRealizingSet(setId, quantity).then((res) => {
 			res.json().then((res) => {
 				dispatch({
 					type: "ADD_REALIZING_SET",
@@ -256,7 +298,8 @@ export function getHistory(cb) {
 			res.json().then((res) => {
 				history = res.map((set) => {
 					if (
-						(set?.unrealizedRewards?.length > 0 || set?.realizedRewards?.length) &&
+						(set?.unrealizedRewards?.length > 0 ||
+							set?.realizedRewards?.length) &&
 						set?.address &&
 						set?.fiat
 					) {

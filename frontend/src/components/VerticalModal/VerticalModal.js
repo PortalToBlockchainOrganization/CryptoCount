@@ -211,59 +211,19 @@ const VerticalModal = (props) => {
 					>
 						Back
 					</Button>
-					{props.modalPage === 0 ? (
-						<Button
-							className={classes.buttonNext}
-							disabled={
-								props.fiat === "Select fiat currency"
-									? "disabled"
-									: null
-							}
-							variant="outline-danger"
-							onClick={nextPage}
-						>
-							Next
-						</Button>
-					) : props.modalPage < 2 ? (
-						<Button
-							variant="outline-danger"
-							className={classes.buttonNext}
-							disabled={
-								props.selectedAnalysisType === undefined
-									? "disabled"
-									: null
-							}
-							onClick={
-								props.selectedAnalysisType === "manual"
-									? nextPage
-									: null
-							}
-							type={
-								props.selectedAnalysisType === "auto"
-									? "submit"
-									: null
-							}
-						>
-							{props.selectedAnalysisType === "manual" ||
-							props.selectedAnalysisType === undefined
-								? "Next"
-								: "Submit"}
-						</Button>
-					) : (
-						<Button
-							className={classes.buttonNext}
-							variant="outline-danger"
-							disabled={
-								props.basisDate["basisDate"] === "" &&
-								props.setSelectedAnalysisType === undefined
-									? "disabled"
-									: null
-							}
-							type="submit"
-						>
-							Submit
-						</Button>
-					)}
+					<Button
+						className={classes.buttonNext}
+						variant="outline-danger"
+						disabled={
+							props.basisDate["basisDate"] === "" &&
+							props.setSelectedAnalysisType === undefined
+								? "disabled"
+								: null
+						}
+						type="submit"
+					>
+						Submit
+					</Button>
 				</Form>
 			</Modal.Footer>
 		</Modal>

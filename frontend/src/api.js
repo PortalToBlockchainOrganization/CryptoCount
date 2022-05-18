@@ -1,7 +1,7 @@
 const baseURL =
 	process.env.NODE_ENV === "development"
 		? "http://localhost:3001/"
-        : "https://cryptocount.co/api/"
+		: "https://cryptocount.co/api/";
 const headers = new Headers();
 var sessionId;
 
@@ -25,8 +25,11 @@ headers.set("Content-Type", "application/json");
 console.log(process.env.NODE_ENV);
 const reqConf = {
 	headers: headers,
-	// credentials: process.env.NODE_ENV === "development" ? "include" : "omit",
 };
+
+if (process.env.NODE_ENV === "development") {
+	reqConf["credentials"] = "include";
+}
 
 function safeFetch(method, endpoint, body) {
 	return fetch(baseURL + endpoint, {
@@ -105,9 +108,8 @@ export function register(user) {
 	return post("Prss", user);
 }
 
-export function deleteSet(id){
-    return del(`Anal/${id}`, {
-    });
+export function deleteSet(id) {
+	return del(`Anal/${id}`, {});
 }
 
 export function analPost(params) {
@@ -143,8 +145,23 @@ export function autoUnrealizedSet(params) {
 	});
 }
 
+export function noAuthUnrealizedSet(params) {
+	return post("Anal/Noauth/Auto", {
+		fiat: params["fiat"],
+		address: params["address"],
+	});
+}
+
 export function getRealizingSet(setId, quantity) {
 	return post("Anal/Realize", {
+		setId: setId,
+		realizedQuantity: quantity,
+	});
+}
+
+export function noAuthGetRealizingSet(setId, quantity) {
+	console.log("API", setId, quantity);
+	return post("Anal/Noauth/Realize", {
 		setId: setId,
 		realizedQuantity: quantity,
 	});
@@ -189,8 +206,8 @@ const errMap = {
 	dupTitle: "Conversation title duplicates an existing one",
 	dupEnrollment: "Duplicate enrollment",
 	forbiddenField: "Field in body not allowed.",
-    queryFailed: "Query failed (server problem).",
-    badAddress: "Invalid delegation address.",
+	queryFailed: "Query failed (server problem).",
+	badAddress: "Invalid delegation address.",
 };
 
 /**
