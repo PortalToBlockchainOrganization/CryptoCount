@@ -313,7 +313,7 @@ const Landing = (props) => {
 							<div className="text">
 								<h3>
 									Are you a business that hosts a layered
-									staking operation? Use our API to generate
+									staking operation? Use the PTBO API to generate
 									statements for your users.
 								</h3>
 								<br />
