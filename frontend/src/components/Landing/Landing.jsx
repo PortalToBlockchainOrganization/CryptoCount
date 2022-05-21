@@ -271,8 +271,8 @@ const Landing = (props) => {
 						<div className="CTA">
 							<div className="text">
 								<h3>
-									Understand your Web3 activities' paralellel
-									fiat performance with CryptoCount.
+									Track your Tezos activities and save annual fiat
+									realizations.
 								</h3>
 								<br />
 								<Button href="/About">Learn More</Button>
@@ -297,8 +297,8 @@ const Landing = (props) => {
 						<div className="CTA">
 							<div className="text">
 								<h3>
-									Track your Tezos activities and save annual fiat
-									realizations.
+									Understand your Web3 activities' paralellel
+									fiat performance with CryptoCount.
 								</h3>
 								<br />
 								<Button class="button" href="/Register">
