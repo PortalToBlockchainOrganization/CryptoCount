@@ -130,7 +130,7 @@ const RegisterHooks = (props) => {
 					onChange={(e) => toggleTerms(e)}
 					label={
 						<div>
-							Accept the{" "}
+							Do you accept CryptoCount's {" "}
 							<Link to="/privacy">terms and conditions</Link>?
 							                 
 						</div>
