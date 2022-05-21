@@ -271,8 +271,8 @@ const Landing = (props) => {
 						<div className="CTA">
 							<div className="text">
 								<h3>
-									Simplify and organize your cryptocurrency
-									accounting life with CryptoCount.
+									Understand your Web3 activities' paralellel
+									fiat performance with CryptoCount.
 								</h3>
 								<br />
 								<Button href="/About">Learn More</Button>
@@ -283,11 +283,11 @@ const Landing = (props) => {
 						<div className="CTA">
 							<div className="text">
 								<h3>
-									Understand your Web3 activities' paralellel
-									fiat performance.
+									Use CryptoCount's tools to simplify and organize your cryptocurrency
+									accounting life.
 								</h3>
 								<br />
-								<Button href="/About">Learn More</Button>
+								<Button href="/Regulatory">Learn More</Button>
 							</div>
 						</div>
 						<div className="animation" id="women-computer" />
@@ -297,12 +297,12 @@ const Landing = (props) => {
 						<div className="CTA">
 							<div className="text">
 								<h3>
-									Track your Tezos activities and save fiat
+									Track your Tezos activities and save annual fiat
 									realizations.
 								</h3>
 								<br />
-								<Button class="button" href="/About">
-									Create Free Account, No KYC
+								<Button class="button" href="/Register">
+									Free Account, No KYC Info
 								</Button>
 							</div>
 						</div>
