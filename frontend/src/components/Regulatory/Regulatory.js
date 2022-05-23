@@ -76,7 +76,7 @@ const Regulatory = () => {
             <br></br>
             <a href="#SouthAfrica">South Africa</a>
             <br></br><br></br><br></br>
-            <h3>Europe</h3>
+            <h3 id="Europe">Europe</h3>
             <br></br>
             <a href="#Denmark">Denmark</a>
             <br></br>
@@ -748,6 +748,14 @@ subject to the VAT.26</div>
 
 <br></br><br></br><br></br>
 
+
+<h3 id="Netherlands">Netherlands</h3>
+<h4>Summary: </h4>
+<br></br>
+<h4>Source: </h4>
+<a href="https://www.loc.gov/item/2021666100/?loclr=bloglaw">Pending</a>
+
+<br></br><br></br><br></br>
 
 
 
