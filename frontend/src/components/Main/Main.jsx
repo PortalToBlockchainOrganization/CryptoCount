@@ -141,7 +141,6 @@ const Main = (props) => {
 					<Analysis
 						match={props.location}
 						params={props.params}
-						user={props.user}
 						isAuthed={signedIn}
 						getUnrealizedSet={props.getUnrealizedSet}
 						set={props.set}
