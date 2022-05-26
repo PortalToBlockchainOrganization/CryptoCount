@@ -142,6 +142,7 @@ export function autoUnrealizedSet(params) {
 	return post("Anal/Auto", {
 		fiat: params["fiat"],
 		address: params["address"],
+		consensusRole: params["consensusRole"],
 	});
 }
 
@@ -149,6 +150,7 @@ export function noAuthUnrealizedSet(params) {
 	return post("Anal/Noauth/Auto", {
 		fiat: params["fiat"],
 		address: params["address"],
+		consensusRole: params["consensusRole"],
 	});
 }
 

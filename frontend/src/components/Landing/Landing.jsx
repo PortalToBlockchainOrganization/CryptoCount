@@ -25,7 +25,7 @@ const Landing = (props) => {
 	const [addrs, setAddrs] = React.useState({ delAddrs: "" });
 	const [basisDate, setBasisDate] = React.useState({ basisDate: "" });
 	const [fiat, setFiat] = React.useState("Select Fiat Currency");
-	const [consensusRole, setConsensusRole] =  React.useState("Select Consensus Role");
+	const [consensusRole, setConsensus] =  React.useState("Select Consensus Role");
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
 	const [showModal, setShowModal] = React.useState(false);
@@ -262,7 +262,7 @@ const Landing = (props) => {
 					isLoading={isLoading}
 					fiat={fiat}
 					consensusRole={consensusRole}
-					updateConsensus={setConsensusRole}
+					updateConsensus={setConsensus}
 					updateFiat={setFiat}
 					setParams={setParams}
 					cal={props.cal}

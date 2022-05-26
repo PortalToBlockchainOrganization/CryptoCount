@@ -165,9 +165,10 @@ router.post("/Noauth/Auto", function (req, res) {
 	var vld = req.validator;
 	var body = req.body;
 	var unrel_obj = {};
-	const { address, fiat } = body;
+	const { address, fiat, consensusRole } = body;
 	console.log(address);
 	console.log(fiat);
+	console.log(consensusRole)
 	async.waterfall(
 		[
 			async function (cb) {
@@ -511,6 +512,7 @@ router.post("/Save", function (req, res) {
 
 router.post("/Noauth/Realize", function (req, res) {
 	var body = req.body;
+	var ssn = req.session;
 	async.waterfall(
 		[
 			async function (cb) {
@@ -529,9 +531,11 @@ router.post("/Noauth/Realize", function (req, res) {
 				if (rel_obj && rel_obj.stack && rel_obj.message) {
 					cb(rel_obj, null);
 				}
+				ssn.realizing = rel_obj;
 				rel_obj["email"] = "N/A";
 				rel_obj["firstName"] = "N/A";
 				rel_obj["lastName"] = "N/A";
+
 				res.status(200).json(rel_obj);
 				cb();
 			},

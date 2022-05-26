@@ -69,7 +69,6 @@ const VerticalModal = (props) => {
 
 	const handleConsensusRoleUpdate = (e) => {
 		props.updateConsensus(e);
-		nextPage(e);
 	}
 
 	const nextPage = (e) => {
@@ -244,6 +243,19 @@ const VerticalModal = (props) => {
 						onClick={props.modalPage > 0 ? prevPage : props.onHide}
 					>
 						Back
+					</Button>
+					<Button
+						className={classes.buttonNext}
+						variant="outline-danger"
+						disabled={
+							props.basisDate["basisDate"] === "" &&
+							props.setSelectedAnalysisType === undefined
+								? "disabled"
+								: null
+						}
+						onClick={nextPage}
+					>
+						Next
 					</Button>
 					<Button
 						className={classes.buttonNext}

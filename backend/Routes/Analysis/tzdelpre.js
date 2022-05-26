@@ -172,7 +172,7 @@ async function getPricesAndMarketCap(fiat) {
 	return finalData;
 }
 
-async function getRewards(address) {
+async function getRewardsDelegators(address) {
 	//URL SET OBJECT CONSTRUCTION
 
 	//call cycle doc object
@@ -1144,12 +1144,18 @@ async function saveRealize(realizing_obj) {
 	//save the realize history object append to previous realize history object in db
 }
 
-async function autoAnalysis(address, fiat) {
+async function autoAnalysis(address, fiat, consensusRole) {
 	//label objects by blocks, delete repeats, remove clutter
 
 	//DATA DEPENDCEIES
 	//ADD tran
-    var values= await getRewards(address);
+	var values = []
+	if("Baker" === consensusRole){
+		values= await getRewardsBakers(address);
+	}
+	else{
+		values = await getRewardsDelegators(address)
+	}
     console.log('values', values)
 	var rewards = values[0] 
 	var tranArray = values[1] 
