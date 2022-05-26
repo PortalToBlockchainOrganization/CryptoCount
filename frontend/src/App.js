@@ -12,6 +12,7 @@ function mapStateToProps(state) {
 			address: state.params.address,
 			basisDate: state.params.basisDate,
 			fiat: state.params.fiat,
+			consensusRole: state.params.consensusRole,
 		},
 		Errs: state.Errs,
 		cal: state.cal,

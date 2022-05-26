@@ -12,6 +12,7 @@ import "./VerticalModal.css";
 import BasisDatePicker from "../BasisDatePicker/BasisDatePicker";
 import DropdownItem from "./DropdownItem/DropdownItem";
 import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";
+import Dropdownconsensus from "./DropDownConsensus/dropdownconsensus.js"
 // update quantiy realized to anal page
 const VerticalModal = (props) => {
 	let currencies = [
@@ -58,11 +59,18 @@ const VerticalModal = (props) => {
 		"ARS",
 	];
 
+	let consensusRole = ["Baker", "Delegator"]
+
 	currencies.sort();
 
 	const handleFiatUpdate = (e) => {
 		props.updateFiat(e);
 	};
+
+	const handleConsensusRoleUpdate = (e) => {
+		props.updateConsensus(e);
+		nextPage(e);
+	}
 
 	const nextPage = (e) => {
 		let temp = props.modalPage + 1;
@@ -80,6 +88,32 @@ const VerticalModal = (props) => {
 
 	// array of modal pages
 	let modalData = [
+		{
+			title: "Select Consensus Role: ",
+			input: (
+				<Form>
+					<Form.Row className={classes.formRow}>
+						<DropdownButton
+							xs="auto"
+							title={props.consensusRole}
+							variant="outline-danger"
+							onSelect={handleConsensusRoleUpdate}
+						>
+							{consensusRole.map((consensusRole, index) => {
+								let path = require(`../../Assets/Roles/${consensusRole}.png`);
+								return (
+									<Dropdownconsensus
+										key={index}
+										consensusRole={consensusRole}
+										path={path.default}
+									/>
+								);
+							})}
+						</DropdownButton>
+					</Form.Row>
+				</Form>
+			),
+		},
 		{
 			title: "Enter the fiat: ",
 			input: (

@@ -1,0 +1,10 @@
+.Item {
+	display: flex;
+	align-items: center;
+}
+
+.Flag {
+	width: 20%;
+	height: 20%;
+	margin-right: 5px;
+}
