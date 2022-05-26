@@ -12,4 +12,4 @@ let cycleSchema = new mongoose.Schema({
 	},
 });
 
-module.exports = mongoose.model("Cycle", cycleSchema);
+export default mongoose.model('TezosCycles', cycleSchema);

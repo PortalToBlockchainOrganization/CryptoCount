@@ -254,4 +254,4 @@ let blockchainSchema = new mongoose.Schema({
 	},
 });
 
-module.exports = mongoose.model("Blockchains", blockchainSchema);
+export default mongoose.model('TezosPricesAndMarketCap', blockchainSchema);

@@ -27,3 +27,5 @@ class AnalysisObject {
     }
 
 }
+
+export { AnalysisObject };

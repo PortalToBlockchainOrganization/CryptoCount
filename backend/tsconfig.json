@@ -1,9 +1,16 @@
 {
+    // "compilerOptions": {
+    //     "target": "ES6",
+    //     "baseUrl": ".",
+    //     "paths":{
+    //         "@models/*": ["model/*"]
+    //     }
     "compilerOptions": {
-        "target": "ES6",
-        "baseUrl": ".",
-        "paths":{
-            "@models/*": ["model/*"]
-        }
-    }
+        "outDir": "./built",
+        "allowJs": true,
+        "target": "es6",
+        "module": "commonjs",
+        "moduleResolution": "node",
+    },
+    "include": ["./Routes/Analysis/SetHistoryObjectImpl/TezosSetHistory.ts"]
 }
