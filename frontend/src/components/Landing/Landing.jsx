@@ -154,19 +154,20 @@ const Landing = (props) => {
 				</div>
 				<div className="name-one-liner">
 					<h2 className="logo-tagline">
-						Generate fair market value and depreciation block reward
-						income statements.
+						Track and realize Tezos rewards in fiat currency.
 					</h2>
 				</div>
 				<div className="form">
 					<Form onSubmit={handleSignIn}>
 						<Form.Group controlId="formBasicEmail">
-							<Form.Label>
-								Paste Your Delegation Address
-							</Form.Label>
+						
+							<h4 class="thickerplz">
+								Paste Your Tezos Address
+							</h4>
 							<Form.Control
 								type="text"
-								placeholder="Tezos Delegation Address"
+								class="placeholdbetter"
+								placeholder="Delegator Or Baker Address"
 								onChange={handleDelegationChange}
 							/>
 						</Form.Group>
