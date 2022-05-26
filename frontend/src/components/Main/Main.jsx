@@ -13,6 +13,7 @@ import About from "../About/About";
 import Privacy from "../Privacy/Privacy";
 import Regulatory from "../Regulatory/Regulatory.js"
 import Blog from "../Blog/blog.js"
+//change
 
 const AnalysisBlock = ({ component: Component, ...rest }) => {
 	const isAuthed = rest.isAuthed();
@@ -144,6 +145,7 @@ const Main = (props) => {
 						isAuthed={signedIn}
 						getUnrealizedSet={props.getUnrealizedSet}
 						set={props.set}
+						user={props.user}
 						getRealizingSet={props.getRealizingSet}
 						deleteParams={props.deleteParams}
 						getSet={props.getSet}

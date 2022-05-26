@@ -68,7 +68,7 @@ const Analysis = (props) => {
 		e.preventDefault();
 
 		if (set["data"]["_id"] !== undefined && quantityRealize !== 0) {
-			if (user === undefined) {
+			if (user.setIds === undefined) {
 				console.log("NOAUTH TRIGGERED");
 				noAuthRealizingSet(
 					set["data"]["_id"],
@@ -76,6 +76,7 @@ const Analysis = (props) => {
 					updateChart
 				);
 			} else {
+				console.log("Normal Realize")
 				getRealizingSet(
 					set["data"]["_id"],
 					quantityRealize.current.value,
@@ -87,6 +88,7 @@ const Analysis = (props) => {
 
 	const handleSave = (e) => {
 		e.preventDefault();
+		console.log("hitting handle save")
 		if (set["data"]["_id"] !== undefined) {
 			saveRealizing(set["data"]["_id"]);
 			// props.getHistory();
@@ -438,7 +440,7 @@ const Analysis = (props) => {
 						>
 							Download Statement
 						</Button>
-						{user === undefined ? (
+						{user.setIds === undefined ? (
 							<Link to="/register">
 								<Button variant="danger">Save</Button>
 							</Link>

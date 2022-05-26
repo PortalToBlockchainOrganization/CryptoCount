@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useRef, useState } from 'react';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { useCallback } from "react";
 import { Button, Spinner } from "react-bootstrap";
 import classes from "./History.module.css";
@@ -12,6 +13,12 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 	// history component state
 	const [history, setHistory] = React.useState([]);
 	const [body, setBody] = React.useState([]);
+	const [isCopied, setIsCopied] = React.useState(false);
+	const state = {
+		value: '',
+		copied: false,
+	  };
+
 	const pushToHistory = (data) => {
 		let temp = history;
 		temp.push(data);
@@ -33,6 +40,34 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 		body?.length,
 	]);
 
+
+	  // This is the function we wrote earlier
+	  async function copyTextToClipboard(text) {
+		if ('clipboard' in navigator) {
+		  return await navigator.clipboard.writeText(text);
+		} else {
+		  return document.execCommand('copy', true, text);
+		}
+	  }
+
+	  const appRoot = document.createElement('div');
+		document.body.appendChild(appRoot);
+	
+	  // onClick handler function for the copy button
+	  const [copySuccess, setCopySuccess] = useState('');
+	  const textAreaRef = useRef(null);
+	
+	  function copyToClipboard(e) {
+		textAreaRef.current.select();
+		document.execCommand('copy', e);
+		// This is just personal preference.
+		// I prefer to not show the whole text area selected.
+		e.target.focus();
+		setCopySuccess('Copied!');
+	  };
+
+	
+
 	React.useEffect(() => {
 		const handleView = (id, address, fiat, date) => {
 			console.log(id);
@@ -50,14 +85,20 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
             deleteSet(id);
         }
 
+		
+
         getTableData();
         console.log(history, "This is History")
 		let temp = history?.map((obj, objIdx) => {
+			
 			return (
 				<tr key={objIdx}>
 					<td><img className="logo1" width="40" height="50" src={Image} alt="logo" /></td>
 					<td>{obj.createdAt.split("T")[0]}</td>
-					<td>{obj.address}</td>
+					{	document.queryCommandSupported('copy') &&
+					<td ref={textAreaRef} value={obj.address}>{obj.address}  <Button onClick={copyToClipboard}>Copy</Button> </td>
+						}
+									
 					<td>{obj.fiat}</td>
 					<td>{obj.basisDate.substring(0, 10)}</td>
 					<td className={classes.Actions}>
@@ -147,8 +188,8 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 		<div className={classes.Page}>
 			<div className={classes.Wrapper}>
 				<table>
-					<thead>
-						<tr>
+					<thead >
+						<tr class="thf">
 							<th>Blockchain</th>
 							<th>Created At</th>
 							<th>Address</th>

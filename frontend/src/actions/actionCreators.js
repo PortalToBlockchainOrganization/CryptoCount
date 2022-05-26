@@ -31,6 +31,7 @@ export function signOut(cb) {
 export function register(data, cb) {
 	return (dispatch, prevState) => {
 		api.register(data)
+		// .then(() => dispatch({ type: "SIGN_IN" }))
 			.then(() => {
 				if (cb) {
 					cb();

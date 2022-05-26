@@ -81,6 +81,32 @@ const VerticalModal = (props) => {
 	// array of modal pages
 	let modalData = [
 		{
+			title: "Select Consensus Role: ",
+			input: (
+				<Form>
+					<Form.Row className={classes.formRow}>
+						<DropdownButton
+							xs="auto"
+							title={props.fiat}
+							variant="outline-danger"
+							onSelect={handleFiatUpdate}
+						>
+							{consensusRole.map((currency, index) => {
+								let path = require(`../../Assets/Roles/${consensusRole}.PNG`);
+								return (
+									<DropdownItem
+										key={index}
+										currency={currency}
+										path={path.default}
+									/>
+								);
+							})}
+						</DropdownButton>
+					</Form.Row>
+				</Form>
+			),
+		},
+		{
 			title: "Enter the fiat: ",
 			input: (
 				<Form>

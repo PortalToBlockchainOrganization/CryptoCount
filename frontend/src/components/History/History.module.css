@@ -54,6 +54,7 @@ tr td:first-child {
 tr th {
 	background: #eee;
 	text-align: left;
+	
 }
 
 /* top-left border-radius */
@@ -74,6 +75,10 @@ tr:last-child td:first-child {
 /* bottom-right border-radius */
 tr:last-child td:last-child {
 	border-bottom-right-radius: 5px;
+}
+
+.thf{
+	position: fixed;
 }
 
 .Empty {
@@ -119,7 +124,6 @@ tr:last-child td:last-child {
 	align-items: center;
 }
 
-.Button {
-	margin-bottom: 10px;
-	min-width: 50px;
+.addy{
+	margin-right: 10px
 }
