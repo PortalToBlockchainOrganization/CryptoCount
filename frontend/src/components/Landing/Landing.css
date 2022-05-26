@@ -99,7 +99,47 @@ p {
 	height: 100vh;
 	background-color: aliceblue;
 	padding: 20px 40px;
+	border-style: solid;
 	border-radius: 10px;
+	border-bottom-color: darkblue;
+	border-top-width: 6px;
+	border-right-width: 0px;;
+	border-left-width: 0px;
+	border-bottom-width: 6px;
+	border-top-color: navy;
+}
+
+.thickerplz{
+	color: black;
+	font-weight: 2em;
+	display: flex;
+	justify-content: center;
+}
+
+.placeholdbetter{
+	display: flex;
+	justify-content: center;
+	display: block;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: 
+	border-color 0.15s ease-in-out, 
+	box-shadow 0.15s ease-in-out;
+}
+
+.formimg{
+	display: flex;
+	justify-content: center;
+	height: 10vh;
 }
 
 .tez {
