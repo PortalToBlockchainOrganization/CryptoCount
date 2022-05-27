@@ -166,7 +166,7 @@ export function autoUnrealized(params, cb) {
 		dispatch(getUnrealizedSetStarted());
 		api.autoUnrealizedSet(params)
 			.then((res) => {
-				console.log(res.json());
+				//console.log(res.json());
 				res.json().then((data) => {
 					dispatch({
 						type: "CREATE_SET_SUCCEEDED",

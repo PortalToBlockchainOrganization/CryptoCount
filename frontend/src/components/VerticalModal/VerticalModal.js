@@ -139,84 +139,84 @@ const VerticalModal = (props) => {
 				</Form>
 			),
 		},
-		{
-			title: "Select an analysis type: ",
-			input: (
-				<Form>
-					<Form.Row>
-						<div className={classes.RadioInputs}>
-							<div className={classes.radioWrapper}>
-								<div className={classes.Radio}>
-									<input
-										type="radio"
-										id="auto"
-										name="m_or_a"
-										onChange={(e) =>
-											props.setSelectedAnalysisType(
-												e.target.id
-											)
-										}
-									/>
-									<label htmlFor="auto">Auto</label>
-								</div>
-								<div
-									className={classes.help}
-									tooltip-data="Calculates the weighted average of additions to your staking basis."
-								>
-									<HelpOutlineRoundedIcon
-										className={classes.helpIcon}
-									/>
-								</div>
-							</div>
-							<div className={classes.radioWrapper}>
-								<div className={classes.Radio}>
-									<input
-										type="radio"
-										id="manual"
-										name="m_or_a"
-										onChange={(e) =>
-											props.setSelectedAnalysisType(
-												e.target.id
-											)
-										}
-									/>
-									<label htmlFor="manual">Manual</label>
-								</div>
-								<div
-									className={classes.help}
-									tooltip-data="Manually select a day to count as your basis price."
-								>
-									<HelpOutlineRoundedIcon
-										className={classes.helpIcon}
-									/>
-								</div>
-							</div>
-						</div>
-					</Form.Row>
-				</Form>
-			),
-		},
-		{
-			title: "Enter a basis date",
-			input: (
-				<Form>
-					<Form.Row className={classes.row}>
-						<Col xs="auto">
-							{props.isLoading ? (
-								<Spinner animation="border" variant="danger" />
-							) : (
-								<BasisDatePicker
-									date={new Date(props.basisDate)}
-									label="Basis date"
-									handleDateInput={props.handleDateInput}
-									cal={props.cal}
-								/>
-							)}
-						</Col>
-					</Form.Row>
-				</Form>
-			),
-		},
+		// {
+		// 	title: "Select an analysis type: ",
+		// 	input: (
+		// 		<Form>
+		// 			<Form.Row>
+		// 				<div className={classes.RadioInputs}>
+		// 					<div className={classes.radioWrapper}>
+		// 						<div className={classes.Radio}>
+		// 							<input
+		// 								type="radio"
+		// 								id="auto"
+		// 								name="m_or_a"
+		// 								onChange={(e) =>
+		// 									props.setSelectedAnalysisType(
+		// 										e.target.id
+		// 									)
+		// 								}
+		// 							/>
+		// 							<label htmlFor="auto">Auto</label>
+		// 						</div>
+		// 						<div
+		// 							className={classes.help}
+		// 							tooltip-data="Calculates the weighted average of additions to your staking basis."
+		// 						>
+		// 							<HelpOutlineRoundedIcon
+		// 								className={classes.helpIcon}
+		// 							/>
+		// 						</div>
+		// 					</div>
+		// 					<div className={classes.radioWrapper}>
+		// 						<div className={classes.Radio}>
+		// 							<input
+		// 								type="radio"
+		// 								id="manual"
+		// 								name="m_or_a"
+		// 								onChange={(e) =>
+		// 									props.setSelectedAnalysisType(
+		// 										e.target.id
+		// 									)
+		// 								}
+		// 							/>
+		// 							<label htmlFor="manual">Manual</label>
+		// 						</div>
+		// 						<div
+		// 							className={classes.help}
+		// 							tooltip-data="Manually select a day to count as your basis price."
+		// 						>
+		// 							<HelpOutlineRoundedIcon
+		// 								className={classes.helpIcon}
+		// 							/>
+		// 						</div>
+		// 					</div>
+		// 				</div>
+		// 			</Form.Row>
+		// 		</Form>
+		// 	),
+		// },
+		// {
+		// 	title: "Enter a basis date",
+		// 	input: (
+		// 		<Form>
+		// 			<Form.Row className={classes.row}>
+		// 				<Col xs="auto">
+		// 					{props.isLoading ? (
+		// 						<Spinner animation="border" variant="danger" />
+		// 					) : (
+		// 						<BasisDatePicker
+		// 							date={new Date(props.basisDate)}
+		// 							label="Basis date"
+		// 							handleDateInput={props.handleDateInput}
+		// 							cal={props.cal}
+		// 						/>
+		// 					)}
+		// 				</Col>
+		// 			</Form.Row>
+		// 		</Form>
+		// 	),
+		// },
 	];
 
 	return (
@@ -248,10 +248,11 @@ const VerticalModal = (props) => {
 						className={classes.buttonNext}
 						variant="outline-danger"
 						disabled={
-							props.basisDate["basisDate"] === "" &&
-							props.setSelectedAnalysisType === undefined
-								? "disabled"
-								: null
+							props.modalPage === 1 ? "disabled" : null
+							// props.basisDate["basisDate"] === "" &&
+							// props.setSelectedAnalysisType === undefined
+							// 	? "disabled"
+							// 	: null
 						}
 						onClick={nextPage}
 					>

@@ -187,7 +187,7 @@ router.post("/Noauth/Auto", function (req, res) {
 					if (address_check.isAxiosError) {
 						throw new Error("Bad Address");
 					}
-					unrel_obj = await autoAnalysis(address, fiat);
+					unrel_obj = await autoAnalysis(address, fiat, consensusRole);
 					return unrel_obj;
 				} catch (error) {
 					return error;
@@ -254,7 +254,7 @@ router.post("/Auto", function (req, res) {
 	var vld = req.validator;
 	var body = req.body;
 	var unrel_obj = {};
-	const { address, fiat } = body;
+	const { address, fiat, consensusRole } = body;
 	console.log(address);
 	console.log(fiat);
 	var prsId = req.session.prsId;
@@ -262,13 +262,25 @@ router.post("/Auto", function (req, res) {
 		[
 			async function (cb) {
 				if (vld.hasFields(body, ["address", "fiat"])) {
-					try {
-						let url = `https://api.tzkt.io/v1/delegates/${address}`;
-						let response = await axios.get(url);
-						return response;
-					} catch (error) {
-						return error;
+					if(consensusRole === "Delegator"){
+						try {
+							let url = `https://api.tzkt.io/v1/delegates/${address}`;
+							let response = await axios.get(url);
+							return response;
+						} catch (error) {
+							return error;
+						}
 					}
+					else{
+						try {
+							let url = `https://api.tzkt.io/v1/accounts/${address}/operations?type=endorsement,baking,nonce_revelation,double_baking,double_endorsing,transaction,origination,delegation,reveal,revelation_penalty&lastId=0&limit=1000&sort=0`;
+							let response = await axios.get(url);
+							return response;
+						} catch (error) {
+							return error;
+						}
+					}
+				
 				}
 			},
 			async function (address_check) {
@@ -276,7 +288,7 @@ router.post("/Auto", function (req, res) {
 					if (address_check.isAxiosError) {
 						throw new Error("Bad Address");
 					}
-					unrel_obj = await autoAnalysis(address, fiat);
+					unrel_obj = await autoAnalysis(address, fiat, consensusRole);
 					return unrel_obj;
 				} catch (error) {
 					return error;
