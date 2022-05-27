@@ -4,14 +4,35 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+    
+
+    {
+        "name": "TezRewards",
+        "request": "launch",
+        "skipFiles": [
+            "<node_internals>/**"
+        ],
+        "type": "pwa-node",
+        "program":"backend/Routes/Analysis/getRewardsRig.js"
+    },
+
         {
             "type": "pwa-node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Trans On Contracts Program",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "backend/Routes/Analysis/getRewardsRig"
+            "program": "backend/Routes/Analysis/tezTransOnContracts"
+        },
+        {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "Bakers",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "backend/Routes/Analysis/tezBakers.js"
         }
     ]
 }

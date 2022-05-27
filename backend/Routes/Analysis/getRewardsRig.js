@@ -34,6 +34,7 @@ const InitiateMongoServer = async () => {
 	}
 };
 
+
   
 
 async function getRewards(address) {
@@ -43,7 +44,7 @@ async function getRewards(address) {
     const cycleDocs = await CycleModel.find().sort({cycleNumber: 1});
 
     //BAKER HISTORY OBJECT CONSTRUCTION
-	let url = `https://api.tzkt.io/v1/rewards/delegators/${address}?cycle.ge=0`;
+	let url = `https://api.tzkt.io/v1/rewards/delegators/${address}?cycle.ge=0&limit=10000`;
 	const response = await axios.get(url);
 	let delegatorHistory = [];
 	let delegatorHistObj = {};
@@ -119,6 +120,42 @@ async function getRewards(address) {
 	}
 	console.log("url set")
 	console.log(urlSet)
+
+	// var j, temporary, chunk = 16;
+    // var results = []
+    // console.log(urlSet.length)
+    // for (i = 0,j = urlSet.length; i < j; i += chunk) {
+    //     temporary = urlSet.slice(i, i + chunk);
+    //     result = await axios.all(temporary.map(url=> axios.get(url)));
+    //     // do whatever
+    //     results.push(...result)
+    // }
+
+    // console.log(results.length);
+
+    // var rewards = results.map(urlObj =>{
+    //         let payoutArray = urlObj.data.payouts;
+    //         let addressProperty = "address";
+    //         let amountProperty = "amount";
+    //         if (payoutArray === undefined) {
+    //             console.log(urlObj);
+    //         }else{
+    //             for (let i = 0; i < payoutArray.length; i++) {
+    //                 if (address == payoutArray[i][addressProperty]) {
+    //                     let amount = payoutArray[i][amountProperty];
+    //                     if (amount < 0.0001 && amount > 0) {
+    //                         amount = amount * 10000;
+    //                     }
+    //                     var rewardObject = {
+    //                         quantity: amount,
+    //                         cycle: urlObj.data.cycle,
+    //                     };
+    //                     return rewardObject;
+    //                 }
+    //             }
+    //         }
+    // })
+    
 //URL OBJECT USING
 	//define the query promise contructor here
 	function promiseGet(url) {
@@ -374,8 +411,8 @@ async function getCyclesDays() {
 
 
 InitiateMongoServer();
-
-address = "tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH"
+//address = "tz1ULiATUjf6C7QuWTN93hzs9aeonzojNSFR"
+//address = "tz1VPZyh4ZHjDDpgvznqQQXUCLcV7g91WGMz"
 //address = "tz1PBLXtgPX2cdFkiFcifzKDDWUyQuXdXjbp"
  //address = "KT1Aou1nSui5HNdNFc8bNYT6AtyRhYwhUKTe"
 //var address = "tz1fKe1LmdrU16BVquHuxZKEAQvwckseceSq"

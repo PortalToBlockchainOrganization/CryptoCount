@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const server = "127.0.0.1:27017";
 const database = "cryptocount";
-const MONGOURI = `mongodb+srv://admin:${process.env.creds}@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority`;
+const MONGOURI = `mongodb+srv://admin:lelloliar9876@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority`;
 console.log(MONGOURI);
 
 console.log(MONGOURI);

@@ -54,7 +54,8 @@ async function getRewards(address) {
 
 
 //address = "tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH"
-address ="tz1VPZyh4ZHjDDpgvznqQQXUCLcV7g91WGMz"
+//tz1VPZyh4ZHjDDpgvznqQQXUCLcV7g91WGMz
+address ="tz1ULiATUjf6C7QuWTN93hzs9aeonzojNSFR"
 getRewards(address).then((value) => {
     console.log(value);
     return value
