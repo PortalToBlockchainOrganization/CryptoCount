@@ -173,13 +173,25 @@ router.post("/Noauth/Auto", function (req, res) {
 		[
 			async function (cb) {
 				if (vld.hasFields(body, ["address", "fiat"])) {
-					try {
-						let url = `https://api.tzkt.io/v1/delegates/${address}`;
-						let response = await axios.get(url);
-						return response;
-					} catch (error) {
-						return error;
+					if(consensusRole === "Delegator"){
+						try {
+							let url = `https://api.tzkt.io/v1/delegates/${address}`;
+							let response = await axios.get(url);
+							return response;
+						} catch (error) {
+							return error;
+						}
 					}
+					else{
+						try {
+							let url = `https://api.tzkt.io/v1/accounts/${address}/operations?type=endorsement,baking,nonce_revelation,double_baking,double_endorsing,transaction,origination,delegation,reveal,revelation_penalty&lastId=0&limit=1000&sort=0`;
+							let response = await axios.get(url);
+							return response;
+						} catch (error) {
+							return error;
+						}
+					}
+				
 				}
 			},
 			async function (address_check) {
