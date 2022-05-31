@@ -22,6 +22,9 @@ var sessionId;
 //    sessionId data.  Successful signin returns promise
 //    resolving to newly signed in user.
 headers.set("Content-Type", "application/json");
+
+
+
 console.log(process.env.NODE_ENV);
 const reqConf = {
 	headers: headers,
@@ -145,6 +148,7 @@ export function autoUnrealizedSet(params) {
 	return post("Anal/Auto", {
 		fiat: params["fiat"],
 		address: params["address"],
+		consensusRole: params["consensusRole"],
 	});
 }
 
@@ -152,6 +156,7 @@ export function noAuthUnrealizedSet(params) {
 	return post("Anal/Noauth/Auto", {
 		fiat: params["fiat"],
 		address: params["address"],
+		consensusRole: params["consensusRole"],
 	});
 }
 

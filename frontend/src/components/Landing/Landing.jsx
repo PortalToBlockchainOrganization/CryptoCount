@@ -24,7 +24,8 @@ const Landing = (props) => {
 	// Begin POST data states
 	const [addrs, setAddrs] = React.useState({ delAddrs: "" });
 	const [basisDate, setBasisDate] = React.useState({ basisDate: "" });
-	const [fiat, setFiat] = React.useState("Select fiat currency");
+	const [fiat, setFiat] = React.useState("Select Fiat Currency");
+	const [consensusRole, setConsensus] =  React.useState("Select Consensus Role");
 	const [email, setEmail] = React.useState("");
 	const [password, setPassword] = React.useState("");
 	const [showModal, setShowModal] = React.useState(false);
@@ -70,11 +71,13 @@ const Landing = (props) => {
 			address: addrs["delAddrs"],
 			basisDate: basisDate["basisDate"],
 			fiat: fiat,
+			consensusRole: consensusRole,
 		};
 
 		props.setParams({
 			fiat: params["fiat"],
 			address: params["address"],
+			consensusRole: params["consensusRole"],
 		});
 		console.log(Object.keys(props.user).length > 0);
 		if (Object.keys(props.user).length > 0) {
@@ -83,6 +86,7 @@ const Landing = (props) => {
 				{
 					fiat: params["fiat"],
 					address: params["address"],
+					consensusRole: params["consensusRole"],
 				},
 				() => {
 					props.history.push("/analysis");
@@ -93,6 +97,7 @@ const Landing = (props) => {
 				{
 					fiat: params["fiat"],
 					address: params["address"],
+					consensusRole: params["consensusRole"],
 				},
 				() => {
 					props.history.push("/analysis");
@@ -257,6 +262,8 @@ const Landing = (props) => {
 					}}
 					isLoading={isLoading}
 					fiat={fiat}
+					consensusRole={consensusRole}
+					updateConsensus={setConsensus}
 					updateFiat={setFiat}
 					setParams={setParams}
 					cal={props.cal}

@@ -7,6 +7,8 @@ import { Bar } from "react-chartjs-2";
 import classes from "./Analysis.module.css";
 import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";
 import jsPDF from "jspdf";
+import TextTransition, { presets } from "react-text-transition";
+
 /**
  * Component for the Analysis page. Renders a chart displaying realized,
  * unrealized, and realizing sets. Allows user to query for sets, realize,
@@ -14,6 +16,11 @@ import jsPDF from "jspdf";
  * @param {*} props
  * @returns
  */
+
+const loadingTexts = [" Reading Data from the Tezos Blockchain...", " Analyzing Your Data...", " Baker analysis can take multiple minutes to load for larger accounts...", "Ignore Server Is Down Notification"]
+
+
+
 const Analysis = (props) => {
 	const history = useHistory();
 	const {
@@ -32,6 +39,16 @@ const Analysis = (props) => {
 	// const [isLoading, setIsLoading] = useState(set["isLoading"])
 	const [showModal, setShowModal] = useState(true);
 	const [active, setActive] = useState("unrealizedBasisRewards");
+
+	const [index, setIndex] = React.useState(0);
+
+	React.useEffect(() => {
+	  const intervalId = setInterval(() =>
+		setIndex(index => index + 1),
+		10000 // every 3 seconds
+	  );
+	  return () => clearTimeout(intervalId);
+	}, []);
 
 	const quantityRealize = React.createRef();
 
@@ -148,7 +165,7 @@ const Analysis = (props) => {
 	}, [set, params, getUnrealizedSet]);
 
 	// chart js options
-	const options = chartOptions(set);
+	const options = chartOptions(set, params.consensusRole);
 
 	// load the fiat flag from directory
 	if (params.fiat === undefined) {
@@ -516,7 +533,11 @@ const Analysis = (props) => {
 	) : (
 		<div className={classes.SpinnerWrapper}>
 			<Spinner animation="border" variant="danger" />
-			<div className={classes.SpinnerText}>Analyzing your data...</div>
+			<br></br>
+			<TextTransition
+				text={ loadingTexts[index % loadingTexts.length] }
+				springConfig={ presets.wobbly }
+			/>
 		</div>
 	);
 };

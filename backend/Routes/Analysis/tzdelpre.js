@@ -131,14 +131,18 @@ async function getBalances(address) {
 			if (d1 === d2) {
 				balances[d1] = element.balance;
 			} else {
-				d1 = new Date(d1);
+				date_itr = new Date(d1)
+				preIter = new Date(d1).toISOString();
 				d2 = new Date(d2);
-				date_itr = d1;
-				while (date_itr < d2) {
-					date_key = date_itr.toISOString().slice(0, 10);
-					balances[date_key] = response.data[i].balance / 1000000;
-					date_itr = date_itr.addDays(1);
-				}
+				balances[preIter] = response.data[i].balance / 1000000;
+
+
+			
+				// while (date_itr < d2) {
+				// 	date_key = preIter
+				// 	balances[date_key] = response.data[i].balance / 1000000;
+				// 	date_itr = preIter.setDate(preIter.getDate() + 1);
+				// }
 			}
 		}
 	}
@@ -171,7 +175,228 @@ async function getPricesAndMarketCap(fiat) {
 	return finalData;
 }
 
-async function getRewards(address) {
+async function getRewardsBakers(address) {
+    let rewards = [];
+        // let flowins = {};
+        // let flowouts = {};
+    let lastId = 0;
+    while (true) {
+        try {
+            let url = `https://api.tzkt.io/v1/accounts/${address}/operations?type=endorsement,baking,nonce_revelation,double_baking,double_endorsing,transaction,origination,delegation,reveal,revelation_penalty&lastId=${lastId}&limit=900&sort=0`;
+            // let url = `https://api.tzkt.io/v1/accounts/${address}/operations?lastId=${lastId}&limit=1000&sort=0`;
+            const response = await axios.get(url);
+            lastId = response.data[response.data.length - 1].id;  // update lastId
+            for (let i = 0; i < response.data.length; i++) {
+                const element = response.data[i];
+                if ('endorsement' === element.type) {
+                    rewards.push({
+                        type: 'endorsement',
+                        timestamp: new Date(Date.parse(element.timestamp)),
+                        amount: element.rewards / 1000000
+                    });
+                } else if ('baking' === element.type) {
+                    rewards.push({
+                        type: 'baking',
+                        timestamp: new Date(Date.parse(element.timestamp)),
+                        amount: element.reward + element.fees / 1000000
+                    });
+                } else if ('nonce_revelation' === element.type) {
+                    rewards.push({
+                        type: 'nonce_revelation',
+                        timestamp: new Date(Date.parse(element.timestamp)),
+                        amount: element.bakerRewards / 1000000
+                    });
+                } else if ('double_baking' === element.type) {
+                    let isAccuser = element.accuser.address === address;
+                    if (isAccuser) {
+                        rewards.push({
+                            type: 'double_baking',
+                            timestamp: new Date(Date.parse(element.timestamp)),
+                            amount: element.accuserRewards / 1000000
+                        });
+                    } else {
+                        rewards.push({
+                            type: 'double_baking',
+                            timestamp: new Date(Date.parse(element.timestamp)),
+                            amount: -(element.offenderLostDeposits + element.offenderLostRewards + element.offenderLostFees) / 1000000
+                        })
+                    }
+                } else if ('double_endorsing' === element.type) {
+                    let isAccuser = element.accuser.address === address;
+                    if (isAccuser) {
+                        rewards.push({
+                            type: 'double_endorsing',
+                            timestamp: new Date(Date.parse(element.timestamp)),
+                            amount: element.accuserRewards / 1000000
+                        });
+                    } else {  // is accused offender
+                        rewards.push({
+                            type: 'double_endorsing',
+                            timestamp: new Date(Date.parse(element.timestamp)),
+                            amount: -(element.offenderLostDeposits + element.offenderLostRewards + element.offenderLostFees) / 1000000
+                        });
+                    }
+                }
+                // else if ('transaction' === element.type) {
+                //     let isInTransaction = element.target.address === address;
+                //     if ('applied' === element.status) {
+                //         if (isInTransaction) {
+                //             const d = Math.floor(Date.parse(element.timestamp) / (1000 * 60 * 60 * 24));
+                //             if (d in flowins) {
+                //                 flowins[d] += element.amount;
+                //             } else {
+                //                 flowins[d] = element.amount;
+                //             }
+                //         } else {
+                //             const d = Math.floor(Date.parse(element.timestamp) / (1000 * 60 * 60 * 24));
+                //             if (d in flowouts) {
+                //                 flowouts[d] += element.amount + element.bakerFee + element.storageFee + element.allocationFee;
+                //             } else {
+                //                 flowouts[d] = element.amount + element.bakerFee + element.storageFee + element.allocationFee;
+                //             }
+                //         }
+                //     }
+                //     else if ('failed' === element.status && !isInTransaction) {
+                //         rewards.push({
+                //             type: 'transaction',
+                //             timestamp: new Date(Date.parse(element.timestamp)),
+                //             amount: -1 * (element.bakerFee + element.storageFee + element.allocationFee)
+                //         })
+                //     }
+                //     else if ('backtracked' === element.type) {
+                //     }
+                //     else if ('skipped' === element.type) {
+                //     }
+                // }
+                else if ('origination' === element.type) {
+                    rewards.push({
+                        type: 'origination',
+                        timestamp: new Date(Date.parse(element.timestamp)),
+                        amount: -(element.bakerFee + element.storageFee + element.allocationFee) / 1000000
+                    });
+                }
+                else if ('delegation' === element.type) {
+                    let isSender = element.sender.address === address;
+                    if (isSender) {
+                        rewards.push({
+                            type: 'delegation',
+                            timestamp: new Date(Date.parse(element.timestamp)),
+                            amount: -1 * element.bakerFee / 1000000
+                        })
+                    }
+                }
+                else if ('reveal' === element.type) {
+                    rewards.push({
+                        type: 'reveal',
+                        timestamp: new Date(Date.parse(element.timestamp)),
+                        amount: -1 * element.bakerFee / 1000000
+                    })
+                }
+                else if ('revelation_penalty' === element.type) {
+                    rewards.push({
+                        type: 'revelation_penalty',
+                        timestamp: new Date(Date.parse(element.timestamp)),
+                        amount: -1 * (element.lostReward + element.lostFees) / 1000000
+                    })
+                }
+            }
+            if (response.data.length < 1000) {  // if is the last page
+                break;
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+    // create dictionary (key -> date: value -> sum of rewards on that day)
+	let rewardsByDay = []
+    let rewardsByDayObj = {};
+    for (let i = 0; i < rewards.length; i++) {
+        const d = formatDate(rewards[i].timestamp) 
+        const amount = rewards[i].amount;
+		rewardsByDayObj = {
+			date: d,
+			rewardQuantity: amount
+		};
+		rewardsByDay.push(rewardsByDayObj)
+
+		for(j=0;j<rewardsByDay.length - 1; j++){
+			if(d === rewardsByDay[j].date){
+				rewardsByDay.pop()
+				rewardsByDay[j].rewardQuantity += amount;
+			}
+		}
+	
+	}
+
+
+
+		// if(d === rewardsByDay[j].date){
+		// 	rewardsByDayObj[j].rewardQuantity += amount;
+		// }
+        // // if (!(d in rewardsByDay)) {
+        // //     rewardsByDay[d] = 0;
+        // // }
+        // // rewardsByDay[d] += amount;
+		// //if date in rewardsByDay
+		// rewardsByDayObj = {
+		// 	date: d,
+		// 	rewardQuantity: amount
+		// };
+		// rewardsByDay.push(rewardsByDayObj)
+		
+	
+   
+
+	// for(j=0;j<rewardsByDay.length; j++){
+	// 	d = rewardsByDay[j].date
+	// 	if(d === rewardsByDay[j].date){
+	// 		rewardsByDayObj[j].rewardQuantity += amount;
+	// 	}
+	// 	else{
+	// 		rewardsByDayObj = {
+	// 			date: d,
+	// 			rewardQuantity: amount
+	// 		};
+	// 		rewardsByDay.push(rewardsByDayObj)
+	// 	}
+	// }
+
+
+
+
+
+	let url2 = `https://api.tzkt.io/v1/operations/transactions?anyof.sender.target=${address}`;
+	const response2 = await axios.get(url2);
+
+	let objectArray = [];
+	let object = {};
+	for (i = 0; i < response2.data.length; i++) {
+		//each baker address in the object
+		if (response2.data[i].target.address == address) {
+			date = new Date(response2.data[i].timestamp);
+			amount = response2.data[i].amount / 1000000;
+			object = {
+				date: date,
+				amounnt: amount,
+			};
+			objectArray.push(object);
+		} else if (response2.data[i].sender.address == address) {
+			date = new Date(response2.data[i].timestamp);
+			amount = (response2.data[i].amount / 1000000) * -1;
+			object = {
+				date: date,
+				amounnt: amount,
+			};
+			objectArray.push(object);
+		}
+	}
+
+
+
+    return [rewardsByDay, objectArray];
+}
+
+async function getRewardsDelegators(address) {
 	//URL SET OBJECT CONSTRUCTION
 
 	//call cycle doc object
@@ -325,7 +550,7 @@ async function getRewards(address) {
 	
 	
 
-   
+
 	// var j, temporary, chunk = 16;
     // var results = []
     // console.log(urlSet.length)
@@ -1141,12 +1366,20 @@ async function saveRealize(realizing_obj) {
 	//save the realize history object append to previous realize history object in db
 }
 
-async function autoAnalysis(address, fiat) {
+async function autoAnalysis(address, fiat, consensusRole) {
 	//label objects by blocks, delete repeats, remove clutter
 
 	//DATA DEPENDCEIES
 	//ADD tran
-    var values= await getRewards(address);
+	var values = []
+	console.log(consensusRole)
+	if("Baker" === consensusRole){
+		values= await getRewardsBakers(address);
+	}
+	else{
+		values = await getRewardsDelegators(address)
+	}
+    console.log('values', values)
 	var rewards = values[0] 
 	var tranArray = values[1] 
 	console.log('done w rewards')
@@ -1154,6 +1387,7 @@ async function autoAnalysis(address, fiat) {
 	//let {basisBalances, pricesForUser, tranArray, basisPrice} = depencies(address, fiat)
 	let basisBalances = await getBalances(address);
 	console.log('done w balances')
+	console.log(basisBalances)
 
 	let pricesForUser = await getPricesAndMarketCap(fiat);
 	console.log('done w price and market')
@@ -1239,6 +1473,7 @@ async function autoAnalysis(address, fiat) {
 		};
 		totalSupplys.push(totalSupplyObj);
 	}
+	console.log("done getting supply stats")
 	for (let i = 0; i < rewards.length; i++) {
 		let date = rewards[i].date;
 		for (j = 0; j < totalSupplys.length; j++) {
@@ -1439,12 +1674,12 @@ async function autoAnalysis(address, fiat) {
 		xtzBasis: xtzBasis,
 		basisP: basisP,
 		basisDep: basisDep,
-		basisMVdep: basisMVdep
+		basisMVdep: basisMVdep,
+		consensusRole: consensusRole,
 	};
 
 	return analysisResObj;
 }
-
 
 async function avgBasisPrice(address, fiat) {
 	let transObject = await getTransactions(address);

@@ -1,5 +1,5 @@
 import { fiatLabels } from "./fiatLabels";
-export const chartOptions = (set) => {
+export const chartOptions = (set, consensusRole) => {
 	const Title = (()=> {
 		//img.concat
 		// var first4 = set?.data?.address.slice(0,4)
@@ -58,7 +58,7 @@ export const chartOptions = (set) => {
 			},
 			title: {
 				display: true,
-				text: set?.data?.address.slice(0, 9).concat('... ',"Fair Market Value Block Reward Entries"),
+				text: set?.data?.address.slice(0, 9).concat('... ',"Fair Market Value Block Reward Entries" + " - " + consensusRole),
 				align: "start",
 				font: {
 					size: 15,

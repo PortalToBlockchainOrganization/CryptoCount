@@ -112,6 +112,7 @@ p {
 .thickerplz{
 	color: black;
 	font-weight: 2em;
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 	display: flex;
 	justify-content: center;
 }
