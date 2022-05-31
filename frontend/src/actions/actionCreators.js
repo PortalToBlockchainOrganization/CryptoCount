@@ -1,19 +1,40 @@
 import * as api from "../api";
 
-export function signIn(credentials, cb) {
-	return (dispatch, prevState) => {
-		api.signIn(credentials)
-			.then((userinfo) => dispatch({ type: "SIGN_IN", user: userinfo }))
-			.then(() => {
-				if (cb) {
-					cb();
-				}
-			})
-			.catch((error) => {
-				console.log(error);
-				dispatch({ type: "SIGN_IN_ERR", details: error });
-			});
-	};
+export function signIn(credentials, set, cb) {
+    if(set === undefined){
+        return (dispatch, prevState) => {
+            api.signIn(credentials, undefined)
+                .then((userinfo) => {
+                    console.log(userinfo);
+                    dispatch({ type: "SIGN_IN", user: userinfo })
+                })
+                .then(() => {
+                    if (cb) {
+                        cb();
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    dispatch({ type: "SIGN_IN_ERR", details: error });
+                });
+        };
+    }
+    else{
+        return (dispatch, prevState) => {
+            api.signIn(credentials, set)
+                .then((userinfo) => dispatch({ type: "SIGN_IN", user: userinfo }))
+                .then(() => {
+                    if (cb) {
+                        cb();
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    dispatch({ type: "SIGN_IN_ERR", details: error });
+                });
+        };
+    }
+
 }
 
 export function signOut(cb) {

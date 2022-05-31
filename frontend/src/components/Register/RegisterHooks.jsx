@@ -28,7 +28,7 @@ const RegisterHooks = (props) => {
 	const [role, setRole] = useState(0);
 	// const [offerSignIn, setOffer] = useState(false);
 	const [enableBtn, setBtn] = useState(false);
-
+    const [set, setSet] = useState(props.set)
 	console.log(Object.keys(props?.set).length > 0);
 	console.log(props.set);
 	let submit = () => {
@@ -39,13 +39,17 @@ const RegisterHooks = (props) => {
 			password,
 			termsAccepted,
 			role,
-		};
+        };
+        
 		props.register(user, () => {
-			props.signIn({ email, password });
 			if (Object.keys(props?.set).length > 0) {
-				props.history.push("/analysis");
-			}
-			props.history.push("/");
+                props.history.push("/analysis");
+                props.signIn({ email, password, set});
+            }
+            else{
+                props.signIn({ email, password, undefined });
+                props.history.push("/");
+            }
 		});
 	};
 

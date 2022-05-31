@@ -10,7 +10,6 @@ const RealizeSet = require("../../model/realize.js");
 async function getCyclesDays() {
 	//CYCLES TO DAYS OBJECT CONSTRUCTION
     const cycleDocs = await CycleModel.find().sort({cycleNumber: 1})
-    console.log('cycleDocs', cycleDocs[cycleDocs.length - 1])
 	//call from db is already paired // unneccsary?
 	let cycles = {};
 	for (let i = 0; i < cycleDocs.length; i++) {
@@ -227,7 +226,6 @@ async function getRewards(address) {
         //let rewardFetch[lastElement].cycleEnd = cycleDocs[length].cycleNumber;
 
     console.log("rewards fetch")
-    console.log(rewardFetch)
     //call baker history object
 
 
@@ -369,7 +367,6 @@ async function getRewards(address) {
 
 	let rewardsByDay = [];
     let rewardByDayObj = {};
-    console.log(rewards);
 	for (i = 0; i < rewards.length; i++) {
         if (rewards[i] === undefined){
             continue;
@@ -1150,7 +1147,6 @@ async function autoAnalysis(address, fiat) {
 	//DATA DEPENDCEIES
 	//ADD tran
     var values= await getRewards(address);
-    console.log('values', values)
 	var rewards = values[0] 
 	var tranArray = values[1] 
 	console.log('done w rewards')

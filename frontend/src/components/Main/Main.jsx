@@ -149,7 +149,9 @@ const Main = (props) => {
 						getSet={props.getSet}
 						saveRealizing={props.saveRealizing}
 						getHistory={props.getHistory}
-						noAuthRealizingSet={props.noAuthRealizingSet}
+                        noAuthRealizingSet={props.noAuthRealizingSet}
+                        user={props.user}
+                        signedIn={signedIn}
 					/>
 				</Route>
 				<Route>

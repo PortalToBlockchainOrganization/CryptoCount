@@ -31,6 +31,12 @@ router.post('/', function(req, res) {
             await bcrypt.compare(req.body.password, result[0].password), 
              Tags.badLogin, null, cb)) {
             ssn = new Session(result[0], res);
+            if(Object.keys(req.body.set) !== 0){
+               // case for when users signup after going through the no auth path
+                console.log(req.body.set.data)
+                ssn.realizing = req.body.set.data
+                await User.findOneAndUpdate({email: req.body.email}, {setIds: [ssn.realizing._id]})
+            }
             res.location(router.baseURL + '/' + ssn.id).end();
          }
       }],

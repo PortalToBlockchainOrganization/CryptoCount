@@ -79,7 +79,10 @@ export function del(endpoint, body) {
  * @param {{email: string, password: string}} cred
  */
 
-export function signIn(cred) {
+export function signIn(cred, set) {
+    if (set!==undefined){
+        cred.set = set
+    }
 	return post("Ssns", cred)
 		.then((response) => {
 			let location = response.headers.get("Location").split("/");
