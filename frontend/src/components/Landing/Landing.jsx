@@ -192,18 +192,17 @@ const Landing = (props) => {
 				</div>
 				<div className="name-one-liner">
 					<h2 className="logo-tagline2">
-						Interested in Staking? Visit Baking Bad for the latest
-						Tezos Delegator information.
+						Learn more about CryptoCount
 					</h2>
 				</div>
 				<a
 					className="download-link1"
-					href="https://baking-bad.org/"
+					href="/Blog"
 					target="_blank"
 					rel="noreferrer"
 				>
-					Baking-Bad
-					<img src={bb} alt="chrome-web-store" />
+					How To Use
+					<img src="./logo.png" alt="chrome-web-store" />
 				</a>
 
 				<div className="name-one-liner">

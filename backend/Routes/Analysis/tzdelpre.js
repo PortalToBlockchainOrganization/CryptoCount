@@ -182,7 +182,7 @@ async function getRewardsBakers(address) {
     let lastId = 0;
     while (true) {
         try {
-            let url = `https://api.tzkt.io/v1/accounts/${address}/operations?type=endorsement,baking,nonce_revelation,double_baking,double_endorsing,transaction,origination,delegation,reveal,revelation_penalty&lastId=${lastId}&limit=900&sort=0`;
+            let url = `https://api.tzkt.io/v1/accounts/${address}/operations?type=endorsement,baking,nonce_revelation,double_baking,double_endorsing,transaction,origination,delegation,reveal,revelation_penalty&lastId=${lastId}&limit=800&sort=0`;
             // let url = `https://api.tzkt.io/v1/accounts/${address}/operations?lastId=${lastId}&limit=1000&sort=0`;
             const response = await axios.get(url);
             lastId = response.data[response.data.length - 1].id;  // update lastId

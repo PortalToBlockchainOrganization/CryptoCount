@@ -59,7 +59,7 @@ const VerticalModal = (props) => {
 		"ARS",
 	];
 
-	let consensusRole = ["Baker", "Delegator"]
+	let consensusRole = ["Baker (Beta)", "Delegator"]
 
 	currencies.sort();
 
@@ -68,6 +68,9 @@ const VerticalModal = (props) => {
 	};
 
 	const handleConsensusRoleUpdate = (e) => {
+		if(e === "Baker (Beta)"){
+			e = "Baker"
+		}
 		props.updateConsensus(e);
 	}
 
@@ -262,8 +265,7 @@ const VerticalModal = (props) => {
 						className={classes.buttonNext}
 						variant="outline-danger"
 						disabled={
-							props.basisDate["basisDate"] === "" &&
-							props.setSelectedAnalysisType === undefined
+							props.modalPage === 0
 								? "disabled"
 								: null
 						}

@@ -215,7 +215,7 @@ const errMap = {
 	dupEnrollment: "Duplicate enrollment",
 	forbiddenField: "Field in body not allowed.",
 	queryFailed: "Query failed (server problem).",
-	badAddress: "Invalid delegation address.",
+	badAddress: "Invalid baker or delegator address.",
 };
 
 /**
