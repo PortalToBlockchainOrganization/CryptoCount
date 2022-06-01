@@ -17,7 +17,7 @@ import TextTransition, { presets } from "react-text-transition";
  * @returns
  */
 
-const loadingTexts = [" Reading Data from the Tezos Blockchain...", " Analyzing Your Data...", " Baker analysis can take multiple minutes to load for larger accounts...", "Ignore Server Is Down Notification" , "If the request has taken longer than 300 seconds, use our API to get your data."]
+const loadingTexts = [" Reading Data from the Tezos Blockchain...", " Analyzing Your Data...", " Baker analysis is in BETA and can take multiple minutes to load for larger accounts...", "Ignore Server Is Down Notification" , "If the request has taken longer than 300 seconds, use our API to get your data."]
 
 
 
