@@ -89,6 +89,7 @@
 	text-align: right;
 	z-index: 100;
 	display: flex;
+	bottom:0;
 }
 
 .Beta {
