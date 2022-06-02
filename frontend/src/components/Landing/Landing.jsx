@@ -290,7 +290,7 @@ const Landing = (props) => {
 						<div className="CTA">
 							<div className="text">
 								<h3>
-									Use CryptoCount's tools to simplify and organize your cryptocurrency
+									Use CryptoCount's tools to consolidate your cryptocurrency
 									accounting life.
 								</h3>
 								<br />
@@ -304,7 +304,7 @@ const Landing = (props) => {
 						<div className="CTA">
 							<div className="text">
 								<h3>
-									Understand your Web3 activities' paralellel
+									Monitor your Web3 activities' paralellel
 									fiat performance with CryptoCount.
 								</h3>
 								<br />
