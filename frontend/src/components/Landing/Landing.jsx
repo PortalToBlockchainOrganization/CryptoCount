@@ -216,7 +216,7 @@ const Landing = (props) => {
 					target="_blank"
 					rel="noreferrer"
 				>
-					Download for Chrome (ALPHA)
+					Download for Chrome
 					<img src={chrome} alt="chrome-web-store" />
 				</a>
 				<OverlayTrigger
