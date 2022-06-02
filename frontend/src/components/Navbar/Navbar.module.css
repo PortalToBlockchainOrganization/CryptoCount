@@ -84,12 +84,13 @@
 }
 
 .NameWrapper {
-	position: absolute;
+	position: fixed;
 	width: 100%;
 	text-align: right;
 	/*z-index: 100;*/
 	display: flex;
 	bottom:0;
+	overflow: hidden;
 }
 
 .Beta {
