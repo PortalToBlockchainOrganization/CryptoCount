@@ -207,8 +207,7 @@ const Landing = (props) => {
 
 				<div className="name-one-liner">
 					<h2 className="logo-tagline2">
-						Download the browser extension for easy annual block
-						reward realizations.
+						Browser extension (Beta). 
 					</h2>
 				</div>
 				<a
