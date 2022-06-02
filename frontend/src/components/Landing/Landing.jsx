@@ -304,7 +304,7 @@ const Landing = (props) => {
 							<div className="text">
 								<h3>
 									Monitor your Web3 activities' paralellel
-									fiat performance with CryptoCount.
+									fiat performance.
 								</h3>
 								<br />
 								<Button class="button" href="/Register">
@@ -318,8 +318,8 @@ const Landing = (props) => {
 						<div className="CTA">
 							<div className="text">
 								<h3>
-									Are you a business that hosts a layered
-									staking operation? Use the PTBO API to generate
+									Does your platform host a layered
+									staking operation? Use the PTBO API to generate data and
 									statements for your users.
 								</h3>
 								<br />
