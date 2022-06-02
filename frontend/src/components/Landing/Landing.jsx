@@ -278,7 +278,7 @@ const Landing = (props) => {
 						<div className="CTA">
 							<div className="text">
 								<h3>
-									Track your Tezos activities and save annual fiat
+									Track your Tezos activities and save fiat
 									realizations.
 								</h3>
 								<br />
@@ -291,7 +291,7 @@ const Landing = (props) => {
 							<div className="text">
 								<h3>
 									Use CryptoCount's tools to consolidate your cryptocurrency
-									accounting life.
+									accounting.
 								</h3>
 								<br />
 								<Button href="/Regulatory">Learn More</Button>
