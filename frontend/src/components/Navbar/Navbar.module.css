@@ -87,7 +87,7 @@
 	position: absolute;
 	width: 100%;
 	text-align: right;
-	z-index: 100;
+	/*z-index: 100;*/
 	display: flex;
 	bottom:0;
 }
