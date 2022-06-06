@@ -14,15 +14,15 @@ import statement from "./blogassets/statement.png";
 const blog = () => {
 	return (
 		<div className={classes.APIWrapper}>
-			<h2>5/17/2022</h2>
+			<h2>Updated: 6/6/2022</h2>
 			<br></br>
-			<h2>CryptoCount V0.2 Release</h2>
+			<h2>CryptoCount V 0.2.1</h2>
 			<br></br>
 			<div>
-				Welcome to CryptoCount 0.2. Cryptocount sources pre-indexed
+				Welcome to CryptoCount 0.2.1 Cryptocount sources pre-indexed
 				blockchain data APIs for on-chain information about your Tezos
-				address’ activities. Paste your delegation address like below to
-				begin your read-only analysis built for income reporting.
+				address’ activities. Paste your delegation or baker address to
+				generate your history object (baker analysis data pipeline in beta).
 			</div>
 			<br></br>
 			<br></br>
@@ -37,8 +37,8 @@ const blog = () => {
 			<br></br>
 			<br></br>
 			<div>
-				Then, select the fiat currency you plan to offboard your Tezos
-				assets into.
+				Then, select the fiat currency you plan to offboard your Tezos assets
+				into.
 			</div>
 			<br></br>
 			<br></br>
@@ -48,9 +48,9 @@ const blog = () => {
 			<br></br>
 			<br></br>
 			<div>
-				Finally select the auto or manual accounting method. Selecting
+				Finally, select the auto or manual accounting method. Selecting
 				manual opens a calendar which allows one to select a basis cost
-				from a date to convert their Tez assets with. (Note, manual
+				from a date to convert their Tez. (Note, manual
 				method will be deprecated in 0.3.)
 			</div>
 			<br></br>
@@ -61,7 +61,7 @@ const blog = () => {
 			<br></br>
 			<br></br>
 			<div>
-				At this point your CryptoCount is being generated!
+				Your CryptoCount set history is being generated!
 				<br></br>
 				Once the object loads your page will look like this:
 			</div>
@@ -98,8 +98,7 @@ const blog = () => {
 			<br></br>
 			<br></br>
 			<div>
-				Observe your true reward income and download the statement for
-				further information communication resources.
+				Observe your reward income and download the statement.
 			</div>
 			<br></br>
 			<br></br>
@@ -117,10 +116,10 @@ const blog = () => {
 			<br></br>
 			<div>
 				You can save your realization once you’ve created an account.
-				Saving a realization is great for annual passive realization of
+				Saving a realization is built for continuous passive realization of
 				assets. With CryptoCount you can create a history of chained
 				realizations over a period of years. A saved set will update
-				with new entries whenever you return to it.
+				with new entries whenever you return to analyze it.
 			</div>
 			<br></br>
 			<br></br>
