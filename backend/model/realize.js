@@ -122,6 +122,10 @@ const realizeSchema = mongoose.Schema({
 		type: Date,
 		default: Date.now(),
     },
+	consensusRole: {
+		type: String,
+		required: true,
+	},
 },
 {
     timestamps: true
