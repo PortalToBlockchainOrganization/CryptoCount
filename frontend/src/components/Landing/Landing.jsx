@@ -172,7 +172,7 @@ const Landing = (props) => {
 							<Form.Control
 								type="text"
 								class="placeholdbetter"
-								placeholder="Delegator Or Baker Address"
+								placeholder="Tz... Delegator Or Baker Address"
 								onChange={handleDelegationChange}
 							/>
 						</Form.Group>
