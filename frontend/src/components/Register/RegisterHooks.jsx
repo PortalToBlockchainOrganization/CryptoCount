@@ -23,7 +23,7 @@ const RegisterHooks = (props) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [password2, setPassword2] = useState("");
-	const [termsAccepted, setTerms] = useState(false);
+	const [termsAccepted, setTerms] = useState(true);
 	// eslint-disable-next-line
 	const [role, setRole] = useState(0);
 	// const [offerSignIn, setOffer] = useState(false);
