@@ -175,7 +175,7 @@ router.post("/Noauth/Auto", function (req, res) {
 				if (vld.hasFields(body, ["address", "fiat"])) {
 					if(consensusRole === "Delegator"){
 						try {
-							let url = `https://api.tzkt.io/v1/rewards/delegates/${address}`;
+							let url = `https://api.tzkt.io/v1/rewards/delegators/${address}`;
 							let response = await axios.get(url);
 							return response;
 						} catch (error) {
