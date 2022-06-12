@@ -14,6 +14,7 @@ class AnalysisObject {
     basisMarketValueDilution: number;
     fiat: string;
     address: string;
+    consensusRole: string;
     
 
     constructor(){
