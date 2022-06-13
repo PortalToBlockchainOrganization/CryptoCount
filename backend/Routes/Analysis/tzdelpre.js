@@ -606,9 +606,9 @@ async function getRewardsDelegators(address) {
 		rewardsByDay.push(rewardByDayObj);
 	}
 
-	//get trans
+		//get trans
 	//transaction tzkt url - https://api.tzkt.io/v1/operations/transactions?anyof.sender.target={$address} will return operations where sender OR target is equal to the specified value. This parameter is useful when you need to retrieve all transactions associated with a specified account.
-	let url2 = `https://api.tzkt.io/v1/operations/transactions?anyof.sender.target=${address}&limit=10000`;
+	let url2 = `https://api.tzkt.io/v1/operations/transactions?anyof.sender.target=${address}`;
 	const response2 = await axios.get(url2);
 
 	let objectArray = [];
@@ -631,6 +631,16 @@ async function getRewardsDelegators(address) {
 				amounnt: amount,
 			};
 			objectArray.push(object);
+		}
+		//layered staking scheme handling
+		if(response2.data[i].sender.alias == "Melange Payouts"){
+			let date = formatDate(response2.data[i].timestamp)
+			obj = { 
+				cycle: cycles[date],
+				rewardQuantity: response2.data[i].amount / 1000000,
+				date: date
+			}
+			rewardsByDay.push(obj)
 		}
 		for (j = 0; j < rewardFetch.length; j++) {
 			//check for baker transactions
