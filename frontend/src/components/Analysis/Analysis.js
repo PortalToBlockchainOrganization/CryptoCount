@@ -167,6 +167,10 @@ const Analysis = (props) => {
 	// chart js options
 	const options = chartOptions(set, params.consensusRole);
 
+
+	const space = {
+		marginRight: "20px",
+	}
 	// load the fiat flag from directory
 	if (params.fiat === undefined) {
 		history.push("/");
@@ -306,8 +310,10 @@ const Analysis = (props) => {
 					</div>
 				</div>
 				<div className={classes.setToggles}>
+					
 					<div className={classes.basisSet}>
 						<div className={classes.buttonAndInfo}>
+						<Form.Label style={space}>Accounting Sets: </Form.Label>
 							<Button
 								variant={
 									active === "unrealizedBasisRewards"
