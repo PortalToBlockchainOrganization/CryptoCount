@@ -58,7 +58,7 @@ export const chartOptions = (set, consensusRole) => {
 			},
 			title: {
 				display: true,
-				text: set?.data?.address.slice(0, 9).concat('... ',"Fair Market Value Block Reward Entries" + " - " + consensusRole),
+				text: set?.data?.address.slice(0, 9).concat('... ',"Fair Market Value Native Block Reward Entries" + " - " + consensusRole),
 				align: "start",
 				font: {
 					size: 15,
