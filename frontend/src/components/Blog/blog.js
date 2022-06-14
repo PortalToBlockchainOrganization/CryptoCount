@@ -19,10 +19,10 @@ const blog = () => {
 			<h2>CryptoCount V 0.2.1</h2>
 			<br></br>
 			<div>
-				Welcome to CryptoCount 0.2.1 Cryptocount sources pre-indexed
+				Welcome to CryptoCount 0.2.1. Copy and paste your delegation and/or baker address to begin
+				your history object. Cryptocount sources pre-indexed
 				blockchain data APIs for on-chain information about your Tezos
-				address’ activities. Paste your delegation or baker address to
-				generate your history object (baker analysis data pipeline in beta).
+				address’ activities (baker analysis pipeline in beta).
 			</div>
 			<br></br>
 			<br></br>
@@ -38,7 +38,7 @@ const blog = () => {
 			<br></br>
 			<div>
 				Then, select the fiat currency you plan to offboard your Tezos assets
-				into.
+				to.
 			</div>
 			<br></br>
 			<br></br>
