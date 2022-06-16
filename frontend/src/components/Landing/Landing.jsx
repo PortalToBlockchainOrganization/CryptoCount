@@ -241,11 +241,11 @@ const Landing = (props) => {
 				</OverlayTrigger>
 				<a
 					className="download-link"
-					href="https://www.portaltoblockchain.org/"
+					href="https://discord.gg/7rYEu5c32E"
 					target="_blank"
 					rel="noreferrer"
 				>
-					Developer Hub
+					Join Our Discord
 					<img className="ptbo-link" src={ptbo} alt="ptbo" />
 				</a>
 				<VerticalModal
