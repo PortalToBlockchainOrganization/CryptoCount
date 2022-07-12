@@ -2,7 +2,7 @@ import requests, datetime, sys, time, math
 from dateutil.rrule import rrule, DAILY
 from pymongo import MongoClient
 from dateutil import parser
-
+import pandas as pd
 # print(requests.get('https://api.tzkt.io/v1/statistics?offset=0&limit=10000').json()[0])
 
 START_DATE = datetime.datetime(2018,  7, 3)
@@ -11,11 +11,11 @@ END_DATE = datetime.datetime.utcnow()
 START_URL = 'https://api.coingecko.com/api/v3/coins/tezos/history?date='
 END_URL = '&localization=false'
 
-client = MongoClient("mongodb+srv://admin:lelloliar9876@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority")
+client = MongoClient("mongodb+srv://admin:*@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority")
 db = client.AnalysisDep
 blockchains = db.blockchains
 statistics = db.statistics
-cycles_ = db.cycles
+cycles_ = db.cycles2
 
 print(db)
 def initPrices():
@@ -108,54 +108,41 @@ def initTotalSupplys():
 def initCycles():
     offset = 0
     cycles = []
+    # get all the cycle info from tzkt
     while(True):
         url = f'https://api.tzkt.io/v1/statistics/cyclic?offset={offset}&limit=10000'
         response = requests.get(url)
         response = response.json()
-        print(response)
         offset = response[len(response) - 1]['level'] + 1
         for data in response:
             cycles.append(data)
         if len(response) < 10000:
             break
-
+    
+    # extract the cycle number and dates from the responses
     cycleObj = {}
     for cycle in cycles:
         date_string = str(parser.parse(cycle['timestamp']).isoformat())[0:10]
-        cycleObj[date_string] = cycle['cycle'] + 1
-    
-    days = math.floor((datetime.date.today() - datetime.date(2018,6,30)).days)
-    for i in range(days):
-        date = (parser.parse("2018-06-30").timestamp() * 1000) + i * 24 * 60 * 60 * 1000
-        date = datetime.datetime.fromtimestamp(date//1000.0)
-        date_string = date.isoformat()[0:10]
-        if date_string in cycleObj:
-            if date_string == cycles[len(cycles)-1]['timestamp'][0:10] :
-                while i <= days:
-                    date = (datetime.datetime.utcnow().timestamp() * 1000) + 1000 * 60 * 60 * 24
-                    date = datetime.datetime.fromtimestamp(date//1000.0)
-                    cycleObj[str(date.isoformat())[0:10]] = cycles[len(cycles)-1]['cycle'] + 1
-                    i += 1
-        
+        cycleObj[date_string] = cycle['cycle'] 
+
+    # get date range from first day of tezos available index (6/30/2018) to todays date 
+    days = [day.strftime("%Y-%m-%d") for day in pd.date_range(start='6/30/2018', end=datetime.date.today().strftime('%Y/%m/%d')).tolist()] 
+
+    # itterate over date range, filling those dates that don't have associated cycles with the closest prior dates cycle
+    current_date = days[0]
+    current_cycle = 0
+    for i in range(len(days)):
+        current_date = days[i]
+        if current_date in cycleObj:
+            current_cycle = cycleObj[current_date]
+            print(current_cycle, current_date)
         else:
-            last_date = (datetime.datetime.utcnow().timestamp() * 1000) - 1000 * 60 * 60 * 24
-            last_date = datetime.datetime.fromtimestamp(last_date//1000.0)
-            last_date_string = str(last_date.isoformat())[0:10]
-            if last_date_string in cycleObj:
-                cycleObj[date_string] = cycleObj[last_date_string]
-            else:
-                cycleObj[date_string] = 0
+            cycleObj[current_date] = current_cycle
 
     cycle_docs = []
-    for i in range(days):
-        date = (parser.parse("2018-06-30").timestamp() * 1000) + i * 24 * 60 * 60 * 1000
-        date = datetime.datetime.fromtimestamp(date//1000.0)
-        date_string = date.isoformat()[0:10]
-        cycle_docs.append({
-            'dateString': date_string,
-            'cycleNumber': cycleObj[date_string]
-        })
+    for cycle in cycleObj.items():
+        cycle_docs.append({'dateString': cycle[0], 'cycleNumber': cycle[1]})
     
     cycles_.insert_many(cycle_docs)
 
-initTotalSupplys()
+initCycles()

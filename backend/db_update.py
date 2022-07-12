@@ -1,13 +1,17 @@
+from itertools import cycle
+from tracemalloc import start
+from xml.etree.ElementInclude import include
 import requests, datetime, sys, time, math
 from dateutil.rrule import rrule, DAILY
 from pymongo import MongoClient
 from dateutil import parser
+import pandas as pd
 
-client = MongoClient("mongodb+srv://admin:<pw>@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority")
+client = MongoClient("mongodb+srv://admin:*@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority")
 db = client.AnalysisDep
 blockchains = db.blockchains
 statistics = db.statistics
-cycles_ = db.cycles
+cycles_ = db.cycles2
 
 
 START_URL = 'https://api.coingecko.com/api/v3/coins/tezos/history?date='
@@ -92,21 +96,48 @@ def updateTotalSupplys():
 
     statistics.insert_many(stats)
 
-def updateCycles():
-    start_cycle = cycles_.find_one(sort=[("cycleNumber", -1)])['cycleNumber']
-    cur_cycle = start_cycle
-    cycles = []
-    while True:
-        url = (f"https://api.tzkt.io/v1/statistics/cyclic?cycle={cur_cycle}")
-        response = requests.get(url)
-        response = response.json()
-        if len(response)==0:
-            break
-        cycles.append({'dateString': response[0]['timestamp'].split('T')[0], 'cycleNumber': cur_cycle})
-        cur_cycle+=1
-    
-    cycles_.insert_many(cycles)
+def getNewCyclesAndDates(cycles, last_cycle_in_db):
+    return [{'cycle': cycle['cycle'], 'dateString': cycle['timestamp'][:10]} for cycle in cycles if cycle['cycle'] > last_cycle_in_db]
 
-updatePrices()
-updateTotalSupplys()
+def getNonInclusiveCyclesDates(new_cycle_and_date, last_cycle_date, last_cycle):
+    print(new_cycle_and_date)
+    return [{'dateString':day.strftime("%Y-%m-%d"), 'cycleNumber':last_cycle} for day in pd.date_range(start=last_cycle_date, end=new_cycle_and_date['dateString'], inclusive="neither").tolist()] 
+
+def updateCycles():
+    latest_item_in_db = cycles_.find_one(sort=[("dateString", -1)])
+    latest_cycle_in_db = latest_item_in_db["cycleNumber"]
+    latest_date_in_db = latest_item_in_db["dateString"]
+
+
+    url = f'https://api.tzkt.io/v1/statistics/cyclic?sort=cycle&limit=10000'
+    response = requests.get(url)
+    response = response.json()
+    
+    print(f"latest cycle in database = {latest_cycle_in_db}")
+    print(f"latest cycle from tzkt = {latest_cycle_in_db}")
+    new_cycles_and_dates = getNewCyclesAndDates(response, latest_cycle_in_db);
+    print(f"new cycles from tzkt = {new_cycles_and_dates}")
+    
+    if len(new_cycles_and_dates) == 0:
+        print(f"no new cycles present, finishing updateCycles")
+        return
+
+    cycle_items_to_add = []
+
+    last_cycle = latest_cycle_in_db
+    last_cycle_date = latest_date_in_db
+    for new_cycle_and_date in new_cycles_and_dates:
+        # for each new cycle, fill in the dates up to that cycle with the last cycles cycle number
+        last_cycles_dates = getNonInclusiveCyclesDates(new_cycle_and_date, last_cycle_date, last_cycle)
+        print(f"adding items: {last_cycles_dates}\nfor cycle: {last_cycle}")
+        last_cycles_dates.append(new_cycle_and_date)
+        print(f"adding first item: {new_cycle_and_date}\nfor new cycle: {new_cycle_and_date['cycle']}")
+        last_cycle = new_cycle_and_date['cycle']
+        last_cycle_date = new_cycle_and_date['dateString']
+        cycle_items_to_add.extend(last_cycles_dates)
+
+    print(cycle_items_to_add)
+
+
+
 updateCycles()
