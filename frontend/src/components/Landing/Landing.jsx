@@ -159,7 +159,7 @@ const Landing = (props) => {
 				</div>
 				<div className="name-one-liner">
 					<h2 className="logo-tagline">
-						Track and realize Tezos based assets in your fiat currency with this read-only tax tool.
+						Track and realize your Tezos based assets in 40 fiat currencies with this read-only tax tool.
 					</h2>
 				</div>
 				<div className="form">
