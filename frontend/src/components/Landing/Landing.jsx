@@ -159,7 +159,7 @@ const Landing = (props) => {
 				</div>
 				<div className="name-one-liner">
 					<h2 className="logo-tagline">
-						CryptoCount tracks and realizes Tezos based assets as a read-only tax tool.
+						Track and realize Tezos based assets in your fiat currency with this read-only tax tool.
 					</h2>
 				</div>
 				<div className="form">
