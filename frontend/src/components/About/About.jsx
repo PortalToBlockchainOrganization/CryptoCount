@@ -28,7 +28,7 @@ const About = () => {
 				<br />
 				<br />
              
-				CryptoCount supports 40 countries and Tezonians.  
+				CryptoCount supports 40 fiat currencies.  
                 <br />
 				<br />
                 CryptoCount supports data integration to an existing app. Pre-built react components and API documentation are located in the <a href="https://www.portaltoblockchain.org/client">Integrate CryptoCount</a> and <a href="https://www.portaltoblockchain.org/api">API</a> sections of the PTBO website. 
