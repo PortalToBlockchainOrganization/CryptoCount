@@ -1,7 +1,7 @@
 # CryptoCount
 CryptoCount is a read-only tax tool that tracks and mocks realizations with income metrics for Tezos based asset management.
 
-App: cryptocount.co
+App: https://cryptocount.co
 
 Remote API Documentation: https://portaltoblockchain.org/api || https://github.com/PortalToBlockchainOrganization/CryptoCount_API
 
