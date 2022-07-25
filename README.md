@@ -10,6 +10,8 @@ CryptoCount 0.2.2 communicates the project into TypeScript. To follow developmen
 
 # Run 0.2.1
 
+On branch master.
+
 # Server
 cd backend
 
