@@ -1,5 +1,7 @@
 # CryptoCount
-Welcome to CryptoCount. For CryptoCount 0.3 development, please checkout phase3-analysis-rework and navigate to backend/Routes/Analysis.
+Welcome to CryptoCount. 
+
+CryptoCount 0.2.2 communicates the project into TypeScript. To follow developments as they happen, please checkout phase3-analysis-rework and navigate to backend/Routes/Analysis/SetHistoryObjectImpl.
 
 
 # Server
