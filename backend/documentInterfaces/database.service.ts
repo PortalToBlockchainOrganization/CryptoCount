@@ -6,9 +6,10 @@ const MONGOURI = `mongodb+srv://admin:*@postax.a1vpe.mongodb.net/AnalysisDep?ret
 const server = "127.0.0.1:27017";
 const database = "AnalysisDep";
 const cyclesCollectionString = "cycles2";
-const pricesAndMarketCapCollectionString = "blockchains"
+const pricesAndMarketCapCollectionString = "blockchains2"
+const tezosSupplyString = "statistics2"
 
-export const collections: { cycleAndDate?: mongoDB.Collection, priceAndMarketCap?: mongoDB.Collection } = {}
+export const collections: { cycleAndDate?: mongoDB.Collection, priceAndMarketCap?: mongoDB.Collection, tezosSupply?: mongoDB.Collection} = {}
 
 export async function connectToDatabase () { 
     const client: mongoDB.MongoClient = new mongoDB.MongoClient(MONGOURI);
@@ -19,9 +20,12 @@ export async function connectToDatabase () {
    
     const cyclesCollection: mongoDB.Collection = db.collection(cyclesCollectionString);
     const pricesAndMarketCapCollection: mongoDB.Collection = db.collection(pricesAndMarketCapCollectionString);
+    const tezosSupplyCollection: mongoDB.Collection = db.collection(tezosSupplyString);
+
  
   collections.cycleAndDate = cyclesCollection;
   collections.priceAndMarketCap = pricesAndMarketCapCollection;
+  collections.tezosSupply = tezosSupplyCollection;
        
-         console.log(`Successfully connected to database: ${db.databaseName} and collection: ${cyclesCollection.collectionName}`);
+         console.log(`Successfully connected to database: ${db.databaseName}`);
  }

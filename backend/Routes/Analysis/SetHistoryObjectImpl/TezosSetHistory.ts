@@ -8,7 +8,9 @@ import TezosPricesAndMarketCap from "../../../model/blockchain.js";
 import TezosCycles from "../../../model/cycle.js";
 import { version, Document, Model } from "mongoose";
 import CycleAndDate from "../../../documentInterfaces/CycleAndDate";
-import PriceAndMarketCap from "../../../documentInterfaces/PriceAndMarketCap"
+import PriceAndMarketCap from "../../../documentInterfaces/PriceAndMarketCap";
+import CurrencySupplyAndDate from "../../../documentInterfaces/CurrencySupplyAndDate";
+
 import {collections, connectToDatabase} from "../../../documentInterfaces/database.service";
 import cycle from "../../../model/cycle.js";
 import {writeFile} from "fs";
@@ -38,7 +40,7 @@ interface RewardsByDay {
 }
 
 interface TransactionsByDay {
-    date: Date,
+    date: string,
     amount: number
 }
 
@@ -61,6 +63,7 @@ class TezosSet {
     rewardsByDay: Array<RewardsByDay>;
     bakerAddresses: Set<string>;
     cyclesByDay: Array<CycleAndDate>;
+    supplyByDay: Array<CurrencySupplyAndDate>;
     unaccountedNetTransactions: Array<TransactionsByDay>;
     transactionsUrl: string;
     delegatorRewardsUrl: string;
@@ -71,7 +74,8 @@ class TezosSet {
     rewardsByCycle: Array<RewardsByDay>;
     balancesByDay: Record<string, number>;
     pricesAndMarketCapsByDay: Map<string, PriceAndMarketCapByDay>;
-
+    fiatFMVRewards: Array<RewardsByDay>;
+    investmentsBVByDomain: Array<BVbyDomain>;
 
     constructor(){
 
@@ -81,20 +85,25 @@ class TezosSet {
     async init(fiat: string, address: string): Promise<void>{ // TODO after building out analysis have init function create the complete 'unrealized' object
         this.walletAddress = address;
         this.fiat = fiat;
-        this.pricesAndMarketCapsByDay = new Map<string, PriceAndMarketCapByDay>;
+        this.pricesAndMarketCapsByDay = new Map<string, PriceAndMarketCapByDay>();
         this.rewardsByDay = [];
         this.balancesByDay = {};
         this.unaccountedNetTransactions = [];
         this.bakerCycles = [];
         this.cyclesByDay = [];
+        this.supplyByDay = [];
         this.cyclesMappedToDays = new Map<string, number>();
         this.bakerAddresses = new Set<string>();
         this.transactionsUrl = `https://api.tzkt.io/v1/operations/transactions?anyof.sender.target=${this.walletAddress}`;
         this.delegatorRewardsUrl = `https://api.tzkt.io/v1/rewards/delegators/${this.walletAddress}?cycle.ge=0&limit=10000`;
+        this.fiatFMVRewards = new Array<RewardsByDay>();
+
 
         await connectToDatabase();
 
         await Promise.all([this.getRewardsAndTransactions(), this.getBalances(), this.getPricesAndMarketCap()]);
+
+        this.investmentsBVByDomain = this.calculateInvestmentBVByDomain();
 
         // await analysis();
 
@@ -106,24 +115,80 @@ class TezosSet {
 
     }
 
+    nativeRewardFMV(): void {
+        //rewards by day by price that day
+        this.fiatFMVRewards = this.rewardsByDay.map(reward => {
+            return {date: reward.date, rewardAmount: reward.rewardAmount*this.pricesAndMarketCapsByDay[reward.date], cycle:reward.cycle}
+        })
+    }
+
+    // async nativeSupplyDepletionRewards(scaledBVByDomain: Array<BVbyDomain>): Promise<void> {
+    //     this.supplyByDay = (await collections.tezosSupply.find().sort( { dateString: 1 } ).toArray()) as CurrencySupplyAndDate[];
+
+    //     nativeSupplyDepletionRewards: Array<RewardsByDay> = scaledBVByDomain.map(bv => {
+            
+    //     }) 
+
+    //     // BV fiat of the investment by daily supply change during same period = that day depletion
+
+    //     // Start at the begining of the bv domain: 
+    //     // Supply each of the days thru the the bv array
+
+
+    //     // Agg the three days of depletion between native rewards. Add to the rewards for new set
+
+    // }
+
+
     calculateInvestmentBVByDomain(): Array<BVbyDomain> {
        //i. scale transactions by fiat + add investment book value
         //  - first investment book value is value of first transactiosn
         //  - every subsequent bv is the the last bv + the current transaction amount 
         //  - startDate is the day of the current transaction
         //  - endDate is the day before the next transaction 
+
+
+        // I. group by date
+        let groupedTransactions: Map<string, TransactionsByDay> = new Map<string, TransactionsByDay>();
+        this.unaccountedNetTransactions.forEach(transaction => {
+            let newDateValue: number = groupedTransactions.has(transaction.date)? groupedTransactions.get(transaction.date).amount + transaction.amount : transaction.amount;
+            groupedTransactions[transaction.date] = {date: transaction.date, amount: newDateValue}
+        })
+        // II. sort the map by date
+        let sortedGroupedTransactionsMap: Map<string, TransactionsByDay> = new Map([...groupedTransactions].sort((a, b) => String(a[0]).localeCompare(b[0])))
+        let sortedGroupedTransactionsArray: Array<TransactionsByDay> = Array.from(sortedGroupedTransactionsMap.values());
+        console.log(sortedGroupedTransactionsArray);
+        // III. create array of date ranges inclusive mapped to the scaledbookvalues
         let scaledBVByDomain: Array<BVbyDomain> = []; 
-        for(let i: number = 0; i< this.unaccountedNetTransactions.length-1; i++){
-            let currentTransaction: TransactionsByDay = this.unaccountedNetTransactions[i];
-            let currentBVbyDomain: BVbyDomain = {
-                startDate: currentTransaction.date.toISOString().slice(0,10), 
-                endDate: this.unaccountedNetTransactions[i+1].date.toISOString().slice(0,10), 
-                scaledBookValue: i===0? 
-                    currentTransaction.amount * this.pricesAndMarketCapsByDay[currentTransaction.date.toISOString()].price: 
-                    currentTransaction.amount * this.pricesAndMarketCapsByDay[currentTransaction.date.toISOString()].price + scaledBVByDomain[i-1].scaledBookValue}
-            scaledBVByDomain.push(currentBVbyDomain);
+        for(let i: number = 0; sortedGroupedTransactionsArray.length-2; i++){
+            let nextDay: Date = new Date(sortedGroupedTransactionsArray[i].date);
+            nextDay.setDate(nextDay.getDate() + 1);
+            let nextDate: Date = new Date(sortedGroupedTransactionsArray[i+1].date);
+
+            let startDate: string = sortedGroupedTransactionsArray[i].date;
+            let endDate: string = ""; 
+            let bvValue: number = sortedGroupedTransactionsArray[i].amount;
+            if(nextDay.toISOString().slice(0,10).localeCompare(nextDate.toISOString().slice(0,10))){
+                endDate = startDate;
+            }
+            if(i!==0){
+                bvValue += scaledBVByDomain[scaledBVByDomain.length - 1].scaledBookValue;
+            }
+            scaledBVByDomain.push({startDate: startDate, endDate: endDate, scaledBookValue: bvValue})
+
         }
         return scaledBVByDomain;
+        // for(let i: number = 0; i< this.unaccountedNetTransactions.length-1; i++){
+        //     let currentTransaction: TransactionsByDay = this.unaccountedNetTransactions[i];
+        //     let currentBVbyDomain: BVbyDomain = {
+        //         startDate: currentTransaction.date, 
+        //         endDate: this.unaccountedNetTransactions[i+1].date, 
+        //         scaledBookValue: i===0? 
+        //             currentTransaction.amount * this.pricesAndMarketCapsByDay[currentTransaction.date].price: 
+        //             currentTransaction.amount * this.pricesAndMarketCapsByDay[currentTransaction.date].price + scaledBVByDomain[i-1].scaledBookValue}
+        //     scaledBVByDomain.push(currentBVbyDomain);
+        // }
+        // return scaledBVByDomain;
     }
 
 
@@ -222,7 +287,7 @@ class TezosSet {
         this.unaccountedNetTransactions = this.rawWalletTransactions.filter(transaction => {
             return (!(this.bakerAddresses.has(transaction?.sender?.address) || this.bakerAddresses.has(transaction?.target?.address)))
         }).map(transaction => {
-            let transactionDate: Date = new Date(transaction.timestamp);
+            let transactionDate: string = new Date(transaction.timestamp).toISOString().slice(0,10);
             let adjustedAmount: number = transaction.amount / REWARDADJUSTMENTDENOMINATOR;
             let amount: TransactionsByDay = {date: transactionDate, amount: adjustedAmount};
             if (transaction?.target?.address === this.walletAddress){
@@ -378,7 +443,8 @@ class TezosSet {
             priceAndMarketCap => {
                 // date reformatting
                 let dateSplit: string[] = priceAndMarketCap.date.toString().split("-");
-                dateSplit = [dateSplit[1], dateSplit[2], dateSplit[0]];
+                console.log(dateSplit);
+                dateSplit = [dateSplit[0], dateSplit[1], dateSplit[2]];
                 let correctedDate: string = dateSplit.join("-");
                 this.pricesAndMarketCapsByDay[correctedDate] = {date: correctedDate, price: priceAndMarketCap[price], marketCap: priceAndMarketCap[marketCap]}
             }
@@ -396,7 +462,7 @@ class TezosSet {
 }
 
 let ts: TezosSet = new TezosSet();
-ts.init("BTC","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH").then(x => {writeFile("test.json", JSON.stringify(ts.pricesAndMarketCapsByDay, null, 4), function(err) {
+ts.init("BTC","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH").then(x => {writeFile("test.json", JSON.stringify(ts.investmentsBVByDomain, null, 4), function(err) {
     if(err) {
       console.log(err);
     } else {
