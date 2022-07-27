@@ -38,6 +38,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var axios_1 = require("axios");
+// data imports
+var blockchain_js_1 = require("../../../model/blockchain.js");
 var database_service_1 = require("../../../documentInterfaces/database.service");
 var fs_1 = require("fs");
 // tezos specific constants
@@ -55,10 +57,15 @@ var TezosSet = /** @class */ (function () {
                     case 0:
                         this.walletAddress = address;
                         this.rewardsByDay = [];
+                        this.nativeRewardFMVByDay = [];
+                        this.nativeRewardMarketDilutionByDay = [];
+                        this.nativeRewardSupplyDepletionByDay = [];
                         this.balancesByDay = {};
                         this.unaccountedNetTransactions = [];
                         this.bakerCycles = [];
                         this.cyclesByDay = [];
+                        this.priceAndMarketCap = [];
+                        this.fiat = fiat;
                         this.cyclesMappedToDays = new Map();
                         this.bakerAddresses = new Set();
                         this.transactionsUrl = "https://api.tzkt.io/v1/operations/transactions?anyof.sender.target=".concat(this.walletAddress);
@@ -72,6 +79,14 @@ var TezosSet = /** @class */ (function () {
             });
         });
     };
+    //    async getBakerRewards(): Promise<void> {
+    //         this.rewardsByDay 
+    //         let lastId = 0
+    //         while (true){
+    //             let url = `https://api.tzkt.io/v1/accounts/${address}/operations?type=endorsement,baking,nonce_revelation,double_baking,double_endorsing,transaction,origination,delegation,reveal,revelation_penalty&lastId=${lastId}&limit=1000&sort=0`;
+    //             let response: AxiosResponse = await axios.get(url);
+    //         }
+    //    }
     // async retrieval methods
     TezosSet.prototype.retrieveBakers = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -485,6 +500,91 @@ var TezosSet = /** @class */ (function () {
             });
         });
     };
+    //     async nativeRewardFMV(): Promise<void> {
+    // //rewards by day by price that day
+    //         let prices = this.getPrice(this.fiat)
+    //         this.rewardsByDay.forEach(reward => {
+    //             let date = reward.date
+    //             let quantity = reward.rewardAmount
+    //             let cycle = reward.cycle
+    //             rewardAmount = quantity * prices[date] 
+    //             this.nativeRewardFMVByDay return {}
+    //         })
+    // //print the array i want from the ts object
+    // this.nativeRewardFMVByDay
+    //     }
+    //filter price 
+    TezosSet.prototype.getPrice = function (fiat) {
+        return __awaiter(this, void 0, void 0, function () {
+            var rawPriceAndMarketCapData, priceString, marketCapString, priceAndMarketCap;
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, blockchain_js_1["default"].find()];
+                    case 1:
+                        rawPriceAndMarketCapData = _b.sent();
+                        priceString = "price".concat(fiat);
+                        marketCapString = "marketCap".concat(fiat);
+                        priceAndMarketCap = rawPriceAndMarketCapData.forEach(function (element) {
+                            var date = element.date;
+                            var price = element[priceString];
+                            var marketCap = element[marketCapString];
+                            var finalData = { date: date, price: price, marketCap: marketCap };
+                            return finalData;
+                        });
+                        (_a = this.priceAndMarketCap).push.apply(_a, priceAndMarketCap);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    // let finalData = [];
+    //for each page get the matching strings and set to interface
+    //     priceAndMarketCapData.forEach(element => {
+    //         (filter)
+    //      });(document => {
+    //              (Date = document.date, 
+    //                 price = document[price], marketCap = document[marketCap])
+    //         })
+    // //     for (i = 0; i < priceAndMarketCapData.length; i++) {
+    // //         let date = priceAndMarketCapData[i].date;
+    // //         // convert year month day to month day year
+    // //         var date_arr1 = date.toString().split("-");
+    // //         var date_arr2 = [date_arr1[1], date_arr1[2], date_arr1[0]];
+    // //         date = date_arr2.join("-");
+    // //         let priceN = priceAndMarketCapData[i][price];
+    // //         let marketCapN = priceAndMarketCapData[i][marketCap];
+    // //         this.PriceAndMarketCap = {
+    // //             date: date,
+    // //             price: priceN,
+    // //             marketCap: marketCapN,
+    // //         };
+    // //         finalData.push(finalObj);
+    // // }
+    // //need help populating the interface in the loop
+    //     return
+    // } 
+    //     async nativeInvestmentBookValueByDomain(): Promise<void> {
+    //         // For Net transactions
+    //         // *p that day (last investment domain value) -> array investmentBV by date domains 
+    //         // InvestmentBV
+    //         // Fiat
+    //         // StartDate
+    //         // Enddate
+    //     }
+    //     async nativeSupplyDepletionRewards(): Promise<void>{
+    // //         BV fiat of the investment by daily supply change during same period = that day depletion
+    // // Start at the begining of the bv domain: 
+    // // Supply each of the days thru the the bv array
+    // // Agg the three days of depletion between native rewards. Add to the rewards for new set
+    //     }
+    //     async nativeMarketDiltuionRewards(): Promise<void>{
+    // //         Daily change in network value 
+    // // Daily change in user value 
+    // // If diff positive:
+    // // daily market dilution = Difference * bv fiat during the time period 
+    // // Agg then add to rewards
+    //     }
     // utility methods:
     TezosSet.prototype.setRewardsUrls = function (bakerData) {
         for (var i = bakerData.cycleStart; i <= bakerData.cycleEnd; i++) {
@@ -494,8 +594,9 @@ var TezosSet = /** @class */ (function () {
     return TezosSet;
 }());
 var ts = new TezosSet();
-ts.init("", "tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH").then(function (x) {
-    (0, fs_1.writeFile)("test.json", JSON.stringify(ts.balancesByDay, null, 4), function (err) {
+//db connection
+ts.init("USD", "tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH").then(function (x) {
+    (0, fs_1.writeFile)("test.json", JSON.stringify(ts.getPrice, null, 4), function (err) {
         if (err) {
             console.log(err);
         }

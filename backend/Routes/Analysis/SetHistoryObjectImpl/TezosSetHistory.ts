@@ -12,6 +12,7 @@ import {collections, connectToDatabase} from "../../../documentInterfaces/databa
 import cycle from "../../../model/cycle.js";
 import {writeFile} from "fs";
 
+
 // tezos specific constants
 const REWARDADJUSTMENTDENOMINATOR: number = 1000000;
 const BAKINGBADBATCHSIZE: number = 16;
@@ -42,7 +43,7 @@ interface TransactionsByDay {
 }
 
 interface PriceAndMarketCap {
-    date: string,
+    date: Date,
     price: number,
     marketCap: number
 }
@@ -67,7 +68,7 @@ class TezosSet {
     isCustodial: boolean;
     rewardsByCycle: Array<RewardsByDay>;
     balancesByDay: Record<string, number>;
-    PriceAndMarketCap: Array<PriceAndMarketCap>;
+    priceAndMarketCap: Array<PriceAndMarketCap>;
 
 
     constructor(){
@@ -85,7 +86,7 @@ class TezosSet {
         this.unaccountedNetTransactions = [];
         this.bakerCycles = [];
         this.cyclesByDay = [];
-        this.PriceAndMarketCap = []
+        this.priceAndMarketCap = []
         this.fiat = fiat;
         this.cyclesMappedToDays = new Map<string, number>();
         this.bakerAddresses = new Set<string>();
@@ -96,15 +97,15 @@ class TezosSet {
         return
     }
 
-   async getBakerRewards(): Promise<void> {
-        this.rewardsByDay 
-        let lastId = 0
-        while (true){
-            let url = `https://api.tzkt.io/v1/accounts/${address}/operations?type=endorsement,baking,nonce_revelation,double_baking,double_endorsing,transaction,origination,delegation,reveal,revelation_penalty&lastId=${lastId}&limit=1000&sort=0`;
-            let response: AxiosResponse = await axios.get(url);
-        }
+//    async getBakerRewards(): Promise<void> {
+//         this.rewardsByDay 
+//         let lastId = 0
+//         while (true){
+//             let url = `https://api.tzkt.io/v1/accounts/${address}/operations?type=endorsement,baking,nonce_revelation,double_baking,double_endorsing,transaction,origination,delegation,reveal,revelation_penalty&lastId=${lastId}&limit=1000&sort=0`;
+//             let response: AxiosResponse = await axios.get(url);
+//         }
        
-   }
+//    }
 
 
 
@@ -457,85 +458,112 @@ class TezosSet {
 
     }
 
-    async nativeRewardFMV(): Promise<void> {
-//rewards by day by price that day
-        let prices = this.getPrice(this.fiat)
-        this.rewardsByDay.forEach(reward => {
-            let date = reward.date
-            let quantity = reward.rewardAmount
-            let cycle = reward.cycle
+//     async nativeRewardFMV(): Promise<void> {
+// //rewards by day by price that day
+//         let prices = this.getPrice(this.fiat)
+//         this.rewardsByDay.forEach(reward => {
+//             let date = reward.date
+//             let quantity = reward.rewardAmount
+//             let cycle = reward.cycle
 
-            rewardAmount = quantity * prices[date] 
+//             rewardAmount = quantity * prices[date] 
 
-            this.nativeRewardFMVByDay return {}
+//             this.nativeRewardFMVByDay return {}
 
-        })
-//print the array i want from the ts object
+//         })
+// //print the array i want from the ts object
         
 
-this.nativeRewardFMVByDay
-    }
+// this.nativeRewardFMVByDay
+//     }
+
+
+
+
+    //filter price 
+
 
     async getPrice(fiat: string): Promise<void>{
-        let priceAndMarketCapData = await BlockchainModel.find();
-        let price = `price${fiat}`;
-        let marketCap = `marketCap${fiat}`;
-        let finalData = [];
-        for (i = 0; i < priceAndMarketCapData.length; i++) {
-            let date = priceAndMarketCapData[i].date;
-            // convert year month day to month day year
-            var date_arr1 = date.toString().split("-");
-            var date_arr2 = [date_arr1[1], date_arr1[2], date_arr1[0]];
-            date = date_arr2.join("-");
+        let rawPriceAndMarketCapData = await TezosPricesAndMarketCap.find();
+        let priceString = `price${fiat}`;
+        let marketCapString = `marketCap${fiat}`;
+        let priceAndMarketCap: Array<PriceAndMarketCap> = rawPriceAndMarketCapData.forEach(element => {
+            let date: Date = element.date;
+            let price: number = element[priceString];
+            let marketCap: number = element[marketCapString]
+            let finalData: PriceAndMarketCap = {date: date, price: price, marketCap: marketCap}
+            return finalData
+        });
 
-            let priceN = priceAndMarketCapData[i][price];
-            let marketCapN = priceAndMarketCapData[i][marketCap];
-            let finalObj = {
-                date: date,
-                price: priceN,
-                marketCap: marketCapN,
-            };
-            finalData.push(finalObj);
-	}
-    //need help populating the interface in the loop
-    this.PriceAndMarketCap = finalData
-return 
-    } 
-
-
-    async nativeInvestmentBookValueByDomain(): Promise<void> {
-        // For Net transactions
-        // *p that day (last investment domain value) -> array investmentBV by date domains 
+        this.priceAndMarketCap.push(...priceAndMarketCap)
+        return
+     }
         
-        // InvestmentBV
-        // Fiat
-        // StartDate
-        // Enddate
-    }
+    
+        // let finalData = [];
+
+        //for each page get the matching strings and set to interface
+
+    //     priceAndMarketCapData.forEach(element => {
+    //         (filter)
+    //      });(document => {
+    //              (Date = document.date, 
+    //                 price = document[price], marketCap = document[marketCap])
+    //         })
+    // //     for (i = 0; i < priceAndMarketCapData.length; i++) {
+    // //         let date = priceAndMarketCapData[i].date;
+    // //         // convert year month day to month day year
+    // //         var date_arr1 = date.toString().split("-");
+    // //         var date_arr2 = [date_arr1[1], date_arr1[2], date_arr1[0]];
+    // //         date = date_arr2.join("-");
+
+    // //         let priceN = priceAndMarketCapData[i][price];
+    // //         let marketCapN = priceAndMarketCapData[i][marketCap];
+    // //         this.PriceAndMarketCap = {
+    // //             date: date,
+    // //             price: priceN,
+    // //             marketCap: marketCapN,
+    // //         };
+    // //         finalData.push(finalObj);
+	// // }
+    // //need help populating the interface in the loop
+    //     return
+    // } 
+
+
+//     async nativeInvestmentBookValueByDomain(): Promise<void> {
+//         // For Net transactions
+//         // *p that day (last investment domain value) -> array investmentBV by date domains 
+        
+//         // InvestmentBV
+//         // Fiat
+//         // StartDate
+//         // Enddate
+//     }
 
 
 
-    async nativeSupplyDepletionRewards(): Promise<void>{
+//     async nativeSupplyDepletionRewards(): Promise<void>{
 
-//         BV fiat of the investment by daily supply change during same period = that day depletion
+// //         BV fiat of the investment by daily supply change during same period = that day depletion
 
-// Start at the begining of the bv domain: 
-// Supply each of the days thru the the bv array
-
-
-// Agg the three days of depletion between native rewards. Add to the rewards for new set
-
-    }
+// // Start at the begining of the bv domain: 
+// // Supply each of the days thru the the bv array
 
 
-    async nativeMarketDiltuionRewards(): Promise<void>{
+// // Agg the three days of depletion between native rewards. Add to the rewards for new set
 
-//         Daily change in network value 
-// Daily change in user value 
-// If diff positive:
-// daily market dilution = Difference * bv fiat during the time period 
-// Agg then add to rewards
-    }
+//     }
+
+
+//     async nativeMarketDiltuionRewards(): Promise<void>{
+
+// //         Daily change in network value 
+// // Daily change in user value 
+// // If diff positive:
+// // daily market dilution = Difference * bv fiat during the time period 
+// // Agg then add to rewards
+//     }
 
 
     // utility methods:
@@ -545,12 +573,12 @@ return
         }
     }
 
-    setBakerRewardsUrls(): void{ 
-        //while lastId doesnot equal current id ,  or just always make 10,000
-        for (let i = bakerData.cycleStart; i <= bakerData.cycleEnd; i++) {
-            bakerData.rewardsRequests.push(`https://api.tzkt.io/v1/accounts/${address}/operations?type=endorsement,baking,nonce_revelation,double_baking,double_endorsing,transaction,origination,delegation,reveal,revelation_penalty&lastId=${lastId}&limit=800&sort=0`);
-        }
-    }
+    // setBakerRewardsUrls(): void{ 
+    //     //while lastId doesnot equal current id ,  or just always make 10,000
+    //     for (let i = bakerData.cycleStart; i <= bakerData.cycleEnd; i++) {
+    //         bakerData.rewardsRequests.push(`https://api.tzkt.io/v1/accounts/${address}/operations?type=endorsement,baking,nonce_revelation,double_baking,double_endorsing,transaction,origination,delegation,reveal,revelation_penalty&lastId=${lastId}&limit=800&sort=0`);
+    //     }
+    // }
 
 
 
@@ -559,7 +587,12 @@ return
 }
 
 let ts: TezosSet = new TezosSet();
-ts.init("","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH").then(x => {writeFile("test.json", JSON.stringify(ts.balancesByDay, null, 4), function(err) {
+//db connection
+
+
+
+
+ts.init("USD","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH").then(x => {writeFile("test.json", JSON.stringify(ts.getPrice, null, 4), function(err) {
     if(err) {
       console.log(err);
     } else {
