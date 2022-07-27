@@ -8,6 +8,7 @@ import TezosPricesAndMarketCap from "../../../model/blockchain.js";
 import TezosCycles from "../../../model/cycle.js";
 import { version, Document, Model } from "mongoose";
 import CycleAndDate from "../../../documentInterfaces/CycleAndDate";
+import PriceAndMarketCap from "../../../documentInterfaces/PriceAndMarketCap"
 import {collections, connectToDatabase} from "../../../documentInterfaces/database.service";
 import cycle from "../../../model/cycle.js";
 import {writeFile} from "fs";
@@ -17,7 +18,7 @@ const REWARDADJUSTMENTDENOMINATOR: number = 1000000;
 const BAKINGBADBATCHSIZE: number = 16;
 const UNSCALEDAMOUNTTHRESHOLD: number = 0.0001;
 const AMOUNTSCALER: number = 10000;
-
+const MUTEZ: number = 1000000;
 // define intermediary data holders as interfaces
 interface BakerCycle {
     bakerAddress: string;
@@ -38,11 +39,23 @@ interface RewardsByDay {
 
 interface TransactionsByDay {
     date: Date,
-    rewardAmount: number
+    amount: number
+}
+
+interface PriceAndMarketCapByDay {
+    date: string,
+    price: number,
+    marketCap: number
+}
+
+interface BVbyDomain {
+    startDate: string,
+    endDate: string,
+    scaledBookValue: number
 }
 
 class TezosSet {
-    
+    fiat: string;
     walletAddress: string;
     bakerCycles: Array<BakerCycle>;
     rewardsByDay: Array<RewardsByDay>;
@@ -57,6 +70,7 @@ class TezosSet {
     isCustodial: boolean;
     rewardsByCycle: Array<RewardsByDay>;
     balancesByDay: Record<string, number>;
+    pricesAndMarketCapsByDay: Map<string, PriceAndMarketCapByDay>;
 
 
     constructor(){
@@ -66,6 +80,8 @@ class TezosSet {
 
     async init(fiat: string, address: string): Promise<void>{ // TODO after building out analysis have init function create the complete 'unrealized' object
         this.walletAddress = address;
+        this.fiat = fiat;
+        this.pricesAndMarketCapsByDay = new Map<string, PriceAndMarketCapByDay>;
         this.rewardsByDay = [];
         this.balancesByDay = {};
         this.unaccountedNetTransactions = [];
@@ -75,10 +91,41 @@ class TezosSet {
         this.bakerAddresses = new Set<string>();
         this.transactionsUrl = `https://api.tzkt.io/v1/operations/transactions?anyof.sender.target=${this.walletAddress}`;
         this.delegatorRewardsUrl = `https://api.tzkt.io/v1/rewards/delegators/${this.walletAddress}?cycle.ge=0&limit=10000`;
-        await this.getBalances();
-        // await Promise.all([this.setRewardsAndTransactions(), this.getBalances()]);
+
+        await connectToDatabase();
+
+        await Promise.all([this.getRewardsAndTransactions(), this.getBalances(), this.getPricesAndMarketCap()]);
+
+        // await analysis();
+
         return
     }
+
+    async analysis(): Promise<any> {
+        //calculateInvestmentBVByDomain
+
+    }
+
+    calculateInvestmentBVByDomain(): Array<BVbyDomain> {
+       //i. scale transactions by fiat + add investment book value
+        //  - first investment book value is value of first transactiosn
+        //  - every subsequent bv is the the last bv + the current transaction amount 
+        //  - startDate is the day of the current transaction
+        //  - endDate is the day before the next transaction 
+        let scaledBVByDomain: Array<BVbyDomain> = []; 
+        for(let i: number = 0; i< this.unaccountedNetTransactions.length-1; i++){
+            let currentTransaction: TransactionsByDay = this.unaccountedNetTransactions[i];
+            let currentBVbyDomain: BVbyDomain = {
+                startDate: currentTransaction.date.toISOString().slice(0,10), 
+                endDate: this.unaccountedNetTransactions[i+1].date.toISOString().slice(0,10), 
+                scaledBookValue: i===0? 
+                    currentTransaction.amount * this.pricesAndMarketCapsByDay[currentTransaction.date.toISOString()].price: 
+                    currentTransaction.amount * this.pricesAndMarketCapsByDay[currentTransaction.date.toISOString()].price + scaledBVByDomain[i-1].scaledBookValue}
+            scaledBVByDomain.push(currentBVbyDomain);
+        }
+        return scaledBVByDomain;
+    }
+
 
     // async retrieval methods
     async retrieveBakers(): Promise<void> {
@@ -120,7 +167,6 @@ class TezosSet {
 
     async retrieveCyclesAndDates(): Promise<void> {
         // 2. retrieveCyclesAndDates: retrieve the cycle data we have in our database and store it // get mapping of cycles to dates
-        await connectToDatabase();
         this.cyclesByDay = (await collections.cycleAndDate.find().sort( { dateString: 1 } ).toArray()) as CycleAndDate[];
         this.cyclesByDay.forEach(cycleByDay => (this.cyclesMappedToDays.set(cycleByDay.dateString, cycleByDay.cycleNumber)));
         return
@@ -169,7 +215,7 @@ class TezosSet {
         return
     }
 
-    async getNetTransactions(): Promise<void> {
+    getNetTransactions(): void {
         // 4. getNetTransactions: retrieve the transactions that this wallet was a part of that exclude reward transactions
         // + Melange Payouts. add a rewardByDay to the rewardsByDay list   
 
@@ -178,14 +224,14 @@ class TezosSet {
         }).map(transaction => {
             let transactionDate: Date = new Date(transaction.timestamp);
             let adjustedAmount: number = transaction.amount / REWARDADJUSTMENTDENOMINATOR;
-            let reward: TransactionsByDay = {date: transactionDate, rewardAmount: adjustedAmount};
+            let amount: TransactionsByDay = {date: transactionDate, amount: adjustedAmount};
             if (transaction?.target?.address === this.walletAddress){
-                reward = {date: transactionDate, rewardAmount: adjustedAmount}
+                amount = {date: transactionDate, amount: adjustedAmount}
             }
             else if (transaction?.sender?.address === this.walletAddress){
-                reward.rewardAmount = adjustedAmount * -1;
+                amount.amount = adjustedAmount * -1;
             }
-            return reward
+            return amount
         });
         return
     }
@@ -217,14 +263,15 @@ class TezosSet {
         return
     }
 
-    async setRewardsAndTransactions(): Promise<void> {
+    async getRewardsAndTransactions(): Promise<void> {
         await Promise.all([this.retrieveBakers(), this.retrieveCyclesAndDates() ,this.getRawWalletTransactions()]);
         if(this.isCustodial){
             this.processIntermediaryTransactions();
-            await this.getNetTransactions();
+            this.getNetTransactions();
         } 
         else{
-            await Promise.all([this.retrieveBakersPayouts(), this.getNetTransactions()]);
+            await this.retrieveBakersPayouts();
+            this.getNetTransactions();
         }
         this.filterPayouts();
 
@@ -292,141 +339,51 @@ class TezosSet {
                 currentDay = response.data[0].timestamp.substring(0,10);
             }
             if(latestBalance === null){
-                latestBalance = response.data[0].balance;
+                latestBalance = response.data[0].balance/MUTEZ;
             }
 
             for(let day of response.data){
                 // update the latestBalance since we're on the currently marked day
                 if(day.timestamp.substring(0,10) === currentDay){
-                    latestBalance = day.balance;
+                    latestBalance = day.balance/MUTEZ;
                 }
                 else{
                     // push the day and its last balance to our map since we're now on a new day
-                    balances[currentDay] = latestBalance;
+                    balances[currentDay] = latestBalance/MUTEZ;
 
                     // get the range of dates from the currentDay to the day we are cheking on
                     let fillerDays = this.getNonInclusiveDateRange(currentDay, day.timestamp.substring(0,10));
                     // for these days, add the currentDays balance
                     for(let fillerDay of fillerDays){
-                        balances[fillerDay] = latestBalance; 
+                        balances[fillerDay] = latestBalance/MUTEZ; 
                     }
                     currentDay = day.timestamp.substring(0,10);
-                    latestBalance = day.balance;
+                    latestBalance = day.balance/MUTEZ;
                 }
             
             }
         }
         // push the last day
-        balances[currentDay] = latestBalance;
+        balances[currentDay] = latestBalance/MUTEZ;
         this.balancesByDay = balances;
         return
     }
 
+    async getPricesAndMarketCap() {
 
-    async getRewards(){ // depricated
-        await connectToDatabase();
-
-        // get history of delegators bakers 
-        let delegatorRewardsResponse: AxiosResponse = await axios.get(this.delegatorRewardsUrl);
-
-        let filteredResponse:Array<{cycle: number, balance: number, baker: {alias: string, address: string}}> =
-        delegatorRewardsResponse.data.map(({cycle, balance, baker}) => ({cycle, balance, baker}));
-
-
-        // map bakers to their start and end cycles
-
-        let bakerCylcles: Array<BakerCycle> = [];
-        let bakers: Set<string> = new Set<string>();
-        let curBakerIndex: number = bakerCylcles.length;
-        let curBaker: BakerCycle = undefined;
-        
-        for (let cycleData of filteredResponse.reverse()){
-            // initial baker
-            if(curBaker === undefined){
-                curBaker = {bakerAddress: cycleData.baker.address, cycleStart: cycleData.cycle, cycleEnd: cycleData.cycle, rewardsRequests: []};
+        let price = `price${this.fiat}`;
+        let marketCap = `marketCap${this.fiat}`;
+        let priceAndMarketCapData: Array<PriceAndMarketCap>  = (await collections.priceAndMarketCap.find().sort( { date: 1 } ).toArray()) as PriceAndMarketCap[];
+        priceAndMarketCapData.forEach(
+            priceAndMarketCap => {
+                // date reformatting
+                let dateSplit: string[] = priceAndMarketCap.date.toString().split("-");
+                dateSplit = [dateSplit[1], dateSplit[2], dateSplit[0]];
+                let correctedDate: string = dateSplit.join("-");
+                this.pricesAndMarketCapsByDay[correctedDate] = {date: correctedDate, price: priceAndMarketCap[price], marketCap: priceAndMarketCap[marketCap]}
             }
-            // extend cycle end
-            if (curBaker.bakerAddress===cycleData.baker.address){
-                curBaker.cycleEnd = cycleData.cycle;
-            }
-            // push curBaker, start new baker
-            else {
-                this.setRewardsUrls(curBaker);
-                bakerCylcles.push(curBaker);
-                bakers.add(cycleData.baker.address);
-                curBaker = {bakerAddress: cycleData.baker.address, cycleStart: cycleData.cycle, cycleEnd: cycleData.cycle, rewardsRequests: []};
-            } 
-        
-        }
-        this.setRewardsUrls(curBaker)
-        bakerCylcles.push(curBaker)
-        bakers.add(curBaker.bakerAddress)
-
-        // put together all baker reward request urls and call api to get payoutArrays
-        // NOTE: requests are chunked in groups of 16 to prevent rate limiting issues
-        let completeRewardsRequests: Array<string> = bakerCylcles.map(bakerCylcle => {return bakerCylcle.rewardsRequests}).flat()
-        let j, temporary, chunk: number = 16;
-        let responses: Array<AxiosResponse> = [];
-        
-        for (let i: number = 0,j = completeRewardsRequests.length; i < j; i += chunk) {
-            temporary = completeRewardsRequests.slice(i, i + chunk);
-            let response: Array<AxiosResponse> = await axios.all(temporary.map(url=> axios.get(url)));
-            responses.push(...response)
-        }
-
-        // map cycles to reward amounts
-        let rewards: Record<number, number> = {};
-        responses.forEach(response => {
-            if (response?.data?.payouts === undefined){
-                console.log("NO PAYOUT DATA ", response.data)
-            }
-            else{
-                response.data.payouts.forEach(payout => {
-                    if(payout.address === this.walletAddress){
-                        let amount: number = payout["amount"]
-                        if(amount < 0.0001 && amount > 0) {
-                            amount = amount * 10000;
-                        }
-                        if(rewards[response.data.cycle]===undefined){
-                            rewards[response.data.cycle] = amount; 
-                        }
-                        else{
-                            rewards[response.data.cycle] += amount;
-                        }
-                    }
-                })
-            }
-        });
-
-        
-        // get mapping of cycles to dates
-        const cyclesAndDates = (await collections.cycleAndDate.find({}).toArray()) as CycleAndDate[];
-        let rewardsByDay: Array<RewardsByDay> = cyclesAndDates.map(cycleAndDateDoc => {
-            return {date: cycleAndDateDoc.dateString, rewardAmount: rewards[cycleAndDateDoc.cycleNumber], cycle: cycleAndDateDoc.cycleNumber};
-        });
-
-        // get wallet transactions
-        let transactionsResponse: AxiosResponse = await axios.get(this.transactionsUrl);
-        let transactions:Array<{target: {address: string}, sender: {address: string, alias: string}, amount: number, timestamp: string}> =
-        transactionsResponse.data.map(({target, sender, amount, timestamp}) => ({target, sender, amount, timestamp}));
-
-        let filteredTransactions: Array<TransactionsByDay> = transactions.filter(transaction => {
-            (!(bakers.has(transaction?.sender?.address) || bakers.has(transaction?.target?.address)) )
-        }).map(transaction => {
-            let transactionDate: Date = new Date(transaction.timestamp);
-            let adjustedAmount: number = transaction.amount / 1000000;
-            let reward: TransactionsByDay = {date: transactionDate, rewardAmount: adjustedAmount};
-            if (transaction?.target?.address === this.walletAddress){
-                reward = {date: transactionDate, rewardAmount: adjustedAmount}
-            }
-            else if (transaction?.sender?.address === this.walletAddress){
-                reward.rewardAmount = adjustedAmount * -1;
-            }
-            return reward
-        });
-        
-        return [ rewardsByDay, filteredTransactions ];
-
+        )
+        return
     }
 
     // utility methods:
@@ -435,10 +392,11 @@ class TezosSet {
             bakerData.rewardsRequests.push(`https://api.baking-bad.org/v2/rewards/${bakerData.bakerAddress}?cycle=${i}`);
         }
     }
+    
 }
 
 let ts: TezosSet = new TezosSet();
-ts.init("","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH").then(x => {writeFile("test.json", JSON.stringify(ts.balancesByDay, null, 4), function(err) {
+ts.init("BTC","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH").then(x => {writeFile("test.json", JSON.stringify(ts.pricesAndMarketCapsByDay, null, 4), function(err) {
     if(err) {
       console.log(err);
     } else {

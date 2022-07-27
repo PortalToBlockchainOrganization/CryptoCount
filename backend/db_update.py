@@ -6,10 +6,11 @@ from dateutil.rrule import rrule, DAILY
 from pymongo import MongoClient
 from dateutil import parser
 import pandas as pd
+import time
 
 client = MongoClient("mongodb+srv://admin:*@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority")
 db = client.AnalysisDep
-blockchains = db.blockchains
+blockchains = db.blockchains2
 statistics = db.statistics
 cycles_ = db.cycles2
 
@@ -17,15 +18,22 @@ cycles_ = db.cycles2
 START_URL = 'https://api.coingecko.com/api/v3/coins/tezos/history?date='
 END_URL = '&localization=false'
 
-def updatePrices():
+def getNonInclusiveHistoryDays(last_history_day_in_db, today):
+    return [day.strftime("%d-%m-%Y") for day in pd.date_range(start=last_history_day_in_db, end=today, inclusive="neither").tolist()] 
+
+def updatePricesAndMarketCap():
     # get latest date in db
     # get all following dates
-    startDate = blockchains.find_one(sort=[("date", -1)])['date']
-    startYear, startMonth, startDay = [int(x) for x in startDate.split('-')]
-    startDate = datetime.datetime(startYear, startMonth, startDay)
-    endDate = datetime.datetime.utcnow()
-    dates = [dt.strftime("%d-%m-%Y") for dt in rrule(freq=DAILY, dtstart=startDate, until=endDate)]
-    print(len(dates))
+    last_date_in_db = blockchains.find_one(sort=[("date", -1)])['date']
+    year, month, day = [int(x) for x in last_date_in_db.split('-')]
+    last_date_in_db = datetime.datetime(year, month, day)
+    last_date_in_db = datetime.datetime(year, month, 14)
+    today = datetime.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    print(last_date_in_db)
+    print(today)
+    dates = getNonInclusiveHistoryDays(last_date_in_db, today)
+    print(dates)
+
     date_data_chunk = []
     i = 0
     double_check = False
@@ -45,7 +53,10 @@ def updatePrices():
                 date = datetime.datetime.strptime(date, '%d-%m-%Y')
                 date = date.strftime('%Y-%m-%d')
                 cur_date_data = {'date':date,**market_cap, **cur_prices}
-                date_data_chunk.append(cur_date_data)
+                print("date",date)
+                print(blockchains.find_one({'date': date}))
+                if (not blockchains.find_one({'date': date})):
+                    date_data_chunk.append(cur_date_data)
                 # only increment to next date on successful query (200+exp body)
                 i+=1
             else:
@@ -61,7 +72,8 @@ def updatePrices():
             time.sleep(61)
             
         if i%100==0:
-            blockchains.insert_many(date_data_chunk)
+            print(f"adding items for dates: {[x['date'] for x in date_data_chunk]}")
+            # blockchains.insert_many(date_data_chunk)
             date_data_chunk = []
             time.sleep(61)
 
@@ -69,7 +81,8 @@ def updatePrices():
     # by default push the date_data_chunk to make sure our most recent dates 
     # are in our database
     if not(date_data_chunk==[]):
-        blockchains.insert_many(date_data_chunk)
+        print(f"adding items for dates: {[x['date'] for x in date_data_chunk]}")
+        # blockchains.insert_many(date_data_chunk)
 
 def updateTotalSupplys():
     # first we pull the stats from the tzkt api
@@ -100,7 +113,6 @@ def getNewCyclesAndDates(cycles, last_cycle_in_db):
     return [{'cycle': cycle['cycle'], 'dateString': cycle['timestamp'][:10]} for cycle in cycles if cycle['cycle'] > last_cycle_in_db]
 
 def getNonInclusiveCyclesDates(new_cycle_and_date, last_cycle_date, last_cycle):
-    print(new_cycle_and_date)
     return [{'dateString':day.strftime("%Y-%m-%d"), 'cycleNumber':last_cycle} for day in pd.date_range(start=last_cycle_date, end=new_cycle_and_date['dateString'], inclusive="neither").tolist()] 
 
 def updateCycles():
@@ -140,4 +152,4 @@ def updateCycles():
 
 
 
-updateCycles()
+updatePricesAndMarketCap()
