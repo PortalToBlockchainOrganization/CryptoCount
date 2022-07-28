@@ -147,7 +147,7 @@ const Landing = (props) => {
 			<div className="lp-container">
 				<section className="static-wrapper">
 					<div className="logo-container">
-						<img className="logo" src="./Tezos.png" alt="logo" />
+						<a href="https://tezos.com"><img className="logo" src="./Tezos.png" alt="logo" /></a>
 						<h1> X </h1>
 						<img className="logo" src="./logo.png" alt="logo" />
 					</div>
