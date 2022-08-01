@@ -20,6 +20,7 @@ const REWARDADJUSTMENTDENOMINATOR: number = 1000000;
 const BAKINGBADBATCHSIZE: number = 16;
 const UNSCALEDAMOUNTTHRESHOLD: number = 0.0001;
 const AMOUNTSCALER: number = 10000;
+const TRANSACTIONURLLIMIT = 10000;
 const MUTEZ: number = 1000000;
 // define intermediary data holders as interfaces
 interface BakerCycle {
@@ -56,6 +57,11 @@ interface BVbyDomain {
     scaledBookValue: number
 }
 
+interface DepletionByDay{
+    date: string,
+    amount: number
+}
+
 class TezosSet {
     fiat: string;
     walletAddress: string;
@@ -74,9 +80,10 @@ class TezosSet {
     rewardsByCycle: Array<RewardsByDay>;
     balancesByDay: Record<string, number>;
     pricesAndMarketCapsByDay: Map<string, PriceAndMarketCapByDay>;
-    fiatFMVRewards: Array<RewardsByDay>;
-    investmentsBVByDomain: Array<BVbyDomain>;
-
+    nativeRewardsFMVByCycle: Array<RewardsByDay>;
+    investmentsScaledBVByDomain: Array<BVbyDomain>;
+    nativeSupplyDepletion: Array<DepletionByDay>;
+    nativeSupplyDepletionRewards: Array<RewardsByDay>;
     constructor(){
 
 
@@ -92,19 +99,24 @@ class TezosSet {
         this.bakerCycles = [];
         this.cyclesByDay = [];
         this.supplyByDay = [];
+        this.rawWalletTransactions = [];
+        this.nativeSupplyDepletion = [];
+        this.rewardsByCycle = [];
         this.cyclesMappedToDays = new Map<string, number>();
         this.bakerAddresses = new Set<string>();
-        this.transactionsUrl = `https://api.tzkt.io/v1/operations/transactions?anyof.sender.target=${this.walletAddress}`;
+        this.transactionsUrl = `https://api.tzkt.io/v1/operations/transactions?anyof.sender.target=${this.walletAddress}&limit=10000`;
         this.delegatorRewardsUrl = `https://api.tzkt.io/v1/rewards/delegators/${this.walletAddress}?cycle.ge=0&limit=10000`;
-        this.fiatFMVRewards = new Array<RewardsByDay>();
+        this.nativeRewardsFMVByCycle = new Array<RewardsByDay>();
+        this.nativeSupplyDepletionRewards = new Array<RewardsByDay>();
 
 
         await connectToDatabase();
-
+        // get data from apis + db
         await Promise.all([this.getRewardsAndTransactions(), this.getBalances(), this.getPricesAndMarketCap()]);
-
-        this.investmentsBVByDomain = this.calculateInvestmentBVByDomain();
-
+        // conduct analysis
+        this.nativeRewardsFMVByCycle = this.calculateNativeRewardFMVByCycle();
+        this.investmentsScaledBVByDomain = this.calculateInvestmentBVByDomain();
+        await this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain);
         // await analysis();
 
         return
@@ -115,29 +127,96 @@ class TezosSet {
 
     }
 
-    nativeRewardFMV(): void {
+    calculateNativeRewardFMVByCycle(): Array<RewardsByDay> {
         //rewards by day by price that day
-        this.fiatFMVRewards = this.rewardsByDay.map(reward => {
-            return {date: reward.date, rewardAmount: reward.rewardAmount*this.pricesAndMarketCapsByDay[reward.date], cycle:reward.cycle}
+        return this.rewardsByCycle.map(reward => {
+            return {date: reward.date, rewardAmount: reward.rewardAmount*this.pricesAndMarketCapsByDay[reward.date].price, cycle:reward.cycle}
         })
     }
 
-    // async nativeSupplyDepletionRewards(scaledBVByDomain: Array<BVbyDomain>): Promise<void> {
-    //     this.supplyByDay = (await collections.tezosSupply.find().sort( { dateString: 1 } ).toArray()) as CurrencySupplyAndDate[];
+    async calculateNativeSupplyDepletionRewards(scaledBVByDomain: Array<BVbyDomain>): Promise<void> {
+        // do this in some earlier method
+        this.supplyByDay = (await collections.tezosSupply.find().sort( { dateString: 1 } ).toArray()) as CurrencySupplyAndDate[];
 
-    //     nativeSupplyDepletionRewards: Array<RewardsByDay> = scaledBVByDomain.map(bv => {
-            
-    //     }) 
+        // expand date ranges of bvinvestments to a mapping of single dates to bv values
+        let mappedBV: Map<string, number> = new Map(); 
+        scaledBVByDomain.forEach(bvDomain => {
+            // iterate over the date range (inclusive)
+            let startDate: Date = new Date(bvDomain.startDate);
+            let endDate: Date = new Date(bvDomain.endDate);
+            while(startDate<=endDate){
+                mappedBV[startDate.toISOString().slice(0,10)] = bvDomain.scaledBookValue;
+                startDate.setDate(startDate.getDate() + 1);
+            }
+        })
 
-    //     // BV fiat of the investment by daily supply change during same period = that day depletion
 
-    //     // Start at the begining of the bv domain: 
-    //     // Supply each of the days thru the the bv array
+        // for each day in our supply db documents - mark the change in supply (ie change in supply for date [i] = 1-(supply[i-1]/supply[i]))
+        // find the scaledbv that represents the range the date [i] is in and mulitply that scaledbv value to the value above
+        // ex: end up with a day associated with that value
+        let nativeSupplyDepletionByDay: Array<DepletionByDay> 
+        let filteredSupplyByDay: Array<CurrencySupplyAndDate> = this.supplyByDay.filter(supply =>
+            supply.dateString in mappedBV
+        );
+        
+        let lastSupply: CurrencySupplyAndDate = filteredSupplyByDay[0];
+        
+        nativeSupplyDepletionByDay = filteredSupplyByDay.slice(1).map(supply => {
+            let ratio: number = lastSupply.totalSupply/supply.totalSupply;
+            if (lastSupply.dateString === supply.dateString){
+                return
+            }
+            lastSupply = supply;
+            return {date: supply.dateString, amount: (1 - ratio) * mappedBV[supply.dateString]}
+        });
+
+        console.log(nativeSupplyDepletionByDay);
+
+        let mappedFMV: Map<string, RewardsByDay> = new Map();
+        this.nativeRewardsFMVByCycle.forEach(fmvReward=> {
+            mappedFMV[fmvReward.cycle] = fmvReward.rewardAmount;
+        });
+        console.log(mappedFMV)
 
 
-    //     // Agg the three days of depletion between native rewards. Add to the rewards for new set
+        let mappedCyclesToFirstCycleDate: Map<number, string> = new Map();
+        this.cyclesMappedToDays.forEach((key,value) => {
+            mappedCyclesToFirstCycleDate[value] = key;
+        })
 
-    // }
+        let nativeSupplyDepletionRewards: Array<RewardsByDay> = [];
+        let currentDate: string = nativeSupplyDepletionByDay[0].date
+        let currentSupplyCycle: number = mappedCyclesToFirstCycleDate[currentDate];
+        console.log(currentSupplyCycle)
+        let aggSupplyAmount: number = nativeSupplyDepletionByDay[0].amount;
+
+
+
+        nativeSupplyDepletionByDay.forEach(nativeSupplyDepletion => {  
+            if(this.cyclesMappedToDays.get(nativeSupplyDepletion.date)!==currentSupplyCycle){
+                nativeSupplyDepletionRewards.push({date: this.cyclesMappedToDays[currentSupplyCycle], 
+                    rewardAmount: mappedFMV[currentSupplyCycle] - aggSupplyAmount, 
+                    cycle: currentSupplyCycle})
+
+                currentDate = nativeSupplyDepletion.date;
+                currentSupplyCycle = mappedCyclesToFirstCycleDate[currentDate];
+                aggSupplyAmount = nativeSupplyDepletion.amount;
+            }
+            else if(nativeSupplyDepletion.date===nativeSupplyDepletionByDay[nativeSupplyDepletionByDay.length-1].date){
+                aggSupplyAmount+=nativeSupplyDepletion.amount;
+                nativeSupplyDepletionRewards.push({date: this.cyclesMappedToDays[currentSupplyCycle], 
+                    rewardAmount: mappedFMV[currentSupplyCycle] - aggSupplyAmount, 
+                    cycle: currentSupplyCycle})
+            }
+            else{
+                aggSupplyAmount+=nativeSupplyDepletion.amount;
+            }
+
+        })
+
+        console.log(nativeSupplyDepletionRewards)
+
+    }
 
 
     calculateInvestmentBVByDomain(): Array<BVbyDomain> {
@@ -148,29 +227,45 @@ class TezosSet {
         //  - endDate is the day before the next transaction 
 
 
-        // I. group by date
+        // group by date
         let groupedTransactions: Map<string, TransactionsByDay> = new Map<string, TransactionsByDay>();
         this.unaccountedNetTransactions.forEach(transaction => {
-            let newDateValue: number = groupedTransactions.has(transaction.date)? groupedTransactions.get(transaction.date).amount + transaction.amount : transaction.amount;
-            groupedTransactions[transaction.date] = {date: transaction.date, amount: newDateValue}
+            groupedTransactions[transaction.date] = {date: transaction.date, amount: transaction.date in groupedTransactions ? groupedTransactions[transaction.date].amount + transaction.amount : transaction.amount}
         })
-        // II. sort the map by date
-        let sortedGroupedTransactionsMap: Map<string, TransactionsByDay> = new Map([...groupedTransactions].sort((a, b) => String(a[0]).localeCompare(b[0])))
-        let sortedGroupedTransactionsArray: Array<TransactionsByDay> = Array.from(sortedGroupedTransactionsMap.values());
-        console.log(sortedGroupedTransactionsArray);
-        // III. create array of date ranges inclusive mapped to the scaledbookvalues
-        let scaledBVByDomain: Array<BVbyDomain> = []; 
-        for(let i: number = 0; sortedGroupedTransactionsArray.length-2; i++){
-            let nextDay: Date = new Date(sortedGroupedTransactionsArray[i].date);
-            nextDay.setDate(nextDay.getDate() + 1);
-            let nextDate: Date = new Date(sortedGroupedTransactionsArray[i+1].date);
+        let groupedTransactionsArray: Array<TransactionsByDay> = Object.values(groupedTransactions);
 
-            let startDate: string = sortedGroupedTransactionsArray[i].date;
+        // create array of date ranges inclusive mapped to the scaledbookvalues
+        let scaledBVByDomain: Array<BVbyDomain> = []; 
+        for(let i: number = 0; i < groupedTransactionsArray.length; i++){
+            // determine the date range
+            let startDate: string = groupedTransactionsArray[i].date;
+            
+            let nextDay: Date = new Date(groupedTransactionsArray[i].date);
+            nextDay.setDate(nextDay.getDate() + 1);
+            
+            let nextDate: Date = undefined;
+
+            // if the current transaction is the last one in our array 
+            // we'll bound the end with todays date
+            if(i===groupedTransactionsArray.length-1){
+                nextDate = new Date();
+            }
+            else{
+                nextDate = new Date(groupedTransactionsArray[i+1].date);
+                nextDate.setDate(nextDate.getDate() - 1);
+            }
             let endDate: string = ""; 
-            let bvValue: number = sortedGroupedTransactionsArray[i].amount;
-            if(nextDay.toISOString().slice(0,10).localeCompare(nextDate.toISOString().slice(0,10))){
+            // if the next transactions date is the day after the current transaction 
+            // the end date for the current transaction will be the same as the start
+            if(nextDay.toISOString().slice(0,10).localeCompare(nextDay.toISOString().slice(0,10))){
                 endDate = startDate;
             }
+            else{
+                // endDate is the day before the nextdate 
+                endDate = nextDate.toISOString().slice(0,10);
+            }
+
+            let bvValue: number = groupedTransactionsArray[i].amount;
             if(i!==0){
                 bvValue += scaledBVByDomain[scaledBVByDomain.length - 1].scaledBookValue;
             }
@@ -178,17 +273,6 @@ class TezosSet {
 
         }
         return scaledBVByDomain;
-        // for(let i: number = 0; i< this.unaccountedNetTransactions.length-1; i++){
-        //     let currentTransaction: TransactionsByDay = this.unaccountedNetTransactions[i];
-        //     let currentBVbyDomain: BVbyDomain = {
-        //         startDate: currentTransaction.date, 
-        //         endDate: this.unaccountedNetTransactions[i+1].date, 
-        //         scaledBookValue: i===0? 
-        //             currentTransaction.amount * this.pricesAndMarketCapsByDay[currentTransaction.date].price: 
-        //             currentTransaction.amount * this.pricesAndMarketCapsByDay[currentTransaction.date].price + scaledBVByDomain[i-1].scaledBookValue}
-        //     scaledBVByDomain.push(currentBVbyDomain);
-        // }
-        // return scaledBVByDomain;
     }
 
 
@@ -273,9 +357,8 @@ class TezosSet {
                 })
             }
         });
-
-        this.rewardsByDay = this.cyclesByDay.map(cycleAndDateDoc => {
-            return {date: cycleAndDateDoc.dateString, rewardAmount: rewards[cycleAndDateDoc.cycleNumber], cycle: cycleAndDateDoc.cycleNumber};
+        this.rewardsByDay = this.cyclesByDay.filter(cycleAndDateDoc => cycleAndDateDoc.cycleNumber.toString() in rewards).map(cycleAndDateDoc => {
+            return {date: cycleAndDateDoc.dateString, rewardAmount: rewards[cycleAndDateDoc.cycleNumber.toString()], cycle: cycleAndDateDoc.cycleNumber};
         });
         return
     }
@@ -302,8 +385,14 @@ class TezosSet {
     }
 
     async getRawWalletTransactions(): Promise<void> { 
-        let transactionsResponse: AxiosResponse = await axios.get(this.transactionsUrl);
-        this.rawWalletTransactions = transactionsResponse.data.map(({target, sender, amount, timestamp}) => ({target, sender, amount, timestamp}));
+        let transactionsLength: number = TRANSACTIONURLLIMIT;
+        while(transactionsLength===TRANSACTIONURLLIMIT){
+            let transactionsResponse: AxiosResponse = await axios.get(this.transactionsUrl);
+            let transactionsResponseArray: Array<{target: {address: string}, sender: {address: string, alias: string}, amount: number, timestamp: string}> = 
+                transactionsResponse.data.map(({target, sender, amount, timestamp}) => ({target, sender, amount, timestamp}));
+            this.rawWalletTransactions.push(...transactionsResponseArray);
+            transactionsLength = transactionsResponseArray.length;
+        }
         this.rawWalletTransactions.forEach(transaction => {
             if(transaction?.sender?.alias === "Melange Payouts")
                 this.isCustodial = true;
@@ -323,7 +412,6 @@ class TezosSet {
             let reward: RewardsByDay = {date: transactionDate, rewardAmount: adjustedAmount, cycle: cycleNumber};
             return reward;
         })
-
         this.rewardsByDay.push(...intermediaryRewards);
         return
     }
@@ -344,7 +432,6 @@ class TezosSet {
 
     filterPayouts(): void {
         // group "rewardsByDay", by cycle and only keep the item with the earliest date in each group -> save to rewardsByCycle
-        this.rewardsByCycle = [];
         let currentItem = this.rewardsByDay[this.rewardsByDay.length - 1];
         for (const reward of this.rewardsByDay.slice().reverse()){
             if (reward.cycle !== currentItem.cycle){
@@ -443,7 +530,6 @@ class TezosSet {
             priceAndMarketCap => {
                 // date reformatting
                 let dateSplit: string[] = priceAndMarketCap.date.toString().split("-");
-                console.log(dateSplit);
                 dateSplit = [dateSplit[0], dateSplit[1], dateSplit[2]];
                 let correctedDate: string = dateSplit.join("-");
                 this.pricesAndMarketCapsByDay[correctedDate] = {date: correctedDate, price: priceAndMarketCap[price], marketCap: priceAndMarketCap[marketCap]}
@@ -462,7 +548,7 @@ class TezosSet {
 }
 
 let ts: TezosSet = new TezosSet();
-ts.init("BTC","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH").then(x => {writeFile("test.json", JSON.stringify(ts.investmentsBVByDomain, null, 4), function(err) {
+ts.init("USD","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH").then(x => {writeFile("test.json", JSON.stringify(ts.nativeRewardsFMVByCycle, null, 4), function(err) {
     if(err) {
       console.log(err);
     } else {
