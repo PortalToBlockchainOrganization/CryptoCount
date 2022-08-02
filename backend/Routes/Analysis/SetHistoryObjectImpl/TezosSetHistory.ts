@@ -65,6 +65,7 @@ interface DepletionByDay{
 class TezosSet {
     fiat: string;
     walletAddress: string;
+    firstRewardDate: string;
     bakerCycles: Array<BakerCycle>;
     rewardsByDay: Array<RewardsByDay>;
     bakerAddresses: Set<string>;
@@ -92,6 +93,7 @@ class TezosSet {
     async init(fiat: string, address: string): Promise<void>{ // TODO after building out analysis have init function create the complete 'unrealized' object
         this.walletAddress = address;
         this.fiat = fiat;
+        this.firstRewardDate = "";
         this.pricesAndMarketCapsByDay = new Map<string, PriceAndMarketCapByDay>();
         this.rewardsByDay = [];
         this.balancesByDay = {};
@@ -137,9 +139,9 @@ class TezosSet {
     async calculateNativeSupplyDepletionRewards(scaledBVByDomain: Array<BVbyDomain>): Promise<void> {
         // do this in some earlier method
         this.supplyByDay = (await collections.tezosSupply.find().sort( { dateString: 1 } ).toArray()) as CurrencySupplyAndDate[];
-
         // expand date ranges of bvinvestments to a mapping of single dates to bv values
         let mappedBV: Map<string, number> = new Map(); 
+        
         scaledBVByDomain.forEach(bvDomain => {
             // iterate over the date range (inclusive)
             let startDate: Date = new Date(bvDomain.startDate);
@@ -147,20 +149,25 @@ class TezosSet {
             while(startDate<=endDate){
                 mappedBV[startDate.toISOString().slice(0,10)] = bvDomain.scaledBookValue;
                 startDate.setDate(startDate.getDate() + 1);
+                if(startDate.toISOString().slice(11)!=="00:00:00.000Z"){
+                    startDate.setDate(startDate.getDate() + 1);
+                    startDate = new Date(startDate.toISOString().slice(0,10));
+                }
             }
         })
-
+        
 
         // for each day in our supply db documents - mark the change in supply (ie change in supply for date [i] = 1-(supply[i-1]/supply[i]))
         // find the scaledbv that represents the range the date [i] is in and mulitply that scaledbv value to the value above
         // ex: end up with a day associated with that value
         let nativeSupplyDepletionByDay: Array<DepletionByDay> 
-        let filteredSupplyByDay: Array<CurrencySupplyAndDate> = this.supplyByDay.filter(supply =>
-            supply.dateString in mappedBV
-        );
+        let filteredSupplyByDay: Array<CurrencySupplyAndDate> = this.supplyByDay.filter(supply => {
+            return supply.dateString >= this.firstRewardDate
+        }
+        ); 
+
         
-        let lastSupply: CurrencySupplyAndDate = filteredSupplyByDay[0];
-        
+        let lastSupply: CurrencySupplyAndDate = filteredSupplyByDay[0];  
         nativeSupplyDepletionByDay = filteredSupplyByDay.slice(1).map(supply => {
             let ratio: number = lastSupply.totalSupply/supply.totalSupply;
             if (lastSupply.dateString === supply.dateString){
@@ -170,14 +177,11 @@ class TezosSet {
             return {date: supply.dateString, amount: (1 - ratio) * mappedBV[supply.dateString]}
         });
 
-        console.log(nativeSupplyDepletionByDay);
 
-        let mappedFMV: Map<string, RewardsByDay> = new Map();
+        let mappedFMV: Map<number, RewardsByDay> = new Map();
         this.nativeRewardsFMVByCycle.forEach(fmvReward=> {
             mappedFMV[fmvReward.cycle] = fmvReward.rewardAmount;
         });
-        console.log(mappedFMV)
-
 
         let mappedCyclesToFirstCycleDate: Map<number, string> = new Map();
         this.cyclesMappedToDays.forEach((key,value) => {
@@ -185,16 +189,15 @@ class TezosSet {
         })
 
         let nativeSupplyDepletionRewards: Array<RewardsByDay> = [];
-        let currentDate: string = nativeSupplyDepletionByDay[0].date
+        let currentDate: string = nativeSupplyDepletionByDay[0].date;
         let currentSupplyCycle: number = mappedCyclesToFirstCycleDate[currentDate];
-        console.log(currentSupplyCycle)
         let aggSupplyAmount: number = nativeSupplyDepletionByDay[0].amount;
 
 
 
-        nativeSupplyDepletionByDay.forEach(nativeSupplyDepletion => {  
+        nativeSupplyDepletionByDay.forEach(nativeSupplyDepletion => {
             if(this.cyclesMappedToDays.get(nativeSupplyDepletion.date)!==currentSupplyCycle){
-                nativeSupplyDepletionRewards.push({date: this.cyclesMappedToDays[currentSupplyCycle], 
+                nativeSupplyDepletionRewards.push({date: currentDate, 
                     rewardAmount: mappedFMV[currentSupplyCycle] - aggSupplyAmount, 
                     cycle: currentSupplyCycle})
 
@@ -204,7 +207,7 @@ class TezosSet {
             }
             else if(nativeSupplyDepletion.date===nativeSupplyDepletionByDay[nativeSupplyDepletionByDay.length-1].date){
                 aggSupplyAmount+=nativeSupplyDepletion.amount;
-                nativeSupplyDepletionRewards.push({date: this.cyclesMappedToDays[currentSupplyCycle], 
+                nativeSupplyDepletionRewards.push({date: currentDate, 
                     rewardAmount: mappedFMV[currentSupplyCycle] - aggSupplyAmount, 
                     cycle: currentSupplyCycle})
             }
@@ -214,7 +217,7 @@ class TezosSet {
 
         })
 
-        console.log(nativeSupplyDepletionRewards)
+        this.nativeSupplyDepletionRewards = nativeSupplyDepletionRewards;
 
     }
 
@@ -233,7 +236,7 @@ class TezosSet {
             groupedTransactions[transaction.date] = {date: transaction.date, amount: transaction.date in groupedTransactions ? groupedTransactions[transaction.date].amount + transaction.amount : transaction.amount}
         })
         let groupedTransactionsArray: Array<TransactionsByDay> = Object.values(groupedTransactions);
-
+        
         // create array of date ranges inclusive mapped to the scaledbookvalues
         let scaledBVByDomain: Array<BVbyDomain> = []; 
         for(let i: number = 0; i < groupedTransactionsArray.length; i++){
@@ -252,16 +255,16 @@ class TezosSet {
             }
             else{
                 nextDate = new Date(groupedTransactionsArray[i+1].date);
-                nextDate.setDate(nextDate.getDate() - 1);
             }
             let endDate: string = ""; 
             // if the next transactions date is the day after the current transaction 
             // the end date for the current transaction will be the same as the start
-            if(nextDay.toISOString().slice(0,10).localeCompare(nextDay.toISOString().slice(0,10))){
+            if(nextDay.toISOString().slice(0,10).localeCompare(nextDate.toISOString().slice(0,10))===0){
                 endDate = startDate;
             }
             else{
                 // endDate is the day before the nextdate 
+                nextDate.setDate(nextDate.getDate() - 1);
                 endDate = nextDate.toISOString().slice(0,10);
             }
 
@@ -342,7 +345,9 @@ class TezosSet {
             }
             else{
                 response.data.payouts.forEach(payout => {
+
                     if(payout.address === this.walletAddress){
+
                         let amount: number = payout["amount"]
                         if(amount < UNSCALEDAMOUNTTHRESHOLD && amount > 0) {
                             amount = amount * AMOUNTSCALER;
@@ -413,6 +418,7 @@ class TezosSet {
             return reward;
         })
         this.rewardsByDay.push(...intermediaryRewards);
+
         return
     }
 
@@ -426,6 +432,7 @@ class TezosSet {
             await this.retrieveBakersPayouts();
             this.getNetTransactions();
         }
+        this.firstRewardDate = this.rewardsByDay[0].date;
         this.filterPayouts();
 
     }
