@@ -223,8 +223,7 @@ class TezosSet {
         }
     })
 
-    console.log("nativeMarketDiltuionByDayOnthisguy")
-    console.log(nativeFilteredMarketDilutionByDay.length)
+  
  
     let mappedFMV: Map<number, RewardsByDay> = new Map();
     this.nativeRewardsFMVByCycle.forEach(fmvReward=> {
@@ -241,7 +240,6 @@ class TezosSet {
     let currentDilutionCycle: number = mappedCyclesToFirstCycleDate[currentDate];
     let aggDilutionAmount: number = nativeFilteredMarketDilutionByDay[0].amount;
     let endDate: string = nativeFilteredMarketDilutionByDay[nativeFilteredMarketDilutionByDay.length - 1].date
-    console.log(nativeFilteredMarketDilutionByDay)
 
 
     nativeFilteredMarketDilutionByDay.forEach(nativeFilteredMarketDilutionByDay => {
@@ -280,8 +278,7 @@ class TezosSet {
         })
 
     this.nativeMarketDilutionRewards = nativeFilteredDilutionRewards;
-    console.log("dilution rewards")
-    console.log(nativeFilteredDilutionRewards)
+
 
 
 
@@ -367,7 +364,6 @@ class TezosSet {
             }
 
         })
-        console.log(nativeSupplyDepletionRewards)
         this.nativeSupplyDepletionRewards = nativeSupplyDepletionRewards;
 
     }
@@ -552,6 +548,8 @@ class TezosSet {
         this.rawWalletTransactions.forEach(transaction => {
             if(transaction?.sender?.alias === "Melange Payouts")
                 this.isCustodial = true;
+            else if(transaction?.sender?.alias === "EcoTez Payouts")
+                this.bakerAddresses.add("tz1QS7N8HnRBG2RNh3Kjty58XFXuLFVdnKGY")
         })
         this.isCustodial = false;
     }
@@ -559,6 +557,7 @@ class TezosSet {
     processIntermediaryTransactions(): void {
         let intermediaryTransactions: Array<{target: {address: string}, sender: {address: string, alias: string}, amount: number, timestamp: string}> = this.rawWalletTransactions.filter(transaction => {
             (transaction?.sender?.alias === "Melange Payouts")
+    
         });
 
         let intermediaryRewards: Array<RewardsByDay> = intermediaryTransactions.map(transaction => {
@@ -708,7 +707,6 @@ class TezosSet {
             this.marketByDay.push({date: correctedDate, amount: element[marketCap]})
         })
 
-        console.log(this.marketByDay)   
         
         priceAndMarketCapData.forEach(element => {
             let dateSplit: string[] = element.date.toString().split("-");

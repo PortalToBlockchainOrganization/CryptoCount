@@ -203,8 +203,6 @@ var TezosSet = /** @class */ (function () {
                         return element;
                     }
                 });
-                console.log("nativeMarketDiltuionByDayOnthisguy");
-                console.log(nativeFilteredMarketDilutionByDay.length);
                 mappedFMV = new Map();
                 this.nativeRewardsFMVByCycle.forEach(function (fmvReward) {
                     mappedFMV[fmvReward.cycle] = fmvReward.rewardAmount;
@@ -218,7 +216,6 @@ var TezosSet = /** @class */ (function () {
                 currentDilutionCycle = mappedCyclesToFirstCycleDate[currentDate];
                 aggDilutionAmount = nativeFilteredMarketDilutionByDay[0].amount;
                 endDate = nativeFilteredMarketDilutionByDay[nativeFilteredMarketDilutionByDay.length - 1].date;
-                console.log(nativeFilteredMarketDilutionByDay);
                 nativeFilteredMarketDilutionByDay.forEach(function (nativeFilteredMarketDilutionByDay) {
                     if (_this.cyclesMappedToDays.get(nativeFilteredMarketDilutionByDay.date) !== currentDilutionCycle) {
                         nativeMarketDilutionRewards.push({ date: currentDate,
@@ -247,8 +244,6 @@ var TezosSet = /** @class */ (function () {
                     }
                 });
                 this.nativeMarketDilutionRewards = nativeFilteredDilutionRewards;
-                console.log("dilution rewards");
-                console.log(nativeFilteredDilutionRewards);
                 return [2 /*return*/];
             });
         });
@@ -323,7 +318,6 @@ var TezosSet = /** @class */ (function () {
                                 aggSupplyAmount += nativeSupplyDepletion.amount;
                             }
                         });
-                        console.log(nativeSupplyDepletionRewards);
                         this.nativeSupplyDepletionRewards = nativeSupplyDepletionRewards;
                         return [2 /*return*/];
                 }
@@ -547,9 +541,11 @@ var TezosSet = /** @class */ (function () {
                         return [3 /*break*/, 1];
                     case 3:
                         this.rawWalletTransactions.forEach(function (transaction) {
-                            var _a;
+                            var _a, _b;
                             if (((_a = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _a === void 0 ? void 0 : _a.alias) === "Melange Payouts")
                                 _this.isCustodial = true;
+                            else if (((_b = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _b === void 0 ? void 0 : _b.alias) === "EcoTez Payouts")
+                                _this.bakerAddresses.add("tz1QS7N8HnRBG2RNh3Kjty58XFXuLFVdnKGY");
                         });
                         this.isCustodial = false;
                         return [2 /*return*/];
@@ -746,7 +742,6 @@ var TezosSet = /** @class */ (function () {
                             var correctedDate = dateSplit.join("-");
                             _this.marketByDay.push({ date: correctedDate, amount: element[marketCap] });
                         });
-                        console.log(this.marketByDay);
                         priceAndMarketCapData.forEach(function (element) {
                             var dateSplit = element.date.toString().split("-");
                             dateSplit = [dateSplit[0], dateSplit[1], dateSplit[2]];
