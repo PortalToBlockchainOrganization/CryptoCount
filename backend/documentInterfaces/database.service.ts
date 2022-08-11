@@ -2,7 +2,7 @@ import * as mongoDB from "mongodb";
 import { ObjectId } from "mongodb";
 import CycleAndDate from "./CycleAndDate";
 
-const MONGOURI = `mongodb+srv://admin:*@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority`;
+const MONGOURI = `mongodb+srv://admin:lelloliar9876@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority`;
 const server = "127.0.0.1:27017";
 const database = "AnalysisDep";
 const cyclesCollectionString = "cycles2";

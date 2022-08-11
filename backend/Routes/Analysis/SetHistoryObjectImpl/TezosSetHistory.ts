@@ -51,6 +51,7 @@ interface PriceAndMarketCapByDay {
     marketCap: number
 }
 
+
 interface BVbyDomain {
     startDate: string,
     endDate: string,
@@ -62,10 +63,27 @@ interface DepletionByDay{
     amount: number
 }
 
+interface DilutionByDay{
+    date: string,
+    amount: number
+}
+
+interface MarketByDay{
+    date: string,
+    amount: number
+}
+
+interface PriceByDay{
+    date: string,
+    amount: number
+}
+
+
 class TezosSet {
     fiat: string;
     walletAddress: string;
     firstRewardDate: string;
+    priceByDay: Array<PriceByDay>
     bakerCycles: Array<BakerCycle>;
     rewardsByDay: Array<RewardsByDay>;
     bakerAddresses: Set<string>;
@@ -84,7 +102,9 @@ class TezosSet {
     nativeRewardsFMVByCycle: Array<RewardsByDay>;
     investmentsScaledBVByDomain: Array<BVbyDomain>;
     nativeSupplyDepletion: Array<DepletionByDay>;
+    nativeMarketDilutionRewards: Array<RewardsByDay>;
     nativeSupplyDepletionRewards: Array<RewardsByDay>;
+    marketByDay: Array<MarketByDay>;
     constructor(){
 
 
@@ -99,7 +119,10 @@ class TezosSet {
         this.balancesByDay = {};
         this.unaccountedNetTransactions = [];
         this.bakerCycles = [];
+        this.marketByDay = [];
+        this.priceByDay = [];
         this.cyclesByDay = [];
+        this.nativeMarketDilutionRewards = [];
         this.supplyByDay = [];
         this.rawWalletTransactions = [];
         this.nativeSupplyDepletion = [];
@@ -119,6 +142,7 @@ class TezosSet {
         this.nativeRewardsFMVByCycle = this.calculateNativeRewardFMVByCycle();
         this.investmentsScaledBVByDomain = this.calculateInvestmentBVByDomain();
         await this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain);
+        await this.calculateNativeMarketDilutionRewards(this.investmentsScaledBVByDomain);
         // await analysis();
 
         return
@@ -135,6 +159,138 @@ class TezosSet {
             return {date: reward.date, rewardAmount: reward.rewardAmount*this.pricesAndMarketCapsByDay[reward.date].price, cycle:reward.cycle}
         })
     }
+
+   async calculateNativeMarketDilutionRewards(scaledBVByDomain:Array<BVbyDomain>): Promise<void> {
+
+    //   this.marketCapByDay = this.pricesAndMarketCapsByDay.filter(marketcap => {return{marketcap.marketCap, marketcap.date}})
+    // console.log("markectcap")
+    // console.log(this.pricesAndMarketCapsByDay["2021-10-10"].marketCap)
+
+    let mappedBV: Map<string, number> = new Map(); 
+
+   
+
+
+    scaledBVByDomain.forEach(bvDomain => {
+    // iterate over the date range (inclusive)
+    let startDate: Date = new Date(bvDomain.startDate);
+    let endDate: Date = new Date(bvDomain.endDate);
+    while(startDate<=endDate){
+        mappedBV[startDate.toISOString().slice(0,10)] = bvDomain.scaledBookValue;
+        startDate.setDate(startDate.getDate() + 1);
+        if(startDate.toISOString().slice(11)!=="00:00:00.000Z"){
+            startDate.setDate(startDate.getDate() + 1);
+            startDate = new Date(startDate.toISOString().slice(0,10));
+            }
+        }
+    })
+
+    let nativeMarketDilutionByDay: Array<DilutionByDay>
+    let filteredMarketByDay: Array<DilutionByDay> = this.marketByDay.filter(markets => {
+        return markets.date >= this.firstRewardDate
+    }); 
+
+    let filtereredPriceByDay: Array<DilutionByDay> = this.priceByDay.filter(prices => {
+        return prices.date >= this.firstRewardDate
+    })
+
+
+    //make the prices a dict so you can put a date in and get the price amount
+    let dictionaryPriceByDay = Object.assign({}, ...filtereredPriceByDay.map((x) => ({[x.date]: x.amount})));
+
+
+    
+    let lastMarket: DilutionByDay = filteredMarketByDay[0];
+    let lastPrice = filtereredPriceByDay[0].amount; 
+    nativeMarketDilutionByDay = filteredMarketByDay.slice(1).map(market => {
+        let ratio1: number = ((market.amount - lastMarket.amount) / lastMarket.amount) 
+        let ratio2: number = ((dictionaryPriceByDay[market.date] - lastPrice) / lastPrice); 
+        let ratio3: number = ratio1 - ratio2
+
+        if (lastMarket.date === market.date){
+            return
+        }
+        lastMarket = market;
+        lastPrice = dictionaryPriceByDay[market.date]
+        return {date: market.date, amount: (ratio3) * mappedBV[market.date]}
+    });
+
+
+    let nativeFilteredMarketDilutionByDay: Array<DilutionByDay>
+
+
+    nativeFilteredMarketDilutionByDay = nativeMarketDilutionByDay.map(element => {
+        if(element.amount <= 0){
+            return {date: element.date, amount: 0}
+        }
+        else{
+            return element
+        }
+    })
+
+    console.log("nativeMarketDiltuionByDayOnthisguy")
+    console.log(nativeFilteredMarketDilutionByDay.length)
+ 
+    let mappedFMV: Map<number, RewardsByDay> = new Map();
+        this.nativeRewardsFMVByCycle.forEach(fmvReward=> {
+            mappedFMV[fmvReward.cycle] = fmvReward.rewardAmount;
+        });
+
+        let mappedCyclesToFirstCycleDate: Map<number, string> = new Map();
+        this.cyclesMappedToDays.forEach((key,value) => {
+            mappedCyclesToFirstCycleDate[value] = key;
+        })
+
+        let nativeMarketDilutionRewards: Array<RewardsByDay> = [];
+        let currentDate: string = nativeFilteredMarketDilutionByDay[0].date;
+        let currentDilutionCycle: number = mappedCyclesToFirstCycleDate[currentDate];
+        let aggDilutionAmount: number = nativeFilteredMarketDilutionByDay[0].amount;
+        let endDate: string = nativeFilteredMarketDilutionByDay[nativeFilteredMarketDilutionByDay.length - 1].date
+        console.log(nativeFilteredMarketDilutionByDay)
+
+
+        nativeFilteredMarketDilutionByDay.forEach(nativeFilteredMarketDilutionByDay => {
+            if(this.cyclesMappedToDays.get(nativeFilteredMarketDilutionByDay.date)!==currentDilutionCycle){
+                nativeMarketDilutionRewards.push({date: currentDate, 
+                    rewardAmount: mappedFMV[currentDilutionCycle] - aggDilutionAmount, 
+                    cycle: currentDilutionCycle})
+
+                currentDate = nativeFilteredMarketDilutionByDay.date;
+                currentDilutionCycle = mappedCyclesToFirstCycleDate[currentDate];
+                aggDilutionAmount = nativeFilteredMarketDilutionByDay.amount;
+            }
+            else if(nativeFilteredMarketDilutionByDay.date===endDate){
+                aggDilutionAmount+=nativeFilteredMarketDilutionByDay.amount;
+                nativeMarketDilutionRewards.push({date: currentDate, 
+                    rewardAmount: mappedFMV[currentDilutionCycle] - aggDilutionAmount, 
+                    cycle: currentDilutionCycle})
+            }
+            else{
+                aggDilutionAmount+=nativeFilteredMarketDilutionByDay.amount;
+            }
+
+        })
+      
+
+        //filter the rewards for positive ones here
+        let nativeFilteredDilutionRewards: Array<RewardsByDay>
+
+        nativeFilteredDilutionRewards = nativeMarketDilutionRewards.map(element => {
+                if(element.rewardAmount <= 0){
+                    return {date: element.date, rewardAmount: 0, cycle: element.cycle}
+                }
+                else{
+                    return element
+                }
+            })
+
+        this.nativeMarketDilutionRewards = nativeFilteredDilutionRewards;
+        console.log("dilution rewards")
+        console.log(nativeFilteredDilutionRewards)
+
+
+
+   }
 
     async calculateNativeSupplyDepletionRewards(scaledBVByDomain: Array<BVbyDomain>): Promise<void> {
         // do this in some earlier method
@@ -216,7 +372,7 @@ class TezosSet {
             }
 
         })
-
+        console.log(nativeSupplyDepletionRewards)
         this.nativeSupplyDepletionRewards = nativeSupplyDepletionRewards;
 
     }
@@ -542,6 +698,30 @@ class TezosSet {
                 this.pricesAndMarketCapsByDay[correctedDate] = {date: correctedDate, price: priceAndMarketCap[price], marketCap: priceAndMarketCap[marketCap]}
             }
         )
+
+        //filter the map type for date and market cap 
+        //this.priceAndMarketCapsByDay.sometypefunction(element => {return elementstuff})
+        //log the element
+        //extraction method from element
+        //add date reformatting 
+    
+        //console.log(this.marketByDay)
+        priceAndMarketCapData.forEach(element => {
+            let dateSplit: string[] = element.date.toString().split("-");
+            dateSplit = [dateSplit[0], dateSplit[1], dateSplit[2]];
+            let correctedDate: string = dateSplit.join("-");
+            this.marketByDay.push({date: correctedDate, amount: element[marketCap]})
+        })
+
+        console.log(this.marketByDay)   
+        
+        priceAndMarketCapData.forEach(element => {
+            let dateSplit: string[] = element.date.toString().split("-");
+            dateSplit = [dateSplit[0], dateSplit[1], dateSplit[2]];
+            let correctedDate: string = dateSplit.join("-");
+            this.priceByDay.push({date: correctedDate, amount: element[price]})
+        })
+
         return
     }
 

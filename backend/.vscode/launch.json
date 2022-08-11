@@ -1,0 +1,22 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ts-node",
+            "type": "node",
+            "request": "launch",
+            "args": [
+                "TezosSetHistory.js",
+            ],
+            // "runtimeArgs": [
+            //     "TezosSetHistory.ts --lib es2019",
+            //     "node TezosSetHistory"
+            // ],
+            "cwd": "/home/ec2-user/CryptoCount/backend/Routes/Analysis/SetHistoryObjectImpl",
+            "internalConsoleOptions": "openOnSessionStart"
+        }
+    ]
+}
