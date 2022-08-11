@@ -14,7 +14,7 @@ END_URL = '&localization=false'
 client = MongoClient("mongodb+srv://admin:*@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority")
 db = client.AnalysisDep
 blockchains = db.blockchains2
-statistics = db.statistics
+statistics = db.statistics2
 cycles_ = db.cycles2
 
 print(db)
@@ -78,9 +78,11 @@ def initTotalSupplys():
     offset = 0
     while(True):
         url = (f"https://api.tzkt.io/v1/statistics?offset={offset}&limit=10000")
+        print(url)
         response = requests.get(url)
         response = response.json()
         offset = response[len(response) - 1]['level'] + 1
+        print(len(response))
         for data in response:
             stats.append(data)
         if len(response) < 10000:
@@ -145,4 +147,4 @@ def initCycles():
     
     cycles_.insert_many(cycle_docs)
 
-initPrices()
+initTotalSupplys()

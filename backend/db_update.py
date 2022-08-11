@@ -1,5 +1,6 @@
 from itertools import cycle
 from tracemalloc import start
+from turtle import st
 from xml.etree.ElementInclude import include
 import requests, datetime, sys, time, math
 from dateutil.rrule import rrule, DAILY
@@ -11,7 +12,7 @@ import time
 client = MongoClient("mongodb+srv://admin:*@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority")
 db = client.AnalysisDep
 blockchains = db.blockchains2
-statistics = db.statistics
+statistics = db.statistics2
 cycles_ = db.cycles2
 
 
@@ -85,14 +86,19 @@ def updatePricesAndMarketCap():
         # blockchains.insert_many(date_data_chunk)
 
 def updateTotalSupplys():
-    # first we pull the stats from the tzkt api
     stats = []
     startDate = statistics.find_one(sort=[("dateString", -1)])['dateString']
     startYear, startMonth, startDay = [int(x) for x in startDate.split(' ')[0].split('-')]
     startDate = datetime.datetime(startYear, startMonth, startDay)
+    print(startDate)
     endDate = datetime.datetime.utcnow()
+
     dates = [dt.strftime("%Y-%m-%d") for dt in rrule(freq=DAILY, dtstart=startDate, until=endDate)]
+    if(dates[0]==startDate.strftime("%Y-%m-%d")):
+        dates = dates[1:]
+
     print(dates)
+
     i = 0
 
     while i<len(dates):
@@ -152,4 +158,4 @@ def updateCycles():
 
 
 
-updatePricesAndMarketCap()
+updateTotalSupplys()
