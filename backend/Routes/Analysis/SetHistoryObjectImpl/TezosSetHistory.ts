@@ -143,6 +143,8 @@ class TezosSet {
         this.investmentsScaledBVByDomain = this.calculateInvestmentBVByDomain();
         await this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain);
         await this.calculateNativeMarketDilutionRewards(this.investmentsScaledBVByDomain);
+        console.log("this")
+        console.log(this)
         // await analysis();
 
         return
@@ -162,14 +164,7 @@ class TezosSet {
 
    async calculateNativeMarketDilutionRewards(scaledBVByDomain:Array<BVbyDomain>): Promise<void> {
 
-    //   this.marketCapByDay = this.pricesAndMarketCapsByDay.filter(marketcap => {return{marketcap.marketCap, marketcap.date}})
-    // console.log("markectcap")
-    // console.log(this.pricesAndMarketCapsByDay["2021-10-10"].marketCap)
-
     let mappedBV: Map<string, number> = new Map(); 
-
-   
-
 
     scaledBVByDomain.forEach(bvDomain => {
     // iterate over the date range (inclusive)
@@ -198,7 +193,6 @@ class TezosSet {
     //make the prices a dict so you can put a date in and get the price amount
     let dictionaryPriceByDay = Object.assign({}, ...filtereredPriceByDay.map((x) => ({[x.date]: x.amount})));
 
-
     
     let lastMarket: DilutionByDay = filteredMarketByDay[0];
     let lastPrice = filtereredPriceByDay[0].amount; 
@@ -219,6 +213,7 @@ class TezosSet {
     let nativeFilteredMarketDilutionByDay: Array<DilutionByDay>
 
 
+    //filter for existing dilution 
     nativeFilteredMarketDilutionByDay = nativeMarketDilutionByDay.map(element => {
         if(element.amount <= 0){
             return {date: element.date, amount: 0}
@@ -232,61 +227,61 @@ class TezosSet {
     console.log(nativeFilteredMarketDilutionByDay.length)
  
     let mappedFMV: Map<number, RewardsByDay> = new Map();
-        this.nativeRewardsFMVByCycle.forEach(fmvReward=> {
-            mappedFMV[fmvReward.cycle] = fmvReward.rewardAmount;
-        });
+    this.nativeRewardsFMVByCycle.forEach(fmvReward=> {
+        mappedFMV[fmvReward.cycle] = fmvReward.rewardAmount;
+    });
 
-        let mappedCyclesToFirstCycleDate: Map<number, string> = new Map();
-        this.cyclesMappedToDays.forEach((key,value) => {
-            mappedCyclesToFirstCycleDate[value] = key;
-        })
+    let mappedCyclesToFirstCycleDate: Map<number, string> = new Map();
+    this.cyclesMappedToDays.forEach((key,value) => {
+        mappedCyclesToFirstCycleDate[value] = key;
+    })
 
-        let nativeMarketDilutionRewards: Array<RewardsByDay> = [];
-        let currentDate: string = nativeFilteredMarketDilutionByDay[0].date;
-        let currentDilutionCycle: number = mappedCyclesToFirstCycleDate[currentDate];
-        let aggDilutionAmount: number = nativeFilteredMarketDilutionByDay[0].amount;
-        let endDate: string = nativeFilteredMarketDilutionByDay[nativeFilteredMarketDilutionByDay.length - 1].date
-        console.log(nativeFilteredMarketDilutionByDay)
+    let nativeMarketDilutionRewards: Array<RewardsByDay> = [];
+    let currentDate: string = nativeFilteredMarketDilutionByDay[0].date;
+    let currentDilutionCycle: number = mappedCyclesToFirstCycleDate[currentDate];
+    let aggDilutionAmount: number = nativeFilteredMarketDilutionByDay[0].amount;
+    let endDate: string = nativeFilteredMarketDilutionByDay[nativeFilteredMarketDilutionByDay.length - 1].date
+    console.log(nativeFilteredMarketDilutionByDay)
 
 
-        nativeFilteredMarketDilutionByDay.forEach(nativeFilteredMarketDilutionByDay => {
-            if(this.cyclesMappedToDays.get(nativeFilteredMarketDilutionByDay.date)!==currentDilutionCycle){
-                nativeMarketDilutionRewards.push({date: currentDate, 
-                    rewardAmount: mappedFMV[currentDilutionCycle] - aggDilutionAmount, 
-                    cycle: currentDilutionCycle})
+    nativeFilteredMarketDilutionByDay.forEach(nativeFilteredMarketDilutionByDay => {
+        if(this.cyclesMappedToDays.get(nativeFilteredMarketDilutionByDay.date)!==currentDilutionCycle){
+            nativeMarketDilutionRewards.push({date: currentDate, 
+                rewardAmount: mappedFMV[currentDilutionCycle] - aggDilutionAmount, 
+                cycle: currentDilutionCycle})
 
-                currentDate = nativeFilteredMarketDilutionByDay.date;
-                currentDilutionCycle = mappedCyclesToFirstCycleDate[currentDate];
-                aggDilutionAmount = nativeFilteredMarketDilutionByDay.amount;
-            }
-            else if(nativeFilteredMarketDilutionByDay.date===endDate){
-                aggDilutionAmount+=nativeFilteredMarketDilutionByDay.amount;
-                nativeMarketDilutionRewards.push({date: currentDate, 
-                    rewardAmount: mappedFMV[currentDilutionCycle] - aggDilutionAmount, 
-                    cycle: currentDilutionCycle})
+            currentDate = nativeFilteredMarketDilutionByDay.date;
+            currentDilutionCycle = mappedCyclesToFirstCycleDate[currentDate];
+            aggDilutionAmount = nativeFilteredMarketDilutionByDay.amount;
+        }
+        else if(nativeFilteredMarketDilutionByDay.date===endDate){
+            aggDilutionAmount+=nativeFilteredMarketDilutionByDay.amount;
+            nativeMarketDilutionRewards.push({date: currentDate, 
+                rewardAmount: mappedFMV[currentDilutionCycle] - aggDilutionAmount, 
+                cycle: currentDilutionCycle})
+        }
+        else{
+            aggDilutionAmount+=nativeFilteredMarketDilutionByDay.amount;
+        }
+
+    })
+    
+
+    //filter the rewards for positive ones here
+    let nativeFilteredDilutionRewards: Array<RewardsByDay>
+
+    nativeFilteredDilutionRewards = nativeMarketDilutionRewards.map(element => {
+            if(element.rewardAmount <= 0){
+                return {date: element.date, rewardAmount: 0, cycle: element.cycle}
             }
             else{
-                aggDilutionAmount+=nativeFilteredMarketDilutionByDay.amount;
+                return element
             }
-
         })
-      
 
-        //filter the rewards for positive ones here
-        let nativeFilteredDilutionRewards: Array<RewardsByDay>
-
-        nativeFilteredDilutionRewards = nativeMarketDilutionRewards.map(element => {
-                if(element.rewardAmount <= 0){
-                    return {date: element.date, rewardAmount: 0, cycle: element.cycle}
-                }
-                else{
-                    return element
-                }
-            })
-
-        this.nativeMarketDilutionRewards = nativeFilteredDilutionRewards;
-        console.log("dilution rewards")
-        console.log(nativeFilteredDilutionRewards)
+    this.nativeMarketDilutionRewards = nativeFilteredDilutionRewards;
+    console.log("dilution rewards")
+    console.log(nativeFilteredDilutionRewards)
 
 
 

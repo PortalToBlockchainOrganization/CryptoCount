@@ -130,6 +130,8 @@ var TezosSet = /** @class */ (function () {
                         return [4 /*yield*/, this.calculateNativeMarketDilutionRewards(this.investmentsScaledBVByDomain)];
                     case 4:
                         _a.sent();
+                        console.log("this");
+                        console.log(this);
                         // await analysis();
                         return [2 /*return*/];
                 }
@@ -192,6 +194,7 @@ var TezosSet = /** @class */ (function () {
                     lastPrice = dictionaryPriceByDay[market.date];
                     return { date: market.date, amount: (ratio3) * mappedBV[market.date] };
                 });
+                //filter for existing dilution 
                 nativeFilteredMarketDilutionByDay = nativeMarketDilutionByDay.map(function (element) {
                     if (element.amount <= 0) {
                         return { date: element.date, amount: 0 };
