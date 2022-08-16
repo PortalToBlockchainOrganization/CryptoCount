@@ -78,6 +78,10 @@ interface PriceByDay{
     amount: number
 }
 
+//realized and unrealized interface
+
+
+
 
 class TezosSet {
     fiat: string;
@@ -105,6 +109,23 @@ class TezosSet {
     nativeMarketDilutionRewards: Array<RewardsByDay>;
     nativeSupplyDepletionRewards: Array<RewardsByDay>;
     marketByDay: Array<MarketByDay>;
+    //realized and unrealized sets
+    unrealizedNativeRewards: Array<RewardsByDay>;
+    unrealizedNativeFMVRewards: Array<RewardsByDay>;
+    unrealizedNativeMarketDilutionRewards: Array<RewardsByDay>;
+    unrealizedNativeSupplyDepletionRewards: Array<RewardsByDay>;
+    realizingNativeRewards: Array<RewardsByDay>;
+    realizingNativeFMVRewards: Array<RewardsByDay>;
+    realizingNativeMarketDilutionRewards: Array<RewardsByDay>;
+    realizingNativeSupplyDepletionRewards: Array<RewardsByDay>;
+    //aggs
+    unrealizedNativeRewardAggregate25p: number;
+    unrealizedNativeRewardAggregate50p: number;
+    unrealizedNativeRewardAggregate75p: number;
+    unrealizedNativeRewardAggregate100p: number;
+    
+
+
     constructor(){
 
 
@@ -133,16 +154,30 @@ class TezosSet {
         this.delegatorRewardsUrl = `https://api.tzkt.io/v1/rewards/delegators/${this.walletAddress}?cycle.ge=0&limit=10000`;
         this.nativeRewardsFMVByCycle = new Array<RewardsByDay>();
         this.nativeSupplyDepletionRewards = new Array<RewardsByDay>();
-
+        //create realized and unrealized sets for the reward arrays
+        this.unrealizedNativeRewards = []
+        this.unrealizedNativeFMVRewards = []
+        this.unrealizedNativeMarketDilutionRewards = []
+        this.unrealizedNativeSupplyDepletionRewards = []
+        this.realizingNativeRewards = []
+        this.realizingNativeFMVRewards = []
+        this.realizingNativeMarketDilutionRewards = []
+        this.realizingNativeSupplyDepletionRewards = []
+        this.unrealizedNativeRewardAggregate25p = 0
+        this.unrealizedNativeRewardAggregate50p = 0
+        this.unrealizedNativeRewardAggregate75p = 0
+        this.unrealizedNativeRewardAggregate100p = 0
+        
 
         await connectToDatabase();
         // get data from apis + db
         await Promise.all([this.getRewardsAndTransactions(), this.getBalances(), this.getPricesAndMarketCap()]);
         // conduct analysis
-        this.nativeRewardsFMVByCycle = this.calculateNativeRewardFMVByCycle();
+        // this.nativeRewardsFMVByCycle = this.calculateNativeRewardFMVByCycle();
         this.investmentsScaledBVByDomain = this.calculateInvestmentBVByDomain();
-        await this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain);
-        await this.calculateNativeMarketDilutionRewards(this.investmentsScaledBVByDomain);
+        await this.analysis()
+        // await this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain);
+        // await this.calculateNativeMarketDilutionRewards(this.investmentsScaledBVByDomain);
         console.log("this")
         console.log(this)
         // await analysis();
@@ -151,9 +186,78 @@ class TezosSet {
     }
 
     async analysis(): Promise<any> {
-        //calculateInvestmentBVByDomain
+        //convert cleaned data into unrealized interfaces to prepare for realization interfaces
+        
+        //unrealized arrays
+        let unrealizedNativeRewards: Array<RewardsByDay> = []
+        let unrealizedNativeFMVRewards: Array<RewardsByDay> = []
+        let unrealizedNativeMarketDilutionRewards: Array<RewardsByDay> = []
+        let unrealizedNativeSupplyDepletionRewards: Array<RewardsByDay> = []
 
+
+        
+        //data packages
+        this.rewardsByCycle
+        this.nativeRewardsFMVByCycle = this.calculateNativeRewardFMVByCycle();
+        await this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain);
+        await this.calculateNativeMarketDilutionRewards(this.investmentsScaledBVByDomain);
+
+
+        //convert
+
+
+        
     }
+
+   async realizeReward(): Promise<any> {
+
+        //define argument here, the depletion quantity 
+
+
+
+        // realized arrays
+        let realizingNativeRewards: Array<RewardsByDay> = []
+        let realizingNativeFMVRewards: Array<RewardsByDay> = []
+        let realizingNativeMarketDilutionRewards: Array<RewardsByDay> = []
+        let realizingNativeSupplyDepletionRewards: Array<RewardsByDay> = []
+
+
+        this.unrealizedNativeRewards.forEach(function(value, index, object) {
+            
+            //deplete logic
+
+            //complete depletion
+            if(){
+                realizingNativeRewards.push(value)
+                object.splice(index, 1)
+                //deplete the quantity
+            }
+            //partial depletion
+            else if(){
+
+            }
+
+            
+
+
+        })
+
+
+        //depelte the realized quantity  
+
+
+
+        //0.3.0
+        //for date range
+   }
+
+   async aggregates(): Promise<any> {
+
+        //from the unrealized and realized arrays
+        //prepare unrealized aggreagte figures and attach to object for more quantity selection information (25%, 50%, 75%, 100%)  
+        //4 parsed up agg values for native rewards unrealized array for quantity fill purposes 
+
+   }
 
     calculateNativeRewardFMVByCycle(): Array<RewardsByDay> {
         //rewards by day by price that day

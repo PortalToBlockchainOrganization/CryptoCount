@@ -145,6 +145,13 @@ var TezosSet = /** @class */ (function () {
             });
         });
     };
+    TezosSet.prototype.realizeReward = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
     TezosSet.prototype.calculateNativeRewardFMVByCycle = function () {
         var _this = this;
         //rewards by day by price that day
