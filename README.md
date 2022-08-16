@@ -6,7 +6,9 @@ WebApp: https://cryptocount.co
 Remote API Documentation: https://portaltoblockchain.org/api || https://github.com/PortalToBlockchainOrganization/CryptoCount_API
 
 
-CryptoCount 0.2.2 communicates the project into TypeScript. To follow developments as they happen, please checkout tsDilution and navigate to backend/Routes/Analysis/SetHistoryObjectImpl.
+CryptoCount 0.2.2 communicates the project into TypeScript. 
+
+To follow the latest developments as they happen, please checkout dilutionTS and navigate to backend/Routes/Analysis/SetHistoryObjectImpl.
 
 # Run 0.2.1
 
