@@ -114,7 +114,6 @@ var TezosSet = /** @class */ (function () {
                         this.delegatorRewardsUrl = "https://api.tzkt.io/v1/rewards/delegators/".concat(this.walletAddress, "?cycle.ge=0&limit=10000");
                         this.nativeRewardsFMVByCycle = new Array();
                         this.nativeSupplyDepletionRewards = new Array();
-                        //create realized and unrealized sets for the reward arrays
                         this.unrealizedNativeRewards = [];
                         this.unrealizedNativeFMVRewards = [];
                         this.unrealizedNativeMarketDilutionRewards = [];
@@ -164,17 +163,45 @@ var TezosSet = /** @class */ (function () {
     };
     TezosSet.prototype.analysis = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var unfilteredNativeRewards, unfilteredNativeFMVRewards, unfilteredNativeMarketDilutionRewards, unfilteredNativeSupplyDepletionRewards;
             var _this = this;
             return __generator(this, function (_a) {
-                // //data packages
-                // this.nativeRewardsFMVByCycle = this.calculateNativeRewardFMVByCycle();
-                // await this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain);
-                // await this.calculateNativeMarketDilutionRewards(this.investmentsScaledBVByDomain);
+                unfilteredNativeRewards = [];
+                unfilteredNativeFMVRewards = [];
+                unfilteredNativeMarketDilutionRewards = [];
+                unfilteredNativeSupplyDepletionRewards = [];
                 //convert
                 this.rewardsByCycle.forEach(function (value) { _this.unrealizedNativeRewards.push({ date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle }); });
-                this.nativeMarketDilutionRewards.forEach(function (value) { _this.unrealizedNativeFMVRewards.push({ date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle }); });
+                this.nativeRewardsFMVByCycle.forEach(function (value) { _this.unrealizedNativeFMVRewards.push({ date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle }); });
                 this.nativeMarketDilutionRewards.forEach(function (value) { _this.unrealizedNativeMarketDilutionRewards.push({ date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle }); });
                 this.nativeSupplyDepletionRewards.forEach(function (value) { _this.unrealizedNativeSupplyDepletionRewards.push({ date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle }); });
+                //valuea -valueb gives a LIFO behavior
+                //valueb - valuea gives FIFO behavior
+                this.unrealizedNativeRewards.sort(function (a, b) {
+                    var valuea = new Date(b.date).getTime();
+                    var valueb = new Date(a.date).getTime();
+                    var value = valueb - valuea;
+                    return value;
+                });
+                this.unrealizedNativeFMVRewards.sort(function (a, b) {
+                    var valuea = new Date(b.date).getTime();
+                    var valueb = new Date(a.date).getTime();
+                    var value = valueb - valuea;
+                    return value;
+                });
+                this.unrealizedNativeMarketDilutionRewards.sort(function (a, b) {
+                    var valuea = new Date(b.date).getTime();
+                    var valueb = new Date(a.date).getTime();
+                    var value = valueb - valuea;
+                    return value;
+                });
+                this.unrealizedNativeSupplyDepletionRewards.sort(function (a, b) {
+                    var valuea = new Date(b.date).getTime();
+                    var valueb = new Date(a.date).getTime();
+                    var value = valueb - valuea;
+                    return value;
+                });
+                //filter the unrealized arrays to put in chronolgoical order
                 this.realizeReward();
                 return [2 /*return*/];
             });
@@ -182,9 +209,8 @@ var TezosSet = /** @class */ (function () {
     };
     TezosSet.prototype.realizeReward = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var quantity, unrealizedNativeFMVRewardsMap, unrealizedNativeMarketDilutionRewardsMap, unrealizedNativeSupplyDepletionRewardsMap;
-            var _this = this;
-            return __generator(this, function (_a) {
+            var quantity, unrealizedNativeFMVRewardsMap, unrealizedNativeMarketDilutionRewardsMap, unrealizedNativeSupplyDepletionRewardsMap, i, newValue1, newValue2, value1, value2, value3, value4, _a, value5, value6, value7;
+            return __generator(this, function (_b) {
                 quantity = 30;
                 unrealizedNativeFMVRewardsMap = Object.assign.apply(Object, __spreadArray([{}], __read(this.unrealizedNativeFMVRewards.map(function (x) {
                     var _a;
@@ -199,44 +225,39 @@ var TezosSet = /** @class */ (function () {
                     return (_a = {}, _a[x.date] = x.rewardAmount, _a);
                 })), false));
                 //let splicelist = []
-                this.unrealizedNativeRewards.forEach(function (value, index) {
-                    //complete depletion
-                    if (value.rewardAmount <= quantity) {
-                        _this.realizingNativeRewards.push({ date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle });
-                        _this.realizingNativeFMVRewards.push({ date: value.date, rewardAmount: unrealizedNativeFMVRewardsMap[value.date], cycle: value.cycle });
-                        _this.realizingNativeMarketDilutionRewards.push({ date: value.date, rewardAmount: unrealizedNativeMarketDilutionRewardsMap[value.date], cycle: value.cycle });
-                        _this.realizingNativeSupplyDepletionRewards.push({ date: value.date, rewardAmount: unrealizedNativeSupplyDepletionRewardsMap[value.date], cycle: value.cycle });
+                for (i = 0; i < this.unrealizedNativeRewards.length; i++) {
+                    if (this.unrealizedNativeRewards[i].rewardAmount <= quantity) {
+                        this.realizingNativeRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: this.unrealizedNativeRewards[i].rewardAmount, cycle: this.unrealizedNativeRewards[i].cycle });
+                        this.realizingNativeFMVRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeFMVRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle });
+                        this.realizingNativeMarketDilutionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle });
+                        this.realizingNativeSupplyDepletionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeSupplyDepletionRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle });
                         //splicelist.push(index)
-                        _this.unrealizedNativeRewards.splice(0, 1);
-                        _this.unrealizedNativeFMVRewards.splice(0, 1);
-                        _this.unrealizedNativeMarketDilutionRewards.splice(0, 1);
-                        _this.unrealizedNativeSupplyDepletionRewards.splice(0, 1);
-                        quantity = quantity - value.rewardAmount;
+                        this.unrealizedNativeRewards.splice(0, 1);
+                        this.unrealizedNativeFMVRewards.splice(0, 1);
+                        this.unrealizedNativeMarketDilutionRewards.splice(0, 1);
+                        this.unrealizedNativeSupplyDepletionRewards.splice(0, 1);
+                        quantity = quantity - this.unrealizedNativeRewards[i].rewardAmount;
                     }
-                    //partial depletion
-                    else if (value.rewardAmount > quantity) {
-                        var newValue1 = quantity;
-                        var newValue2 = value.rewardAmount - quantity;
-                        _this.realizingNativeRewards.push({ date: value.date, rewardAmount: newValue1, cycle: value.cycle });
-                        var value1 = unrealizedNativeFMVRewardsMap[value.date];
-                        var value2 = value.rewardAmount;
-                        var value3 = unrealizedNativeMarketDilutionRewardsMap[value.date];
-                        var value4 = unrealizedNativeSupplyDepletionRewardsMap[value.date];
-                        var _a = __read([value1 / value2, value3 / value2, value4 / value2], 3), value5 = _a[0], value6 = _a[1], value7 = _a[2];
-                        _this.realizingNativeFMVRewards.push({ date: value.date, rewardAmount: newValue1 * value5, cycle: value.cycle });
-                        _this.realizingNativeMarketDilutionRewards.push({ date: value.date, rewardAmount: newValue1 * value6, cycle: value.cycle });
-                        _this.realizingNativeSupplyDepletionRewards.push({ date: value.date, rewardAmount: newValue1 * value7, cycle: value.cycle });
+                    else if (this.unrealizedNativeRewards[i].rewardAmount > quantity && quantity != 0) {
+                        newValue1 = quantity;
+                        newValue2 = this.unrealizedNativeRewards[i].rewardAmount - quantity;
+                        this.realizingNativeRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1, cycle: this.unrealizedNativeRewards[i].cycle });
+                        value1 = unrealizedNativeFMVRewardsMap[this.unrealizedNativeRewards[i].date];
+                        value2 = this.unrealizedNativeRewards[i].rewardAmount;
+                        value3 = unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date];
+                        value4 = unrealizedNativeSupplyDepletionRewardsMap[this.unrealizedNativeRewards[i].date];
+                        _a = __read([value1 / value2, value3 / value2, value4 / value2], 3), value5 = _a[0], value6 = _a[1], value7 = _a[2];
+                        this.realizingNativeFMVRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value5, cycle: this.unrealizedNativeRewards[i].cycle });
+                        this.realizingNativeMarketDilutionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value6, cycle: this.unrealizedNativeRewards[i].cycle });
+                        this.realizingNativeSupplyDepletionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value7, cycle: this.unrealizedNativeRewards[i].cycle });
                         //multiple the three scalars by the newValue2 for unrealized and use quantity for the realizing
-                        _this.unrealizedNativeFMVRewards.unshift({ date: value.date, rewardAmount: newValue2 * value5, cycle: value.cycle });
-                        _this.unrealizedNativeMarketDilutionRewards.unshift({ date: value.date, rewardAmount: newValue2 * value6, cycle: value.cycle });
-                        _this.unrealizedNativeFMVRewards.unshift({ date: value.date, rewardAmount: newValue2 * value7, cycle: value.cycle });
-                        //object.unshift({date: value.date, rewardAmount: newValue2, cycle: value.cycle})
+                        this.unrealizedNativeFMVRewards.unshift({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue2 * value5, cycle: this.unrealizedNativeRewards[i].cycle });
+                        this.unrealizedNativeMarketDilutionRewards.unshift({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue2 * value6, cycle: this.unrealizedNativeRewards[i].cycle });
+                        this.unrealizedNativeFMVRewards.unshift({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue2 * value7, cycle: this.unrealizedNativeRewards[i].cycle });
+                        this.unrealizedNativeRewards.unshift({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue2, cycle: this.unrealizedNativeRewards[i].cycle });
                         quantity = 0;
                     }
-                    else {
-                        console.log("quantity higher than native reward aggregate");
-                    }
-                });
+                }
                 return [2 /*return*/];
             });
         });
@@ -244,6 +265,25 @@ var TezosSet = /** @class */ (function () {
     TezosSet.prototype.aggregates = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
+                //from the unrealized and realized arrays
+                //prepare unrealized aggreagte figures and attach to object for more quantity selection information (25%, 50%, 75%, 100%)  
+                //4 parsed up agg values for native rewards unrealized array for quantity fill purposes 
+                this.unrealizedNativeRewards;
+                this.realizingNativeFMVRewards;
+                this.realizingNativeMarketDilutionRewards;
+                this.realizingNativeSupplyDepletionRewards;
+                this.unrealizedNativeRewardAggregate25p = 0;
+                this.unrealizedNativeRewardAggregate50p = 0;
+                this.unrealizedNativeRewardAggregate75p = 0;
+                this.unrealizedNativeRewardAggregate100p = 0;
+                this.realizedNativeRewardAggregate100p = 0;
+                this.realizedNativeRewardAggregate50p = 0;
+                this.realizedNativeFMVRewardAggregate100p = 0;
+                this.realizedNativeFMVRewardAggregate50p = 0;
+                this.realizedNativeMarketDilutionAggregate100p = 0;
+                this.realizedNativeMarketDilutionAggregate50p = 0;
+                this.realizedNativeSupplyDepletionAggregate100p = 0;
+                this.realizedNativeSupplyDepletionAggregate50p = 0;
                 return [2 /*return*/];
             });
         });

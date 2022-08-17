@@ -164,7 +164,6 @@ class TezosSet {
         this.delegatorRewardsUrl = `https://api.tzkt.io/v1/rewards/delegators/${this.walletAddress}?cycle.ge=0&limit=10000`;
         this.nativeRewardsFMVByCycle = new Array<RewardsByDay>();
         this.nativeSupplyDepletionRewards = new Array<RewardsByDay>();
-        //create realized and unrealized sets for the reward arrays
         this.unrealizedNativeRewards = []
         this.unrealizedNativeFMVRewards = []
         this.unrealizedNativeMarketDilutionRewards = []
@@ -208,16 +207,49 @@ class TezosSet {
         // this.nativeRewardsFMVByCycle = this.calculateNativeRewardFMVByCycle();
         // await this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain);
         // await this.calculateNativeMarketDilutionRewards(this.investmentsScaledBVByDomain);
+        let unfilteredNativeRewards: Array<RewardsByDay> = []
+        let unfilteredNativeFMVRewards: Array<RewardsByDay> =[]
+        let unfilteredNativeMarketDilutionRewards: Array<RewardsByDay> = []
+        let unfilteredNativeSupplyDepletionRewards: Array<RewardsByDay> = []
+
 
 
         //convert
         this.rewardsByCycle.forEach((value)=> {this.unrealizedNativeRewards.push({date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle})})
-        this.nativeMarketDilutionRewards.forEach((value)=> { this.unrealizedNativeFMVRewards.push({date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle}) })
+        this.nativeRewardsFMVByCycle.forEach((value)=> { this.unrealizedNativeFMVRewards.push({date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle}) })
         this.nativeMarketDilutionRewards.forEach((value)=> {this.unrealizedNativeMarketDilutionRewards.push( {date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle})})
         this.nativeSupplyDepletionRewards.forEach((value)=> {this.unrealizedNativeSupplyDepletionRewards.push( {date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle})})
 
-        //filter the unrealized arrays to put in chronolgoical order
 
+        //valuea -valueb gives a LIFO behavior
+        //valueb - valuea gives FIFO behavior
+        this.unrealizedNativeRewards.sort((a,b)=>{
+            let valuea: number = new Date(b.date).getTime()
+            let valueb: number = new Date(a.date).getTime()
+            let value: number =  valueb - valuea
+            return value
+        })
+        this.unrealizedNativeFMVRewards.sort((a,b)=>{
+            let valuea: number = new Date(b.date).getTime()
+            let valueb: number = new Date(a.date).getTime()
+            let value: number = valueb - valuea
+            return value
+        })
+        this.unrealizedNativeMarketDilutionRewards.sort((a,b)=>{
+            let valuea: number = new Date(b.date).getTime()
+            let valueb: number = new Date(a.date).getTime()
+            let value: number = valueb - valuea
+            return value
+        })
+        this.unrealizedNativeSupplyDepletionRewards.sort((a,b)=>{
+            let valuea: number = new Date(b.date).getTime()
+            let valueb: number = new Date(a.date).getTime()
+            let value: number =  valueb - valuea
+            return value
+        })
+        
+        //filter the unrealized arrays to put in chronolgoical order
+    
 
         this.realizeReward()
         // this.aggregates()
@@ -229,69 +261,73 @@ class TezosSet {
         //define argument here, the depletion quantity 
         let quantity: number = 30;
 
-
-
-
         //convert the fmv arrays into maps to get the reward value by date
         let unrealizedNativeFMVRewardsMap = Object.assign({}, ...this.unrealizedNativeFMVRewards.map((x) => ({[x.date]: x.rewardAmount})));
         let unrealizedNativeMarketDilutionRewardsMap = Object.assign({}, ...this.unrealizedNativeMarketDilutionRewards.map((x) => ({[x.date]: x.rewardAmount})));
         let unrealizedNativeSupplyDepletionRewardsMap = Object.assign({}, ...this.unrealizedNativeSupplyDepletionRewards.map((x) => ({[x.date]: x.rewardAmount})));
 
-
         //let splicelist = []
-        this.unrealizedNativeRewards.forEach((value, index) => {
-            //complete depletion
-          
-            if(value.rewardAmount <= quantity){
-                this.realizingNativeRewards.push({date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle})
-                this.realizingNativeFMVRewards.push({date: value.date, rewardAmount: unrealizedNativeFMVRewardsMap[value.date], cycle: value.cycle})
-                this.realizingNativeMarketDilutionRewards.push({date: value.date, rewardAmount: unrealizedNativeMarketDilutionRewardsMap[value.date], cycle: value.cycle})
-                this.realizingNativeSupplyDepletionRewards.push({date: value.date, rewardAmount: unrealizedNativeSupplyDepletionRewardsMap[value.date], cycle: value.cycle})
+        for(let i=0;i<this.unrealizedNativeRewards.length;i++){
+            if(this.unrealizedNativeRewards[i].rewardAmount <= quantity){
+                this.realizingNativeRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: this.unrealizedNativeRewards[i].rewardAmount, cycle: this.unrealizedNativeRewards[i].cycle})
+                this.realizingNativeFMVRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeFMVRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle})
+                this.realizingNativeMarketDilutionRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle})
+                this.realizingNativeSupplyDepletionRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeSupplyDepletionRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle})
                 //splicelist.push(index)
                 this.unrealizedNativeRewards.splice(0, 1)
                 this.unrealizedNativeFMVRewards.splice(0, 1)
                 this.unrealizedNativeMarketDilutionRewards.splice(0, 1)
                 this.unrealizedNativeSupplyDepletionRewards.splice(0, 1)
-                quantity = quantity - value.rewardAmount
+                quantity = quantity - this.unrealizedNativeRewards[i].rewardAmount
                 }
-            //partial depletion
-            else if(value.rewardAmount > quantity){
+
+            else if(this.unrealizedNativeRewards[i].rewardAmount > quantity && quantity != 0){
                 let newValue1: number = quantity
-                let newValue2: number = value.rewardAmount - quantity
-                this.realizingNativeRewards.push({date: value.date, rewardAmount: newValue1, cycle: value.cycle})
-                let value1 = unrealizedNativeFMVRewardsMap[value.date]
-                let value2 = value.rewardAmount
-                let value3 =  unrealizedNativeMarketDilutionRewardsMap[value.date]
-                let value4 = unrealizedNativeSupplyDepletionRewardsMap[value.date]
+                let newValue2: number = this.unrealizedNativeRewards[i].rewardAmount - quantity
+                this.realizingNativeRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1, cycle: this.unrealizedNativeRewards[i].cycle})
+                let value1 = unrealizedNativeFMVRewardsMap[this.unrealizedNativeRewards[i].date]
+                let value2 = this.unrealizedNativeRewards[i].rewardAmount
+                let value3 =  unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date]
+                let value4 = unrealizedNativeSupplyDepletionRewardsMap[this.unrealizedNativeRewards[i].date]
                 let [value5, value6, value7] = [value1/value2, value3/value2, value4/value2]
-                this.realizingNativeFMVRewards.push({date: value.date, rewardAmount: newValue1 * value5, cycle: value.cycle})
-                this.realizingNativeMarketDilutionRewards.push({date: value.date, rewardAmount: newValue1 * value6, cycle: value.cycle})
-                this.realizingNativeSupplyDepletionRewards.push({date: value.date, rewardAmount: newValue1 * value7, cycle: value.cycle})
+                this.realizingNativeFMVRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value5, cycle: this.unrealizedNativeRewards[i].cycle})
+                this.realizingNativeMarketDilutionRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value6, cycle: this.unrealizedNativeRewards[i].cycle})
+                this.realizingNativeSupplyDepletionRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value7, cycle: this.unrealizedNativeRewards[i].cycle})
 
                 //multiple the three scalars by the newValue2 for unrealized and use quantity for the realizing
-                this.unrealizedNativeFMVRewards.unshift({date: value.date, rewardAmount: newValue2 * value5, cycle: value.cycle})
-                this.unrealizedNativeMarketDilutionRewards.unshift({date: value.date, rewardAmount: newValue2 * value6, cycle: value.cycle})
-                this.unrealizedNativeFMVRewards.unshift({date: value.date, rewardAmount: newValue2 * value7, cycle: value.cycle})
-                //object.unshift({date: value.date, rewardAmount: newValue2, cycle: value.cycle})
+                this.unrealizedNativeFMVRewards.unshift({date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue2 * value5, cycle: this.unrealizedNativeRewards[i].cycle})
+                this.unrealizedNativeMarketDilutionRewards.unshift({date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue2 * value6, cycle: this.unrealizedNativeRewards[i].cycle})
+                this.unrealizedNativeFMVRewards.unshift({date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue2 * value7, cycle: this.unrealizedNativeRewards[i].cycle})
+                this.unrealizedNativeRewards.unshift({date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue2, cycle: this.unrealizedNativeRewards[i].cycle})
                 quantity = 0
+            
             }
-            else{
-                console.log("quantity higher than native reward aggregate")
-            }
-        })
-
-
-   }
+        }
+    }    
 
    async aggregates(): Promise<any> {
-
         //from the unrealized and realized arrays
         //prepare unrealized aggreagte figures and attach to object for more quantity selection information (25%, 50%, 75%, 100%)  
         //4 parsed up agg values for native rewards unrealized array for quantity fill purposes 
 
+        this.unrealizedNativeRewards
+        this.realizingNativeFMVRewards
+        this.realizingNativeMarketDilutionRewards
+        this.realizingNativeSupplyDepletionRewards
 
 
-
+        this.unrealizedNativeRewardAggregate25p = 0
+        this.unrealizedNativeRewardAggregate50p = 0
+        this.unrealizedNativeRewardAggregate75p = 0
+        this.unrealizedNativeRewardAggregate100p = 0
+        this.realizedNativeRewardAggregate100p = 0
+        this.realizedNativeRewardAggregate50p = 0
+        this.realizedNativeFMVRewardAggregate100p= 0
+        this.realizedNativeFMVRewardAggregate50p = 0
+        this.realizedNativeMarketDilutionAggregate100p = 0
+        this.realizedNativeMarketDilutionAggregate50p = 0
+        this.realizedNativeSupplyDepletionAggregate100p = 0
+        this.realizedNativeSupplyDepletionAggregate50p = 0
 
    }
 
