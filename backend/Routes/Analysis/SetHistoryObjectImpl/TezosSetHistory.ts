@@ -84,6 +84,7 @@ interface PriceByDay{
 
 
 class TezosSet {
+
     fiat: string;
     walletAddress: string;
     firstRewardDate: string;
@@ -118,23 +119,26 @@ class TezosSet {
     realizingNativeFMVRewards: Array<RewardsByDay>;
     realizingNativeMarketDilutionRewards: Array<RewardsByDay>;
     realizingNativeSupplyDepletionRewards: Array<RewardsByDay>;
+
+    //saved realiziation state
+    realizedNativeRewards: Array<RewardsByDay>;
+    realizedNativeFMVRewards: Array<RewardsByDay>;
+    realizedNativeMaketDilutionRewards: Array<RewardsByDay>;
+    realizedNativeSupplyDepletionRewards: Array<RewardsByDay>;
+
     //set aggregates
-    unrealizedNativeRewardAggregate25p: number;
-    unrealizedNativeRewardAggregate50p: number;
-    unrealizedNativeRewardAggregate75p: number;
-    unrealizedNativeRewardAggregate100p: number;
-    realizedNativeRewardAggregate100p: number;
-    realizedNativeRewardAggregate50p: number;
-    realizedNativeFMVRewardAggregate100p: number;
-    realizedNativeFMVRewardAggregate50p: number;
-    realizedNativeMarketDilutionAggregate100p: number;
-    realizedNativeMarketDilutionAggregate50p: number;
-    realizedNativeSupplyDepletionAggregate100p: number;
-    realizedNativeSupplyDepletionAggregate50p: number;
-
-
-    
-
+    aggregateUnrealizedNativeReward25p: number;
+    aggregateUnrealizedNativeReward50p: number;
+    aggregateUnrealizedNativeReward75p: number;
+    aggregateUnrealizedNativeReward100p: number;
+    aggregateRealizedNativeReward100p: number;
+    aggregateRealizedNativeReward50p: number;
+    aggregateRealizedNativeFMVReward100p: number;
+    aggregateRealizedNativeFMVReward50p: number;
+    aggregateRealizedNativeMarketDilution100p: number;
+    aggregateRealizedNativeMarketDilution50p: number;
+    aggregateRealizedNativeSupplyDepletion100p: number;
+    aggregateRealizedNativeSupplyDepletion50p: number;
 
     constructor(){
 
@@ -172,19 +176,23 @@ class TezosSet {
         this.realizingNativeFMVRewards = []
         this.realizingNativeMarketDilutionRewards = []
         this.realizingNativeSupplyDepletionRewards = []
-        this.unrealizedNativeRewardAggregate25p = 0
-        this.unrealizedNativeRewardAggregate50p = 0
-        this.unrealizedNativeRewardAggregate75p = 0
-        this.unrealizedNativeRewardAggregate100p = 0
-        this.realizedNativeRewardAggregate100p = 0
-        this.realizedNativeRewardAggregate50p = 0
-        this.realizedNativeFMVRewardAggregate100p= 0
-        this.realizedNativeFMVRewardAggregate50p = 0
-        this.realizedNativeMarketDilutionAggregate100p = 0
-        this.realizedNativeMarketDilutionAggregate50p = 0
-        this.realizedNativeSupplyDepletionAggregate100p = 0
-        this.realizedNativeSupplyDepletionAggregate50p = 0
-        
+        this.aggregateUnrealizedNativeReward25p = 0
+        this.aggregateUnrealizedNativeReward50p = 0
+        this.aggregateUnrealizedNativeReward75p = 0
+        this.aggregateUnrealizedNativeReward100p = 0
+        this.aggregateRealizedNativeReward100p = 0
+        this.aggregateRealizedNativeReward50p = 0
+        this.aggregateRealizedNativeFMVReward100p = 0
+        this.aggregateRealizedNativeFMVReward50p = 0
+        this.aggregateRealizedNativeMarketDilution100p = 0
+        this.aggregateRealizedNativeMarketDilution50p = 0
+        this.aggregateRealizedNativeSupplyDepletion100p = 0
+        this.aggregateRealizedNativeSupplyDepletion50p = 0
+        this.realizedNativeRewards = []
+        this.realizedNativeFMVRewards = []
+        this.realizedNativeMaketDilutionRewards = []
+        this.realizedNativeSupplyDepletionRewards = []
+            
 
         await connectToDatabase();
         // get data from apis + db
@@ -207,11 +215,7 @@ class TezosSet {
         // this.nativeRewardsFMVByCycle = this.calculateNativeRewardFMVByCycle();
         // await this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain);
         // await this.calculateNativeMarketDilutionRewards(this.investmentsScaledBVByDomain);
-        let unfilteredNativeRewards: Array<RewardsByDay> = []
-        let unfilteredNativeFMVRewards: Array<RewardsByDay> =[]
-        let unfilteredNativeMarketDilutionRewards: Array<RewardsByDay> = []
-        let unfilteredNativeSupplyDepletionRewards: Array<RewardsByDay> = []
-
+    
 
 
         //convert
@@ -252,7 +256,7 @@ class TezosSet {
     
 
         this.realizeReward()
-        // this.aggregates()
+        this.aggregates()
 
         
     }
@@ -310,26 +314,65 @@ class TezosSet {
         //prepare unrealized aggreagte figures and attach to object for more quantity selection information (25%, 50%, 75%, 100%)  
         //4 parsed up agg values for native rewards unrealized array for quantity fill purposes 
 
-        this.unrealizedNativeRewards
-        this.realizingNativeFMVRewards
-        this.realizingNativeMarketDilutionRewards
-        this.realizingNativeSupplyDepletionRewards
+        let mainValue1: any = 0
+        this.unrealizedNativeRewards.forEach((value) => {
+            if(value.rewardAmount !== undefined){
+                mainValue1 += value.rewardAmount
+            }
+        })
+        this.aggregateUnrealizedNativeReward25p = mainValue1 * 0.25
+        this.aggregateUnrealizedNativeReward50p = mainValue1 * 0.5
+        this.aggregateUnrealizedNativeReward75p = mainValue1 * 0.75
+        this.aggregateUnrealizedNativeReward100p = mainValue1
+
+        let mainValue2: any = 0
+        this.realizingNativeFMVRewards.forEach((value) => {
+            if(value.rewardAmount !== undefined){
+                mainValue2 += value.rewardAmount
+            }
+        })
+        this.aggregateRealizedNativeFMVReward100p = mainValue2
+        this.aggregateRealizedNativeFMVReward50p = mainValue2 * 0.5
+
+        let mainValue3: any = 0
+        this.realizingNativeMarketDilutionRewards.forEach((value)=> {
+            if(value.rewardAmount !== undefined){
+                mainValue3 += value.rewardAmount
+            }
+        })
+        this.aggregateRealizedNativeMarketDilution100p = mainValue3
+        this.aggregateRealizedNativeMarketDilution50p = mainValue3 * 0.5
+        
+        let mainValue4: any = 0
+        this.realizingNativeSupplyDepletionRewards.forEach((value)=>{
+            if(value.rewardAmount !== undefined){
+                mainValue4 += value.rewardAmount
+            }
+        })
+        this.aggregateRealizedNativeSupplyDepletion100p = mainValue4
+        this.aggregateRealizedNativeSupplyDepletion50p = mainValue4 * 0.5
+    
+        let mainValue5: any = 0
+        this.realizingNativeRewards.forEach((value)=>{
+            if(value.rewardAmount !== undefined){
+                mainValue5 += value.rewardAmount
+            }
+        })
+        this.aggregateRealizedNativeReward100p = mainValue5
+        this.aggregateRealizedNativeReward50p = mainValue5 * 0.5
+    
+   }
 
 
-        this.unrealizedNativeRewardAggregate25p = 0
-        this.unrealizedNativeRewardAggregate50p = 0
-        this.unrealizedNativeRewardAggregate75p = 0
-        this.unrealizedNativeRewardAggregate100p = 0
-        this.realizedNativeRewardAggregate100p = 0
-        this.realizedNativeRewardAggregate50p = 0
-        this.realizedNativeFMVRewardAggregate100p= 0
-        this.realizedNativeFMVRewardAggregate50p = 0
-        this.realizedNativeMarketDilutionAggregate100p = 0
-        this.realizedNativeMarketDilutionAggregate50p = 0
-        this.realizedNativeSupplyDepletionAggregate100p = 0
-        this.realizedNativeSupplyDepletionAggregate50p = 0
+   async saveRealization(): Promise<any>{
+   
+    this.realizedNativeRewards = []
+    this.realizedNativeFMVRewards = []
+    this.realizedNativeMaketDilutionRewards = []
+    this.realizedNativeSupplyDepletionRewards = []
 
    }
+
 
     calculateNativeRewardFMVByCycle(): Array<RewardsByDay> {
         //rewards by day by price that day

@@ -122,18 +122,22 @@ var TezosSet = /** @class */ (function () {
                         this.realizingNativeFMVRewards = [];
                         this.realizingNativeMarketDilutionRewards = [];
                         this.realizingNativeSupplyDepletionRewards = [];
-                        this.unrealizedNativeRewardAggregate25p = 0;
-                        this.unrealizedNativeRewardAggregate50p = 0;
-                        this.unrealizedNativeRewardAggregate75p = 0;
-                        this.unrealizedNativeRewardAggregate100p = 0;
-                        this.realizedNativeRewardAggregate100p = 0;
-                        this.realizedNativeRewardAggregate50p = 0;
-                        this.realizedNativeFMVRewardAggregate100p = 0;
-                        this.realizedNativeFMVRewardAggregate50p = 0;
-                        this.realizedNativeMarketDilutionAggregate100p = 0;
-                        this.realizedNativeMarketDilutionAggregate50p = 0;
-                        this.realizedNativeSupplyDepletionAggregate100p = 0;
-                        this.realizedNativeSupplyDepletionAggregate50p = 0;
+                        this.aggregateUnrealizedNativeReward25p = 0;
+                        this.aggregateUnrealizedNativeReward50p = 0;
+                        this.aggregateUnrealizedNativeReward75p = 0;
+                        this.aggregateUnrealizedNativeReward100p = 0;
+                        this.aggregateRealizedNativeReward100p = 0;
+                        this.aggregateRealizedNativeReward50p = 0;
+                        this.aggregateRealizedNativeFMVReward100p = 0;
+                        this.aggregateRealizedNativeFMVReward50p = 0;
+                        this.aggregateRealizedNativeMarketDilution100p = 0;
+                        this.aggregateRealizedNativeMarketDilution50p = 0;
+                        this.aggregateRealizedNativeSupplyDepletion100p = 0;
+                        this.aggregateRealizedNativeSupplyDepletion50p = 0;
+                        this.realizedNativeRewards = [];
+                        this.realizedNativeFMVRewards = [];
+                        this.realizedNativeMaketDilutionRewards = [];
+                        this.realizedNativeSupplyDepletionRewards = [];
                         return [4 /*yield*/, (0, database_service_1.connectToDatabase)()];
                     case 1:
                         _a.sent();
@@ -163,13 +167,12 @@ var TezosSet = /** @class */ (function () {
     };
     TezosSet.prototype.analysis = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var unfilteredNativeRewards, unfilteredNativeFMVRewards, unfilteredNativeMarketDilutionRewards, unfilteredNativeSupplyDepletionRewards;
             var _this = this;
             return __generator(this, function (_a) {
-                unfilteredNativeRewards = [];
-                unfilteredNativeFMVRewards = [];
-                unfilteredNativeMarketDilutionRewards = [];
-                unfilteredNativeSupplyDepletionRewards = [];
+                // //data packages
+                // this.nativeRewardsFMVByCycle = this.calculateNativeRewardFMVByCycle();
+                // await this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain);
+                // await this.calculateNativeMarketDilutionRewards(this.investmentsScaledBVByDomain);
                 //convert
                 this.rewardsByCycle.forEach(function (value) { _this.unrealizedNativeRewards.push({ date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle }); });
                 this.nativeRewardsFMVByCycle.forEach(function (value) { _this.unrealizedNativeFMVRewards.push({ date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle }); });
@@ -203,6 +206,7 @@ var TezosSet = /** @class */ (function () {
                 });
                 //filter the unrealized arrays to put in chronolgoical order
                 this.realizeReward();
+                this.aggregates();
                 return [2 /*return*/];
             });
         });
@@ -264,26 +268,61 @@ var TezosSet = /** @class */ (function () {
     };
     TezosSet.prototype.aggregates = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var mainValue1, mainValue2, mainValue3, mainValue4, mainValue5;
             return __generator(this, function (_a) {
-                //from the unrealized and realized arrays
-                //prepare unrealized aggreagte figures and attach to object for more quantity selection information (25%, 50%, 75%, 100%)  
-                //4 parsed up agg values for native rewards unrealized array for quantity fill purposes 
-                this.unrealizedNativeRewards;
-                this.realizingNativeFMVRewards;
-                this.realizingNativeMarketDilutionRewards;
-                this.realizingNativeSupplyDepletionRewards;
-                this.unrealizedNativeRewardAggregate25p = 0;
-                this.unrealizedNativeRewardAggregate50p = 0;
-                this.unrealizedNativeRewardAggregate75p = 0;
-                this.unrealizedNativeRewardAggregate100p = 0;
-                this.realizedNativeRewardAggregate100p = 0;
-                this.realizedNativeRewardAggregate50p = 0;
-                this.realizedNativeFMVRewardAggregate100p = 0;
-                this.realizedNativeFMVRewardAggregate50p = 0;
-                this.realizedNativeMarketDilutionAggregate100p = 0;
-                this.realizedNativeMarketDilutionAggregate50p = 0;
-                this.realizedNativeSupplyDepletionAggregate100p = 0;
-                this.realizedNativeSupplyDepletionAggregate50p = 0;
+                mainValue1 = 0;
+                this.unrealizedNativeRewards.forEach(function (value) {
+                    if (value.rewardAmount !== undefined) {
+                        mainValue1 += value.rewardAmount;
+                    }
+                });
+                this.aggregateUnrealizedNativeReward25p = mainValue1 * 0.25;
+                this.aggregateUnrealizedNativeReward50p = mainValue1 * 0.5;
+                this.aggregateUnrealizedNativeReward75p = mainValue1 * 0.75;
+                this.aggregateUnrealizedNativeReward100p = mainValue1;
+                mainValue2 = 0;
+                this.realizingNativeFMVRewards.forEach(function (value) {
+                    if (value.rewardAmount !== undefined) {
+                        mainValue2 += value.rewardAmount;
+                    }
+                });
+                this.aggregateRealizedNativeFMVReward100p = mainValue2;
+                this.aggregateRealizedNativeFMVReward50p = mainValue2 * 0.5;
+                mainValue3 = 0;
+                this.realizingNativeMarketDilutionRewards.forEach(function (value) {
+                    if (value.rewardAmount !== undefined) {
+                        mainValue3 += value.rewardAmount;
+                    }
+                });
+                this.aggregateRealizedNativeMarketDilution100p = mainValue3;
+                this.aggregateRealizedNativeMarketDilution50p = mainValue3 * 0.5;
+                mainValue4 = 0;
+                this.realizingNativeSupplyDepletionRewards.forEach(function (value) {
+                    if (value.rewardAmount !== undefined) {
+                        mainValue4 += value.rewardAmount;
+                    }
+                });
+                this.aggregateRealizedNativeSupplyDepletion100p = mainValue4;
+                this.aggregateRealizedNativeSupplyDepletion50p = mainValue4 * 0.5;
+                mainValue5 = 0;
+                this.realizingNativeRewards.forEach(function (value) {
+                    if (value.rewardAmount !== undefined) {
+                        mainValue5 += value.rewardAmount;
+                    }
+                });
+                this.aggregateRealizedNativeReward100p = mainValue5;
+                this.aggregateRealizedNativeReward50p = mainValue5 * 0.5;
+                return [2 /*return*/];
+            });
+        });
+    };
+    TezosSet.prototype.saveRealization = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                this.realizedNativeRewards = [];
+                this.realizedNativeFMVRewards = [];
+                this.realizedNativeMaketDilutionRewards = [];
+                this.realizedNativeSupplyDepletionRewards = [];
                 return [2 /*return*/];
             });
         });
