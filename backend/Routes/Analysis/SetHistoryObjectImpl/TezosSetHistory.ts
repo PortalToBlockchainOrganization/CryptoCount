@@ -51,7 +51,6 @@ interface PriceAndMarketCapByDay {
     marketCap: number
 }
 
-
 interface BVbyDomain {
     startDate: string,
     endDate: string,
@@ -92,6 +91,7 @@ class TezosSet {
     bakerCycles: Array<BakerCycle>;
     rewardsByDay: Array<RewardsByDay>;
     bakerAddresses: Set<string>;
+    consensusRole: string;
     cyclesByDay: Array<CycleAndDate>;
     supplyByDay: Array<CurrencySupplyAndDate>;
     unaccountedNetTransactions: Array<TransactionsByDay>;
@@ -110,7 +110,6 @@ class TezosSet {
     nativeMarketDilutionRewards: Array<RewardsByDay>;
     nativeSupplyDepletionRewards: Array<RewardsByDay>;
     marketByDay: Array<MarketByDay>;
-    //realized and unrealized sets
     unrealizedNativeRewards: Array<RewardsByDay>;
     unrealizedNativeFMVRewards: Array<RewardsByDay>;
     unrealizedNativeMarketDilutionRewards: Array<RewardsByDay>;
@@ -119,14 +118,10 @@ class TezosSet {
     realizingNativeFMVRewards: Array<RewardsByDay>;
     realizingNativeMarketDilutionRewards: Array<RewardsByDay>;
     realizingNativeSupplyDepletionRewards: Array<RewardsByDay>;
-
-    //saved realiziation state
     realizedNativeRewards: Array<RewardsByDay>;
     realizedNativeFMVRewards: Array<RewardsByDay>;
     realizedNativeMaketDilutionRewards: Array<RewardsByDay>;
     realizedNativeSupplyDepletionRewards: Array<RewardsByDay>;
-
-    //set aggregates
     aggregateUnrealizedNativeReward25p: number;
     aggregateUnrealizedNativeReward50p: number;
     aggregateUnrealizedNativeReward75p: number;
@@ -139,15 +134,17 @@ class TezosSet {
     aggregateRealizedNativeMarketDilution50p: number;
     aggregateRealizedNativeSupplyDepletion100p: number;
     aggregateRealizedNativeSupplyDepletion50p: number;
+    weightedAverageInvestmentCost: number;
 
     constructor(){
 
 
     }
 
-    async init(fiat: string, address: string): Promise<void>{ // TODO after building out analysis have init function create the complete 'unrealized' object
+    async init(fiat: string, address: string, consensusRole: string): Promise<void>{ // TODO after building out analysis have init function create the complete 'unrealized' object
         this.walletAddress = address;
         this.fiat = fiat;
+        this.consensusRole = consensusRole
         this.firstRewardDate = "";
         this.pricesAndMarketCapsByDay = new Map<string, PriceAndMarketCapByDay>();
         this.rewardsByDay = [];
@@ -192,11 +189,22 @@ class TezosSet {
         this.realizedNativeFMVRewards = []
         this.realizedNativeMaketDilutionRewards = []
         this.realizedNativeSupplyDepletionRewards = []
+        this.weightedAverageInvestmentCost = 0
             
 
         await connectToDatabase();
         // get data from apis + db
-        await Promise.all([this.getRewardsAndTransactions(), this.getBalances(), this.getPricesAndMarketCap()]);
+
+        //check for baker consensus Role
+        if (this.consensusRole == "Baker"){
+            console.log("Baker processing")
+            await Promise.all([this.retretrieveBakerRewards(), this.getBalances(), this.getPricesAndMarketCap()])
+            //make returenve baker rewards output equal to the pre unrealized data arrays
+        }
+
+
+        //delegator route
+        await Promise.all([this.getDelegatorRewardsAndTransactions(), this.getBalances(), this.getPricesAndMarketCap()]);
         // conduct analysis
         this.nativeRewardsFMVByCycle = this.calculateNativeRewardFMVByCycle();
         this.investmentsScaledBVByDomain = this.calculateInvestmentBVByDomain();
@@ -683,6 +691,163 @@ class TezosSet {
         return
     }
 
+    async retretrieveBakerRewards(): Promise<void>{
+
+    //make returenve baker rewards output equal to the pre unrealized data arrays
+
+
+            let rewards = [];
+            // let flowins = {};
+            // let flowouts = {};
+        let lastId = 0;
+        while (true) {
+            try {
+                let url = `https://api.tzkt.io/v1/accounts/${address}/operations?type=endorsement,baking,nonce_revelation,double_baking,double_endorsing,transaction,origination,delegation,reveal,revelation_penalty&lastId=${lastId}&limit=800&sort=0`;
+                // let url = `https://api.tzkt.io/v1/accounts/${address}/operations?lastId=${lastId}&limit=1000&sort=0`;
+                const response = await axios.get(url);
+                lastId = response.data[response.data.length - 1].id;  // update lastId
+                for (let i = 0; i < response.data.length; i++) {
+                    const element = response.data[i];
+                    if ('endorsement' === element.type) {
+                        rewards.push({
+                            type: 'endorsement',
+                            timestamp: new Date(Date.parse(element.timestamp)),
+                            amount: element.rewards / 1000000
+                        });
+                    } else if ('baking' === element.type) {
+                        rewards.push({
+                            type: 'baking',
+                            timestamp: new Date(Date.parse(element.timestamp)),
+                            amount: element.reward + element.fees / 1000000
+                        });
+                    } else if ('nonce_revelation' === element.type) {
+                        rewards.push({
+                            type: 'nonce_revelation',
+                            timestamp: new Date(Date.parse(element.timestamp)),
+                            amount: element.bakerRewards / 1000000
+                        });
+                    } else if ('double_baking' === element.type) {
+                        let isAccuser = element.accuser.address === address;
+                        if (isAccuser) {
+                            rewards.push({
+                                type: 'double_baking',
+                                timestamp: new Date(Date.parse(element.timestamp)),
+                                amount: element.accuserRewards / 1000000
+                            });
+                        } else {
+                            rewards.push({
+                                type: 'double_baking',
+                                timestamp: new Date(Date.parse(element.timestamp)),
+                                amount: -(element.offenderLostDeposits + element.offenderLostRewards + element.offenderLostFees) / 1000000
+                            })
+                        }
+                    } else if ('double_endorsing' === element.type) {
+                        let isAccuser = element.accuser.address === address;
+                        if (isAccuser) {
+                            rewards.push({
+                                type: 'double_endorsing',
+                                timestamp: new Date(Date.parse(element.timestamp)),
+                                amount: element.accuserRewards / 1000000
+                            });
+                        } else {  // is accused offender
+                            rewards.push({
+                                type: 'double_endorsing',
+                                timestamp: new Date(Date.parse(element.timestamp)),
+                                amount: -(element.offenderLostDeposits + element.offenderLostRewards + element.offenderLostFees) / 1000000
+                            });
+                        }
+                    }
+            
+                    else if ('origination' === element.type) {
+                        rewards.push({
+                            type: 'origination',
+                            timestamp: new Date(Date.parse(element.timestamp)),
+                            amount: -(element.bakerFee + element.storageFee + element.allocationFee) / 1000000
+                        });
+                    }
+                    else if ('delegation' === element.type) {
+                        let isSender = element.sender.address === address;
+                        if (isSender) {
+                            rewards.push({
+                                type: 'delegation',
+                                timestamp: new Date(Date.parse(element.timestamp)),
+                                amount: -1 * element.bakerFee / 1000000
+                            })
+                        }
+                    }
+                    else if ('reveal' === element.type) {
+                        rewards.push({
+                            type: 'reveal',
+                            timestamp: new Date(Date.parse(element.timestamp)),
+                            amount: -1 * element.bakerFee / 1000000
+                        })
+                    }
+                    else if ('revelation_penalty' === element.type) {
+                        rewards.push({
+                            type: 'revelation_penalty',
+                            timestamp: new Date(Date.parse(element.timestamp)),
+                            amount: -1 * (element.lostReward + element.lostFees) / 1000000
+                        })
+                    }
+                }
+                if (response.data.length < 1000) {  // if is the last page
+                    break;
+                }
+            } catch (error) {
+                throw error;
+            }
+        }
+        // create dictionary (key -> date: value -> sum of rewards on that day)
+        let rewardsByDay = []
+        let rewardsByDayObj = {};
+        for (let i = 0; i < rewards.length; i++) {
+            const d = formatDate(rewards[i].timestamp) 
+            const amount = rewards[i].amount;
+            rewardsByDayObj = {
+                date: d,
+                rewardQuantity: amount
+            };
+            rewardsByDay.push(rewardsByDayObj)
+
+            for(j=0;j<rewardsByDay.length - 1; j++){
+                if(d === rewardsByDay[j].date){
+                    rewardsByDay.pop()
+                    rewardsByDay[j].rewardQuantity += amount;
+                }
+            }
+        
+        }
+
+        let url2 = `https://api.tzkt.io/v1/operations/transactions?anyof.sender.target=${address}`;
+        const response2 = await axios.get(url2);
+
+        let objectArray = [];
+        let object = {};
+        for (i = 0; i < response2.data.length; i++) {
+            //each baker address in the object
+            if (response2.data[i].target.address == address) {
+                date = new Date(response2.data[i].timestamp);
+                amount = response2.data[i].amount / 1000000;
+                object = {
+                    date: date,
+                    amounnt: amount,
+                };
+                objectArray.push(object);
+            } else if (response2.data[i].sender.address == address) {
+                date = new Date(response2.data[i].timestamp);
+                amount = (response2.data[i].amount / 1000000) * -1;
+                object = {
+                    date: date,
+                    amounnt: amount,
+                };
+                objectArray.push(object);
+            }
+        }
+
+        return [rewardsByDay, objectArray];
+        this.rewardsByDay
+    }
+
     async retrieveCyclesAndDates(): Promise<void> {
         // 2. retrieveCyclesAndDates: retrieve the cycle data we have in our database and store it // get mapping of cycles to dates
         this.cyclesByDay = (await collections.cycleAndDate.find().sort( { dateString: 1 } ).toArray()) as CycleAndDate[];
@@ -791,7 +956,11 @@ class TezosSet {
         return
     }
 
-    async getRewardsAndTransactions(): Promise<void> {
+    async getBakerRewardsAndTransactions(): Promise<void> {
+        await Promise.all([this.retretrieveBakerRewards, this.getRawWalletTransactions()])
+    }
+
+    async getDelegatorRewardsAndTransactions(): Promise<void> {
         await Promise.all([this.retrieveBakers(), this.retrieveCyclesAndDates() ,this.getRawWalletTransactions()]);
         if(this.isCustodial){
             this.processIntermediaryTransactions();
@@ -947,7 +1116,7 @@ class TezosSet {
 }
 
 let ts: TezosSet = new TezosSet();
-ts.init("USD","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH").then(x => {writeFile("test.json", JSON.stringify(ts.nativeRewardsFMVByCycle, null, 4), function(err) {
+ts.init("USD","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH", "Delegator").then(x => {writeFile("test.json", JSON.stringify(ts.nativeRewardsFMVByCycle, null, 4), function(err) {
     if(err) {
       console.log(err);
     } else {
