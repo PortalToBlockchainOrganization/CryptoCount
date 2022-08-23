@@ -83,17 +83,18 @@ var UNSCALEDAMOUNTTHRESHOLD = 0.0001;
 var AMOUNTSCALER = 10000;
 var TRANSACTIONURLLIMIT = 10000;
 var MUTEZ = 1000000;
-//realized and unrealized interface
+//create superclass History Object State Holder
 var TezosSet = /** @class */ (function () {
     function TezosSet() {
     }
-    TezosSet.prototype.init = function (fiat, address) {
+    TezosSet.prototype.init = function (fiat, address, consensusRole) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.walletAddress = address;
                         this.fiat = fiat;
+                        this.consensusRole = consensusRole;
                         this.firstRewardDate = "";
                         this.pricesAndMarketCapsByDay = new Map();
                         this.rewardsByDay = [];
@@ -138,25 +139,38 @@ var TezosSet = /** @class */ (function () {
                         this.realizedNativeFMVRewards = [];
                         this.realizedNativeMaketDilutionRewards = [];
                         this.realizedNativeSupplyDepletionRewards = [];
+                        this.weightedAverageInvestmentCost = 0;
                         return [4 /*yield*/, (0, database_service_1.connectToDatabase)()];
                     case 1:
                         _a.sent();
-                        // get data from apis + db
-                        return [4 /*yield*/, Promise.all([this.getRewardsAndTransactions(), this.getBalances(), this.getPricesAndMarketCap()])];
+                        if (!(this.consensusRole == "Baker")) return [3 /*break*/, 3];
+                        console.log("Baker processing");
+                        return [4 /*yield*/, Promise.all([this.getBakerRewardsAndTransactions(), this.getPricesAndMarketCap()])
+                            //make returenve baker rewards output equal to the pre unrealized data arrays
+                            //this.getBalances()
+                        ];
                     case 2:
-                        // get data from apis + db
                         _a.sent();
+                        return [3 /*break*/, 5];
+                    case 3: 
+                    //delegator route
+                    return [4 /*yield*/, Promise.all([this.getDelegatorRewardsAndTransactions(), this.getBalances(), this.getPricesAndMarketCap()])];
+                    case 4:
+                        //delegator route
+                        _a.sent();
+                        _a.label = 5;
+                    case 5:
                         // conduct analysis
                         this.nativeRewardsFMVByCycle = this.calculateNativeRewardFMVByCycle();
                         this.investmentsScaledBVByDomain = this.calculateInvestmentBVByDomain();
                         return [4 /*yield*/, this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain)];
-                    case 3:
+                    case 6:
                         _a.sent();
                         return [4 /*yield*/, this.calculateNativeMarketDilutionRewards(this.investmentsScaledBVByDomain)];
-                    case 4:
+                    case 7:
                         _a.sent();
                         return [4 /*yield*/, this.analysis()];
-                    case 5:
+                    case 8:
                         _a.sent();
                         console.log("this");
                         console.log(this);
@@ -553,7 +567,7 @@ var TezosSet = /** @class */ (function () {
         }
         return scaledBVByDomain;
     };
-    // async retrieval methods
+    //async retreive methods
     TezosSet.prototype.retrieveBakers = function () {
         return __awaiter(this, void 0, void 0, function () {
             var delegatorRewardsResponse, filteredResponse, curBaker, _a, _b, cycleData;
@@ -598,6 +612,164 @@ var TezosSet = /** @class */ (function () {
                         this.setRewardsUrls(curBaker);
                         this.bakerCycles.push(curBaker);
                         this.bakerAddresses.add(curBaker.bakerAddress);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    TezosSet.prototype.retrieveBakerRewards = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var url, response, bakerOperationsArray, rewards;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        console.log("we here");
+                        url = "https://api.tzkt.io/v1/accounts/".concat(this.walletAddress, "/operations?type=endorsement,baking,nonce_revelation,double_baking,double_endorsing,transaction,origination,delegation,reveal,revelation_penalty&limit=1000&sort=0");
+                        return [4 /*yield*/, axios_1["default"].get(url)];
+                    case 1:
+                        response = _a.sent();
+                        bakerOperationsArray = response.data.map(function (_a) {
+                            var type = _a.type, amount = _a.amount, rewards = _a.rewards, reward = _a.reward, bakerRewards = _a.bakerRewards, accuserRewards = _a.accuserRewards, accuser = _a.accuser, offenderLostDeposits = _a.offenderLostDeposits, offenderLostRewards = _a.offenderLostRewards, offenderLostFees = _a.offenderLostFees, storageFee = _a.storageFee, allocationFee = _a.allocationFee, sender = _a.sender, lostReward = _a.lostReward, lostFees = _a.lostFees, timestamp = _a.timestamp;
+                            return ({ type: type, amount: amount, rewards: rewards, reward: reward, bakerRewards: bakerRewards, accuserRewards: accuserRewards, accuser: accuser, offenderLostDeposits: offenderLostDeposits, offenderLostRewards: offenderLostRewards, offenderLostFees: offenderLostFees, storageFee: storageFee, allocationFee: allocationFee, sender: sender, lostReward: lostReward, lostFees: lostFees, timestamp: timestamp });
+                        });
+                        console.log(bakerOperationsArray);
+                        rewards = {};
+                        bakerOperationsArray.forEach(function (operation) {
+                            if (operation.type === undefined) {
+                                console.log("No payout data found in a response");
+                            }
+                            else {
+                                if ('endorsement' === operation.type) {
+                                    var date = _this.formatDate(operation.timestamp);
+                                    var amount = operation.rewards / 1000000;
+                                    if (amount !== undefined) {
+                                        if (rewards[date] !== undefined) {
+                                            var value = rewards[date];
+                                            rewards[date] = value + amount;
+                                        }
+                                        else {
+                                            rewards[date] = amount;
+                                        }
+                                    }
+                                }
+                                else if ("baking" === operation.type) {
+                                    var date = _this.formatDate(operation.timestamp);
+                                    var amount = operation.reward / 1000000;
+                                    if (amount !== undefined) {
+                                        if (rewards[date] !== undefined) {
+                                            var value = rewards[date];
+                                            rewards[date] = value + amount;
+                                        }
+                                        else {
+                                            rewards[date] = amount;
+                                        }
+                                    }
+                                }
+                                else if ('nonce_revelation' === operation.type) {
+                                    var date = _this.formatDate(operation.timestamp);
+                                    var amount = operation.bakerRewards / 1000000;
+                                    if (amount !== undefined) {
+                                        if (rewards[date] !== undefined) {
+                                            var value = rewards[date];
+                                            rewards[date] = value + amount;
+                                        }
+                                        else {
+                                            rewards[date] = amount;
+                                        }
+                                    }
+                                }
+                                else if ('double_baking' === operation.type) {
+                                    var isAccuser = operation.accuser.address === _this.walletAddress;
+                                    if (isAccuser) {
+                                        var date = _this.formatDate(operation.timestamp);
+                                        var amount = operation.accuserRewards / 1000000;
+                                        if (amount !== undefined) {
+                                            if (rewards[date] !== undefined) {
+                                                var value = rewards[date];
+                                                rewards[date] = value + amount;
+                                            }
+                                            else {
+                                                rewards[date] = amount;
+                                            }
+                                        }
+                                    }
+                                    else {
+                                        var date = _this.formatDate(operation.timestamp);
+                                        var amount = -(operation.offenderLostDeposits + operation.offenderLostRewards + operation.offenderLostFees) / 1000000;
+                                        if (amount !== undefined) {
+                                            if (rewards[date] !== undefined) {
+                                                var value = rewards[date];
+                                                rewards[date] = value + amount;
+                                            }
+                                            else {
+                                                rewards[date] = amount;
+                                            }
+                                        }
+                                    }
+                                }
+                                else if ("origination" === operation.type) {
+                                    var date = _this.formatDate(operation.timestamp);
+                                    var amount = -(operation.bakerFee + operation.storageFee + operation.allocationFee) / 1000000;
+                                    if (amount !== undefined) {
+                                        if (rewards[date] !== undefined) {
+                                            var value = rewards[date];
+                                            rewards[date] = value + amount;
+                                        }
+                                        else {
+                                            rewards[date] = amount;
+                                        }
+                                    }
+                                }
+                                else if ("delegation" === operation.type) {
+                                    var date = _this.formatDate(operation.timestamp);
+                                    var isSender = operation.sender.address === _this.walletAddress;
+                                    if (isSender) {
+                                        var amount = -1 * operation.bakerFee / 1000000;
+                                        if (amount !== undefined) {
+                                            if (rewards[date] !== undefined) {
+                                                var value = rewards[date];
+                                                rewards[date] = value + amount;
+                                            }
+                                            else {
+                                                rewards[date] = amount;
+                                            }
+                                        }
+                                    }
+                                }
+                                else if ("reveal") {
+                                    var date = _this.formatDate(operation.timestamp);
+                                    var amount = -1 * operation.bakerFee / 1000000;
+                                    if (amount !== undefined) {
+                                        if (rewards[date] !== undefined) {
+                                            var value = rewards[date];
+                                            rewards[date] = value + amount;
+                                        }
+                                        else {
+                                            rewards[date] = amount;
+                                        }
+                                    }
+                                }
+                                else if ("revelation_penalty") {
+                                    var date = _this.formatDate(operation.timestamp);
+                                    var amount = -1 * (operation.lostReward + operation.lostFees) / 1000000;
+                                    if (amount !== undefined) {
+                                        if (rewards[date] !== undefined) {
+                                            var value = rewards[date];
+                                            rewards[date] = value + amount;
+                                        }
+                                        else {
+                                            rewards[date] = amount;
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        console.log(rewards);
+                        //flip this to get the cycles
+                        this.rewardsByDay = this.cyclesByDay.filter(function (cycleAndDateDoc) { return cycleAndDateDoc.dateString.toString() in rewards; }).map(function (cycleAndDateDoc) {
+                            return { date: cycleAndDateDoc.dateString, rewardAmount: rewards[_this.formatDate(cycleAndDateDoc.dateString.toString())], cycle: cycleAndDateDoc.cycleNumber };
+                        });
                         return [2 /*return*/];
                 }
             });
@@ -677,6 +849,7 @@ var TezosSet = /** @class */ (function () {
             });
         });
     };
+    //process retreivers methods
     TezosSet.prototype.getNetTransactions = function () {
         // 4. getNetTransactions: retrieve the transactions that this wallet was a part of that exclude reward transactions
         // + Melange Payouts. add a rewardByDay to the rewardsByDay list   
@@ -752,7 +925,22 @@ var TezosSet = /** @class */ (function () {
         (_a = this.rewardsByDay).push.apply(_a, __spreadArray([], __read(intermediaryRewards), false));
         return;
     };
-    TezosSet.prototype.getRewardsAndTransactions = function () {
+    TezosSet.prototype.getBakerRewardsAndTransactions = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, Promise.all([this.retrieveBakerRewards(), this.retrieveCyclesAndDates(), this.getRawWalletTransactions()])];
+                    case 1:
+                        _a.sent();
+                        this.getNetTransactions();
+                        this.firstRewardDate = this.rewardsByDay[0].date;
+                        this.filterPayoutsBaker();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    TezosSet.prototype.getDelegatorRewardsAndTransactions = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -802,6 +990,28 @@ var TezosSet = /** @class */ (function () {
         return;
     };
     ;
+    TezosSet.prototype.filterPayoutsBaker = function () {
+        // let currentItem = this.rewardsByDay[0]
+        // this.rewardsByCycle = this.rewardsByDay.forEach((value) => {
+        //     if(value.cycle == currentItem) {
+        //         currentItem.rewardAmount += value.rewardAmount 
+        //     }
+        // })
+        // for (const reward of this.rewardsByDay.slice().reverse()){
+        //     if (reward.cycle == currentItem.cycle){
+        //         let value: number = reward.rewardAmount + currentItem.rewardAmount
+        //         currentItem.rewardAmount = value           
+        //     }
+        //     else {
+        //         this.rewardsByCycle.push(currentItem);
+        //         currentItem = reward;
+        //     }
+        // }
+        // if(this.rewardsByDay[0].date===currentItem.date){
+        //     this.rewardsByCycle.push(currentItem);
+        // }
+        return;
+    };
     TezosSet.prototype.getNonInclusiveDateRange = function (startDateString, endDateString) {
         // non inclusive on both sides
         var dates = [];
@@ -941,11 +1151,19 @@ var TezosSet = /** @class */ (function () {
             bakerData.rewardsRequests.push("https://api.baking-bad.org/v2/rewards/".concat(bakerData.bakerAddress, "?cycle=").concat(i));
         }
     };
+    TezosSet.prototype.formatDate = function (date) {
+        var d = new Date(date), month = "" + (d.getMonth() + 1), day = "" + d.getDate(), year = d.getFullYear();
+        if (month.length < 2)
+            month = "0" + month;
+        if (day.length < 2)
+            day = "0" + day;
+        return [year, month, day].join("-");
+    };
     return TezosSet;
 }());
 var ts = new TezosSet();
-ts.init("USD", "tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH").then(function (x) {
-    (0, fs_1.writeFile)("test.json", JSON.stringify(ts.nativeRewardsFMVByCycle, null, 4), function (err) {
+ts.init("USD", "tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g", "Baker").then(function (x) {
+    (0, fs_1.writeFile)("test.json", JSON.stringify(ts, null, 4), function (err) {
         if (err) {
             console.log(err);
         }
@@ -955,3 +1173,5 @@ ts.init("USD", "tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH").then(function (x) {
     });
 });
 // ts.setRewardsAndTransactions().then(x => {console.log(ts.rewardsByDay, ts.unaccountedNetTransactions)});
+//baker tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g
+//delegator tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH
