@@ -140,6 +140,7 @@ var TezosSet = /** @class */ (function () {
                         this.realizedNativeMaketDilutionRewards = [];
                         this.realizedNativeSupplyDepletionRewards = [];
                         this.weightedAverageInvestmentCost = 0;
+                        this.nextTimeStamp = "";
                         return [4 /*yield*/, (0, database_service_1.connectToDatabase)()];
                     case 1:
                         _a.sent();
@@ -619,12 +620,13 @@ var TezosSet = /** @class */ (function () {
     };
     TezosSet.prototype.retrieveBakerRewards = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var url, response, bakerOperationsArray, rewards;
+            var operations, url, response, bakerOperationsArray, today, urlNext, res, fillerArray, rewards;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         console.log("we here");
+                        operations = [];
                         url = "https://api.tzkt.io/v1/accounts/".concat(this.walletAddress, "/operations?type=endorsement,baking,nonce_revelation,double_baking,double_endorsing,transaction,origination,delegation,reveal,revelation_penalty&limit=1000&sort=0");
                         return [4 /*yield*/, axios_1["default"].get(url)];
                     case 1:
@@ -634,6 +636,29 @@ var TezosSet = /** @class */ (function () {
                             return ({ type: type, amount: amount, rewards: rewards, reward: reward, bakerRewards: bakerRewards, accuserRewards: accuserRewards, accuser: accuser, offenderLostDeposits: offenderLostDeposits, offenderLostRewards: offenderLostRewards, offenderLostFees: offenderLostFees, storageFee: storageFee, allocationFee: allocationFee, sender: sender, lostReward: lostReward, lostFees: lostFees, timestamp: timestamp });
                         });
                         console.log(bakerOperationsArray);
+                        //get the last timestamp from this url
+                        //build the next url with
+                        //?timestamp.gt=
+                        //repeat prcoess
+                        this.nextTimeStamp = new Date(bakerOperationsArray[bakerOperationsArray.length].timestamp);
+                        today = new Date();
+                        _a.label = 2;
+                    case 2:
+                        if (!(this.nextTimeStamp < today)) return [3 /*break*/, 4];
+                        urlNext = "https://api.tzkt.io/v1/accounts/".concat(this.walletAddress, "/operations?timestamp=").concat(this.nextTimeStamp, "&limit=1000&sort=0");
+                        return [4 /*yield*/, axios_1["default"].get(urlNext)];
+                    case 3:
+                        res = _a.sent();
+                        fillerArray = res.data.map(function (_a) {
+                            var type = _a.type, amount = _a.amount, rewards = _a.rewards, reward = _a.reward, bakerRewards = _a.bakerRewards, accuserRewards = _a.accuserRewards, accuser = _a.accuser, offenderLostDeposits = _a.offenderLostDeposits, offenderLostRewards = _a.offenderLostRewards, offenderLostFees = _a.offenderLostFees, storageFee = _a.storageFee, allocationFee = _a.allocationFee, sender = _a.sender, lostReward = _a.lostReward, lostFees = _a.lostFees, timestamp = _a.timestamp;
+                            return ({ type: type, amount: amount, rewards: rewards, reward: reward, bakerRewards: bakerRewards, accuserRewards: accuserRewards, accuser: accuser, offenderLostDeposits: offenderLostDeposits, offenderLostRewards: offenderLostRewards, offenderLostFees: offenderLostFees, storageFee: storageFee, allocationFee: allocationFee, sender: sender, lostReward: lostReward, lostFees: lostFees, timestamp: timestamp });
+                        });
+                        this.nextTimeStamp = new Date(fillerArray[fillerArray.length].timestamp);
+                        operations.push.apply(operations, __spreadArray([], __read(fillerArray), false));
+                        return [3 /*break*/, 2];
+                    case 4:
+                        console.log("operations");
+                        console.log(operations);
                         rewards = {};
                         bakerOperationsArray.forEach(function (operation) {
                             if (operation.type === undefined) {

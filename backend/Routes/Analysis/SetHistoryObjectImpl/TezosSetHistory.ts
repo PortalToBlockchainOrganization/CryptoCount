@@ -14,6 +14,7 @@ import CurrencySupplyAndDate from "../../../documentInterfaces/CurrencySupplyAnd
 import {collections, connectToDatabase} from "../../../documentInterfaces/database.service";
 import cycle from "../../../model/cycle.js";
 import {writeFile} from "fs";
+import { Timestamp } from "mongodb";
 
 // tezos specific constants
 const REWARDADJUSTMENTDENOMINATOR: number = 1000000;
@@ -132,6 +133,7 @@ class TezosSet {
     aggregateRealizedNativeSupplyDepletion100p: number;
     aggregateRealizedNativeSupplyDepletion50p: number;
     weightedAverageInvestmentCost: number;
+    nextTimeStamp: any;
 
     constructor(){
 
@@ -186,6 +188,7 @@ class TezosSet {
         this.realizedNativeMaketDilutionRewards = []
         this.realizedNativeSupplyDepletionRewards = []
         this.weightedAverageInvestmentCost = 0
+        this.nextTimeStamp = ""
             
 
         await connectToDatabase();
@@ -216,6 +219,7 @@ class TezosSet {
         return
     }
 
+    //product methods
     async analysis(): Promise<any> {
     
         // //data packages
@@ -648,8 +652,10 @@ class TezosSet {
         return scaledBVByDomain;
     }
 
-    //async retreive methods
+    //retreive methods
     async retrieveBakers(): Promise<void> {
+
+
         // 1. retrieveBakers: retrieve bakers and the cycles associated with this delegator mainly, 
         // set the set of bakerAddresses and the mapping of bakers to the cycles which this delegator recieved rewards from
         
@@ -688,22 +694,282 @@ class TezosSet {
 
     async retrieveBakerRewards(): Promise<void>{
 
-        console.log("we here")
+        //first url
+        //get the reults from first url 
+        let url: string = `https://api.tzkt.io/v1/accounts/${this.walletAddress}/operations?type=endorsement,baking,nonce_revelation,double_baking,double_endorsing,transaction,origination,delegation,reveal,revelation_penalty&limit=1000&sort=0`;
+        let response: AxiosResponse = await axios.get(url);
+        let nextTimeStamp: string = response.data[response.data.length].timestamp
+        //map the response and push to array
+
+
+        //while the timestamp is not within 3 days of today
+
+                //make the next url and get results from that
+                let urlNext: string = `https://api.tzkt.io/v1/accounts/${this.walletAddress}/operations?timestamp.gt=${this.nextTimeStamp}&limit=1000&sort=0`;
+                //get the nexttime stamp
+                let response: AxiosResponse = await axios.get(url);
+                let nextTimeStamp: string = response.data[response.data.length].timestamp
+                //map the response and push to array
+
+
+    }
+
+
+    async retrieveCyclesAndDates(): Promise<void> {
+        // 2. retrieveCyclesAndDates: retrieve the cycle data we have in our database and store it // get mapping of cycles to dates
+        this.cyclesByDay = (await collections.cycleAndDate.find().sort( { dateString: 1 } ).toArray()) as CycleAndDate[];
+        this.cyclesByDay.forEach(cycleByDay => (this.cyclesMappedToDays.set(cycleByDay.dateString, cycleByDay.cycleNumber)));
+        return
+    }
+
+    async retrieveBakersPayouts(): Promise<void> {
+        // put together all baker reward request urls and call api to get payoutArrays
+        // NOTE: requests are chunked in groups of 16 to prevent rate limiting issues
+        let completeRewardsRequests: Array<string> = this.bakerCycles.map(bakerCycle => {return bakerCycle.rewardsRequests}).flat();
+        let j, temporary, chunk: number = BAKINGBADBATCHSIZE;
+        let responses: Array<AxiosResponse> = [];
+        
+        for (let i: number = 0,j = completeRewardsRequests.length; i < j; i += chunk) {
+            temporary = completeRewardsRequests.slice(i, i + chunk);
+            let response: Array<AxiosResponse> = await axios.all(temporary.map(url=> axios.get(url)));
+            responses.push(...response)
+        }
+
+        // map cycles to reward amounts
+        let rewards: Record<number, number> = {};
+        responses.forEach(response => {
+            if (response?.data?.payouts === undefined){
+                console.log("No payout data found in a response");
+            }
+            else{
+                response.data.payouts.forEach(payout => {
+
+                    if(payout.address === this.walletAddress){
+
+                        let amount: number = payout["amount"]
+                        if(amount < UNSCALEDAMOUNTTHRESHOLD && amount > 0) {
+                            amount = amount * AMOUNTSCALER;
+                        }
+                        if(rewards[response.data.cycle]===undefined){
+                            rewards[response.data.cycle] = amount; 
+                        }
+                        else{
+                            rewards[response.data.cycle] += amount;
+                        }
+                    }
+                })
+            }
+        });
+        this.rewardsByDay = this.cyclesByDay.filter(cycleAndDateDoc => cycleAndDateDoc.cycleNumber.toString() in rewards).map(cycleAndDateDoc => {
+            return {date: cycleAndDateDoc.dateString, rewardAmount: rewards[cycleAndDateDoc.cycleNumber.toString()], cycle: cycleAndDateDoc.cycleNumber};
+        });
+        return
+    }
+
+    async getRawWalletTransactions(): Promise<void> { 
+        let transactionsLength: number = TRANSACTIONURLLIMIT;
+        while(transactionsLength===TRANSACTIONURLLIMIT){
+            let transactionsResponse: AxiosResponse = await axios.get(this.transactionsUrl);
+            let transactionsResponseArray: Array<{target: {address: string}, sender: {address: string, alias: string}, amount: number, timestamp: string}> = 
+                transactionsResponse.data.map(({target, sender, amount, timestamp}) => ({target, sender, amount, timestamp}));
+            this.rawWalletTransactions.push(...transactionsResponseArray);
+            transactionsLength = transactionsResponseArray.length;
+        }
+        this.rawWalletTransactions.forEach(transaction => {
+            if(transaction?.sender?.alias === "Melange Payouts")
+                this.isCustodial = true;
+            else if(transaction?.sender?.alias === "EcoTez Payouts")
+                this.bakerAddresses.add("tz1QS7N8HnRBG2RNh3Kjty58XFXuLFVdnKGY")
+        })
+        this.isCustodial = false;
+    }
+
+    async getBakerRewardsAndTransactions(): Promise<void> {
+        await Promise.all([this.retrieveBakerRewards(), this.processBakerRewards(), this.retrieveCyclesAndDates(), this.getRawWalletTransactions()])
+        this.getNetTransactions();
+        this.firstRewardDate = this.rewardsByDay[0].date;
+        this.filterPayoutsBaker();
+
+    }
+
+    async getDelegatorRewardsAndTransactions(): Promise<void> {
+        await Promise.all([this.retrieveBakers(), this.retrieveCyclesAndDates() ,this.getRawWalletTransactions()]);
+        if(this.isCustodial){
+            this.processIntermediaryTransactions();
+            this.getNetTransactions();
+        } 
+        else{
+            await this.retrieveBakersPayouts();
+            this.getNetTransactions();
+        }
+        this.firstRewardDate = this.rewardsByDay[0].date;
+        this.filterPayouts();
+
+    }
+
+    async getBalances(): Promise<void> {
+        // this method will retrieve the balances associated with the user wallet
+        // for each day present in the returned api body, we will associate that day with the
+        // latest available balance of that day
+        // for the days not present, we will associate those
+        // days with the balance of the last available day's last available balance
+
+        let balances: Record<string, number> = {};
+
+        //offset from index
+        let offset = 0;
+        let resp_len = 10000;
+        let currentDay: string = null;
+        let latestBalance: number = null;
+        while (resp_len === 10000) {
+            let url = `https://api.tzkt.io/v1/accounts/${this.walletAddress}/balance_history?offset=${offset}&limit=10000`;
+            let response: AxiosResponse = await axios.get(url);
+
+            // update the response length to indicate when we've reached the end of the balance history
+            resp_len = response.data.length;
+            offset += response.data.length;
+
+            // for each day, have the balance equal the latest balance of that day
+            if(currentDay === null){
+                currentDay = response.data[0].timestamp.substring(0,10);
+            }
+            if(latestBalance === null){
+                latestBalance = response.data[0].balance/MUTEZ;
+            }
+
+            for(let day of response.data){
+                // update the latestBalance since we're on the currently marked day
+                if(day.timestamp.substring(0,10) === currentDay){
+                    latestBalance = day.balance/MUTEZ;
+                }
+                else{
+                    // push the day and its last balance to our map since we're now on a new day
+                    balances[currentDay] = latestBalance/MUTEZ;
+
+                    // get the range of dates from the currentDay to the day we are cheking on
+                    let fillerDays = this.getNonInclusiveDateRange(currentDay, day.timestamp.substring(0,10));
+                    // for these days, add the currentDays balance
+                    for(let fillerDay of fillerDays){
+                        balances[fillerDay] = latestBalance/MUTEZ; 
+                    }
+                    currentDay = day.timestamp.substring(0,10);
+                    latestBalance = day.balance/MUTEZ;
+                }
+            
+            }
+        }
+        // push the last day
+        balances[currentDay] = latestBalance/MUTEZ;
+        this.balancesByDay = balances;
+        return
+    }
+
+    async getPricesAndMarketCap() {
+
+        let price = `price${this.fiat}`;
+        let marketCap = `marketCap${this.fiat}`;
+        let priceAndMarketCapData: Array<PriceAndMarketCap>  = (await collections.priceAndMarketCap.find().sort( { date: 1 } ).toArray()) as PriceAndMarketCap[];
+        priceAndMarketCapData.forEach(
+            priceAndMarketCap => {
+                // date reformatting
+                let dateSplit: string[] = priceAndMarketCap.date.toString().split("-");
+                dateSplit = [dateSplit[0], dateSplit[1], dateSplit[2]];
+                let correctedDate: string = dateSplit.join("-");
+                this.pricesAndMarketCapsByDay[correctedDate] = {date: correctedDate, price: priceAndMarketCap[price], marketCap: priceAndMarketCap[marketCap]}
+            }
+        )
+
+        //filter the map type for date and market cap 
+        //this.priceAndMarketCapsByDay.sometypefunction(element => {return elementstuff})
+        //log the element
+        //extraction method from element
+        //add date reformatting 
+    
+        //console.log(this.marketByDay)
+        priceAndMarketCapData.forEach(element => {
+            let dateSplit: string[] = element.date.toString().split("-");
+            dateSplit = [dateSplit[0], dateSplit[1], dateSplit[2]];
+            let correctedDate: string = dateSplit.join("-");
+            this.marketByDay.push({date: correctedDate, amount: element[marketCap]})
+        })
 
         
+        priceAndMarketCapData.forEach(element => {
+            let dateSplit: string[] = element.date.toString().split("-");
+            dateSplit = [dateSplit[0], dateSplit[1], dateSplit[2]];
+            let correctedDate: string = dateSplit.join("-");
+            this.priceByDay.push({date: correctedDate, amount: element[price]})
+        })
+
+        return
+    }
+
+    //processing methods
+    processIntermediaryTransactions(): void {
+        let intermediaryTransactions: Array<{target: {address: string}, sender: {address: string, alias: string}, amount: number, timestamp: string}> = this.rawWalletTransactions.filter(transaction => {
+            (transaction?.sender?.alias === "Melange Payouts")
+    
+        });
+
+        let intermediaryRewards: Array<RewardsByDay> = intermediaryTransactions.map(transaction => {
+            let transactionDate: string = transaction.timestamp.slice(0,10);
+            let adjustedAmount: number = transaction.amount/REWARDADJUSTMENTDENOMINATOR;
+            let cycleNumber: number = this.cyclesMappedToDays.get(transactionDate);
+            let reward: RewardsByDay = {date: transactionDate, rewardAmount: adjustedAmount, cycle: cycleNumber};
+            return reward;
+        })
+        this.rewardsByDay.push(...intermediaryRewards);
+
+        return
+    }
+
+    async processBakerRewards(): Promise<void> {
+        // let completeRewardsRequests: Array<string> = this.bakerCycles.map(bakerCycle => {return bakerCycle.rewardsRequests}).flat();
+    // let j, temporary, chunk: number = BAKINGBADBATCHSIZE;
+    // let responses: Array<AxiosResponse> = [];
+    
+    // for (let i: number = 0,j = completeRewardsRequests.length; i < j; i += chunk) {
+    //     temporary = completeRewardsRequests.slice(i, i + chunk);
+    //     let response: Array<AxiosResponse> = await axios.all(temporary.map(url=> axios.get(url)));
+    //     responses.push(...response)
+    // }
+
+    // // map cycles to reward amounts
+    // let rewards: Record<number, number> = {};
+    // responses.forEach(response => {
+
+       // var operations: Array<{type: string, amount: number, rewards: number, reward: number, bakerRewards: number, accuserRewards: number, accuser: {address: string}, offenderLostDeposits: number, offenderLostRewards: number, offenderLostFees: number, bakerFee: number, storageFee: number, allocationFee: number, sender: {address: string}, lostReward: number, lostFees: number, timestamp: string}> = []
         let url: string = `https://api.tzkt.io/v1/accounts/${this.walletAddress}/operations?type=endorsement,baking,nonce_revelation,double_baking,double_endorsing,transaction,origination,delegation,reveal,revelation_penalty&limit=1000&sort=0`;
         // let url = `https://api.tzkt.io/v1/accounts/${address}/operations?lastId=${lastId}&limit=1000&sort=0`;
         let response: AxiosResponse = await axios.get(url);
         let bakerOperationsArray: Array<{type: string, amount: number, rewards: number, reward: number, bakerRewards: number, accuserRewards: number, accuser: {address: string}, offenderLostDeposits: number, offenderLostRewards: number, offenderLostFees: number, bakerFee: number, storageFee: number, allocationFee: number, sender: {address: string}, lostReward: number, lostFees: number, timestamp: string}> = 
                 response.data.map(({type, amount, rewards, reward, bakerRewards, accuserRewards, accuser, offenderLostDeposits, offenderLostRewards, offenderLostFees, storageFee, allocationFee, sender, lostReward, lostFees, timestamp}) => ({type, amount, rewards, reward, bakerRewards, accuserRewards, accuser, offenderLostDeposits, offenderLostRewards, offenderLostFees, storageFee, allocationFee, sender,lostReward, lostFees, timestamp}));
 
-        console.log(bakerOperationsArray)
-      
+        // console.log(bakerOperationsArray)
+        //  //get the last timestamp from this url
+        //  //build the next url with
+        //  //?timestamp.gt=
+        //  //repeat prcoess
+        // this.nextTimeStamp = new Date(bakerOperationsArray[bakerOperationsArray.length].timestamp)
+        // //for timestamp less than today
+        // let today = new Date()
+        // while(this.nextTimeStamp < today){
+        //     let urlNext: string = `https://api.tzkt.io/v1/accounts/${this.walletAddress}/operations?timestamp.gt=${this.nextTimeStamp}&limit=1000&sort=0`;
+        //     let res: AxiosResponse = await axios.get(urlNext);
+        //     let fillerArray: Array<{type: string, amount: number, rewards: number, reward: number, bakerRewards: number, accuserRewards: number, accuser: {address: string}, offenderLostDeposits: number, offenderLostRewards: number, offenderLostFees: number, bakerFee: number, storageFee: number, allocationFee: number, sender: {address: string}, lostReward: number, lostFees: number, timestamp: string}> = res.data.map(({type, amount, rewards, reward, bakerRewards, accuserRewards, accuser, offenderLostDeposits, offenderLostRewards, offenderLostFees, storageFee, allocationFee, sender, lostReward, lostFees, timestamp}) => ({type, amount, rewards, reward, bakerRewards, accuserRewards, accuser, offenderLostDeposits, offenderLostRewards, offenderLostFees, storageFee, allocationFee, sender,lostReward, lostFees, timestamp}))
+        //     this.nextTimeStamp = new Date(fillerArray[fillerArray.length].timestamp)
+        //     operations.push(...fillerArray)
+        // }
+        // console.log("operations")
+        // console.log(operations)
+
+        //request url
+
 
          // map cycles to reward amounts
          //expand record for every type and re make the record at the end for by day /cycle
          let rewards: Record<string, number> = {};
-         bakerOperationsArray.forEach(operation => {
+        bakerOperationsArray.forEach(operation => {
              if (operation.type === undefined){
                  console.log("No payout data found in a response");
              }
@@ -837,6 +1103,7 @@ class TezosSet {
             }
          });
          console.log(rewards)
+       
 
      
          //flip this to get the cycles
@@ -845,141 +1112,6 @@ class TezosSet {
          });
 
          return
-
-
-    }
-
-    async retrieveCyclesAndDates(): Promise<void> {
-        // 2. retrieveCyclesAndDates: retrieve the cycle data we have in our database and store it // get mapping of cycles to dates
-        this.cyclesByDay = (await collections.cycleAndDate.find().sort( { dateString: 1 } ).toArray()) as CycleAndDate[];
-        this.cyclesByDay.forEach(cycleByDay => (this.cyclesMappedToDays.set(cycleByDay.dateString, cycleByDay.cycleNumber)));
-        return
-    }
-
-    async retrieveBakersPayouts(): Promise<void> {
-        // put together all baker reward request urls and call api to get payoutArrays
-        // NOTE: requests are chunked in groups of 16 to prevent rate limiting issues
-        let completeRewardsRequests: Array<string> = this.bakerCycles.map(bakerCycle => {return bakerCycle.rewardsRequests}).flat();
-        let j, temporary, chunk: number = BAKINGBADBATCHSIZE;
-        let responses: Array<AxiosResponse> = [];
-        
-        for (let i: number = 0,j = completeRewardsRequests.length; i < j; i += chunk) {
-            temporary = completeRewardsRequests.slice(i, i + chunk);
-            let response: Array<AxiosResponse> = await axios.all(temporary.map(url=> axios.get(url)));
-            responses.push(...response)
-        }
-
-        // map cycles to reward amounts
-        let rewards: Record<number, number> = {};
-        responses.forEach(response => {
-            if (response?.data?.payouts === undefined){
-                console.log("No payout data found in a response");
-            }
-            else{
-                response.data.payouts.forEach(payout => {
-
-                    if(payout.address === this.walletAddress){
-
-                        let amount: number = payout["amount"]
-                        if(amount < UNSCALEDAMOUNTTHRESHOLD && amount > 0) {
-                            amount = amount * AMOUNTSCALER;
-                        }
-                        if(rewards[response.data.cycle]===undefined){
-                            rewards[response.data.cycle] = amount; 
-                        }
-                        else{
-                            rewards[response.data.cycle] += amount;
-                        }
-                    }
-                })
-            }
-        });
-        this.rewardsByDay = this.cyclesByDay.filter(cycleAndDateDoc => cycleAndDateDoc.cycleNumber.toString() in rewards).map(cycleAndDateDoc => {
-            return {date: cycleAndDateDoc.dateString, rewardAmount: rewards[cycleAndDateDoc.cycleNumber.toString()], cycle: cycleAndDateDoc.cycleNumber};
-        });
-        return
-    }
-
-
-    //process retreivers methods
-    getNetTransactions(): void {
-        // 4. getNetTransactions: retrieve the transactions that this wallet was a part of that exclude reward transactions
-        // + Melange Payouts. add a rewardByDay to the rewardsByDay list   
-
-        this.unaccountedNetTransactions = this.rawWalletTransactions.filter(transaction => {
-            return (!(this.bakerAddresses.has(transaction?.sender?.address) || this.bakerAddresses.has(transaction?.target?.address)))
-        }).map(transaction => {
-            let transactionDate: string = new Date(transaction.timestamp).toISOString().slice(0,10);
-            let adjustedAmount: number = transaction.amount / REWARDADJUSTMENTDENOMINATOR;
-            let amount: TransactionsByDay = {date: transactionDate, amount: adjustedAmount};
-            if (transaction?.target?.address === this.walletAddress){
-                amount = {date: transactionDate, amount: adjustedAmount}
-            }
-            else if (transaction?.sender?.address === this.walletAddress){
-                amount.amount = adjustedAmount * -1;
-            }
-            return amount
-        });
-        return
-    }
-
-    async getRawWalletTransactions(): Promise<void> { 
-        let transactionsLength: number = TRANSACTIONURLLIMIT;
-        while(transactionsLength===TRANSACTIONURLLIMIT){
-            let transactionsResponse: AxiosResponse = await axios.get(this.transactionsUrl);
-            let transactionsResponseArray: Array<{target: {address: string}, sender: {address: string, alias: string}, amount: number, timestamp: string}> = 
-                transactionsResponse.data.map(({target, sender, amount, timestamp}) => ({target, sender, amount, timestamp}));
-            this.rawWalletTransactions.push(...transactionsResponseArray);
-            transactionsLength = transactionsResponseArray.length;
-        }
-        this.rawWalletTransactions.forEach(transaction => {
-            if(transaction?.sender?.alias === "Melange Payouts")
-                this.isCustodial = true;
-            else if(transaction?.sender?.alias === "EcoTez Payouts")
-                this.bakerAddresses.add("tz1QS7N8HnRBG2RNh3Kjty58XFXuLFVdnKGY")
-        })
-        this.isCustodial = false;
-    }
-
-    processIntermediaryTransactions(): void {
-        let intermediaryTransactions: Array<{target: {address: string}, sender: {address: string, alias: string}, amount: number, timestamp: string}> = this.rawWalletTransactions.filter(transaction => {
-            (transaction?.sender?.alias === "Melange Payouts")
-    
-        });
-
-        let intermediaryRewards: Array<RewardsByDay> = intermediaryTransactions.map(transaction => {
-            let transactionDate: string = transaction.timestamp.slice(0,10);
-            let adjustedAmount: number = transaction.amount/REWARDADJUSTMENTDENOMINATOR;
-            let cycleNumber: number = this.cyclesMappedToDays.get(transactionDate);
-            let reward: RewardsByDay = {date: transactionDate, rewardAmount: adjustedAmount, cycle: cycleNumber};
-            return reward;
-        })
-        this.rewardsByDay.push(...intermediaryRewards);
-
-        return
-    }
-
-    async getBakerRewardsAndTransactions(): Promise<void> {
-        await Promise.all([this.retrieveBakerRewards(), this.retrieveCyclesAndDates(), this.getRawWalletTransactions()])
-        this.getNetTransactions();
-        this.firstRewardDate = this.rewardsByDay[0].date;
-        this.filterPayoutsBaker();
-
-    }
-
-    async getDelegatorRewardsAndTransactions(): Promise<void> {
-        await Promise.all([this.retrieveBakers(), this.retrieveCyclesAndDates() ,this.getRawWalletTransactions()]);
-        if(this.isCustodial){
-            this.processIntermediaryTransactions();
-            this.getNetTransactions();
-        } 
-        else{
-            await this.retrieveBakersPayouts();
-            this.getNetTransactions();
-        }
-        this.firstRewardDate = this.rewardsByDay[0].date;
-        this.filterPayouts();
-
     }
 
     filterPayouts(): void {
@@ -1025,119 +1157,24 @@ class TezosSet {
         return
     }
 
-    getNonInclusiveDateRange(startDateString: string, endDateString: string): Array<string>{
-        // non inclusive on both sides
-        let dates: Array<string> = [];
-        var now = new Date();
-        let endDate = new Date(endDateString);
-        
-        // start on next day following startDate
-        let startDate = new Date(startDateString);
-        startDate.setDate(startDate.getDate()+1)
-        var daysOfYear = [];
+    getNetTransactions(): void {
+        // 4. getNetTransactions: retrieve the transactions that this wallet was a part of that exclude reward transactions
+        // + Melange Payouts. add a rewardByDay to the rewardsByDay list   
 
-        // end on day before endDate
-        for (startDate; startDate < endDate; startDate.setDate(startDate.getDate() + 1)) {
-            dates.push(startDate.toISOString().split('T')[0]);
-        }
-
-        return dates;
-    }
-
-    async getBalances(): Promise<void> {
-        // this method will retrieve the balances associated with the user wallet
-        // for each day present in the returned api body, we will associate that day with the
-        // latest available balance of that day
-        // for the days not present, we will associate those
-        // days with the balance of the last available day's last available balance
-
-        let balances: Record<string, number> = {};
-
-        //offset from index
-        let offset = 0;
-        let resp_len = 10000;
-        let currentDay: string = null;
-        let latestBalance: number = null;
-        while (resp_len === 10000) {
-            let url = `https://api.tzkt.io/v1/accounts/${this.walletAddress}/balance_history?offset=${offset}&limit=10000`;
-            let response: AxiosResponse = await axios.get(url);
-
-            // update the response length to indicate when we've reached the end of the balance history
-            resp_len = response.data.length;
-            offset += response.data.length;
-
-            // for each day, have the balance equal the latest balance of that day
-            if(currentDay === null){
-                currentDay = response.data[0].timestamp.substring(0,10);
+        this.unaccountedNetTransactions = this.rawWalletTransactions.filter(transaction => {
+            return (!(this.bakerAddresses.has(transaction?.sender?.address) || this.bakerAddresses.has(transaction?.target?.address)))
+        }).map(transaction => {
+            let transactionDate: string = new Date(transaction.timestamp).toISOString().slice(0,10);
+            let adjustedAmount: number = transaction.amount / REWARDADJUSTMENTDENOMINATOR;
+            let amount: TransactionsByDay = {date: transactionDate, amount: adjustedAmount};
+            if (transaction?.target?.address === this.walletAddress){
+                amount = {date: transactionDate, amount: adjustedAmount}
             }
-            if(latestBalance === null){
-                latestBalance = response.data[0].balance/MUTEZ;
+            else if (transaction?.sender?.address === this.walletAddress){
+                amount.amount = adjustedAmount * -1;
             }
-
-            for(let day of response.data){
-                // update the latestBalance since we're on the currently marked day
-                if(day.timestamp.substring(0,10) === currentDay){
-                    latestBalance = day.balance/MUTEZ;
-                }
-                else{
-                    // push the day and its last balance to our map since we're now on a new day
-                    balances[currentDay] = latestBalance/MUTEZ;
-
-                    // get the range of dates from the currentDay to the day we are cheking on
-                    let fillerDays = this.getNonInclusiveDateRange(currentDay, day.timestamp.substring(0,10));
-                    // for these days, add the currentDays balance
-                    for(let fillerDay of fillerDays){
-                        balances[fillerDay] = latestBalance/MUTEZ; 
-                    }
-                    currentDay = day.timestamp.substring(0,10);
-                    latestBalance = day.balance/MUTEZ;
-                }
-            
-            }
-        }
-        // push the last day
-        balances[currentDay] = latestBalance/MUTEZ;
-        this.balancesByDay = balances;
-        return
-    }
-
-    async getPricesAndMarketCap() {
-
-        let price = `price${this.fiat}`;
-        let marketCap = `marketCap${this.fiat}`;
-        let priceAndMarketCapData: Array<PriceAndMarketCap>  = (await collections.priceAndMarketCap.find().sort( { date: 1 } ).toArray()) as PriceAndMarketCap[];
-        priceAndMarketCapData.forEach(
-            priceAndMarketCap => {
-                // date reformatting
-                let dateSplit: string[] = priceAndMarketCap.date.toString().split("-");
-                dateSplit = [dateSplit[0], dateSplit[1], dateSplit[2]];
-                let correctedDate: string = dateSplit.join("-");
-                this.pricesAndMarketCapsByDay[correctedDate] = {date: correctedDate, price: priceAndMarketCap[price], marketCap: priceAndMarketCap[marketCap]}
-            }
-        )
-
-        //filter the map type for date and market cap 
-        //this.priceAndMarketCapsByDay.sometypefunction(element => {return elementstuff})
-        //log the element
-        //extraction method from element
-        //add date reformatting 
-    
-        //console.log(this.marketByDay)
-        priceAndMarketCapData.forEach(element => {
-            let dateSplit: string[] = element.date.toString().split("-");
-            dateSplit = [dateSplit[0], dateSplit[1], dateSplit[2]];
-            let correctedDate: string = dateSplit.join("-");
-            this.marketByDay.push({date: correctedDate, amount: element[marketCap]})
-        })
-
-        
-        priceAndMarketCapData.forEach(element => {
-            let dateSplit: string[] = element.date.toString().split("-");
-            dateSplit = [dateSplit[0], dateSplit[1], dateSplit[2]];
-            let correctedDate: string = dateSplit.join("-");
-            this.priceByDay.push({date: correctedDate, amount: element[price]})
-        })
-
+            return amount
+        });
         return
     }
 
@@ -1158,6 +1195,25 @@ class TezosSet {
         if (day.length < 2) day = "0" + day;
     
         return [year, month, day].join("-");
+    }
+
+    getNonInclusiveDateRange(startDateString: string, endDateString: string): Array<string>{
+        // non inclusive on both sides
+        let dates: Array<string> = [];
+        var now = new Date();
+        let endDate = new Date(endDateString);
+        
+        // start on next day following startDate
+        let startDate = new Date(startDateString);
+        startDate.setDate(startDate.getDate()+1)
+        var daysOfYear = [];
+
+        // end on day before endDate
+        for (startDate; startDate < endDate; startDate.setDate(startDate.getDate() + 1)) {
+            dates.push(startDate.toISOString().split('T')[0]);
+        }
+
+        return dates;
     }
     
 }
