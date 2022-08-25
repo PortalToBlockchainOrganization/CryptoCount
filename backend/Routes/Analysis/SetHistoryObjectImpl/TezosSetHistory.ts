@@ -803,11 +803,12 @@ class TezosSet {
     }
 
     async getBakerRewardsAndTransactions(): Promise<void> {
-        await Promise.all([this.retrieveBakerRewards(), this.processBakerRewards(), this.retrieveCyclesAndDates(), this.getRawWalletTransactions()])
+        await Promise.all([this.retrieveBakerRewards(), this.retrieveCyclesAndDates(), this.getRawWalletTransactions()])
+        this.processBakerRewards()
         //uncomment these 3
-        this.getNetTransactions();
-        this.firstRewardDate = this.rewardsByDay[0].date;
-        this.filterPayoutsBaker();
+        // this.getNetTransactions();
+        // this.firstRewardDate = this.rewardsByDay[0].date;
+        // this.filterPayouts();
 
     }
 

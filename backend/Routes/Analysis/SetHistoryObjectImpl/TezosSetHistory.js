@@ -786,15 +786,10 @@ var TezosSet = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, Promise.all([this.retrieveBakerRewards(), this.processBakerRewards(), this.retrieveCyclesAndDates(), this.getRawWalletTransactions()])
-                        //uncomment these 3
-                    ];
+                    case 0: return [4 /*yield*/, Promise.all([this.retrieveBakerRewards(), this.retrieveCyclesAndDates(), this.getRawWalletTransactions()])];
                     case 1:
                         _a.sent();
-                        //uncomment these 3
-                        this.getNetTransactions();
-                        this.firstRewardDate = this.rewardsByDay[0].date;
-                        this.filterPayoutsBaker();
+                        this.processBakerRewards();
                         return [2 /*return*/];
                 }
             });
