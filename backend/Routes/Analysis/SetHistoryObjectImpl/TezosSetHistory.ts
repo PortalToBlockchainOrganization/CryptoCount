@@ -702,34 +702,69 @@ class TezosSet {
 
         //first url
         //get the reults from first url 
-        let url: string = `https://api.tzkt.io/v1/accounts/${this.walletAddress}/operations?type=endorsement,baking,nonce_revelation,double_baking,double_endorsing,transaction,origination,delegation,reveal,revelation_penalty&limit=1000&sort=0`;
-        let response: AxiosResponse = await axios.get(url);
-        this.nextTimeStamp = response.data[response.data.length - 1].timestamp
+        // let url: string = `https://api.tzkt.io/v1/accounts/${this.walletAddress}/operations?type=endorsement,endorsing_rewards,baking,nonce_revelation,double_baking,double_endorsing,transaction,origination,delegation,reveal,revelation_penalty&limit=1000&sort=0`;
+        // let response: AxiosResponse = await axios.get(url);
+        // this.nextTimeStamp = response.data[response.data.length - 1].timestamp
+        // //map the response and push to array
+        // let operations: Array<{type: string, amount: number, rewards: number, reward: number, bakerRewards: number, accuserRewards: number, accuser: {address: string}, offenderLostDeposits: number, offenderLostRewards: number, offenderLostFees: number, bakerFee: number, storageFee: number, allocationFee: number, sender: {address: string}, lostReward: number, lostFees: number, timestamp: string}> = 
+        //     response.data.map(({type, amount, rewards, reward, bakerRewards, accuserRewards, accuser, offenderLostDeposits, offenderLostRewards, offenderLostFees, storageFee, allocationFee, sender, lostReward, lostFees, timestamp}) => ({type, amount, rewards, reward, bakerRewards, accuserRewards, accuser, offenderLostDeposits, offenderLostRewards, offenderLostFees, storageFee, allocationFee, sender,lostReward, lostFees, timestamp}));       
+        // let totalOperations: any = []
+        // console.log(this.nextTimeStamp)
+        // //while the timestamp is not within 3 days of today
+        // let a: any = new Date(this.nextTimeStamp)
+        // let c: any = new Date()
+        // c.setDate(c.getDate() - 5);
+
+        // console.log(operations)
+        // while(a.getTime()<c.getTime()){
+        //     let urlNext: string = `https://api.tzkt.io/v1/accounts/${this.walletAddress}/operations?timestamp.ge=${this.nextTimeStamp}&limit=1000&sort=0`;
+        //     let response2: AxiosResponse = await axios.get(urlNext);
+        //     console.log(response2)
+        //     this.nextTimeStamp = response2.data[response2.data.length - 1].timestamp
+        //     let nextOperations: Array<{type: string, amount: number, rewards: number, reward: number, bakerRewards: number, accuserRewards: number, accuser: {address: string}, offenderLostDeposits: number, offenderLostRewards: number, offenderLostFees: number, bakerFee: number, storageFee: number, allocationFee: number, sender: {address: string}, lostReward: number, lostFees: number, timestamp: string}> = response2.data.map(({type, amount, rewards, reward, bakerRewards, accuserRewards, accuser, offenderLostDeposits, offenderLostRewards, offenderLostFees, storageFee, allocationFee, sender, lostReward, lostFees, timestamp}) => ({type, amount, rewards, reward, bakerRewards, accuserRewards, accuser, offenderLostDeposits, offenderLostRewards, offenderLostFees, storageFee, allocationFee, sender,lostReward, lostFees, timestamp}));
+        //     totalOperations.push(nextOperations)
+        //     let now: any = new Date(this.nextTimeStamp)
+        //     if(now.getTime() == a.getTime()){
+        //         break
+        //     }else{
+        //         a = new Date(this.nextTimeStamp)
+        //     }
+        // }
+
+        // console.log(totalOperations)
+        // this.totalOperations = totalOperations
+
+
+
+        
+        let urlr= `https://api.tzkt.io/v1/rewards/bakers/${this.walletAddress}?limit=10000`
+        let resp1: AxiosResponse = await axios.get(urlr);
+       // this.nextTimeStamp = resp1.data[resp1.data.length - 1].timestamp
         //map the response and push to array
-        let operations: Array<{type: string, amount: number, rewards: number, reward: number, bakerRewards: number, accuserRewards: number, accuser: {address: string}, offenderLostDeposits: number, offenderLostRewards: number, offenderLostFees: number, bakerFee: number, storageFee: number, allocationFee: number, sender: {address: string}, lostReward: number, lostFees: number, timestamp: string}> = 
-            response.data.map(({type, amount, rewards, reward, bakerRewards, accuserRewards, accuser, offenderLostDeposits, offenderLostRewards, offenderLostFees, storageFee, allocationFee, sender, lostReward, lostFees, timestamp}) => ({type, amount, rewards, reward, bakerRewards, accuserRewards, accuser, offenderLostDeposits, offenderLostRewards, offenderLostFees, storageFee, allocationFee, sender,lostReward, lostFees, timestamp}));       
-        let totalOperations: any = []
-        console.log(this.nextTimeStamp)
-        //while the timestamp is not within 3 days of today
-        let a: any = new Date(this.nextTimeStamp)
-        let c: any = new Date()
-        c.setDate(c.getDate() - 5);
-
-        console.log(operations)
-        while(a.getTime()<c.getTime()){
-            let urlNext: string = `https://api.tzkt.io/v1/accounts/${this.walletAddress}/operations?timestamp.ge=${this.nextTimeStamp}&limit=1000&sort=0`;
-            let response2: AxiosResponse = await axios.get(urlNext);
-            console.log(response2)
-            this.nextTimeStamp = response2.data[response2.data.length - 1].timestamp
-            let nextOperations: Array<{type: string, amount: number, rewards: number, reward: number, bakerRewards: number, accuserRewards: number, accuser: {address: string}, offenderLostDeposits: number, offenderLostRewards: number, offenderLostFees: number, bakerFee: number, storageFee: number, allocationFee: number, sender: {address: string}, lostReward: number, lostFees: number, timestamp: string}> = response2.data.map(({type, amount, rewards, reward, bakerRewards, accuserRewards, accuser, offenderLostDeposits, offenderLostRewards, offenderLostFees, storageFee, allocationFee, sender, lostReward, lostFees, timestamp}) => ({type, amount, rewards, reward, bakerRewards, accuserRewards, accuser, offenderLostDeposits, offenderLostRewards, offenderLostFees, storageFee, allocationFee, sender,lostReward, lostFees, timestamp}));
-            totalOperations.push(nextOperations)
-            a = new Date(this.nextTimeStamp)
-       
+        console.log(resp1)
+        //let cycle: number = 0
+        if(resp1 !== undefined){
+            // if(resp1.data[0].cycle !== undefined){
+            //     cycle = resp1.data[0].cycle
+            // }
+            let bak: Array<{cycle: number, endorsementRewards: number, blockRewards: number}> = 
+            resp1.data.map(({cycle, endorsementRewards, blockRewards}) => ({cycle, endorsementRewards, blockRewards}));       
+            this.totalOperations.push(bak)
+          
         }
-
-        console.log(totalOperations)
-        this.totalOperations = totalOperations
-
+        
+        // console.log(cycle)
+        // //get the last cycle
+        // let url2= `https://api.tzkt.io/v1/rewards/bakers/${this.walletAddress}?cycle.lt=${cycle}`
+        // let resp2: AxiosResponse = await axios.get(url2);
+        // if(resp2 !== undefined){
+        // // this.nextTimeStamp = resp1.data[resp1.data.length - 1].timestamp
+        //     //map the response and push to array
+        //     let bak2: Array<{cycle: number, endorsementRewards: number, blockRewards: number}> = 
+        //     resp2.data.map(({cycle, endorsementRewards, blockRewards}) => ({cycle, endorsementRewards, blockRewards}));       
+        //     this.totalOperations.push(bak2)
+        // }
+   
     }
 
 
@@ -947,139 +982,180 @@ class TezosSet {
 
          // map cycles to reward amounts
          //expand record for every type and re make the record at the end for by day /cycle
-        let rewards: Record<string, number> = {};
+        let rewards: Record<number, number> = {};
         this.totalOperations.forEach(array => {
             array.forEach(operation => {
-                if (operation.type === undefined){
+                if (operation.cycle === undefined){
                     console.log("No payout data found in a response");
                 }
                 else{
                  
-                   if('endorsement' === operation.type){
-                       let date: string = this.formatDate(operation.timestamp)
-                       let amount: number = operation.rewards / 1000000
-                       if(amount !== undefined) {
-                           if(rewards[date] !== undefined){
-                               let value: number = rewards[date]
-                               rewards[date] = value + amount
-                           }
-                           else{
-                               rewards[date] = amount
-                           }
-                       }   
-                   }
-                   else if("baking" === operation.type){
-                       let date: string = this.formatDate(operation.timestamp)
-                       let amount: number = operation.reward / 1000000
-                       if(amount !== undefined) {
-                           if(rewards[date] !== undefined){
-                               let value: number = rewards[date]
-                               rewards[date] = value + amount
-                           }
-                           else{
-                               rewards[date] = amount
-                           }
-                       }   
-                   }
-                   else if('nonce_revelation' === operation.type){
-                       let date: string = this.formatDate(operation.timestamp)
-                       let amount: number = operation.bakerRewards / 1000000
-                       if(amount !== undefined) {
-                           if(rewards[date] !== undefined){
-                               let value: number = rewards[date]
-                               rewards[date] = value + amount
-                           }
-                           else{
-                               rewards[date] = amount
-                           }
-                       }   
-                   }
-                   else if('double_baking' === operation.type){
-                       let isAccuser = operation.accuser.address === this.walletAddress;
-                       if(isAccuser){
-                           let date: string = this.formatDate(operation.timestamp)
-                           let amount: number = operation.accuserRewards / 1000000
-                           if(amount !== undefined) {
-                               if(rewards[date] !== undefined){
-                                   let value: number = rewards[date]
-                                   rewards[date] = value + amount
-                               }
-                               else{
-                                   rewards[date] = amount
-                               }
-                           }   
-                       }
-                       else{
-                           let date: string = this.formatDate(operation.timestamp)
-                           let amount: number = -(operation.offenderLostDeposits + operation.offenderLostRewards + operation.offenderLostFees) / 1000000
-                           if(amount !== undefined) {
-                               if(rewards[date] !== undefined){
-                                   let value: number = rewards[date]
-                                   rewards[date] = value + amount
-                               }
-                               else{
-                                   rewards[date] = amount
-                               }
-                           }   
-                       }
-                   }
-                   else if("origination" === operation.type){
-                           let date: string = this.formatDate(operation.timestamp)
-                           let amount: number = -(operation.bakerFee + operation.storageFee + operation.allocationFee) / 1000000
-                           if(amount !== undefined) {
-                               if(rewards[date] !== undefined){
-                                   let value: number = rewards[date]
-                                   rewards[date] = value + amount
-                               }
-                               else{
-                                   rewards[date] = amount
-                               }
-                           }   
-                   }
-                   else if("delegation" === operation.type){
-                       let date: string = this.formatDate(operation.timestamp)
-                       let isSender = operation.sender.address === this.walletAddress;
-                       if (isSender) {
-                           let amount: number = -1 * operation.bakerFee / 1000000
-                           if(amount !== undefined) {
-                               if(rewards[date] !== undefined){
-                                   let value: number = rewards[date]
-                                   rewards[date] = value + amount
-                               }
-                               else{
-                                   rewards[date] = amount
-                               }
-                           }   
-                       }
-                   }
-                   else if("reveal"){
-                       let date: string = this.formatDate(operation.timestamp)
-                       let amount: number = -1 * operation.bakerFee / 1000000
-                       if(amount !== undefined) {
-                           if(rewards[date] !== undefined){
-                               let value: number = rewards[date]
-                               rewards[date] = value + amount
-                           }
-                           else{
-                               rewards[date] = amount
-                           }
-                       }   
+                //    if('endorsement' === operation.type){
+                //        let date: string = this.formatDate(operation.timestamp)
+                //        let amount: number = operation.rewards / 1000000
+                //        if(amount !== undefined) {
+                //            if(rewards[date] !== undefined){
+                //                let value: number = rewards[date]
+                //                rewards[date] = value + amount
+                //            }
+                //            else{
+                //                rewards[date] = amount
+                //            }
+                //        }   
+                //    }
+                   
+                if(operation.endorsementRewards !== undefined){
+                    let cycle: number = (operation.cycle)
+                    let amount: number = operation.endorsementRewards / 1000000
+                    if(amount !== undefined) {
+                        if(rewards[cycle] !== undefined){
+                            let value: number = rewards[cycle]
+                            rewards[cycle] = value + amount
+                        }
+                        else{
+                            rewards[cycle] = amount
+                        }
+                        }   
+                     }
+
+                    else if(operation.blockRewards !== undefined){
+                        let cycle: number = (operation.cycle)
+                        let amount: number = operation.blockRewards / 1000000
+                        if(amount !== undefined) {
+                            if(rewards[cycle] !== undefined){
+                                let value: number = rewards[cycle]
+                                rewards[cycle] = value + amount
+                            }
+                            else{
+                                rewards[cycle] = amount
+                            }
+                        }   
+                    }
+                //    else if("baking" === operation.type){
+                //        let date: string = this.formatDate(operation.timestamp)
+                //        let amount: number = operation.reward / 1000000
+                //        if(amount !== undefined) {
+                //            if(rewards[date] !== undefined){
+                //                let value: number = rewards[date]
+                //                rewards[date] = value + amount
+                //            }
+                //            else{
+                //                rewards[date] = amount
+                //            }
+                //        }   
+                //    }
+                //    else if("endorsing_rewards" === operation.type){
+                //     let date: string = this.formatDate(operation.timestamp)
+                //     let amount: number = operation.received / 1000000
+                //     if(amount !== undefined) {
+                //         if(rewards[date] !== undefined){
+                //             let value: number = rewards[date]
+                //             rewards[date] = value + amount
+                //         }
+                //         else{
+                //             rewards[date] = amount
+                //         }
+                //     } 
+                //    }
+                //    else if('nonce_revelation' === operation.type){
+                //        let date: string = this.formatDate(operation.timestamp)
+                //        let amount: number = operation.bakerRewards / 1000000
+                //        if(amount !== undefined) {
+                //            if(rewards[date] !== undefined){
+                //                let value: number = rewards[date]
+                //                rewards[date] = value + amount
+                //            }
+                //            else{
+                //                rewards[date] = amount
+                //            }
+                //        }   
+                //    }
+                //    else if('double_baking' === operation.type){
+                //        let isAccuser = operation.accuser.address === this.walletAddress;
+                //        if(isAccuser){
+                //            let date: string = this.formatDate(operation.timestamp)
+                //            let amount: number = operation.accuserRewards / 1000000
+                //            if(amount !== undefined) {
+                //                if(rewards[date] !== undefined){
+                //                    let value: number = rewards[date]
+                //                    rewards[date] = value + amount
+                //                }
+                //                else{
+                //                    rewards[date] = amount
+                //                }
+                //            }   
+                //        }
+                //        else{
+                //            let date: string = this.formatDate(operation.timestamp)
+                //            let amount: number = -(operation.offenderLostDeposits + operation.offenderLostRewards + operation.offenderLostFees) / 1000000
+                //            if(amount !== undefined) {
+                //                if(rewards[date] !== undefined){
+                //                    let value: number = rewards[date]
+                //                    rewards[date] = value + amount
+                //                }
+                //                else{
+                //                    rewards[date] = amount
+                //                }
+                //            }   
+                //        }
+                //    }
+                //    else if("origination" === operation.type){
+                //            let date: string = this.formatDate(operation.timestamp)
+                //            let amount: number = -(operation.bakerFee + operation.storageFee + operation.allocationFee) / 1000000
+                //            if(amount !== undefined) {
+                //                if(rewards[date] !== undefined){
+                //                    let value: number = rewards[date]
+                //                    rewards[date] = value + amount
+                //                }
+                //                else{
+                //                    rewards[date] = amount
+                //                }
+                //            }   
+                //    }
+                //    else if("delegation" === operation.type){
+                //        let date: string = this.formatDate(operation.timestamp)
+                //        let isSender = operation.sender.address === this.walletAddress;
+                //        if (isSender) {
+                //            let amount: number = -1 * operation.bakerFee / 1000000
+                //            if(amount !== undefined) {
+                //                if(rewards[date] !== undefined){
+                //                    let value: number = rewards[date]
+                //                    rewards[date] = value + amount
+                //                }
+                //                else{
+                //                    rewards[date] = amount
+                //                }
+                //            }   
+                //        }
+                //    }
+                //    else if("reveal"){
+                //        let date: string = this.formatDate(operation.timestamp)
+                //        let amount: number = -1 * operation.bakerFee / 1000000
+                //        if(amount !== undefined) {
+                //            if(rewards[date] !== undefined){
+                //                let value: number = rewards[date]
+                //                rewards[date] = value + amount
+                //            }
+                //            else{
+                //                rewards[date] = amount
+                //            }
+                //        }   
    
    
-                   }
-                   else if("revelation_penalty"){
-                       let date: string = this.formatDate(operation.timestamp)
-                       let amount: number = -1 * (operation.lostReward + operation.lostFees) / 1000000
-                       if(amount !== undefined) {
-                           if(rewards[date] !== undefined){
-                               let value: number = rewards[date]
-                               rewards[date] = value + amount
-                           }
-                           else{
-                               rewards[date] = amount
-                           }
-                       }   
-                   }
+                //    }
+                //    else if("revelation_penalty"){
+                //        let date: string = this.formatDate(operation.timestamp)
+                //        let amount: number = -1 * (operation.lostReward + operation.lostFees) / 1000000
+                //        if(amount !== undefined) {
+                //            if(rewards[date] !== undefined){
+                //                let value: number = rewards[date]
+                //                rewards[date] = value + amount
+                //            }
+                //            else{
+                //                rewards[date] = amount
+                //            }
+                //        }   
+                //    }
                }
             });
         })
@@ -1110,6 +1186,9 @@ class TezosSet {
 
     filterPayoutsBaker(): void {
 
+        //this converts the rewaard by day map to reward by day and reward by cycle
+
+        
         let currentItem = this.rewardsByDay[0]
         // this.rewardsByCycle = this.rewardsByDay.forEach((value) => {
         //     if(value.cycle == currentItem.cycle) {
@@ -1199,7 +1278,7 @@ class TezosSet {
 }
 
 let ts: TezosSet = new TezosSet();
-ts.init("USD","tz1PWCDnz783NNGGQjEFFsHtrcK5yBW4E2rm", "Baker").then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
+ts.init("USD","tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g", "Baker").then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
     if(err) {
       console.log(err);
     } else {
@@ -1207,5 +1286,19 @@ ts.init("USD","tz1PWCDnz783NNGGQjEFFsHtrcK5yBW4E2rm", "Baker").then(x => {writeF
     }
 })});
 // ts.setRewardsAndTransactions().then(x => {console.log(ts.rewardsByDay, ts.unaccountedNetTransactions)});
-//baker tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g, tz1aRoaRhSpRYvFdyvgWLL6TGyRoGF51wDjM
+//baker tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g, tz1aRoaRhSpRYvFdyvgWLL6TGyRoGF51wDjM, tz1TwVimQy3BywXoSszdFXjT9bSTQrsZYo2u, tz1WMoJivTbf62hWLC5e4QvRwk9dps2r6tNs, tz1aegBunu8NFDNm7wPHNyuMmteMD3S3Liuj
 //delegator tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH
+
+
+//filter payouts baker to get into rew by cycle 
+
+//connect to products
+
+// other payloads into baker processing 
+//active documentation https://api.tzkt.io/#operation/Rewards_GetBakerRewards
+
+
+//save set
+
+//update set 
+
