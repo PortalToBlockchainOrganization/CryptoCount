@@ -1302,3 +1302,9 @@ ts.init("USD","tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g", "Baker").then(x => {writeF
 
 //update set 
 
+// average basis cost . ez from investment bv method
+
+//add todays price to this 
+
+//add realized native rewards agg by todays price to this 
+
