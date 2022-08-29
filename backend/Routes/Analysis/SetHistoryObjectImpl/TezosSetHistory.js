@@ -507,18 +507,34 @@ var TezosSet = /** @class */ (function () {
                         aggSupplyAmount = nativeSupplyDepletionByDay[0].amount;
                         nativeSupplyDepletionByDay.forEach(function (nativeSupplyDepletion) {
                             if (_this.cyclesMappedToDays.get(nativeSupplyDepletion.date) !== currentSupplyCycle) {
-                                nativeSupplyDepletionRewards.push({ date: currentDate,
-                                    rewardAmount: mappedFMV[currentSupplyCycle] - aggSupplyAmount,
-                                    cycle: currentSupplyCycle });
+                                var rewAmount = mappedFMV[currentSupplyCycle] - aggSupplyAmount;
+                                if (rewAmount >= 0) {
+                                    nativeSupplyDepletionRewards.push({ date: currentDate,
+                                        rewardAmount: mappedFMV[currentSupplyCycle] - aggSupplyAmount,
+                                        cycle: currentSupplyCycle });
+                                }
+                                else {
+                                    nativeSupplyDepletionRewards.push({ date: currentDate,
+                                        rewardAmount: 0,
+                                        cycle: currentSupplyCycle });
+                                }
                                 currentDate = nativeSupplyDepletion.date;
                                 currentSupplyCycle = mappedCyclesToFirstCycleDate[currentDate];
                                 aggSupplyAmount = nativeSupplyDepletion.amount;
                             }
                             else if (nativeSupplyDepletion.date === nativeSupplyDepletionByDay[nativeSupplyDepletionByDay.length - 1].date) {
                                 aggSupplyAmount += nativeSupplyDepletion.amount;
-                                nativeSupplyDepletionRewards.push({ date: currentDate,
-                                    rewardAmount: mappedFMV[currentSupplyCycle] - aggSupplyAmount,
-                                    cycle: currentSupplyCycle });
+                                var rewAmount = mappedFMV[currentSupplyCycle] - aggSupplyAmount;
+                                if (rewAmount >= 0) {
+                                    nativeSupplyDepletionRewards.push({ date: currentDate,
+                                        rewardAmount: mappedFMV[currentSupplyCycle] - aggSupplyAmount,
+                                        cycle: currentSupplyCycle });
+                                }
+                                else {
+                                    nativeSupplyDepletionRewards.push({ date: currentDate,
+                                        rewardAmount: 0,
+                                        cycle: currentSupplyCycle });
+                                }
                             }
                             else {
                                 aggSupplyAmount += nativeSupplyDepletion.amount;
@@ -771,6 +787,10 @@ var TezosSet = /** @class */ (function () {
                     case 1:
                         _a.sent();
                         this.processBakerRewards();
+                        console.log(this);
+                        //uncomment these 3
+                        this.getNetTransactions();
+                        this.firstRewardDate = this.rewardsByDay[0].date;
                         return [2 /*return*/];
                 }
             });
@@ -938,8 +958,7 @@ var TezosSet = /** @class */ (function () {
     };
     TezosSet.prototype.processBakerRewards = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var rewards;
-            var _this = this;
+            var rewards, prevVal, i;
             return __generator(this, function (_a) {
                 rewards = {};
                 this.totalOperations.forEach(function (array) {
@@ -1114,10 +1133,17 @@ var TezosSet = /** @class */ (function () {
                     });
                 });
                 console.log(rewards);
-                //flip this to get the cycles
-                this.rewardsByDay = this.cyclesByDay.filter(function (cycleAndDateDoc) { return cycleAndDateDoc.dateString.toString() in rewards; }).map(function (cycleAndDateDoc) {
-                    return { date: cycleAndDateDoc.dateString, rewardAmount: rewards[_this.formatDate(cycleAndDateDoc.dateString.toString())], cycle: cycleAndDateDoc.cycleNumber };
-                });
+                prevVal = {};
+                for (i = 0; i < this.cyclesByDay.length; i++) {
+                    if (this.cyclesByDay[i].cycleNumber !== prevVal.cycleNumber) {
+                        if (rewards[this.cyclesByDay[i].cycleNumber] !== undefined) {
+                            this.rewardsByCycle.push({ date: this.formatDate(this.cyclesByDay[i].dateString), rewardAmount: rewards[this.cyclesByDay[i].cycleNumber], cycle: this.cyclesByDay[i].cycleNumber });
+                            prevVal = this.cyclesByDay[i];
+                        }
+                    }
+                }
+                this.rewardsByDay = this.rewardsByCycle.map(function (value) { return value; });
+                //this.rewardsByDay = this.cyclesByDay.filter(cyclesAndDays => )
                 return [2 /*return*/];
             });
         });
@@ -1180,6 +1206,9 @@ var TezosSet = /** @class */ (function () {
         if (this.rewardsByDay[0].date === currentItem.date) {
             this.rewardsByCycle.push(currentItem);
         }
+        // this.rewardsByCycle = this.cyclesByDay.filter(cycleAndDateDoc => cycleAndDateDoc.cycleNumber in rewards).map(cycleAndDateDoc => {
+        //     return {date: cycleAndDateDoc.dateString, rewardAmount: rewards[cycleAndDateDoc.cycleNumber], cycle: cycleAndDateDoc.cycleNumber};
+        // });
         return;
     };
     TezosSet.prototype.getNetTransactions = function () {
@@ -1249,3 +1278,12 @@ ts.init("USD", "tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g", "Baker").then(function (x
 // ts.setRewardsAndTransactions().then(x => {console.log(ts.rewardsByDay, ts.unaccountedNetTransactions)});
 //baker tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g, tz1aRoaRhSpRYvFdyvgWLL6TGyRoGF51wDjM, tz1TwVimQy3BywXoSszdFXjT9bSTQrsZYo2u, tz1WMoJivTbf62hWLC5e4QvRwk9dps2r6tNs, tz1aegBunu8NFDNm7wPHNyuMmteMD3S3Liuj
 //delegator tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH
+//filter payouts baker to get into rew by cycle 
+//connect to products
+// other payloads into baker processing 
+//active documentation https://api.tzkt.io/#operation/Rewards_GetBakerRewards
+//save set
+//update set 
+// average basis cost . ez from investment bv method
+//add todays price to this 
+//add realized native rewards agg by todays price to this 

@@ -579,19 +579,31 @@ class TezosSet {
 
         nativeSupplyDepletionByDay.forEach(nativeSupplyDepletion => {
             if(this.cyclesMappedToDays.get(nativeSupplyDepletion.date)!==currentSupplyCycle){
-                nativeSupplyDepletionRewards.push({date: currentDate, 
-                    rewardAmount: mappedFMV[currentSupplyCycle] - aggSupplyAmount, 
-                    cycle: currentSupplyCycle})
-
+                let rewAmount = mappedFMV[currentSupplyCycle] - aggSupplyAmount
+                if(rewAmount >= 0){
+                    nativeSupplyDepletionRewards.push({date: currentDate, 
+                        rewardAmount: mappedFMV[currentSupplyCycle] - aggSupplyAmount, 
+                        cycle: currentSupplyCycle})
+                }
+                else{ nativeSupplyDepletionRewards.push({date: currentDate, 
+                    rewardAmount: 0, 
+                    cycle: currentSupplyCycle})}
                 currentDate = nativeSupplyDepletion.date;
                 currentSupplyCycle = mappedCyclesToFirstCycleDate[currentDate];
                 aggSupplyAmount = nativeSupplyDepletion.amount;
             }
             else if(nativeSupplyDepletion.date===nativeSupplyDepletionByDay[nativeSupplyDepletionByDay.length-1].date){
                 aggSupplyAmount+=nativeSupplyDepletion.amount;
-                nativeSupplyDepletionRewards.push({date: currentDate, 
-                    rewardAmount: mappedFMV[currentSupplyCycle] - aggSupplyAmount, 
-                    cycle: currentSupplyCycle})
+                let rewAmount = mappedFMV[currentSupplyCycle] - aggSupplyAmount
+                if(rewAmount >= 0){
+                    nativeSupplyDepletionRewards.push({date: currentDate, 
+                        rewardAmount: mappedFMV[currentSupplyCycle] - aggSupplyAmount, 
+                        cycle: currentSupplyCycle})
+                }
+                else{ nativeSupplyDepletionRewards.push({date: currentDate, 
+                    rewardAmount: 0, 
+                    cycle: currentSupplyCycle})}
+                
             }
             else{
                 aggSupplyAmount+=nativeSupplyDepletion.amount;
@@ -840,10 +852,10 @@ class TezosSet {
     async getBakerRewardsAndTransactions(): Promise<void> {
         await Promise.all([this.retrieveBakerRewards(), this.retrieveCyclesAndDates(), this.getRawWalletTransactions()])
         this.processBakerRewards()
+        console.log(this)
         //uncomment these 3
-        // this.getNetTransactions();
-        // this.firstRewardDate = this.rewardsByDay[0].date;
-        // this.filterPayouts();
+        this.getNetTransactions();
+        this.firstRewardDate = this.rewardsByDay[0].date;
 
     }
 
@@ -1162,9 +1174,25 @@ class TezosSet {
         console.log(rewards)
 
             //flip this to get the cycles
-            this.rewardsByDay = this.cyclesByDay.filter(cycleAndDateDoc => cycleAndDateDoc.dateString.toString() in rewards).map(cycleAndDateDoc => {
-                return {date: cycleAndDateDoc.dateString, rewardAmount: rewards[this.formatDate(cycleAndDateDoc.dateString.toString())], cycle: cycleAndDateDoc.cycleNumber};
-            });
+            //this.rewardsByCycle = 
+            // this.rewardsByDay = this.cyclesByDay.filter(cycleAndDateDoc => cycleAndDateDoc.cycleNumber in rewards).map(cycleAndDateDoc => {
+            //     return {date: cycleAndDateDoc.dateString, rewardAmount: rewards[cycleAndDateDoc.cycleNumber], cycle: cycleAndDateDoc.cycleNumber};
+            // });
+
+            let prevVal: any = {}
+            for (let i=0; i< this.cyclesByDay.length; i++){
+                if (this.cyclesByDay[i].cycleNumber !== prevVal.cycleNumber){
+                    if(rewards[this.cyclesByDay[i].cycleNumber] !== undefined){
+                        this.rewardsByCycle.push({date: this.formatDate(this.cyclesByDay[i].dateString), rewardAmount: rewards[this.cyclesByDay[i].cycleNumber], cycle: this.cyclesByDay[i].cycleNumber})
+                        prevVal = this.cyclesByDay[i] 
+                    }
+                   
+            }}
+
+            this.rewardsByDay = this.rewardsByCycle.map(value => value)
+
+            //this.rewardsByDay = this.cyclesByDay.filter(cyclesAndDays => )
+
       
          return
     }
@@ -1184,7 +1212,7 @@ class TezosSet {
         return
     };
 
-    filterPayoutsBaker(): void {
+    filterPayoutsBaker(): void { //depreication threaten , are rewards by day necaarry if by cycle is done? prob not
 
         //this converts the rewaard by day map to reward by day and reward by cycle
 
@@ -1213,6 +1241,14 @@ class TezosSet {
         if(this.rewardsByDay[0].date===currentItem.date){
             this.rewardsByCycle.push(currentItem);
         }
+
+
+
+        // this.rewardsByCycle = this.cyclesByDay.filter(cycleAndDateDoc => cycleAndDateDoc.cycleNumber in rewards).map(cycleAndDateDoc => {
+        //     return {date: cycleAndDateDoc.dateString, rewardAmount: rewards[cycleAndDateDoc.cycleNumber], cycle: cycleAndDateDoc.cycleNumber};
+        // });
+
+
         return
     }
 
@@ -1290,21 +1326,23 @@ ts.init("USD","tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g", "Baker").then(x => {writeF
 //delegator tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH
 
 
-//filter payouts baker to get into rew by cycle 
 
-//connect to products
 
-// other payloads into baker processing 
+// other payloads blockchain operation types into baker processing 
 //active documentation https://api.tzkt.io/#operation/Rewards_GetBakerRewards
 
 
-//save set
-
-//update set 
 
 // average basis cost . ez from investment bv method
+    //use this.scaledbvbydomain investment
+    //for every change, extract the basis cost and date of the change
 
 //add todays price to this 
 
 //add realized native rewards agg by todays price to this 
 
+
+
+//save set
+
+//update set 
