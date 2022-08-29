@@ -135,6 +135,7 @@ class TezosSet {
     weightedAverageInvestmentCost: number;
     nextTimeStamp: any;
     totalOperations: any;
+    noRewards: any;
 
     constructor(){
 
@@ -191,6 +192,7 @@ class TezosSet {
         this.weightedAverageInvestmentCost = 0
         this.nextTimeStamp = ""
         this.totalOperations = []
+        this.noRewards = ""
             
 
         await connectToDatabase();
@@ -208,15 +210,21 @@ class TezosSet {
             await Promise.all([this.getDelegatorRewardsAndTransactions(), this.getBalances(), this.getPricesAndMarketCap()]);
         }
 
-
-        // conduct analysis
-        this.nativeRewardsFMVByCycle = this.calculateNativeRewardFMVByCycle();
-        this.investmentsScaledBVByDomain = this.calculateInvestmentBVByDomain();
-        await this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain);
-        await this.calculateNativeMarketDilutionRewards(this.investmentsScaledBVByDomain);
-        await this.analysis();
-        console.log("this")
-        console.log(this)
+        if(this.noRewards === false){
+            // conduct analysis
+            this.firstRewardDate = this.rewardsByDay[0].date;
+            this.nativeRewardsFMVByCycle = this.calculateNativeRewardFMVByCycle();
+            this.investmentsScaledBVByDomain = this.calculateInvestmentBVByDomain();
+            await this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain);
+            await this.calculateNativeMarketDilutionRewards(this.investmentsScaledBVByDomain);
+            await this.analysis();
+            console.log("this")
+            console.log(this)
+        }
+        else{
+            console.log(this)
+        }
+     
 
         return
     }
@@ -388,6 +396,21 @@ class TezosSet {
    async updateSets(): Promise<any>{
 
    }
+
+   async basisInvestmentCosts(): Promise<void>{
+
+    //for any domain in netTransactions
+    //map of date and the weighted average basis cost that day
+    //additions recalulate the value using that addition price and scale 
+    //subtractions recalculate hte value by FIFO of the scale that was extracted and recaluclate using the adjusted scale with its corresponding prices
+
+    }
+
+    async pointOfSaleCosts(): Promise<void>{
+        //add todays price to this 
+
+        //add realized native rewards agg by todays price to this 
+    }
 
     calculateNativeRewardFMVByCycle(): Array<RewardsByDay> {
         //rewards by day by price that day
@@ -670,6 +693,7 @@ class TezosSet {
         return scaledBVByDomain;
     }
 
+
     //retreive methods
     async retrieveBakers(): Promise<void> {
 
@@ -852,11 +876,8 @@ class TezosSet {
     async getBakerRewardsAndTransactions(): Promise<void> {
         await Promise.all([this.retrieveBakerRewards(), this.retrieveCyclesAndDates(), this.getRawWalletTransactions()])
         this.processBakerRewards()
-        console.log(this)
         //uncomment these 3
         this.getNetTransactions();
-        this.firstRewardDate = this.rewardsByDay[0].date;
-
     }
 
     async getDelegatorRewardsAndTransactions(): Promise<void> {
@@ -1178,18 +1199,24 @@ class TezosSet {
             // this.rewardsByDay = this.cyclesByDay.filter(cycleAndDateDoc => cycleAndDateDoc.cycleNumber in rewards).map(cycleAndDateDoc => {
             //     return {date: cycleAndDateDoc.dateString, rewardAmount: rewards[cycleAndDateDoc.cycleNumber], cycle: cycleAndDateDoc.cycleNumber};
             // });
-
-            let prevVal: any = {}
-            for (let i=0; i< this.cyclesByDay.length; i++){
-                if (this.cyclesByDay[i].cycleNumber !== prevVal.cycleNumber){
-                    if(rewards[this.cyclesByDay[i].cycleNumber] !== undefined){
-                        this.rewardsByCycle.push({date: this.formatDate(this.cyclesByDay[i].dateString), rewardAmount: rewards[this.cyclesByDay[i].cycleNumber], cycle: this.cyclesByDay[i].cycleNumber})
-                        prevVal = this.cyclesByDay[i] 
-                    }
-                   
-            }}
-
-            this.rewardsByDay = this.rewardsByCycle.map(value => value)
+            if(Object.keys(rewards).length <= 1){
+                this.noRewards = true
+            }
+            else{
+                let prevVal: any = {}
+                for (let i=0; i< this.cyclesByDay.length; i++){
+                    if (this.cyclesByDay[i].cycleNumber !== prevVal.cycleNumber){
+                        if(rewards[this.cyclesByDay[i].cycleNumber] !== undefined){
+                            this.rewardsByCycle.push({date: this.formatDate(this.cyclesByDay[i].dateString), rewardAmount: rewards[this.cyclesByDay[i].cycleNumber], cycle: this.cyclesByDay[i].cycleNumber})
+                            prevVal = this.cyclesByDay[i] 
+                        }
+                       
+                }}
+    
+                this.rewardsByDay = this.rewardsByCycle.map(value => value)
+                this.noRewards = false
+            }
+            
 
             //this.rewardsByDay = this.cyclesByDay.filter(cyclesAndDays => )
 
@@ -1314,7 +1341,7 @@ class TezosSet {
 }
 
 let ts: TezosSet = new TezosSet();
-ts.init("USD","tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g", "Baker").then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
+ts.init("USD","tz1WMoJivTbf62hWLC5e4QvRwk9dps2r6tNs", "Baker").then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
     if(err) {
       console.log(err);
     } else {
@@ -1323,26 +1350,10 @@ ts.init("USD","tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g", "Baker").then(x => {writeF
 })});
 // ts.setRewardsAndTransactions().then(x => {console.log(ts.rewardsByDay, ts.unaccountedNetTransactions)});
 //baker tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g, tz1aRoaRhSpRYvFdyvgWLL6TGyRoGF51wDjM, tz1TwVimQy3BywXoSszdFXjT9bSTQrsZYo2u, tz1WMoJivTbf62hWLC5e4QvRwk9dps2r6tNs, tz1aegBunu8NFDNm7wPHNyuMmteMD3S3Liuj
-//delegator tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH
+//delegator tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH, get more bad delegator strings
 
 
 
 
 // other payloads blockchain operation types into baker processing 
 //active documentation https://api.tzkt.io/#operation/Rewards_GetBakerRewards
-
-
-
-// average basis cost . ez from investment bv method
-    //use this.scaledbvbydomain investment
-    //for every change, extract the basis cost and date of the change
-
-//add todays price to this 
-
-//add realized native rewards agg by todays price to this 
-
-
-
-//save set
-
-//update set 

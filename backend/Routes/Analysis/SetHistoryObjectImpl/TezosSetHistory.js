@@ -142,6 +142,7 @@ var TezosSet = /** @class */ (function () {
                         this.weightedAverageInvestmentCost = 0;
                         this.nextTimeStamp = "";
                         this.totalOperations = [];
+                        this.noRewards = "";
                         return [4 /*yield*/, (0, database_service_1.connectToDatabase)()];
                     case 1:
                         _a.sent();
@@ -162,7 +163,9 @@ var TezosSet = /** @class */ (function () {
                         _a.sent();
                         _a.label = 5;
                     case 5:
+                        if (!(this.noRewards === false)) return [3 /*break*/, 9];
                         // conduct analysis
+                        this.firstRewardDate = this.rewardsByDay[0].date;
                         this.nativeRewardsFMVByCycle = this.calculateNativeRewardFMVByCycle();
                         this.investmentsScaledBVByDomain = this.calculateInvestmentBVByDomain();
                         return [4 /*yield*/, this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain)];
@@ -176,7 +179,11 @@ var TezosSet = /** @class */ (function () {
                         _a.sent();
                         console.log("this");
                         console.log(this);
-                        return [2 /*return*/];
+                        return [3 /*break*/, 10];
+                    case 9:
+                        console.log(this);
+                        _a.label = 10;
+                    case 10: return [2 /*return*/];
                 }
             });
         });
@@ -345,6 +352,13 @@ var TezosSet = /** @class */ (function () {
         });
     };
     TezosSet.prototype.updateSets = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
+    TezosSet.prototype.basisInvestmentCosts = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/];
@@ -787,10 +801,8 @@ var TezosSet = /** @class */ (function () {
                     case 1:
                         _a.sent();
                         this.processBakerRewards();
-                        console.log(this);
                         //uncomment these 3
                         this.getNetTransactions();
-                        this.firstRewardDate = this.rewardsByDay[0].date;
                         return [2 /*return*/];
                 }
             });
@@ -1133,16 +1145,27 @@ var TezosSet = /** @class */ (function () {
                     });
                 });
                 console.log(rewards);
-                prevVal = {};
-                for (i = 0; i < this.cyclesByDay.length; i++) {
-                    if (this.cyclesByDay[i].cycleNumber !== prevVal.cycleNumber) {
-                        if (rewards[this.cyclesByDay[i].cycleNumber] !== undefined) {
-                            this.rewardsByCycle.push({ date: this.formatDate(this.cyclesByDay[i].dateString), rewardAmount: rewards[this.cyclesByDay[i].cycleNumber], cycle: this.cyclesByDay[i].cycleNumber });
-                            prevVal = this.cyclesByDay[i];
+                //flip this to get the cycles
+                //this.rewardsByCycle = 
+                // this.rewardsByDay = this.cyclesByDay.filter(cycleAndDateDoc => cycleAndDateDoc.cycleNumber in rewards).map(cycleAndDateDoc => {
+                //     return {date: cycleAndDateDoc.dateString, rewardAmount: rewards[cycleAndDateDoc.cycleNumber], cycle: cycleAndDateDoc.cycleNumber};
+                // });
+                if (Object.keys(rewards).length <= 1) {
+                    this.noRewards = true;
+                }
+                else {
+                    prevVal = {};
+                    for (i = 0; i < this.cyclesByDay.length; i++) {
+                        if (this.cyclesByDay[i].cycleNumber !== prevVal.cycleNumber) {
+                            if (rewards[this.cyclesByDay[i].cycleNumber] !== undefined) {
+                                this.rewardsByCycle.push({ date: this.formatDate(this.cyclesByDay[i].dateString), rewardAmount: rewards[this.cyclesByDay[i].cycleNumber], cycle: this.cyclesByDay[i].cycleNumber });
+                                prevVal = this.cyclesByDay[i];
+                            }
                         }
                     }
+                    this.rewardsByDay = this.rewardsByCycle.map(function (value) { return value; });
+                    this.noRewards = false;
                 }
-                this.rewardsByDay = this.rewardsByCycle.map(function (value) { return value; });
                 //this.rewardsByDay = this.cyclesByDay.filter(cyclesAndDays => )
                 return [2 /*return*/];
             });
@@ -1265,7 +1288,7 @@ var TezosSet = /** @class */ (function () {
     return TezosSet;
 }());
 var ts = new TezosSet();
-ts.init("USD", "tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g", "Baker").then(function (x) {
+ts.init("USD", "tz1WMoJivTbf62hWLC5e4QvRwk9dps2r6tNs", "Baker").then(function (x) {
     (0, fs_1.writeFile)("test.json", JSON.stringify(ts, null, 4), function (err) {
         if (err) {
             console.log(err);
@@ -1278,12 +1301,9 @@ ts.init("USD", "tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g", "Baker").then(function (x
 // ts.setRewardsAndTransactions().then(x => {console.log(ts.rewardsByDay, ts.unaccountedNetTransactions)});
 //baker tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g, tz1aRoaRhSpRYvFdyvgWLL6TGyRoGF51wDjM, tz1TwVimQy3BywXoSszdFXjT9bSTQrsZYo2u, tz1WMoJivTbf62hWLC5e4QvRwk9dps2r6tNs, tz1aegBunu8NFDNm7wPHNyuMmteMD3S3Liuj
 //delegator tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH
-//filter payouts baker to get into rew by cycle 
-//connect to products
-// other payloads into baker processing 
+// other payloads blockchain operation types into baker processing 
 //active documentation https://api.tzkt.io/#operation/Rewards_GetBakerRewards
-//save set
-//update set 
-// average basis cost . ez from investment bv method
 //add todays price to this 
 //add realized native rewards agg by todays price to this 
+//save set
+//update set 
