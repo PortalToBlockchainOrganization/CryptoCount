@@ -394,7 +394,16 @@ class TezosSet {
    }
 
    async updateSets(): Promise<any>{
-
+    //rerun the reward retriveal methods
+    //rerun the products
+    //add 
+        //unrealized rewards to the exisiting unrealized rewards
+        //investmensscaledBVdomain /replace
+            //sub req replace transactions
+        //cycles and prices data fetch /replace
+        //basis cost replace too 
+    
+    //superclass the tezos set object and save each state at update and realize at routing level 
    }
 
    async basisInvestmentCosts(): Promise<void>{
