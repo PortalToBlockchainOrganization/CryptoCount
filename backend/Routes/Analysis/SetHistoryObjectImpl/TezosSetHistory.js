@@ -365,6 +365,13 @@ var TezosSet = /** @class */ (function () {
             });
         });
     };
+    TezosSet.prototype.pointOfSaleCosts = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/];
+            });
+        });
+    };
     TezosSet.prototype.calculateNativeRewardFMVByCycle = function () {
         var _this = this;
         //rewards by day by price that day
@@ -1288,7 +1295,7 @@ var TezosSet = /** @class */ (function () {
     return TezosSet;
 }());
 var ts = new TezosSet();
-ts.init("USD", "tz1WMoJivTbf62hWLC5e4QvRwk9dps2r6tNs", "Baker").then(function (x) {
+ts.init("USD", "tz1aRoaRhSpRYvFdyvgWLL6TGyRoGF51wDjM", "Baker").then(function (x) {
     (0, fs_1.writeFile)("test.json", JSON.stringify(ts, null, 4), function (err) {
         if (err) {
             console.log(err);
@@ -1300,10 +1307,6 @@ ts.init("USD", "tz1WMoJivTbf62hWLC5e4QvRwk9dps2r6tNs", "Baker").then(function (x
 });
 // ts.setRewardsAndTransactions().then(x => {console.log(ts.rewardsByDay, ts.unaccountedNetTransactions)});
 //baker tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g, tz1aRoaRhSpRYvFdyvgWLL6TGyRoGF51wDjM, tz1TwVimQy3BywXoSszdFXjT9bSTQrsZYo2u, tz1WMoJivTbf62hWLC5e4QvRwk9dps2r6tNs, tz1aegBunu8NFDNm7wPHNyuMmteMD3S3Liuj
-//delegator tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH
+//delegator tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH, get more bad delegator strings
 // other payloads blockchain operation types into baker processing 
 //active documentation https://api.tzkt.io/#operation/Rewards_GetBakerRewards
-//add todays price to this 
-//add realized native rewards agg by todays price to this 
-//save set
-//update set 

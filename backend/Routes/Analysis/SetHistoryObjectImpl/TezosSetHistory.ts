@@ -400,16 +400,26 @@ class TezosSet {
    async basisInvestmentCosts(): Promise<void>{
 
     //for any domain in netTransactions
-    //map of date and the weighted average basis cost that day
-    //additions recalulate the value using that addition price and scale 
-    //subtractions recalculate hte value by FIFO of the scale that was extracted and recaluclate using the adjusted scale with its corresponding prices
+    //unaccountedNetTransactions
+    //priceByDay
+    //pos and price value
+    //fifo go down 
+    //recaluclations?
+    //for unaccounted negative 
+    //underlying basis 
+    //realize out of first in net positive
+    //recalculate weighted average
+    //set as basis cost for the domain until nexxt negative or positive transaction
 
+    
     }
 
     async pointOfSaleCosts(): Promise<void>{
         //add todays price to this 
 
         //add realized native rewards agg by todays price to this 
+
+        //need to better the update blockchains2 db program 
     }
 
     calculateNativeRewardFMVByCycle(): Array<RewardsByDay> {
@@ -1341,7 +1351,7 @@ class TezosSet {
 }
 
 let ts: TezosSet = new TezosSet();
-ts.init("USD","tz1WMoJivTbf62hWLC5e4QvRwk9dps2r6tNs", "Baker").then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
+ts.init("USD","tz1aRoaRhSpRYvFdyvgWLL6TGyRoGF51wDjM", "Baker").then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
     if(err) {
       console.log(err);
     } else {
