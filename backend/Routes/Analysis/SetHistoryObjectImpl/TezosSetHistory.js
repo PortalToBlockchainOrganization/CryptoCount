@@ -229,7 +229,7 @@ var TezosSet = /** @class */ (function () {
                     return value;
                 });
                 //filter the unrealized arrays to put in chronolgoical order
-                this.realizeReward();
+                //this.realizeReward()
                 this.aggregates();
                 return [2 /*return*/];
             });
@@ -237,9 +237,13 @@ var TezosSet = /** @class */ (function () {
     };
     TezosSet.prototype.realizeReward = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var quantity, unrealizedNativeFMVRewardsMap, unrealizedNativeMarketDilutionRewardsMap, unrealizedNativeSupplyDepletionRewardsMap, i, newValue1, newValue2, value1, value2, value3, value4, _a, value5, value6, value7;
+            var quantity, unrealizedNativeRewardsMap, unrealizedNativeFMVRewardsMap, unrealizedNativeMarketDilutionRewardsMap, unrealizedNativeSupplyDepletionRewardsMap, i, newValue1, newValue2, value1, value2, value3, value4, _a, value5, value6, value7;
             return __generator(this, function (_b) {
                 quantity = 30;
+                unrealizedNativeRewardsMap = Object.assign.apply(Object, __spreadArray([{}], __read(this.unrealizedNativeRewards.map(function (x) {
+                    var _a;
+                    return (_a = {}, _a[x.date] = x.rewardAmount, _a);
+                })), false));
                 unrealizedNativeFMVRewardsMap = Object.assign.apply(Object, __spreadArray([{}], __read(this.unrealizedNativeFMVRewards.map(function (x) {
                     var _a;
                     return (_a = {}, _a[x.date] = x.rewardAmount, _a);
@@ -252,6 +256,10 @@ var TezosSet = /** @class */ (function () {
                     var _a;
                     return (_a = {}, _a[x.date] = x.rewardAmount, _a);
                 })), false));
+                console.log(unrealizedNativeFMVRewardsMap);
+                console.log(unrealizedNativeMarketDilutionRewardsMap);
+                console.log(unrealizedNativeSupplyDepletionRewardsMap);
+                console.log(unrealizedNativeRewardsMap);
                 //let splicelist = []
                 for (i = 0; i < this.unrealizedNativeRewards.length; i++) {
                     if (this.unrealizedNativeRewards[i].rewardAmount <= quantity) {
@@ -265,6 +273,9 @@ var TezosSet = /** @class */ (function () {
                         this.unrealizedNativeMarketDilutionRewards.splice(0, 1);
                         this.unrealizedNativeSupplyDepletionRewards.splice(0, 1);
                         quantity = quantity - this.unrealizedNativeRewards[i].rewardAmount;
+                        if (quantity < 0) {
+                            quantity = 0;
+                        }
                     }
                     else if (this.unrealizedNativeRewards[i].rewardAmount > quantity && quantity != 0) {
                         newValue1 = quantity;
@@ -343,10 +354,15 @@ var TezosSet = /** @class */ (function () {
     TezosSet.prototype.saveRealization = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                this.realizedNativeRewards = [];
-                this.realizedNativeFMVRewards = [];
-                this.realizedNativeMaketDilutionRewards = [];
-                this.realizedNativeSupplyDepletionRewards = [];
+                this.realizedNativeRewards = this.realizingNativeRewards.map(function (value) { return value; });
+                this.realizedNativeFMVRewards = this.realizingNativeFMVRewards.map(function (value) { return value; });
+                this.realizedNativeMaketDilutionRewards = this.realizingNativeMarketDilutionRewards.map(function (value) { return value; });
+                this.realizedNativeSupplyDepletionRewards = this.realizingNativeSupplyDepletionRewards.map(function (value) { return value; });
+                //or just overwrite the array to empty values
+                this.realizingNativeFMVRewards.splice(0, this.realizingNativeFMVRewards.length);
+                this.realizingNativeRewards.splice(0, this.realizingNativeRewards.length);
+                this.realizingNativeSupplyDepletionRewards.splice(0, this.realizingNativeSupplyDepletionRewards.length);
+                this.realizingNativeMarketDilutionRewards.splice(0, this.realizingNativeMarketDilutionRewards.length);
                 return [2 /*return*/];
             });
         });
@@ -361,6 +377,20 @@ var TezosSet = /** @class */ (function () {
     TezosSet.prototype.basisInvestmentCosts = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
+                //for any domain in netTransactions
+                //unaccountedNetTransactions
+                //priceByDay
+                //pos and price value
+                //fifo go down 
+                //recaluclations?
+                //for unaccounted negative 
+                //underlying basis 
+                //realize out of first in net positive
+                //recalculate weighted average
+                //set as basis cost for the domain until nexxt negative or positive transaction
+                this.priceByDay;
+                this.investmentsScaledBVByDomain;
+                this.unaccountedNetTransactions;
                 return [2 /*return*/];
             });
         });

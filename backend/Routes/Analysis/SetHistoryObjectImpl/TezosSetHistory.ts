@@ -276,8 +276,9 @@ class TezosSet {
         //filter the unrealized arrays to put in chronolgoical order
     
 
-        this.realizeReward()
+        //this.realizeReward()
         this.aggregates()
+       // this.saveRealization()
 
         
     }
@@ -287,10 +288,17 @@ class TezosSet {
         let quantity: number = 30;
 
         //convert the fmv arrays into maps to get the reward value by date
+        let unrealizedNativeRewardsMap = Object.assign({}, ...this.unrealizedNativeRewards.map((x) => ({[x.date]: x.rewardAmount})));
         let unrealizedNativeFMVRewardsMap = Object.assign({}, ...this.unrealizedNativeFMVRewards.map((x) => ({[x.date]: x.rewardAmount})));
         let unrealizedNativeMarketDilutionRewardsMap = Object.assign({}, ...this.unrealizedNativeMarketDilutionRewards.map((x) => ({[x.date]: x.rewardAmount})));
         let unrealizedNativeSupplyDepletionRewardsMap = Object.assign({}, ...this.unrealizedNativeSupplyDepletionRewards.map((x) => ({[x.date]: x.rewardAmount})));
 
+        console.log(unrealizedNativeFMVRewardsMap)
+        console.log(unrealizedNativeMarketDilutionRewardsMap)
+        console.log(unrealizedNativeSupplyDepletionRewardsMap)
+        console.log(unrealizedNativeRewardsMap)
+
+        
         //let splicelist = []
         for(let i=0;i<this.unrealizedNativeRewards.length;i++){
             if(this.unrealizedNativeRewards[i].rewardAmount <= quantity){
@@ -304,9 +312,12 @@ class TezosSet {
                 this.unrealizedNativeMarketDilutionRewards.splice(0, 1)
                 this.unrealizedNativeSupplyDepletionRewards.splice(0, 1)
                 quantity = quantity - this.unrealizedNativeRewards[i].rewardAmount
+                if(quantity <0){
+                    quantity = 0
+                }
                 }
 
-            else if(this.unrealizedNativeRewards[i].rewardAmount > quantity && quantity != 0){
+            else (this.unrealizedNativeRewards[i].rewardAmount > quantity && quantity != 0){
                 let newValue1: number = quantity
                 let newValue2: number = this.unrealizedNativeRewards[i].rewardAmount - quantity
                 this.realizingNativeRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1, cycle: this.unrealizedNativeRewards[i].cycle})
@@ -385,11 +396,18 @@ class TezosSet {
    }
 
    async saveRealization(): Promise<any>{
-   
-    this.realizedNativeRewards = []
-    this.realizedNativeFMVRewards = []
-    this.realizedNativeMaketDilutionRewards = []
-    this.realizedNativeSupplyDepletionRewards = []
+
+    
+    this.realizedNativeRewards = this.realizingNativeRewards.map(value => value)
+    this.realizedNativeFMVRewards = this.realizingNativeFMVRewards.map(value => value)
+    this.realizedNativeMaketDilutionRewards = this.realizingNativeMarketDilutionRewards.map(value=>value)
+    this.realizedNativeSupplyDepletionRewards =  this.realizingNativeSupplyDepletionRewards.map(value => value)
+
+    //or just overwrite the array to empty values
+    this.realizingNativeFMVRewards.splice(0, this.realizingNativeFMVRewards.length)
+    this.realizingNativeRewards.splice(0,this.realizingNativeRewards.length)
+    this.realizingNativeSupplyDepletionRewards.splice(0, this.realizingNativeSupplyDepletionRewards.length)
+    this.realizingNativeMarketDilutionRewards.splice(0,this.realizingNativeMarketDilutionRewards.length)
 
    }
 
@@ -420,6 +438,10 @@ class TezosSet {
     //recalculate weighted average
     //set as basis cost for the domain until nexxt negative or positive transaction
 
+
+    this.priceByDay
+    this.investmentsScaledBVByDomain
+    this.unaccountedNetTransactions
     
     }
 
