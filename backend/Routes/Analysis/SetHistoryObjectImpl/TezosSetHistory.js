@@ -229,7 +229,7 @@ var TezosSet = /** @class */ (function () {
                     return value;
                 });
                 //filter the unrealized arrays to put in chronolgoical order
-                //this.realizeReward()
+                this.realizeReward();
                 this.aggregates();
                 return [2 /*return*/];
             });
@@ -237,7 +237,7 @@ var TezosSet = /** @class */ (function () {
     };
     TezosSet.prototype.realizeReward = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var quantity, unrealizedNativeRewardsMap, unrealizedNativeFMVRewardsMap, unrealizedNativeMarketDilutionRewardsMap, unrealizedNativeSupplyDepletionRewardsMap, i, newValue1, newValue2, value1, value2, value3, value4, _a, value5, value6, value7;
+            var quantity, unrealizedNativeRewardsMap, unrealizedNativeFMVRewardsMap, unrealizedNativeMarketDilutionRewardsMap, unrealizedNativeSupplyDepletionRewardsMap, object1, object2, object3, object4, i, newValue1, newValue2, value1, value2, value3, value4, _a, value5, value6, value7;
             return __generator(this, function (_b) {
                 quantity = 30;
                 unrealizedNativeRewardsMap = Object.assign.apply(Object, __spreadArray([{}], __read(this.unrealizedNativeRewards.map(function (x) {
@@ -260,24 +260,12 @@ var TezosSet = /** @class */ (function () {
                 console.log(unrealizedNativeMarketDilutionRewardsMap);
                 console.log(unrealizedNativeSupplyDepletionRewardsMap);
                 console.log(unrealizedNativeRewardsMap);
-                //let splicelist = []
+                object1 = {};
+                object2 = {};
+                object3 = {};
+                object4 = {};
                 for (i = 0; i < this.unrealizedNativeRewards.length; i++) {
-                    if (this.unrealizedNativeRewards[i].rewardAmount <= quantity) {
-                        this.realizingNativeRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: this.unrealizedNativeRewards[i].rewardAmount, cycle: this.unrealizedNativeRewards[i].cycle });
-                        this.realizingNativeFMVRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeFMVRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle });
-                        this.realizingNativeMarketDilutionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle });
-                        this.realizingNativeSupplyDepletionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeSupplyDepletionRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle });
-                        //splicelist.push(index)
-                        this.unrealizedNativeRewards.splice(0, 1);
-                        this.unrealizedNativeFMVRewards.splice(0, 1);
-                        this.unrealizedNativeMarketDilutionRewards.splice(0, 1);
-                        this.unrealizedNativeSupplyDepletionRewards.splice(0, 1);
-                        quantity = quantity - this.unrealizedNativeRewards[i].rewardAmount;
-                        if (quantity < 0) {
-                            quantity = 0;
-                        }
-                    }
-                    else if (this.unrealizedNativeRewards[i].rewardAmount > quantity && quantity != 0) {
+                    if (this.unrealizedNativeRewards[i].rewardAmount > quantity && quantity != 0) {
                         newValue1 = quantity;
                         newValue2 = this.unrealizedNativeRewards[i].rewardAmount - quantity;
                         this.realizingNativeRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1, cycle: this.unrealizedNativeRewards[i].cycle });
@@ -290,13 +278,37 @@ var TezosSet = /** @class */ (function () {
                         this.realizingNativeMarketDilutionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value6, cycle: this.unrealizedNativeRewards[i].cycle });
                         this.realizingNativeSupplyDepletionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value7, cycle: this.unrealizedNativeRewards[i].cycle });
                         //multiple the three scalars by the newValue2 for unrealized and use quantity for the realizing
-                        this.unrealizedNativeFMVRewards.unshift({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue2 * value5, cycle: this.unrealizedNativeRewards[i].cycle });
-                        this.unrealizedNativeMarketDilutionRewards.unshift({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue2 * value6, cycle: this.unrealizedNativeRewards[i].cycle });
-                        this.unrealizedNativeFMVRewards.unshift({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue2 * value7, cycle: this.unrealizedNativeRewards[i].cycle });
-                        this.unrealizedNativeRewards.unshift({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue2, cycle: this.unrealizedNativeRewards[i].cycle });
+                        //we wanna change this from unshift to just overwriting that prev object bc otherwise it gonna double stack
+                        //store the unshift objects
+                        //then 
+                        object1 = { date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue2 * value5, cycle: this.unrealizedNativeRewards[i].cycle };
+                        object2 = { date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue2 * value6, cycle: this.unrealizedNativeRewards[i].cycle };
+                        object3 = { date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue2 * value7, cycle: this.unrealizedNativeRewards[i].cycle };
+                        object4 = { date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue2, cycle: this.unrealizedNativeRewards[i].cycle };
                         quantity = 0;
                     }
+                    //this hits first and unshifts our for loop by one so we have go back one in the logic above, this works bc its fifo and we wont need to track other indexes that are taken 
+                    else if (this.unrealizedNativeRewards[i].rewardAmount <= quantity && quantity != 0) {
+                        this.realizingNativeRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle });
+                        this.realizingNativeFMVRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeFMVRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle });
+                        this.realizingNativeMarketDilutionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle });
+                        this.realizingNativeSupplyDepletionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeSupplyDepletionRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle });
+                        //splicelist.push(index)
+                        quantity = quantity - unrealizedNativeRewardsMap[this.unrealizedNativeRewards[i].date];
+                        if (quantity < 0) {
+                            quantity = 0;
+                        }
+                    }
                 }
+                this.unrealizedNativeRewards.splice(0, this.realizingNativeRewards.length);
+                this.unrealizedNativeFMVRewards.splice(0, this.realizingNativeFMVRewards.length);
+                this.unrealizedNativeMarketDilutionRewards.splice(0, this.realizingNativeMarketDilutionRewards.length);
+                this.unrealizedNativeSupplyDepletionRewards.splice(0, this.realizingNativeSupplyDepletionRewards.length);
+                //then we unshift here
+                this.unrealizedNativeFMVRewards.unshift(object1);
+                this.unrealizedNativeMarketDilutionRewards.unshift(object2);
+                this.unrealizedNativeFMVRewards.unshift(object3);
+                this.unrealizedNativeRewards.unshift(object4);
                 return [2 /*return*/];
             });
         });
