@@ -143,6 +143,11 @@ var TezosSet = /** @class */ (function () {
                         this.nextTimeStamp = "";
                         this.totalOperations = [];
                         this.noRewards = "";
+                        this.TezosPriceOnDateObjectGenerated = 0;
+                        this.pointOfSaleAggValue = 0;
+                        this.netDiffFMV = 0;
+                        this.netDiffDilution = 0;
+                        this.netDiffSupplyDepletion = 0;
                         return [4 /*yield*/, (0, database_service_1.connectToDatabase)()];
                     case 1:
                         _a.sent();
@@ -231,6 +236,8 @@ var TezosSet = /** @class */ (function () {
                 //filter the unrealized arrays to put in chronolgoical order
                 this.realizeReward();
                 this.aggregates();
+                this.saveRealization();
+                this.pointOfSaleCosts();
                 return [2 /*return*/];
             });
         });
@@ -256,10 +263,6 @@ var TezosSet = /** @class */ (function () {
                     var _a;
                     return (_a = {}, _a[x.date] = x.rewardAmount, _a);
                 })), false));
-                console.log(unrealizedNativeFMVRewardsMap);
-                console.log(unrealizedNativeMarketDilutionRewardsMap);
-                console.log(unrealizedNativeSupplyDepletionRewardsMap);
-                console.log(unrealizedNativeRewardsMap);
                 object1 = {};
                 object2 = {};
                 object3 = {};
@@ -410,7 +413,20 @@ var TezosSet = /** @class */ (function () {
     TezosSet.prototype.pointOfSaleCosts = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0: 
+                    //add todays price to this 
+                    return [4 /*yield*/, this.retrieveTezosPriceToday()];
+                    case 1:
+                        //add todays price to this 
+                        _a.sent();
+                        this.pointOfSaleAggValue = this.TezosPriceOnDateObjectGenerated * this.aggregateRealizedNativeReward100p;
+                        //add realized native rewards agg by todays price to this 
+                        this.netDiffFMV = this.pointOfSaleAggValue - this.aggregateRealizedNativeFMVReward100p; //positive is good negative is bad
+                        this.netDiffDilution = this.pointOfSaleAggValue - this.aggregateRealizedNativeMarketDilution100p;
+                        this.netDiffSupplyDepletion = this.pointOfSaleAggValue - this.aggregateRealizedNativeSupplyDepletion100p;
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -657,6 +673,24 @@ var TezosSet = /** @class */ (function () {
         return scaledBVByDomain;
     };
     //retreive methods
+    TezosSet.prototype.retrieveTezosPriceToday = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var tezosTodayUrl, response, value, lowercase;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        tezosTodayUrl = "https://api.coingecko.com/api/v3/simple/price?ids=Tezos&vs_currencies=".concat(this.fiat);
+                        return [4 /*yield*/, axios_1["default"].get(tezosTodayUrl)];
+                    case 1:
+                        response = _a.sent();
+                        value = response.data.tezos;
+                        lowercase = this.fiat.toLowerCase();
+                        this.TezosPriceOnDateObjectGenerated = value[lowercase];
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     TezosSet.prototype.retrieveBakers = function () {
         return __awaiter(this, void 0, void 0, function () {
             var delegatorRewardsResponse, filteredResponse, curBaker, _a, _b, cycleData;

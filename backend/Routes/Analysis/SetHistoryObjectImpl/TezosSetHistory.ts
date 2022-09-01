@@ -136,6 +136,12 @@ class TezosSet {
     nextTimeStamp: any;
     totalOperations: any;
     noRewards: any;
+    TezosPriceOnDateObjectGenerated: number;
+    pointOfSaleAggValue: number;
+    netDiffFMV: number;
+    netDiffDilution: number;
+    netDiffSupplyDepletion: number;
+
 
     constructor(){
 
@@ -193,6 +199,11 @@ class TezosSet {
         this.nextTimeStamp = ""
         this.totalOperations = []
         this.noRewards = ""
+        this.TezosPriceOnDateObjectGenerated = 0
+        this.pointOfSaleAggValue = 0
+        this.netDiffFMV = 0
+        this.netDiffDilution = 0
+        this.netDiffSupplyDepletion = 0
             
 
         await connectToDatabase();
@@ -278,7 +289,8 @@ class TezosSet {
 
         this.realizeReward()
         this.aggregates()
-       // this.saveRealization()
+        this.saveRealization()
+        this.pointOfSaleCosts()
 
         
     }
@@ -293,15 +305,10 @@ class TezosSet {
         let unrealizedNativeMarketDilutionRewardsMap = Object.assign({}, ...this.unrealizedNativeMarketDilutionRewards.map((x) => ({[x.date]: x.rewardAmount})));
         let unrealizedNativeSupplyDepletionRewardsMap = Object.assign({}, ...this.unrealizedNativeSupplyDepletionRewards.map((x) => ({[x.date]: x.rewardAmount})));
 
-        console.log(unrealizedNativeFMVRewardsMap)
-        console.log(unrealizedNativeMarketDilutionRewardsMap)
-        console.log(unrealizedNativeSupplyDepletionRewardsMap)
-        console.log(unrealizedNativeRewardsMap)
-
         
         //let splicelist = []
         let object1: any = {}
-        let object2: any ={}
+        let object2: any = {}
         let object3: any = {}
         let object4: any = {}
         
@@ -461,10 +468,14 @@ class TezosSet {
 
     async pointOfSaleCosts(): Promise<void>{
         //add todays price to this 
+       await this.retrieveTezosPriceToday()
 
+       this.pointOfSaleAggValue = this.TezosPriceOnDateObjectGenerated * this.aggregateRealizedNativeReward100p
         //add realized native rewards agg by todays price to this 
+        this.netDiffFMV = this.pointOfSaleAggValue - this.aggregateRealizedNativeFMVReward100p //positive is good negative is bad
+        this.netDiffDilution = this.pointOfSaleAggValue - this.aggregateRealizedNativeMarketDilution100p
+        this.netDiffSupplyDepletion = this.pointOfSaleAggValue - this.aggregateRealizedNativeSupplyDepletion100p
 
-        //need to better the update blockchains2 db program 
     }
 
     calculateNativeRewardFMVByCycle(): Array<RewardsByDay> {
@@ -750,6 +761,14 @@ class TezosSet {
 
 
     //retreive methods
+    async retrieveTezosPriceToday(): Promise<void>{
+        let tezosTodayUrl: string = `https://api.coingecko.com/api/v3/simple/price?ids=Tezos&vs_currencies=${this.fiat}`
+        let response = await axios.get(tezosTodayUrl)
+        let value  = response.data.tezos
+        let lowercase = this.fiat.toLowerCase()
+        this.TezosPriceOnDateObjectGenerated = value[lowercase]
+    }
+
     async retrieveBakers(): Promise<void> {
 
 
