@@ -194,54 +194,43 @@ var TezosSet = /** @class */ (function () {
             });
         });
     };
+    //basis cost per day completed, final product of 0.2.2. need to change object types to accomodate the data in the sets - realize and analysis, make a new interface to hold the cost on unrealized, realizing, and realized
     //product methods
     TezosSet.prototype.analysis = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                // //data packages
-                // this.nativeRewardsFMVByCycle = this.calculateNativeRewardFMVByCycle();
-                // await this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain);
-                // await this.calculateNativeMarketDilutionRewards(this.investmentsScaledBVByDomain);
-                //convert
-                this.rewardsByCycle.forEach(function (value) { _this.unrealizedNativeRewards.push({ date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle }); });
-                this.nativeRewardsFMVByCycle.forEach(function (value) { _this.unrealizedNativeFMVRewards.push({ date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle }); });
-                this.nativeMarketDilutionRewards.forEach(function (value) { _this.unrealizedNativeMarketDilutionRewards.push({ date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle }); });
-                this.nativeSupplyDepletionRewards.forEach(function (value) { _this.unrealizedNativeSupplyDepletionRewards.push({ date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle }); });
-                //valuea -valueb gives a LIFO behavior
-                //valueb - valuea gives FIFO behavior
-                this.unrealizedNativeRewards.sort(function (a, b) {
-                    var valuea = new Date(b.date).getTime();
-                    var valueb = new Date(a.date).getTime();
-                    var value = valueb - valuea;
-                    return value;
-                });
-                this.unrealizedNativeFMVRewards.sort(function (a, b) {
-                    var valuea = new Date(b.date).getTime();
-                    var valueb = new Date(a.date).getTime();
-                    var value = valueb - valuea;
-                    return value;
-                });
-                this.unrealizedNativeMarketDilutionRewards.sort(function (a, b) {
-                    var valuea = new Date(b.date).getTime();
-                    var valueb = new Date(a.date).getTime();
-                    var value = valueb - valuea;
-                    return value;
-                });
-                this.unrealizedNativeSupplyDepletionRewards.sort(function (a, b) {
-                    var valuea = new Date(b.date).getTime();
-                    var valueb = new Date(a.date).getTime();
-                    var value = valueb - valuea;
-                    return value;
-                });
-                //filter the unrealized arrays to put in chronolgoical order
-                this.basisInvestmentCosts();
-                this.basisInvestmentCostsToNativeRewards();
-                this.realizeReward();
-                this.aggregates();
-                this.saveRealization();
-                this.pointOfSaleCosts();
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        // //data packages
+                        // this.nativeRewardsFMVByCycle = this.calculateNativeRewardFMVByCycle();
+                        // await this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain);
+                        // await this.calculateNativeMarketDilutionRewards(this.investmentsScaledBVByDomain);
+                        //convert
+                        this.rewardsByCycle.forEach(function (value) { _this.unrealizedNativeRewards.push({ date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: 0 }); });
+                        this.nativeRewardsFMVByCycle.forEach(function (value) { _this.unrealizedNativeFMVRewards.push({ date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: 0 }); });
+                        this.nativeMarketDilutionRewards.forEach(function (value) { _this.unrealizedNativeMarketDilutionRewards.push({ date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: 0 }); });
+                        this.nativeSupplyDepletionRewards.forEach(function (value) { _this.unrealizedNativeSupplyDepletionRewards.push({ date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: 0 }); });
+                        this.orderAccountingSets();
+                        return [4 /*yield*/, this.basisInvestmentCosts()];
+                    case 1:
+                        _a.sent();
+                        return [4 /*yield*/, this.basisInvestmentCostsToNativeRewards()
+                            //valuea -valueb gives a LIFO behavior
+                            //valueb - valuea gives FIFO behavior
+                        ];
+                    case 2:
+                        _a.sent();
+                        //valuea -valueb gives a LIFO behavior
+                        //valueb - valuea gives FIFO behavior
+                        this.orderAccountingSets();
+                        //filter the unrealized arrays to put in chronolgoical order
+                        this.realizeReward();
+                        this.aggregates();
+                        this.saveRealization();
+                        this.pointOfSaleCosts();
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -274,15 +263,15 @@ var TezosSet = /** @class */ (function () {
                     if (this.unrealizedNativeRewards[i].rewardAmount > quantity && quantity != 0) {
                         newValue1 = quantity;
                         newValue2 = this.unrealizedNativeRewards[i].rewardAmount - quantity;
-                        this.realizingNativeRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1, cycle: this.unrealizedNativeRewards[i].cycle });
+                        this.realizingNativeRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1, cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost });
                         value1 = unrealizedNativeFMVRewardsMap[this.unrealizedNativeRewards[i].date];
                         value2 = this.unrealizedNativeRewards[i].rewardAmount;
                         value3 = unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date];
                         value4 = unrealizedNativeSupplyDepletionRewardsMap[this.unrealizedNativeRewards[i].date];
                         _a = __read([value1 / value2, value3 / value2, value4 / value2], 3), value5 = _a[0], value6 = _a[1], value7 = _a[2];
-                        this.realizingNativeFMVRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value5, cycle: this.unrealizedNativeRewards[i].cycle });
-                        this.realizingNativeMarketDilutionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value6, cycle: this.unrealizedNativeRewards[i].cycle });
-                        this.realizingNativeSupplyDepletionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value7, cycle: this.unrealizedNativeRewards[i].cycle });
+                        this.realizingNativeFMVRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value5, cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost });
+                        this.realizingNativeMarketDilutionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value6, cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost });
+                        this.realizingNativeSupplyDepletionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value7, cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost });
                         //multiple the three scalars by the newValue2 for unrealized and use quantity for the realizing
                         //we wanna change this from unshift to just overwriting that prev object bc otherwise it gonna double stack
                         //store the unshift objects
@@ -295,10 +284,10 @@ var TezosSet = /** @class */ (function () {
                     }
                     //this hits first and unshifts our for loop by one so we have go back one in the logic above, this works bc its fifo and we wont need to track other indexes that are taken 
                     else if (this.unrealizedNativeRewards[i].rewardAmount <= quantity && quantity != 0) {
-                        this.realizingNativeRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle });
-                        this.realizingNativeFMVRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeFMVRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle });
-                        this.realizingNativeMarketDilutionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle });
-                        this.realizingNativeSupplyDepletionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeSupplyDepletionRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle });
+                        this.realizingNativeRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost });
+                        this.realizingNativeFMVRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeFMVRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost });
+                        this.realizingNativeMarketDilutionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost });
+                        this.realizingNativeSupplyDepletionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeSupplyDepletionRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost });
                         //splicelist.push(index)
                         quantity = quantity - unrealizedNativeRewardsMap[this.unrealizedNativeRewards[i].date];
                         if (quantity < 0) {
@@ -433,29 +422,57 @@ var TezosSet = /** @class */ (function () {
     };
     TezosSet.prototype.basisInvestmentCostsToNativeRewards = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var basisCost, basisDate, prevTopObj;
+            var basisCost, basisDate, prevTopObj, unrealizedNativeMockup, unrealizedFMVMockup, unrealizedMarketMockup, unrealizedSupplyMockup;
             var _this = this;
             return __generator(this, function (_a) {
+                console.log("start");
+                console.log(this.unrealizedNativeFMVRewards);
                 basisCost = 0;
                 basisDate = "";
                 prevTopObj = {};
+                unrealizedNativeMockup = [];
+                unrealizedFMVMockup = [];
+                unrealizedMarketMockup = [];
+                unrealizedSupplyMockup = [];
                 //let mockupArray: any = []
+                //shit is getting fucked at the end of this iteration at the first values
                 this.investmentBasisCostArray.slice().reverse().forEach(function (value) {
                     basisCost = value.cost;
                     basisDate = value.date;
                     _this.unrealizedNativeRewards.map(function (value) {
                         if (value.date >= basisDate && value.date < prevTopObj.date) {
-                            return { date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: basisCost };
+                            unrealizedNativeMockup.push({ date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: basisCost });
                         }
                     });
                     _this.unrealizedNativeFMVRewards.map(function (value) {
                         if (value.date >= basisDate && value.date < prevTopObj.date) {
-                            return { date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: basisCost };
+                            unrealizedFMVMockup.push({ date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: basisCost });
+                        }
+                    });
+                    _this.unrealizedNativeMarketDilutionRewards.map(function (value) {
+                        if (value.date >= basisDate && value.date < prevTopObj.date) {
+                            unrealizedMarketMockup.push({ date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: basisCost });
+                        }
+                    });
+                    _this.unrealizedNativeSupplyDepletionRewards.map(function (value) {
+                        if (value.date >= basisDate && value.date < prevTopObj.date) {
+                            unrealizedSupplyMockup.push({ date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: basisCost });
                         }
                     });
                     //scale the next unrealizedArrays
                     prevTopObj = value;
                 });
+                //console.log(mockupArray)
+                unrealizedNativeMockup.reverse();
+                unrealizedFMVMockup.reverse();
+                unrealizedMarketMockup.reverse();
+                unrealizedSupplyMockup.reverse();
+                console.log("start");
+                console.log(this.unrealizedNativeFMVRewards);
+                this.unrealizedNativeRewards = unrealizedNativeMockup;
+                this.unrealizedNativeFMVRewards = unrealizedFMVMockup;
+                this.unrealizedNativeMarketDilutionRewards = unrealizedMarketMockup;
+                this.unrealizedNativeSupplyDepletionRewards = unrealizedSupplyMockup;
                 return [2 /*return*/];
             });
         });
@@ -1417,6 +1434,34 @@ var TezosSet = /** @class */ (function () {
             dates.push(startDate.toISOString().split('T')[0]);
         }
         return dates;
+    };
+    TezosSet.prototype.orderAccountingSets = function () {
+        //valuea -valueb gives a LIFO behavior
+        //valueb - valuea gives FIFO behavior
+        this.unrealizedNativeRewards.sort(function (a, b) {
+            var valuea = new Date(b.date).getTime();
+            var valueb = new Date(a.date).getTime();
+            var value = valueb - valuea;
+            return value;
+        });
+        this.unrealizedNativeFMVRewards.sort(function (a, b) {
+            var valuea = new Date(b.date).getTime();
+            var valueb = new Date(a.date).getTime();
+            var value = valueb - valuea;
+            return value;
+        });
+        this.unrealizedNativeMarketDilutionRewards.sort(function (a, b) {
+            var valuea = new Date(b.date).getTime();
+            var valueb = new Date(a.date).getTime();
+            var value = valueb - valuea;
+            return value;
+        });
+        this.unrealizedNativeSupplyDepletionRewards.sort(function (a, b) {
+            var valuea = new Date(b.date).getTime();
+            var valueb = new Date(a.date).getTime();
+            var value = valueb - valuea;
+            return value;
+        });
     };
     return TezosSet;
 }());
