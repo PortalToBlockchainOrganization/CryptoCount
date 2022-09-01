@@ -148,6 +148,7 @@ var TezosSet = /** @class */ (function () {
                         this.netDiffFMV = 0;
                         this.netDiffDilution = 0;
                         this.netDiffSupplyDepletion = 0;
+                        this.investmentBasisCostArray = [];
                         return [4 /*yield*/, (0, database_service_1.connectToDatabase)()];
                     case 1:
                         _a.sent();
@@ -234,6 +235,8 @@ var TezosSet = /** @class */ (function () {
                     return value;
                 });
                 //filter the unrealized arrays to put in chronolgoical order
+                this.basisInvestmentCosts();
+                this.basisInvestmentCostsToNativeRewards();
                 this.realizeReward();
                 this.aggregates();
                 this.saveRealization();
@@ -391,21 +394,68 @@ var TezosSet = /** @class */ (function () {
     };
     TezosSet.prototype.basisInvestmentCosts = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var lastValue, ratioBank, filtereredPriceByDay, dictionaryPriceByDay, basisArray, scaledValsWithPrice, scaledVals;
             return __generator(this, function (_a) {
-                //for any domain in netTransactions
-                //unaccountedNetTransactions
-                //priceByDay
-                //pos and price value
-                //fifo go down 
-                //recaluclations?
-                //for unaccounted negative 
-                //underlying basis 
-                //realize out of first in net positive
-                //recalculate weighted average
-                //set as basis cost for the domain until nexxt negative or positive transaction
-                this.priceByDay;
-                this.investmentsScaledBVByDomain;
-                this.unaccountedNetTransactions;
+                lastValue = 0;
+                ratioBank = [];
+                filtereredPriceByDay = this.priceByDay.filter(function (prices) {
+                    return prices;
+                });
+                dictionaryPriceByDay = Object.assign.apply(Object, __spreadArray([{}], __read(filtereredPriceByDay.map(function (x) {
+                    var _a;
+                    return (_a = {}, _a[x.date] = x.amount, _a);
+                })), false));
+                this.investmentsScaledBVByDomain.forEach(function (value) {
+                    if (lastValue !== 0) {
+                        var difference = value.scaledBookValue - lastValue;
+                        var price = dictionaryPriceByDay[value.startDate];
+                        ratioBank.push({ difference: difference, price: price, date: value.startDate });
+                    }
+                    lastValue = value.scaledBookValue;
+                });
+                console.log(ratioBank);
+                basisArray = [];
+                scaledValsWithPrice = 0;
+                scaledVals = 0;
+                ratioBank.forEach(function (value) {
+                    scaledValsWithPrice += value.difference * value.price;
+                    scaledVals += value.difference;
+                    //agg up to this change
+                    var basisCost = scaledValsWithPrice / scaledVals;
+                    basisArray.push({ cost: basisCost, date: value.date });
+                    //add to other scaled vals and divide by number of scaled vals
+                });
+                console.log(basisArray);
+                this.investmentBasisCostArray = basisArray;
+                return [2 /*return*/];
+            });
+        });
+    };
+    TezosSet.prototype.basisInvestmentCostsToNativeRewards = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var basisCost, basisDate, prevTopObj;
+            var _this = this;
+            return __generator(this, function (_a) {
+                basisCost = 0;
+                basisDate = "";
+                prevTopObj = {};
+                //let mockupArray: any = []
+                this.investmentBasisCostArray.slice().reverse().forEach(function (value) {
+                    basisCost = value.cost;
+                    basisDate = value.date;
+                    _this.unrealizedNativeRewards.map(function (value) {
+                        if (value.date >= basisDate && value.date < prevTopObj.date) {
+                            return { date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: basisCost };
+                        }
+                    });
+                    _this.unrealizedNativeFMVRewards.map(function (value) {
+                        if (value.date >= basisDate && value.date < prevTopObj.date) {
+                            return { date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: basisCost };
+                        }
+                    });
+                    //scale the next unrealizedArrays
+                    prevTopObj = value;
+                });
                 return [2 /*return*/];
             });
         });

@@ -38,7 +38,7 @@ interface PayoutCycleReward {
 interface RewardsByDay {
     date: string,
     rewardAmount: number,
-    cycle: number
+    cycle: number,
 }
 
 interface TransactionsByDay {
@@ -141,6 +141,7 @@ class TezosSet {
     netDiffFMV: number;
     netDiffDilution: number;
     netDiffSupplyDepletion: number;
+    investmentBasisCostArray: any;
 
 
     constructor(){
@@ -204,6 +205,7 @@ class TezosSet {
         this.netDiffFMV = 0
         this.netDiffDilution = 0
         this.netDiffSupplyDepletion = 0
+        this.investmentBasisCostArray = []
             
 
         await connectToDatabase();
@@ -286,16 +288,20 @@ class TezosSet {
         
         //filter the unrealized arrays to put in chronolgoical order
     
-
+        this.basisInvestmentCosts()
+        this.basisInvestmentCostsToNativeRewards()
         this.realizeReward()
         this.aggregates()
         this.saveRealization()
         this.pointOfSaleCosts()
+        //move this above the realizing
 
         
     }
 
    async realizeReward(): Promise<any> {
+        //add the basis cost per reward onto these translations
+
         //define argument here, the depletion quantity 
         let quantity: number = 30;
 
@@ -447,30 +453,88 @@ class TezosSet {
 
    async basisInvestmentCosts(): Promise<void>{
 
-    //for any domain in netTransactions
-    //unaccountedNetTransactions
-    //priceByDay
-    //pos and price value
-    //fifo go down 
-    //recaluclations?
-    //for unaccounted negative 
-    //underlying basis 
-    //realize out of first in net positive
-    //recalculate weighted average
-    //set as basis cost for the domain until nexxt negative or positive transaction
+
+    // this.priceByDay
+    // this.investmentsScaledBVByDomain
+    // this.unaccountedNetTransactions
+
+    //for length of dates in domains, take the avergae of the pirces from the domain
+    //domain with avergae 
+    //for a change 
+    let lastValue: any = 0
+    let ratioBank: any = []
+    let filtereredPriceByDay: Array<DilutionByDay> = this.priceByDay.filter(prices => {
+        return prices
+    })
+    let dictionaryPriceByDay = Object.assign({}, ...filtereredPriceByDay.map((x) => ({[x.date]: x.amount})));
+    this.investmentsScaledBVByDomain.forEach(value => {
+        if(lastValue!== 0){
+            let difference = value.scaledBookValue - lastValue
+            let price = dictionaryPriceByDay[value.startDate]
+            ratioBank.push({difference: difference, price: price, date: value.startDate})
+        }
+        lastValue = value.scaledBookValue
+    })
+    console.log(ratioBank)
+    //take the native difference in change and scale by price that day in a ratio 12 /1   13/ 2 sum  => value of average basis investment for up to that one. 
+    //store taht value with its date which the domain change start 
+    //rerun for each change
+    //take the average calculation for all other domains (pirce and native) and add this one
+    let basisArray:any = []
+    let scaledValsWithPrice: any = 0
+    let scaledVals: any = 0
+    ratioBank.forEach(value => {
+        scaledValsWithPrice += value.difference * value.price
+        scaledVals += value.difference
+        //agg up to this change
+        let basisCost = scaledValsWithPrice/scaledVals
+        basisArray.push({cost: basisCost, date: value.date})
+        //add to other scaled vals and divide by number of scaled vals
+    })
+
+    console.log(basisArray)
+    this.investmentBasisCostArray = basisArray
+    //for each basisArray
 
 
-    this.priceByDay
-    this.investmentsScaledBVByDomain
-    this.unaccountedNetTransactions
     
+    }
+
+    async basisInvestmentCostsToNativeRewards(): Promise<void>{
+
+        let basisCost: any = 0;
+        let basisDate: any = ""
+        let prevTopObj: any = {}
+        //let mockupArray: any = []
+        this.investmentBasisCostArray.slice().reverse().forEach(value =>{
+            basisCost = value.cost
+            basisDate = value.date
+            this.unrealizedNativeRewards.map((value) => {
+                if(value.date >= basisDate && value.date < prevTopObj.date){
+                    return {date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: basisCost}
+                }
+            })
+            this.unrealizedNativeFMVRewards.map((value) => {
+                if(value.date >= basisDate && value.date < prevTopObj.date){
+                    return {date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: basisCost}
+                }
+            })
+            //scale the next unrealizedArrays
+            prevTopObj = value
+        })
+        //console.log(mockupArray)
+
+        //go thru the costs, take the value down, 
+        //go thru rewards, if the date of the reward is eq or greater than the date of the invesment basiscost && the invesment date val is not greater than the reward dte
+        //attach the cost to the reward entry
+
     }
 
     async pointOfSaleCosts(): Promise<void>{
         //add todays price to this 
-       await this.retrieveTezosPriceToday()
+        await this.retrieveTezosPriceToday()
 
-       this.pointOfSaleAggValue = this.TezosPriceOnDateObjectGenerated * this.aggregateRealizedNativeReward100p
+        this.pointOfSaleAggValue = this.TezosPriceOnDateObjectGenerated * this.aggregateRealizedNativeReward100p
         //add realized native rewards agg by todays price to this 
         this.netDiffFMV = this.pointOfSaleAggValue - this.aggregateRealizedNativeFMVReward100p //positive is good negative is bad
         this.netDiffDilution = this.pointOfSaleAggValue - this.aggregateRealizedNativeMarketDilution100p
