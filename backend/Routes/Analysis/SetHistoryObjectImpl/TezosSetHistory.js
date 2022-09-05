@@ -194,7 +194,6 @@ var TezosSet = /** @class */ (function () {
             });
         });
     };
-    //basis cost per day completed, final product of 0.2.2. need to change object types to accomodate the data in the sets - realize and analysis, make a new interface to hold the cost on unrealized, realizing, and realized
     //product methods
     TezosSet.prototype.analysis = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -263,12 +262,12 @@ var TezosSet = /** @class */ (function () {
                     if (this.unrealizedNativeRewards[i].rewardAmount > quantity && quantity != 0) {
                         newValue1 = quantity;
                         newValue2 = this.unrealizedNativeRewards[i].rewardAmount - quantity;
-                        this.realizingNativeRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1, cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost });
                         value1 = unrealizedNativeFMVRewardsMap[this.unrealizedNativeRewards[i].date];
                         value2 = this.unrealizedNativeRewards[i].rewardAmount;
                         value3 = unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date];
                         value4 = unrealizedNativeSupplyDepletionRewardsMap[this.unrealizedNativeRewards[i].date];
                         _a = __read([value1 / value2, value3 / value2, value4 / value2], 3), value5 = _a[0], value6 = _a[1], value7 = _a[2];
+                        this.realizingNativeRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1, cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost });
                         this.realizingNativeFMVRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value5, cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost });
                         this.realizingNativeMarketDilutionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value6, cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost });
                         this.realizingNativeSupplyDepletionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value7, cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost });
@@ -296,13 +295,13 @@ var TezosSet = /** @class */ (function () {
                     }
                 }
                 this.unrealizedNativeRewards.splice(0, this.realizingNativeRewards.length);
-                this.unrealizedNativeFMVRewards.splice(0, this.realizingNativeFMVRewards.length);
-                this.unrealizedNativeMarketDilutionRewards.splice(0, this.realizingNativeMarketDilutionRewards.length);
-                this.unrealizedNativeSupplyDepletionRewards.splice(0, this.realizingNativeSupplyDepletionRewards.length);
+                this.unrealizedNativeFMVRewards.splice(0, this.realizingNativeRewards.length);
+                this.unrealizedNativeMarketDilutionRewards.splice(0, this.realizingNativeRewards.length);
+                this.unrealizedNativeSupplyDepletionRewards.splice(0, this.realizingNativeRewards.length);
                 //then we unshift here
                 this.unrealizedNativeFMVRewards.unshift(object1);
                 this.unrealizedNativeMarketDilutionRewards.unshift(object2);
-                this.unrealizedNativeFMVRewards.unshift(object3);
+                this.unrealizedNativeSupplyDepletionRewards.unshift(object3);
                 this.unrealizedNativeRewards.unshift(object4);
                 return [2 /*return*/];
             });
@@ -1466,7 +1465,7 @@ var TezosSet = /** @class */ (function () {
     return TezosSet;
 }());
 var ts = new TezosSet();
-ts.init("USD", "tz1aRoaRhSpRYvFdyvgWLL6TGyRoGF51wDjM", "Baker").then(function (x) {
+ts.init("USD", "tz1TwVimQy3BywXoSszdFXjT9bSTQrsZYo2u", "Baker").then(function (x) {
     (0, fs_1.writeFile)("test.json", JSON.stringify(ts, null, 4), function (err) {
         if (err) {
             console.log(err);

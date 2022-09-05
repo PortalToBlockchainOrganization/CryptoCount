@@ -309,12 +309,13 @@ class TezosSet {
             if(this.unrealizedNativeRewards[i].rewardAmount > quantity && quantity != 0){
                 let newValue1: number = quantity
                 let newValue2: number = this.unrealizedNativeRewards[i].rewardAmount - quantity
-                this.realizingNativeRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1, cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost})
                 let value1 = unrealizedNativeFMVRewardsMap[this.unrealizedNativeRewards[i].date]
                 let value2 = this.unrealizedNativeRewards[i].rewardAmount
                 let value3 =  unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date]
                 let value4 = unrealizedNativeSupplyDepletionRewardsMap[this.unrealizedNativeRewards[i].date]
                 let [value5, value6, value7] = [value1/value2, value3/value2, value4/value2]
+
+                this.realizingNativeRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1, cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost})
                 this.realizingNativeFMVRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value5, cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost})
                 this.realizingNativeMarketDilutionRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value6, cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost})
                 this.realizingNativeSupplyDepletionRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value7, cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost})
@@ -343,14 +344,15 @@ class TezosSet {
             }
 
         }
+
         this.unrealizedNativeRewards.splice(0, this.realizingNativeRewards.length)
-        this.unrealizedNativeFMVRewards.splice(0, this.realizingNativeFMVRewards.length)
-        this.unrealizedNativeMarketDilutionRewards.splice(0, this.realizingNativeMarketDilutionRewards.length)
-        this.unrealizedNativeSupplyDepletionRewards.splice(0, this.realizingNativeSupplyDepletionRewards.length)
+        this.unrealizedNativeFMVRewards.splice(0,this.realizingNativeRewards.length)
+        this.unrealizedNativeMarketDilutionRewards.splice(0, this.realizingNativeRewards.length)
+        this.unrealizedNativeSupplyDepletionRewards.splice(0, this.realizingNativeRewards.length)
         //then we unshift here
         this.unrealizedNativeFMVRewards.unshift(object1)
         this.unrealizedNativeMarketDilutionRewards.unshift(object2)
-        this.unrealizedNativeFMVRewards.unshift(object3)
+        this.unrealizedNativeSupplyDepletionRewards.unshift(object3)
         this.unrealizedNativeRewards.unshift(object4)
 
     }    
@@ -844,7 +846,6 @@ class TezosSet {
         }
         return scaledBVByDomain;
     }
-
 
     //retreive methods
     async retrieveTezosPriceToday(): Promise<void>{
@@ -1530,7 +1531,7 @@ class TezosSet {
 }
 
 let ts: TezosSet = new TezosSet();
-ts.init("USD","tz1aRoaRhSpRYvFdyvgWLL6TGyRoGF51wDjM", "Baker").then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
+ts.init("USD","tz1TwVimQy3BywXoSszdFXjT9bSTQrsZYo2u", "Baker").then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
     if(err) {
       console.log(err);
     } else {
@@ -1540,8 +1541,6 @@ ts.init("USD","tz1aRoaRhSpRYvFdyvgWLL6TGyRoGF51wDjM", "Baker").then(x => {writeF
 // ts.setRewardsAndTransactions().then(x => {console.log(ts.rewardsByDay, ts.unaccountedNetTransactions)});
 //baker tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g, tz1aRoaRhSpRYvFdyvgWLL6TGyRoGF51wDjM, tz1TwVimQy3BywXoSszdFXjT9bSTQrsZYo2u, tz1WMoJivTbf62hWLC5e4QvRwk9dps2r6tNs, tz1aegBunu8NFDNm7wPHNyuMmteMD3S3Liuj
 //delegator tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH, get more bad delegator strings
-
-
 
 
 // other payloads blockchain operation types into baker processing 
