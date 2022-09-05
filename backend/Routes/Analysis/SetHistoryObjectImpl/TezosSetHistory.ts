@@ -139,7 +139,7 @@ class TezosSet {
     aggregateRealizedNativeMarketDilution50p: number;
     aggregateRealizedNativeSupplyDepletion100p: number;
     aggregateRealizedNativeSupplyDepletion50p: number;
-    weightedAverageInvestmentCost: number;
+    weightedAverageTotalDomainInvestmentCost: number;
     nextTimeStamp: any;
     totalOperations: any;
     noRewards: any;
@@ -203,7 +203,7 @@ class TezosSet {
         this.realizedNativeFMVRewards = []
         this.realizedNativeMaketDilutionRewards = []
         this.realizedNativeSupplyDepletionRewards = []
-        this.weightedAverageInvestmentCost = 0
+        this.weightedAverageTotalDomainInvestmentCost = 0
         this.nextTimeStamp = ""
         this.totalOperations = []
         this.noRewards = ""
@@ -228,6 +228,12 @@ class TezosSet {
         else{
             //delegator route
             await Promise.all([this.getDelegatorRewardsAndTransactions(), this.getBalances(), this.getPricesAndMarketCap()]);
+            if(this.rewardsByDay.length > 0){
+                this.noRewards = false
+            }
+            else{
+                this.noRewards = true
+            }
         }
 
         if(this.noRewards === false){
@@ -277,10 +283,10 @@ class TezosSet {
         //filter the unrealized arrays to put in chronolgoical order
     
         
-        this.realizeReward()
-        this.aggregates()
-        this.saveRealization()
-        this.pointOfSaleCosts()
+        // this.realizeReward()
+        // this.aggregates()
+        // this.saveRealization()
+        // this.pointOfSaleCosts()
         //move this above the realizing
 
         
@@ -485,7 +491,11 @@ class TezosSet {
     this.investmentBasisCostArray = basisArray
     //for each basisArray
 
-
+    let agg: number = 0
+    basisArray.forEach(element => {
+        agg += element.cost
+    });
+    this.weightedAverageTotalDomainInvestmentCost =  agg / basisArray.length
     
     }
 
@@ -1531,7 +1541,7 @@ class TezosSet {
 }
 
 let ts: TezosSet = new TezosSet();
-ts.init("USD","tz1TwVimQy3BywXoSszdFXjT9bSTQrsZYo2u", "Baker").then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
+ts.init("USD","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH", "Delegator").then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
     if(err) {
       console.log(err);
     } else {

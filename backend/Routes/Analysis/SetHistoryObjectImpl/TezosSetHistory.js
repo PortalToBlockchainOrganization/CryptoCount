@@ -139,7 +139,7 @@ var TezosSet = /** @class */ (function () {
                         this.realizedNativeFMVRewards = [];
                         this.realizedNativeMaketDilutionRewards = [];
                         this.realizedNativeSupplyDepletionRewards = [];
-                        this.weightedAverageInvestmentCost = 0;
+                        this.weightedAverageTotalDomainInvestmentCost = 0;
                         this.nextTimeStamp = "";
                         this.totalOperations = [];
                         this.noRewards = "";
@@ -167,6 +167,12 @@ var TezosSet = /** @class */ (function () {
                     case 4:
                         //delegator route
                         _a.sent();
+                        if (this.rewardsByDay.length > 0) {
+                            this.noRewards = false;
+                        }
+                        else {
+                            this.noRewards = true;
+                        }
                         _a.label = 5;
                     case 5:
                         if (!(this.noRewards === false)) return [3 /*break*/, 9];
@@ -223,11 +229,6 @@ var TezosSet = /** @class */ (function () {
                         //valuea -valueb gives a LIFO behavior
                         //valueb - valuea gives FIFO behavior
                         this.orderAccountingSets();
-                        //filter the unrealized arrays to put in chronolgoical order
-                        this.realizeReward();
-                        this.aggregates();
-                        this.saveRealization();
-                        this.pointOfSaleCosts();
                         return [2 /*return*/];
                 }
             });
@@ -382,7 +383,7 @@ var TezosSet = /** @class */ (function () {
     };
     TezosSet.prototype.basisInvestmentCosts = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var lastValue, ratioBank, filtereredPriceByDay, dictionaryPriceByDay, basisArray, scaledValsWithPrice, scaledVals;
+            var lastValue, ratioBank, filtereredPriceByDay, dictionaryPriceByDay, basisArray, scaledValsWithPrice, scaledVals, agg;
             return __generator(this, function (_a) {
                 lastValue = 0;
                 ratioBank = [];
@@ -415,6 +416,11 @@ var TezosSet = /** @class */ (function () {
                 });
                 console.log(basisArray);
                 this.investmentBasisCostArray = basisArray;
+                agg = 0;
+                basisArray.forEach(function (element) {
+                    agg += element.cost;
+                });
+                this.weightedAverageTotalDomainInvestmentCost = agg / basisArray.length;
                 return [2 /*return*/];
             });
         });
@@ -1465,7 +1471,7 @@ var TezosSet = /** @class */ (function () {
     return TezosSet;
 }());
 var ts = new TezosSet();
-ts.init("USD", "tz1TwVimQy3BywXoSszdFXjT9bSTQrsZYo2u", "Baker").then(function (x) {
+ts.init("USD", "tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH", "Delegator").then(function (x) {
     (0, fs_1.writeFile)("test.json", JSON.stringify(ts, null, 4), function (err) {
         if (err) {
             console.log(err);
