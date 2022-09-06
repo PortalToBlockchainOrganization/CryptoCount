@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.connectToDatabase = exports.collections = void 0;
 var mongoDB = require("mongodb");
-var MONGOURI = "mongodb+srv://admin:lelloliar9876@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority";
+var MONGOURI = "mongodb+srv://admin:*@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority";
 var server = "127.0.0.1:27017";
 var database = "AnalysisDep";
 var cyclesCollectionString = "cycles2";
