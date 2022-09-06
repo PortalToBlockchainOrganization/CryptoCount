@@ -283,10 +283,10 @@ class TezosSet {
         //filter the unrealized arrays to put in chronolgoical order
     
         
-        // this.realizeReward()
-        // this.aggregates()
-        // this.saveRealization()
-        // this.pointOfSaleCosts()
+        this.realizeReward()
+        this.aggregates()
+        this.saveRealization()
+        this.pointOfSaleCosts()
         //move this above the realizing
 
         
@@ -470,7 +470,6 @@ class TezosSet {
         }
         lastValue = value.scaledBookValue
     })
-    console.log(ratioBank)
     //take the native difference in change and scale by price that day in a ratio 12 /1   13/ 2 sum  => value of average basis investment for up to that one. 
     //store taht value with its date which the domain change start 
     //rerun for each change
@@ -487,7 +486,6 @@ class TezosSet {
         //add to other scaled vals and divide by number of scaled vals
     })
 
-    console.log(basisArray)
     this.investmentBasisCostArray = basisArray
     //for each basisArray
 
@@ -544,7 +542,6 @@ class TezosSet {
         unrealizedMarketMockup.reverse()
         unrealizedSupplyMockup.reverse()
         console.log("start")
-        console.log(this.unrealizedNativeFMVRewards)
         this.unrealizedNativeRewards = unrealizedNativeMockup
         this.unrealizedNativeFMVRewards = unrealizedFMVMockup
         this.unrealizedNativeMarketDilutionRewards = unrealizedMarketMockup
@@ -988,11 +985,15 @@ class TezosSet {
         let completeRewardsRequests: Array<string> = this.bakerCycles.map(bakerCycle => {return bakerCycle.rewardsRequests}).flat();
         let j, temporary, chunk: number = BAKINGBADBATCHSIZE;
         let responses: Array<AxiosResponse> = [];
-        
+
+        //need 400 handling for requests that any request that bounces
         for (let i: number = 0,j = completeRewardsRequests.length; i < j; i += chunk) {
             temporary = completeRewardsRequests.slice(i, i + chunk);
-            let response: Array<AxiosResponse> = await axios.all(temporary.map(url=> axios.get(url)));
-            responses.push(...response)
+            try{
+                let response: Array<AxiosResponse> = await axios.all(temporary.map(url=> axios.get(url)));
+                responses.push(...response)
+            }
+            catch(e){console.log(e)}
         }
 
         // map cycles to reward amounts
@@ -1550,8 +1551,8 @@ ts.init("USD","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH", "Delegator").then(x => {wr
 })});
 // ts.setRewardsAndTransactions().then(x => {console.log(ts.rewardsByDay, ts.unaccountedNetTransactions)});
 //baker tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g, tz1aRoaRhSpRYvFdyvgWLL6TGyRoGF51wDjM, tz1TwVimQy3BywXoSszdFXjT9bSTQrsZYo2u, tz1WMoJivTbf62hWLC5e4QvRwk9dps2r6tNs, tz1aegBunu8NFDNm7wPHNyuMmteMD3S3Liuj
-//delegator tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH, get more bad delegator strings
-
+//delegator tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH, get more bad delegator strings, tz1WNk2o2hJvzjuZRNmZQwjLQuv24wDv1zjU
+//payout model and supported payout models on this one above, make handling for bad baker payout data requests
 
 // other payloads blockchain operation types into baker processing 
 //active documentation https://api.tzkt.io/#operation/Rewards_GetBakerRewards

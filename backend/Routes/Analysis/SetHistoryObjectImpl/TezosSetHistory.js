@@ -229,6 +229,11 @@ var TezosSet = /** @class */ (function () {
                         //valuea -valueb gives a LIFO behavior
                         //valueb - valuea gives FIFO behavior
                         this.orderAccountingSets();
+                        //filter the unrealized arrays to put in chronolgoical order
+                        this.realizeReward();
+                        this.aggregates();
+                        this.saveRealization();
+                        this.pointOfSaleCosts();
                         return [2 /*return*/];
                 }
             });
@@ -402,7 +407,6 @@ var TezosSet = /** @class */ (function () {
                     }
                     lastValue = value.scaledBookValue;
                 });
-                console.log(ratioBank);
                 basisArray = [];
                 scaledValsWithPrice = 0;
                 scaledVals = 0;
@@ -414,7 +418,6 @@ var TezosSet = /** @class */ (function () {
                     basisArray.push({ cost: basisCost, date: value.date });
                     //add to other scaled vals and divide by number of scaled vals
                 });
-                console.log(basisArray);
                 this.investmentBasisCostArray = basisArray;
                 agg = 0;
                 basisArray.forEach(function (element) {
@@ -473,7 +476,6 @@ var TezosSet = /** @class */ (function () {
                 unrealizedMarketMockup.reverse();
                 unrealizedSupplyMockup.reverse();
                 console.log("start");
-                console.log(this.unrealizedNativeFMVRewards);
                 this.unrealizedNativeRewards = unrealizedNativeMockup;
                 this.unrealizedNativeFMVRewards = unrealizedFMVMockup;
                 this.unrealizedNativeMarketDilutionRewards = unrealizedMarketMockup;
@@ -859,7 +861,7 @@ var TezosSet = /** @class */ (function () {
     };
     TezosSet.prototype.retrieveBakersPayouts = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var completeRewardsRequests, j, temporary, chunk, responses, i, j_1, response, rewards;
+            var completeRewardsRequests, j, temporary, chunk, responses, i, j_1, response, e_2, rewards;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -870,17 +872,24 @@ var TezosSet = /** @class */ (function () {
                         i = 0, j_1 = completeRewardsRequests.length;
                         _a.label = 1;
                     case 1:
-                        if (!(i < j_1)) return [3 /*break*/, 4];
+                        if (!(i < j_1)) return [3 /*break*/, 6];
                         temporary = completeRewardsRequests.slice(i, i + chunk);
-                        return [4 /*yield*/, axios_1["default"].all(temporary.map(function (url) { return axios_1["default"].get(url); }))];
+                        _a.label = 2;
                     case 2:
+                        _a.trys.push([2, 4, , 5]);
+                        return [4 /*yield*/, axios_1["default"].all(temporary.map(function (url) { return axios_1["default"].get(url); }))];
+                    case 3:
                         response = _a.sent();
                         responses.push.apply(responses, __spreadArray([], __read(response), false));
-                        _a.label = 3;
-                    case 3:
+                        return [3 /*break*/, 5];
+                    case 4:
+                        e_2 = _a.sent();
+                        console.log(e_2);
+                        return [3 /*break*/, 5];
+                    case 5:
                         i += chunk;
                         return [3 /*break*/, 1];
-                    case 4:
+                    case 6:
                         rewards = {};
                         responses.forEach(function (response) {
                             var _a;
@@ -990,7 +999,7 @@ var TezosSet = /** @class */ (function () {
     TezosSet.prototype.getBalances = function () {
         return __awaiter(this, void 0, void 0, function () {
             var balances, offset, resp_len, currentDay, latestBalance, url, response, _a, _b, day, fillerDays, fillerDays_1, fillerDays_1_1, fillerDay;
-            var e_2, _c, e_3, _d;
+            var e_3, _c, e_4, _d;
             return __generator(this, function (_e) {
                 switch (_e.label) {
                     case 0:
@@ -1017,7 +1026,7 @@ var TezosSet = /** @class */ (function () {
                             latestBalance = response.data[0].balance / MUTEZ;
                         }
                         try {
-                            for (_a = (e_2 = void 0, __values(response.data)), _b = _a.next(); !_b.done; _b = _a.next()) {
+                            for (_a = (e_3 = void 0, __values(response.data)), _b = _a.next(); !_b.done; _b = _a.next()) {
                                 day = _b.value;
                                 // update the latestBalance since we're on the currently marked day
                                 if (day.timestamp.substring(0, 10) === currentDay) {
@@ -1029,29 +1038,29 @@ var TezosSet = /** @class */ (function () {
                                     fillerDays = this.getNonInclusiveDateRange(currentDay, day.timestamp.substring(0, 10));
                                     try {
                                         // for these days, add the currentDays balance
-                                        for (fillerDays_1 = (e_3 = void 0, __values(fillerDays)), fillerDays_1_1 = fillerDays_1.next(); !fillerDays_1_1.done; fillerDays_1_1 = fillerDays_1.next()) {
+                                        for (fillerDays_1 = (e_4 = void 0, __values(fillerDays)), fillerDays_1_1 = fillerDays_1.next(); !fillerDays_1_1.done; fillerDays_1_1 = fillerDays_1.next()) {
                                             fillerDay = fillerDays_1_1.value;
                                             balances[fillerDay] = latestBalance / MUTEZ;
                                         }
                                     }
-                                    catch (e_3_1) { e_3 = { error: e_3_1 }; }
+                                    catch (e_4_1) { e_4 = { error: e_4_1 }; }
                                     finally {
                                         try {
                                             if (fillerDays_1_1 && !fillerDays_1_1.done && (_d = fillerDays_1["return"])) _d.call(fillerDays_1);
                                         }
-                                        finally { if (e_3) throw e_3.error; }
+                                        finally { if (e_4) throw e_4.error; }
                                     }
                                     currentDay = day.timestamp.substring(0, 10);
                                     latestBalance = day.balance / MUTEZ;
                                 }
                             }
                         }
-                        catch (e_2_1) { e_2 = { error: e_2_1 }; }
+                        catch (e_3_1) { e_3 = { error: e_3_1 }; }
                         finally {
                             try {
                                 if (_b && !_b.done && (_c = _a["return"])) _c.call(_a);
                             }
-                            finally { if (e_2) throw e_2.error; }
+                            finally { if (e_3) throw e_3.error; }
                         }
                         return [3 /*break*/, 1];
                     case 3:
@@ -1327,7 +1336,7 @@ var TezosSet = /** @class */ (function () {
         });
     };
     TezosSet.prototype.filterPayouts = function () {
-        var e_4, _a;
+        var e_5, _a;
         // group "rewardsByDay", by cycle and only keep the item with the earliest date in each group -> save to rewardsByCycle
         var currentItem = this.rewardsByDay[this.rewardsByDay.length - 1];
         try {
@@ -1339,12 +1348,12 @@ var TezosSet = /** @class */ (function () {
                 currentItem = reward;
             }
         }
-        catch (e_4_1) { e_4 = { error: e_4_1 }; }
+        catch (e_5_1) { e_5 = { error: e_5_1 }; }
         finally {
             try {
                 if (_c && !_c.done && (_a = _b["return"])) _a.call(_b);
             }
-            finally { if (e_4) throw e_4.error; }
+            finally { if (e_5) throw e_5.error; }
         }
         if (this.rewardsByDay[0].date === currentItem.date) {
             this.rewardsByCycle.push(currentItem);
@@ -1354,7 +1363,7 @@ var TezosSet = /** @class */ (function () {
     ;
     TezosSet.prototype.filterPayoutsBaker = function () {
         //this converts the rewaard by day map to reward by day and reward by cycle
-        var e_5, _a;
+        var e_6, _a;
         var currentItem = this.rewardsByDay[0];
         try {
             // this.rewardsByCycle = this.rewardsByDay.forEach((value) => {
@@ -1374,12 +1383,12 @@ var TezosSet = /** @class */ (function () {
                 }
             }
         }
-        catch (e_5_1) { e_5 = { error: e_5_1 }; }
+        catch (e_6_1) { e_6 = { error: e_6_1 }; }
         finally {
             try {
                 if (_c && !_c.done && (_a = _b["return"])) _a.call(_b);
             }
-            finally { if (e_5) throw e_5.error; }
+            finally { if (e_6) throw e_6.error; }
         }
         if (this.rewardsByDay[0].date === currentItem.date) {
             this.rewardsByCycle.push(currentItem);
@@ -1483,6 +1492,7 @@ ts.init("USD", "tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH", "Delegator").then(functio
 });
 // ts.setRewardsAndTransactions().then(x => {console.log(ts.rewardsByDay, ts.unaccountedNetTransactions)});
 //baker tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g, tz1aRoaRhSpRYvFdyvgWLL6TGyRoGF51wDjM, tz1TwVimQy3BywXoSszdFXjT9bSTQrsZYo2u, tz1WMoJivTbf62hWLC5e4QvRwk9dps2r6tNs, tz1aegBunu8NFDNm7wPHNyuMmteMD3S3Liuj
-//delegator tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH, get more bad delegator strings
+//delegator tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH, get more bad delegator strings, tz1WNk2o2hJvzjuZRNmZQwjLQuv24wDv1zjU
+//payout model and supported payout models on this one above, make handling for bad baker payout data requests
 // other payloads blockchain operation types into baker processing 
 //active documentation https://api.tzkt.io/#operation/Rewards_GetBakerRewards
