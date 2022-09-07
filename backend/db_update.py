@@ -8,13 +8,13 @@ from pymongo import MongoClient
 from dateutil import parser
 import pandas as pd
 import time
+import schedule
 
 client = MongoClient("mongodb+srv://admin:*@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority")
 db = client.AnalysisDep
 blockchains = db.blockchains2
 statistics = db.statistics2
 cycles_ = db.cycles2
-
 
 START_URL = 'https://api.coingecko.com/api/v3/coins/tezos/history?date='
 END_URL = '&localization=false'
@@ -74,7 +74,7 @@ def updatePricesAndMarketCap():
             
         if i%100==0:
             print(f"adding items for dates: {[x['date'] for x in date_data_chunk]}")
-            # blockchains.insert_many(date_data_chunk)
+            blockchains.insert_many(date_data_chunk)
             date_data_chunk = []
             time.sleep(61)
 
@@ -83,7 +83,7 @@ def updatePricesAndMarketCap():
     # are in our database
     if not(date_data_chunk==[]):
         print(f"adding items for dates: {[x['date'] for x in date_data_chunk]}")
-        # blockchains.insert_many(date_data_chunk)
+        blockchains.insert_many(date_data_chunk)
 
 def updateTotalSupplys():
     stats = []
@@ -96,8 +96,6 @@ def updateTotalSupplys():
     dates = [dt.strftime("%Y-%m-%d") for dt in rrule(freq=DAILY, dtstart=startDate, until=endDate)]
     if(dates[0]==startDate.strftime("%Y-%m-%d")):
         dates = dates[1:]
-
-    print(dates)
 
     i = 0
 
@@ -113,6 +111,7 @@ def updateTotalSupplys():
         stats.append({'dateString': dates[i], 'totalSupply':totalSupply})
         i+=1
 
+    print(stats)
     statistics.insert_many(stats)
 
 def getNewCyclesAndDates(cycles, last_cycle_in_db):
@@ -154,8 +153,15 @@ def updateCycles():
         last_cycle_date = new_cycle_and_date['dateString']
         cycle_items_to_add.extend(last_cycles_dates)
 
-    print(cycle_items_to_add)
+    cycles_.insert_many(cycle_items_to_add)
 
+def job():
+    updateTotalSupplys()
+    updateCycles()
+    updatePricesAndMarketCap()
 
-
-updateTotalSupplys()
+schedule.every(1).days.do(job)
+print(schedule.get_jobs())
+while True:
+    schedule.run_pending()
+    time.sleep(60) # wait one minute
