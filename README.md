@@ -8,7 +8,7 @@ Remote API Documentation: https://portaltoblockchain.org/api || https://github.c
 
 CryptoCount 0.2.2 communicates the project into TypeScript. 
 
-To follow the latest developments as they happen, please checkout dilutionTS and navigate to backend/Routes/Analysis/SetHistoryObjectImpl.
+To follow the latest developments as they happen, please checkout CryptoCountTS.
 
 # Run 0.2.1
 
