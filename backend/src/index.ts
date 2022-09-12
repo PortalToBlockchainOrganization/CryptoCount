@@ -71,6 +71,7 @@ import { writeFile } from "fs";
           console.log(err);
         } else {
           console.log("JSON saved to " + "test.json");
+          res.status(200).send(ts)
         }
     })});
 

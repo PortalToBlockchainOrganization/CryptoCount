@@ -1025,8 +1025,8 @@ export default class TezosSet {
                 })
             }
         });
-        this.rewardsByDay = this.cyclesByDay.filter(cycleAndDateDoc => cycleAndDateDoc.cycleNumber.toString() in rewards).map(cycleAndDateDoc => {
-            return {date: cycleAndDateDoc.dateString, rewardAmount: rewards[cycleAndDateDoc.cycleNumber.toString()], cycle: cycleAndDateDoc.cycleNumber};
+        this.rewardsByDay = this.cyclesByDay.filter(cycleAndDateDoc => cycleAndDateDoc.cycleNumber in rewards).map(cycleAndDateDoc => {
+            return {date: cycleAndDateDoc.dateString, rewardAmount: rewards[cycleAndDateDoc.cycleNumber], cycle: cycleAndDateDoc.cycleNumber};
         });
         return
     }
@@ -1546,13 +1546,13 @@ export default class TezosSet {
 }
 
 let ts: TezosSet = new TezosSet();
-ts.init("USD","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH", "Delegator").then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
-    if(err) {
-      console.log(err);
-    } else {
-      console.log("JSON saved to " + "test.json");
-    }
-})});
+// ts.init("USD","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH", "Delegator").then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
+//     if(err) {
+//       console.log(err);
+//     } else {
+//       console.log("JSON saved to " + "test.json");
+//     }
+// })});
 // ts.setRewardsAndTransactions().then(x => {console.log(ts.rewardsByDay, ts.unaccountedNetTransactions)});
 //baker tz1fJHFn6sWEd3NnBPngACuw2dggTv6nQZ7g, tz1aRoaRhSpRYvFdyvgWLL6TGyRoGF51wDjM, tz1TwVimQy3BywXoSszdFXjT9bSTQrsZYo2u, tz1WMoJivTbf62hWLC5e4QvRwk9dps2r6tNs, tz1aegBunu8NFDNm7wPHNyuMmteMD3S3Liuj
 
