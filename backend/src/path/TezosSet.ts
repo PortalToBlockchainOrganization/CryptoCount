@@ -85,6 +85,20 @@ interface AccountingSetEntry{
     basisCost: number
 }
 
+
+//sub interfaces for routing responses 
+
+//gernerate 
+    //unrealized shit
+
+//realize 
+    //realizing shit
+
+//saved
+    //realized
+
+
+
 //create superclass History Object State Holder
 
 export default class TezosSet {
@@ -243,7 +257,7 @@ export default class TezosSet {
             this.investmentsScaledBVByDomain = this.calculateInvestmentBVByDomain();
             await this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain);
             await this.calculateNativeMarketDilutionRewards(this.investmentsScaledBVByDomain);
-            await this.analysis();
+            //await this.analysis();
             console.log("this")
             console.log(this)
         }
@@ -283,13 +297,19 @@ export default class TezosSet {
         //filter the unrealized arrays to put in chronolgoical order
     
         //set mod -behaviors
-        this.realizeReward()
+        //this.realizeReward()
         this.aggregates()
-        this.saveRealization()
-        this.pointOfSaleCosts()
+        //this.saveRealization()
+       // this.pointOfSaleCosts()
         //move this above the realizing
 
         
+    }
+
+    async realizeProcess(): Promise<any>{
+        this.realizeReward()
+        this.aggregates()
+        this.pointOfSaleCosts()
     }
 
    async realizeReward(): Promise<any> {

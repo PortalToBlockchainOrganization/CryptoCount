@@ -11,6 +11,9 @@
  import TezosSet from "./path/TezosSet";
 import { writeFile } from "fs";
 
+import generate from "./documentInterfaces/CycleAndDate";
+
+
  
  dotenv.config();
 
@@ -55,16 +58,28 @@ import { writeFile } from "fs";
     res.send('Express + TypeScript Server');
   });
 
+  //import this from document interface
+  interface gen {
+    address: string,
+    fiat: string,
+    consensusRole: string
+}
 
   app.post('/Generate/', (req, res)=>{
-    var body = req.query;
-    //console.log(req)
-    console.log(body)
-    const {address, fiat, consensusRole} = body
-    console.log(address, fiat, consensusRole)
+    // var body: generateBody = req.query.address;
+    // //console.log(req)
+    // console.log(body)
+    // var address: string = body.address
+    // fiat: string, consensusRole: string;
+
+    // {address, fiat, consensusRole} = body
+    // console.log(address, fiat, consensusRole)
+   
 
 
     let ts: TezosSet = new TezosSet();
+    //generate this
+    
 
     ts.init("USD","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH", "Delegator").then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
         if(err) {
@@ -75,4 +90,40 @@ import { writeFile } from "fs";
         }
     })});
 
+    //put ts in db by id
+    
+
+    //control model to get generate
+    ts.analysis()
+
+    //return gen model w og model id
+    
+
+    
+
   })
+
+  app.post('/Realize/', (req, res)=>{
+    //quantity and model id
+   
+
+    //get same ts model from db 
+    let ts: TezosSet = new TezosSet();
+   
+    //control the model to return to fe 
+
+    ts.realizeProcess("USD","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH", "Delegator").then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
+        if(err) {
+          console.log(err);
+        } else {
+          console.log("JSON saved to " + "test.json");
+          res.status(200).send(ts)
+        }
+    })});
+
+    //ts realize model
+
+  })
+
+
+  
