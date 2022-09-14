@@ -257,7 +257,7 @@ export default class TezosSet {
             this.investmentsScaledBVByDomain = this.calculateInvestmentBVByDomain();
             await this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain);
             await this.calculateNativeMarketDilutionRewards(this.investmentsScaledBVByDomain);
-            //await this.analysis();
+            await this.analysis();
             console.log("this")
             console.log(this)
         }

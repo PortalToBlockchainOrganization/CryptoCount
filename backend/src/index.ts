@@ -10,6 +10,7 @@
  import helmet from "helmet";
  import TezosSet from "./path/TezosSet";
 import { writeFile } from "fs";
+import transform from "./documentInterfaces/stateModels/generate"
 
 import generate from "./documentInterfaces/CycleAndDate";
 
@@ -79,22 +80,27 @@ import generate from "./documentInterfaces/CycleAndDate";
 
     let ts: TezosSet = new TezosSet();
     //generate this
-    
+
+     let unrealizedModel: any = {}
 
     ts.init("USD","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH", "Delegator").then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
         if(err) {
           console.log(err);
         } else {
           console.log("JSON saved to " + "test.json");
-          res.status(200).send(ts)
+          unrealizedModel = transform(ts)
+          res.status(200).send(unrealizedModel)
+
+          //res.status(200).send(ts)
         }
     })});
 
+
+
     //put ts in db by id
-    
 
     //control model to get generate
-    ts.analysis()
+  
 
     //return gen model w og model id
     
@@ -103,27 +109,42 @@ import generate from "./documentInterfaces/CycleAndDate";
 
   })
 
-  app.post('/Realize/', (req, res)=>{
-    //quantity and model id
+  // app.post('/Realize/', (req, res)=>{
+  //   //quantity and model id
    
 
-    //get same ts model from db 
-    let ts: TezosSet = new TezosSet();
+  //   //get same ts model from db 
+  //   let ts: TezosSet = new TezosSet();
    
-    //control the model to return to fe 
+  //   //control the model to return to fe 
 
-    ts.realizeProcess("USD","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH", "Delegator").then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
-        if(err) {
-          console.log(err);
-        } else {
-          console.log("JSON saved to " + "test.json");
-          res.status(200).send(ts)
-        }
-    })});
+  //   ts.realizeProcess("USD","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH", "Delegator").then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
+  //       if(err) {
+  //         console.log(err);
+  //       } else {
+  //         console.log("JSON saved to " + "test.json");
+  //         res.status(200).send(ts)
+  //       }
+  //   })});
 
-    //ts realize model
+  //   //ts realize model
 
-  })
+  // })
+
+  // interface LabeledValue {
+  //   label: string;
+  // }
+   
+  // function printLabel(labeledObj: LabeledValue) {
+  //   console.log(labeledObj.label);
+  // }
+   
+  // let myObj = { size: 10, label: "Size 10 Object" };
+
+  // printLabel(myObj);
+
+  //function extract values per state route 
+  //gets the ts object passed into it
 
 
   
