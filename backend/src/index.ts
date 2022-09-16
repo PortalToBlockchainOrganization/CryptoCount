@@ -10,7 +10,9 @@
  import helmet from "helmet";
  import TezosSet from "./path/TezosSet";
 import { writeFile } from "fs";
-import transform from "./documentInterfaces/stateModels/generate"
+import transformToUnrealized from "./documentInterfaces/stateModels/generate"
+import transformToRealizing from "./documentInterfaces/stateModels/realizing"
+
 
 import generate from "./documentInterfaces/CycleAndDate";
 
@@ -66,6 +68,7 @@ import generate from "./documentInterfaces/CycleAndDate";
     consensusRole: string
 }
 
+
   app.post('/Generate/', (req, res)=>{
     // var body: generateBody = req.query.address;
     // //console.log(req)
@@ -88,7 +91,7 @@ import generate from "./documentInterfaces/CycleAndDate";
           console.log(err);
         } else {
           console.log("JSON saved to " + "test.json");
-          unrealizedModel = transform(ts)
+          unrealizedModel = transformToUnrealized(ts)
           res.status(200).send(unrealizedModel)
 
           //res.status(200).send(ts)
@@ -96,16 +99,17 @@ import generate from "./documentInterfaces/CycleAndDate";
     })});
 
 
-
     //put ts in db by id
 
     //control model to get generate
   
-
     //return gen model w og model id
-    
+  
 
-    
+  })
+
+  app.post('/Realize/', (req, res)=>{
+    //call ts object with object id
 
   })
 

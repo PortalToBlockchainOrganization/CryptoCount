@@ -52,6 +52,7 @@ interface LabeledValue {
     aggregateUnrealizedNativeReward75p: number,
     aggregateUnrealizedNativeReward100p: number,
     weightedAverageTotalDomainInvestmentCost: number,
+    TezosPriceOnDateObjectGenerated: number;
   }
 
 
@@ -74,7 +75,9 @@ interface LabeledValue {
         aggregateUnrealizedNativeReward50p: umbrella.aggregateUnrealizedNativeReward50p,
         aggregateUnrealizedNativeReward75p: umbrella.aggregateUnrealizedNativeReward75p,
         aggregateUnrealizedNativeReward100p: umbrella.aggregateUnrealizedNativeReward100p,
-        weightedAverageTotalDomainInvestmentCost: umbrella.weightedAverageTotalDomainInvestmentCost
+        weightedAverageTotalDomainInvestmentCost: umbrella.weightedAverageTotalDomainInvestmentCost,
+        TezosPriceOnDateObjectGenerated: umbrella.TezosPriceOnDateObjectGenerated,
+
 
    }
 

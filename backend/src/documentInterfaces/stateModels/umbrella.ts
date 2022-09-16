@@ -66,7 +66,7 @@ export default interface umbrella {
     realizingNativeSupplyDepletionRewards: Array<AccountingSetEntry>;
     realizedNativeRewards: Array<AccountingSetEntry>;
     realizedNativeFMVRewards: Array<AccountingSetEntry>;
-    realizedNativeMaketDilutionRewards: Array<AccountingSetEntry>;
+    realizedNativeMarketDilutionRewards: Array<AccountingSetEntry>;
     realizedNativeSupplyDepletionRewards: Array<AccountingSetEntry>;
     aggregateUnrealizedNativeReward25p: number;
     aggregateUnrealizedNativeReward50p: number;

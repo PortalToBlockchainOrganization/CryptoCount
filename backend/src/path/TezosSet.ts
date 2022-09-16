@@ -269,6 +269,10 @@ export default class TezosSet {
         return
     }
 
+    //init functions for realizing state
+
+    //init function for save state
+
     //product methods
     async analysis(): Promise<any> {
     
@@ -306,17 +310,17 @@ export default class TezosSet {
         
     }
 
-    async realizeProcess(): Promise<any>{
-        this.realizeReward()
+    async realizeProcess(quantity: number): Promise<any>{
+        this.realizeReward(quantity)
         this.aggregates()
         this.pointOfSaleCosts()
     }
 
-   async realizeReward(): Promise<any> {
+   async realizeReward(quantity: number): Promise<any> {
         //add the basis cost per reward onto these translations
 
         //define argument here, the depletion quantity 
-        let quantity: number = 30;
+        //let quantity: number = 30;
 
         //convert the fmv arrays into maps to get the reward value by date
         let unrealizedNativeRewardsMap = Object.assign({}, ...this.unrealizedNativeRewards.map((x) => ({[x.date]: x.rewardAmount})));
