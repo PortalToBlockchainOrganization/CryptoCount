@@ -58,7 +58,7 @@ interface LabeledValue {
 
 
   export default function transform(umbrella: umbrella){
-
+ 
    var generateModel: generateModel = {
         objectId: umbrella.objectId,
         publicfiat: umbrella.fiat,
