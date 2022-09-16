@@ -30,6 +30,7 @@ interface LabeledValue {
   }
 
 export default interface umbrella {
+    objectId: string,
     fiat: string;
     walletAddress: string;
     firstRewardDate: string;

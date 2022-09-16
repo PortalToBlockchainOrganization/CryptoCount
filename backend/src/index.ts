@@ -80,7 +80,6 @@ import generate from "./documentInterfaces/CycleAndDate";
     // console.log(address, fiat, consensusRole)
    
 
-
     let ts: TezosSet = new TezosSet();
     //generate this
 
@@ -109,7 +108,20 @@ import generate from "./documentInterfaces/CycleAndDate";
   })
 
   app.post('/Realize/', (req, res)=>{
-    //call ts object with object id
+
+    //req.objectId, req.quantity
+
+    //let ts = query object from db by id
+
+    //define class framework
+
+    //import db umbrella into class framework
+
+    //ts.realizeProcess(quantity)
+      //control the transformation to the state model 
+
+    //update the db entry with the ts object
+
 
   })
 

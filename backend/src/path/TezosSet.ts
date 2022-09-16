@@ -103,6 +103,7 @@ interface AccountingSetEntry{
 
 export default class TezosSet {
 
+    objectId: string;
     fiat: string;
     walletAddress: string;
     firstRewardDate: string;
@@ -139,7 +140,7 @@ export default class TezosSet {
     realizingNativeSupplyDepletionRewards: Array<AccountingSetEntry>;
     realizedNativeRewards: Array<AccountingSetEntry>;
     realizedNativeFMVRewards: Array<AccountingSetEntry>;
-    realizedNativeMaketDilutionRewards: Array<AccountingSetEntry>;
+    realizedNativeMarketDilutionRewards: Array<AccountingSetEntry>;
     realizedNativeSupplyDepletionRewards: Array<AccountingSetEntry>;
     aggregateUnrealizedNativeReward25p: number;
     aggregateUnrealizedNativeReward50p: number;
@@ -170,6 +171,7 @@ export default class TezosSet {
     }
 
     async init(fiat: string, address: string, consensusRole: string): Promise<void>{  
+        this.objectId = ""  //generate object id in one line
         this.walletAddress = address;
         this.fiat = fiat;
         this.consensusRole = consensusRole
@@ -215,7 +217,7 @@ export default class TezosSet {
         this.aggregateRealizedNativeSupplyDepletion50p = 0
         this.realizedNativeRewards = []
         this.realizedNativeFMVRewards = []
-        this.realizedNativeMaketDilutionRewards = []
+        this.realizedNativeMarketDilutionRewards = []
         this.realizedNativeSupplyDepletionRewards = []
         this.weightedAverageTotalDomainInvestmentCost = 0
         this.nextTimeStamp = ""
@@ -270,6 +272,7 @@ export default class TezosSet {
     }
 
     //init functions for realizing state
+    //import the umbrella db and write to the this.(s)
 
     //init function for save state
 
@@ -450,7 +453,7 @@ export default class TezosSet {
     
     this.realizedNativeRewards = this.realizingNativeRewards.map(value => value)
     this.realizedNativeFMVRewards = this.realizingNativeFMVRewards.map(value => value)
-    this.realizedNativeMaketDilutionRewards = this.realizingNativeMarketDilutionRewards.map(value=>value)
+    this.realizedNativeMarketDilutionRewards = this.realizingNativeMarketDilutionRewards.map(value=>value)
     this.realizedNativeSupplyDepletionRewards =  this.realizingNativeSupplyDepletionRewards.map(value => value)
 
     //or just overwrite the array to empty values

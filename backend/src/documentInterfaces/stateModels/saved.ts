@@ -29,6 +29,7 @@ interface AccountingSetEntry{
 
 
 interface generateModel{
+    objectId: string,
     publicfiat: string,
     walletAddress: string,
     bakerCycles: Array<BakerCycle>,
@@ -69,6 +70,7 @@ interface generateModel{
 export default function transform(umbrella: umbrella){
 
     var generateModel: generateModel = {
+        objectId: umbrella.objectId,
          publicfiat: umbrella.fiat,
          walletAddress: umbrella.walletAddress,
          bakerCycles: umbrella.bakerCycles, 
