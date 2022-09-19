@@ -12,6 +12,9 @@
 import { writeFile } from "fs";
 import transformToUnrealized from "./documentInterfaces/stateModels/generate"
 import transformToRealizing from "./documentInterfaces/stateModels/realizing"
+import transformToSave from "./documentInterfaces/stateModels/saved"
+const testObjectRealize = require("./testObjectRealize.js")
+const testObjectSave = require("./testObjectSave.js")
 
 
 import generate from "./documentInterfaces/CycleAndDate";
@@ -19,7 +22,6 @@ import generate from "./documentInterfaces/CycleAndDate";
 
  
  dotenv.config();
-
 
 
 
@@ -112,12 +114,27 @@ import generate from "./documentInterfaces/CycleAndDate";
     //req.objectId, req.quantity
 
     //let ts = query object from db by id
+    let obj = testObjectRealize
 
     //define class framework
+    let ts: TezosSet = new TezosSet();
+
 
     //import db umbrella into class framework
+    let realizingModel: any = {}
 
-    //ts.realizeProcess(quantity)
+
+    ts.realizeProcess(20, obj).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
+      if(err) {
+        console.log(err);
+      } else {
+        console.log("JSON saved to " + "test.json");
+        realizingModel = transformToRealizing(ts)
+        res.status(200).send(realizingModel)
+
+        //res.status(200).send(ts)
+      }
+  })});
       //control the transformation to the state model 
 
     //update the db entry with the ts object
@@ -125,42 +142,37 @@ import generate from "./documentInterfaces/CycleAndDate";
 
   })
 
-  // app.post('/Realize/', (req, res)=>{
-  //   //quantity and model id
-   
+  app.post('/Save/', (req, res)=>{
 
-  //   //get same ts model from db 
-  //   let ts: TezosSet = new TezosSet();
-   
-  //   //control the model to return to fe 
+    //req.objectId, req.quantity
 
-  //   ts.realizeProcess("USD","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH", "Delegator").then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
-  //       if(err) {
-  //         console.log(err);
-  //       } else {
-  //         console.log("JSON saved to " + "test.json");
-  //         res.status(200).send(ts)
-  //       }
-  //   })});
+    //let ts = query object from db by id
+    let obj = testObjectSave
 
-  //   //ts realize model
+    //define class framework
+    let ts: TezosSet = new TezosSet();
 
-  // })
 
-  // interface LabeledValue {
-  //   label: string;
-  // }
-   
-  // function printLabel(labeledObj: LabeledValue) {
-  //   console.log(labeledObj.label);
-  // }
-   
-  // let myObj = { size: 10, label: "Size 10 Object" };
+    //import db umbrella into class framework
+    let savedModel: any = {}
 
-  // printLabel(myObj);
 
-  //function extract values per state route 
-  //gets the ts object passed into it
+    ts.saveProcess(obj).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
+      if(err) {
+        console.log(err);
+      } else {
+        console.log("JSON saved to " + "test.json");
+        savedModel = transformToSave(ts)
+        res.status(200).send(savedModel)
 
+        //res.status(200).send(ts)
+      }
+  })});
+      //control the transformation to the state model 
+
+    //update the db entry with the ts object
+
+
+  })
 
   

@@ -1,4 +1,4 @@
-{
+var testObject = {
     "walletAddress": "tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH",
     "fiat": "USD",
     "consensusRole": "Delegator",
@@ -47490,23 +47490,7 @@
             "basisCost": 3.793224106340532
         }
     ],
-    "realizingNativeRewards": [],
-    "realizingNativeFMVRewards": [],
-    "realizingNativeMarketDilutionRewards": [],
-    "realizingNativeSupplyDepletionRewards": [],
-    "aggregateUnrealizedNativeReward25p": 67.96423025,
-    "aggregateUnrealizedNativeReward50p": 135.9284605,
-    "aggregateUnrealizedNativeReward75p": 203.89269074999999,
-    "aggregateUnrealizedNativeReward100p": 271.856921,
-    "aggregateRealizedNativeReward100p": 19.999999999999996,
-    "aggregateRealizedNativeReward50p": 9.999999999999998,
-    "aggregateRealizedNativeFMVReward100p": 87.18999082068122,
-    "aggregateRealizedNativeFMVReward50p": 43.59499541034061,
-    "aggregateRealizedNativeMarketDilution100p": 8.150978036698847,
-    "aggregateRealizedNativeMarketDilution50p": 4.0754890183494235,
-    "aggregateRealizedNativeSupplyDepletion100p": 62.75333599979316,
-    "aggregateRealizedNativeSupplyDepletion50p": 31.37666799989658,
-    "realizedNativeRewards": [
+    "realizingNativeRewards": [
         {
             "date": "2021-03-23",
             "rewardAmount": 0.520149,
@@ -47736,7 +47720,7 @@
             "basisCost": 3.1889053733530046
         }
     ],
-    "realizedNativeFMVRewards": [
+    "realizingNativeFMVRewards": [
         {
             "date": "2021-03-23",
             "rewardAmount": 2.1217804461107854,
@@ -47966,7 +47950,7 @@
             "basisCost": 3.1889053733530046
         }
     ],
-    "realizedNativeMarketDilutionRewards": [
+    "realizingNativeMarketDilutionRewards": [
         {
             "date": "2021-03-23",
             "cycle": 340,
@@ -48195,7 +48179,7 @@
             "basisCost": 3.1889053733530046
         }
     ],
-    "realizedNativeSupplyDepletionRewards": [
+    "realizingNativeSupplyDepletionRewards": [
         {
             "date": "2021-03-23",
             "cycle": 340,
@@ -48424,6 +48408,22 @@
             "basisCost": 3.1889053733530046
         }
     ],
+    "aggregateUnrealizedNativeReward25p": 67.96423025,
+    "aggregateUnrealizedNativeReward50p": 135.9284605,
+    "aggregateUnrealizedNativeReward75p": 203.89269074999999,
+    "aggregateUnrealizedNativeReward100p": 271.856921,
+    "aggregateRealizedNativeReward100p": 19.999999999999996,
+    "aggregateRealizedNativeReward50p": 9.999999999999998,
+    "aggregateRealizedNativeFMVReward100p": 87.18999082068122,
+    "aggregateRealizedNativeFMVReward50p": 43.59499541034061,
+    "aggregateRealizedNativeMarketDilution100p": 8.150978036698847,
+    "aggregateRealizedNativeMarketDilution50p": 4.0754890183494235,
+    "aggregateRealizedNativeSupplyDepletion100p": 62.75333599979316,
+    "aggregateRealizedNativeSupplyDepletion50p": 31.37666799989658,
+    "realizedNativeRewards": [],
+    "realizedNativeFMVRewards": [],
+    "realizedNativeMarketDilutionRewards": [],
+    "realizedNativeSupplyDepletionRewards": [],
     "weightedAverageTotalDomainInvestmentCost": 3.437251729017044,
     "nextTimeStamp": "",
     "totalOperations": [],
@@ -48561,3 +48561,5 @@
         }
     ]
 }
+
+module.exports = testObject;

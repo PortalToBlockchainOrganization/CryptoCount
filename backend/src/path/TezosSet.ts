@@ -273,8 +273,133 @@ export default class TezosSet {
 
     //init functions for realizing state
     //import the umbrella db and write to the this.(s)
+    async initRealizing(object: any): Promise<any> {
+        //transform the js object into this
+        this.walletAddress = object.walletAddress
+        this.fiat = object.fiat
+        this.consensusRole = object.consensusRole
+        this.firstRewardDate = object.firstRewardDate
+        this.pricesAndMarketCapsByDay = object.pricesAndMarketCapsByDay
+        this.rewardsByDay = object.rewardsByDay
+        this.balancesByDay = object.balancesByDay
+        this.unaccountedNetTransactions = object.unaccountedNetTransactions
+        this.bakerCycles = object.bakerCycles
+        this.marketByDay = object.marketByDay
+        this.priceByDay = object.priceByDay
+        this.cyclesByDay = object.cyclesByDay
+        this.nativeMarketDilutionRewards = object.nativeMarketDilutionRewards
+        this.supplyByDay = object.supplyByDay
+        this.rawWalletTransactions = object.rawWalletTransactions
+        this.nativeSupplyDepletion = object.nativeSupplyDepletion
+        this.rewardsByCycle = object.rewardsByCycle
+        this.cyclesMappedToDays = object.cyclesMappedToDays
+        this.bakerAddresses = object.bakerAddresses
+        this.transactionsUrl = object.transactionsUrl
+        this.delegatorRewardsUrl = object.delegatorRewardsUrl
+        this.nativeRewardsFMVByCycle = object.nativeRewardsFMVByCycle
+        this.nativeSupplyDepletionRewards = object.nativeSupplyDepletionRewards
+        this.unrealizedNativeRewards = object.unrealizedNativeRewards
+        this.unrealizedNativeFMVRewards = object.unrealizedNativeFMVRewards
+        this.unrealizedNativeMarketDilutionRewards = object.unrealizedNativeMarketDilutionRewards
+        this.unrealizedNativeSupplyDepletionRewards = object.unrealizedNativeSupplyDepletionRewards
+        this.realizingNativeRewards = object.realizingNativeRewards
+        this.realizingNativeFMVRewards = object.realizingNativeFMVRewards
+        this.realizingNativeMarketDilutionRewards = object.realizingNativeMarketDilutionRewards
+        this.realizingNativeSupplyDepletionRewards = object.realizingNativeSupplyDepletionRewards
+        this.aggregateUnrealizedNativeReward25p = object.aggregateUnrealizedNativeReward25p
+        this.aggregateUnrealizedNativeReward50p = object.aggregateUnrealizedNativeReward50p
+        this.aggregateUnrealizedNativeReward75p = object.aggregateUnrealizedNativeReward75p
+        this.aggregateUnrealizedNativeReward100p = object.aggregateUnrealizedNativeReward100p
+        this.aggregateRealizedNativeReward100p = object.aggregateRealizedNativeReward100p
+        this.aggregateRealizedNativeReward50p = object.aggregateRealizedNativeReward50p
+        this.aggregateRealizedNativeFMVReward100p = object.aggregateRealizedNativeFMVReward100p
+        this.aggregateRealizedNativeFMVReward50p = object.aggregateRealizedNativeFMVReward50p
+        this.aggregateRealizedNativeMarketDilution100p = object.aggregateRealizedNativeMarketDilution100p
+        this.aggregateRealizedNativeMarketDilution50p = object.aggregateRealizedNativeMarketDilution50p
+        this.aggregateRealizedNativeSupplyDepletion100p = object.aggregateRealizedNativeSupplyDepletion100p
+        this.aggregateRealizedNativeSupplyDepletion50p = object.aggregateRealizedNativeSupplyDepletion50p
+        this.realizedNativeRewards = object.realizedNativeRewards
+        this.realizedNativeFMVRewards = object.realizedNativeFMVRewards
+        this.realizedNativeMarketDilutionRewards = object.realizedNativeMarketDilutionRewards
+        this.realizedNativeSupplyDepletionRewards = object.realizedNativeSupplyDepletionRewards
+        this.weightedAverageTotalDomainInvestmentCost = object.weightedAverageTotalDomainInvestmentCost
+        this.nextTimeStamp = object.nextTimeStamp
+        this.totalOperations = object.totalOperations
+        this.noRewards = object.noRewards
+        this.TezosPriceOnDateObjectGenerated = object.TezosPriceOnDateObjectGenerated
+        this.pointOfSaleAggValue = object.pointOfSaleAggValue
+        this.netDiffFMV = object.netDiffFMV
+        this.netDiffDilution = object.netDiffDilution
+        this.netDiffSupplyDepletion = object.netDiffSupplyDepletion
+        this.investmentBasisCostArray = object.investmentBasisCostArray
+        this.isCustodial = object.isCustodial
+        this.investmentsScaledBVByDomain = object.investmentsScaledBVByDomain
+
+    }
 
     //init function for save state
+    async initSave(object: any): Promise<any>{
+        this.walletAddress = object.walletAddress
+        this.fiat = object.fiat
+        this.consensusRole = object.consensusRole
+        this.firstRewardDate = object.firstRewardDate
+        this.pricesAndMarketCapsByDay = object.pricesAndMarketCapsByDay
+        this.rewardsByDay = object.rewardsByDay
+        this.balancesByDay = object.balancesByDay
+        this.unaccountedNetTransactions = object.unaccountedNetTransactions
+        this.bakerCycles = object.bakerCycles
+        this.marketByDay = object.marketByDay
+        this.priceByDay = object.priceByDay
+        this.cyclesByDay = object.cyclesByDay
+        this.nativeMarketDilutionRewards = object.nativeMarketDilutionRewards
+        this.supplyByDay = object.supplyByDay
+        this.rawWalletTransactions = object.rawWalletTransactions
+        this.nativeSupplyDepletion = object.nativeSupplyDepletion
+        this.rewardsByCycle = object.rewardsByCycle
+        this.cyclesMappedToDays = object.cyclesMappedToDays
+        this.bakerAddresses = object.bakerAddresses
+        this.transactionsUrl = object.transactionsUrl
+        this.delegatorRewardsUrl = object.delegatorRewardsUrl
+        this.nativeRewardsFMVByCycle = object.nativeRewardsFMVByCycle
+        this.nativeSupplyDepletionRewards = object.nativeSupplyDepletionRewards
+        this.unrealizedNativeRewards = object.unrealizedNativeRewards
+        this.unrealizedNativeFMVRewards = object.unrealizedNativeFMVRewards
+        this.unrealizedNativeMarketDilutionRewards = object.unrealizedNativeMarketDilutionRewards
+        this.unrealizedNativeSupplyDepletionRewards = object.unrealizedNativeSupplyDepletionRewards
+        this.realizingNativeRewards = object.realizingNativeRewards
+        this.realizingNativeFMVRewards = object.realizingNativeFMVRewards
+        this.realizingNativeMarketDilutionRewards = object.realizingNativeMarketDilutionRewards
+        this.realizingNativeSupplyDepletionRewards = object.realizingNativeSupplyDepletionRewards
+        this.aggregateUnrealizedNativeReward25p = object.aggregateUnrealizedNativeReward25p
+        this.aggregateUnrealizedNativeReward50p = object.aggregateUnrealizedNativeReward50p
+        this.aggregateUnrealizedNativeReward75p = object.aggregateUnrealizedNativeReward75p
+        this.aggregateUnrealizedNativeReward100p = object.aggregateUnrealizedNativeReward100p
+        this.aggregateRealizedNativeReward100p = object.aggregateRealizedNativeReward100p
+        this.aggregateRealizedNativeReward50p = object.aggregateRealizedNativeReward50p
+        this.aggregateRealizedNativeFMVReward100p = object.aggregateRealizedNativeFMVReward100p
+        this.aggregateRealizedNativeFMVReward50p = object.aggregateRealizedNativeFMVReward50p
+        this.aggregateRealizedNativeMarketDilution100p = object.aggregateRealizedNativeMarketDilution100p
+        this.aggregateRealizedNativeMarketDilution50p = object.aggregateRealizedNativeMarketDilution50p
+        this.aggregateRealizedNativeSupplyDepletion100p = object.aggregateRealizedNativeSupplyDepletion100p
+        this.aggregateRealizedNativeSupplyDepletion50p = object.aggregateRealizedNativeSupplyDepletion50p
+        this.realizedNativeRewards = object.realizedNativeRewards
+        this.realizedNativeFMVRewards = object.realizedNativeFMVRewards
+        this.realizedNativeMarketDilutionRewards = object.realizedNativeMarketDilutionRewards
+        this.realizedNativeSupplyDepletionRewards = object.realizedNativeSupplyDepletionRewards
+        this.weightedAverageTotalDomainInvestmentCost = object.weightedAverageTotalDomainInvestmentCost
+        this.nextTimeStamp = object.nextTimeStamp
+        this.totalOperations = object.totalOperations
+        this.noRewards = object.noRewards
+        this.TezosPriceOnDateObjectGenerated = object.TezosPriceOnDateObjectGenerated
+        this.pointOfSaleAggValue = object.pointOfSaleAggValue
+        this.netDiffFMV = object.netDiffFMV
+        this.netDiffDilution = object.netDiffDilution
+        this.netDiffSupplyDepletion = object.netDiffSupplyDepletion
+        this.investmentBasisCostArray = object.investmentBasisCostArray
+        this.isCustodial = object.isCustodial
+        this.investmentsScaledBVByDomain = object.investmentsScaledBVByDomain
+
+    }
 
     //product methods
     async analysis(): Promise<any> {
@@ -313,10 +438,17 @@ export default class TezosSet {
         
     }
 
-    async realizeProcess(quantity: number): Promise<any>{
+    async realizeProcess(quantity: number, object: any): Promise<any>{
+        this.initRealizing(object)
         this.realizeReward(quantity)
         this.aggregates()
         this.pointOfSaleCosts()
+    }
+
+    async saveProcess(object: any): Promise<any>{
+        this.initSave(object)
+        this.saveRealization()
+
     }
 
    async realizeReward(quantity: number): Promise<any> {
@@ -450,17 +582,21 @@ export default class TezosSet {
 
    async saveRealization(): Promise<any>{
 
-    
     this.realizedNativeRewards = this.realizingNativeRewards.map(value => value)
     this.realizedNativeFMVRewards = this.realizingNativeFMVRewards.map(value => value)
     this.realizedNativeMarketDilutionRewards = this.realizingNativeMarketDilutionRewards.map(value=>value)
     this.realizedNativeSupplyDepletionRewards =  this.realizingNativeSupplyDepletionRewards.map(value => value)
+    //console.log(this.realizedNativeFMVRewards)    
 
     //or just overwrite the array to empty values
-    this.realizingNativeFMVRewards.splice(0, this.realizingNativeFMVRewards.length)
-    this.realizingNativeRewards.splice(0,this.realizingNativeRewards.length)
-    this.realizingNativeSupplyDepletionRewards.splice(0, this.realizingNativeSupplyDepletionRewards.length)
-    this.realizingNativeMarketDilutionRewards.splice(0,this.realizingNativeMarketDilutionRewards.length)
+    this.realizingNativeRewards = []
+    this.realizingNativeFMVRewards = []
+    this.realizingNativeMarketDilutionRewards = []
+    this.realizingNativeSupplyDepletionRewards = []
+    // this.realizingNativeFMVRewards.splice(0, this.realizingNativeFMVRewards.length)
+    // this.realizingNativeRewards.splice(0,this.realizingNativeRewards.length)
+    // this.realizingNativeSupplyDepletionRewards.splice(0, this.realizingNativeSupplyDepletionRewards.length)
+    // this.realizingNativeMarketDilutionRewards.splice(0,this.realizingNativeMarketDilutionRewards.length)
 
    }
 
