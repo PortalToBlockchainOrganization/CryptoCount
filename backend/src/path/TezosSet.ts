@@ -401,6 +401,80 @@ export default class TezosSet {
 
     }
 
+    async initUpdate(object: any, objectUpdated: any): Promise<any>{
+        //append the new unrealized values and overwrite the bv domains and other values
+
+        this.walletAddress = object.walletAddress
+        this.fiat = object.fiat
+        this.consensusRole = object.consensusRole
+        this.firstRewardDate = object.firstRewardDate
+        this.pricesAndMarketCapsByDay = objectUpdated.pricesAndMarketCapsByDay
+        this.rewardsByDay = objectUpdated.rewardsByDay
+        this.balancesByDay = objectUpdated.balancesByDay
+        this.unaccountedNetTransactions = objectUpdated.unaccountedNetTransactions
+        this.bakerCycles = objectUpdated.bakerCycles
+        this.marketByDay = objectUpdated.marketByDay
+        this.priceByDay = objectUpdated.priceByDay
+        this.cyclesByDay = objectUpdated.cyclesByDay
+        this.nativeMarketDilutionRewards = objectUpdated.nativeMarketDilutionRewards
+        this.supplyByDay = objectUpdated.supplyByDay
+        this.rawWalletTransactions = objectUpdated.rawWalletTransactions
+        this.nativeSupplyDepletion = objectUpdated.nativeSupplyDepletion
+        this.rewardsByCycle = objectUpdated.rewardsByCycle
+        this.cyclesMappedToDays = objectUpdated.cyclesMappedToDays
+        this.bakerAddresses = objectUpdated.bakerAddresses
+        this.transactionsUrl = objectUpdated.transactionsUrl
+        this.delegatorRewardsUrl = objectUpdated.delegatorRewardsUrl
+        this.nativeRewardsFMVByCycle = objectUpdated.nativeRewardsFMVByCycle
+        this.nativeSupplyDepletionRewards = objectUpdated.nativeSupplyDepletionRewards
+        //logic
+        let date = object.unrealizedNativeRewards[object.unrealizedNativeRewards.length - 1].date
+
+        let newEntriesNative: any = objectUpdated.unrealizedNativeRewards.forEach((value: { date: number; })=>{if(value.date > date){return value}})
+        this.unrealizedNativeRewards = object.unrealizedNativeRewards + newEntriesNative
+
+        let newEntriesFMV: any = objectUpdated.unrealizedNativeFMVRewards.forEach((value: { date: number; })=>{if(value.date > date){return value}})
+        this.unrealizedNativeFMVRewards = object.unrealizedNativeFMVRewards + newEntriesFMV
+
+        this.unrealizedNativeFMVRewards = object.unrealizedNativeFMVRewards
+        this.unrealizedNativeMarketDilutionRewards = object.unrealizedNativeMarketDilutionRewards
+        this.unrealizedNativeSupplyDepletionRewards = object.unrealizedNativeSupplyDepletionRewards
+        this.realizingNativeRewards = object.realizingNativeRewards
+        this.realizingNativeFMVRewards = object.realizingNativeFMVRewards
+        this.realizingNativeMarketDilutionRewards = object.realizingNativeMarketDilutionRewards
+        this.realizingNativeSupplyDepletionRewards = object.realizingNativeSupplyDepletionRewards
+        //re agg
+        this.aggregateUnrealizedNativeReward25p = object.aggregateUnrealizedNativeReward25p
+        this.aggregateUnrealizedNativeReward50p = object.aggregateUnrealizedNativeReward50p
+        this.aggregateUnrealizedNativeReward75p = object.aggregateUnrealizedNativeReward75p
+        this.aggregateUnrealizedNativeReward100p = object.aggregateUnrealizedNativeReward100p
+
+        this.aggregateRealizedNativeReward100p = object.aggregateRealizedNativeReward100p
+        this.aggregateRealizedNativeReward50p = object.aggregateRealizedNativeReward50p
+        this.aggregateRealizedNativeFMVReward100p = object.aggregateRealizedNativeFMVReward100p
+        this.aggregateRealizedNativeFMVReward50p = object.aggregateRealizedNativeFMVReward50p
+        this.aggregateRealizedNativeMarketDilution100p = object.aggregateRealizedNativeMarketDilution100p
+        this.aggregateRealizedNativeMarketDilution50p = object.aggregateRealizedNativeMarketDilution50p
+        this.aggregateRealizedNativeSupplyDepletion100p = object.aggregateRealizedNativeSupplyDepletion100p
+        this.aggregateRealizedNativeSupplyDepletion50p = object.aggregateRealizedNativeSupplyDepletion50p
+        this.realizedNativeRewards = object.realizedNativeRewards
+        this.realizedNativeFMVRewards = object.realizedNativeFMVRewards
+        this.realizedNativeMarketDilutionRewards = object.realizedNativeMarketDilutionRewards
+        this.realizedNativeSupplyDepletionRewards = object.realizedNativeSupplyDepletionRewards
+        this.weightedAverageTotalDomainInvestmentCost = objectUpdated.weightedAverageTotalDomainInvestmentCost
+        this.nextTimeStamp = objectUpdated.nextTimeStamp
+        this.totalOperations = objectUpdated.totalOperations
+        this.noRewards = objectUpdated.noRewards
+        this.TezosPriceOnDateObjectGenerated = objectUpdated.TezosPriceOnDateObjectGenerated
+        this.pointOfSaleAggValue = objectUpdated.pointOfSaleAggValue
+        this.netDiffFMV = objectUpdated.netDiffFMV
+        this.netDiffDilution = objectUpdated.netDiffDilution
+        this.netDiffSupplyDepletion = objectUpdated.netDiffSupplyDepletion
+        this.investmentBasisCostArray = objectUpdated.investmentBasisCostArray
+        this.isCustodial = object.isCustodial
+        this.investmentsScaledBVByDomain = objectUpdated.investmentsScaledBVByDomain
+    }
+
     //product methods
     async analysis(): Promise<any> {
     
@@ -448,6 +522,18 @@ export default class TezosSet {
     async saveProcess(object: any): Promise<any>{
         this.initSave(object)
         this.saveRealization()
+
+    }
+
+    async updateProcess(object: any, objectUpdated: any): Promise<any>{
+        //create updated data values
+        //run original init
+      
+        //this.init(object.fiat, object.address, object.consensusRole)
+        this.initUpdate(object, objectUpdated)
+
+        //append unrealized values to umbrella
+       
 
     }
 

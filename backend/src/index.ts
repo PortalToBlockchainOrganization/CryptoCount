@@ -15,6 +15,7 @@ import transformToRealizing from "./documentInterfaces/stateModels/realizing"
 import transformToSave from "./documentInterfaces/stateModels/saved"
 const testObjectRealize = require("./testObjectRealize.js")
 const testObjectSave = require("./testObjectSave.js")
+const testObjectUpdate = require("./testObjectUpdate.js")
 
 
 import generate from "./documentInterfaces/CycleAndDate";
@@ -175,4 +176,48 @@ import generate from "./documentInterfaces/CycleAndDate";
 
   })
 
+
+  app.post('/Update/', async (req, res)=>{
+
+    //req.objectId, req.quantity
+
+    //let ts = query object from db by id
+    let obj = testObjectUpdate
+
+    //define class framework
+    let ts: TezosSet = new TezosSet();
+
+
+    //import db umbrella into class framework
+    let updatedUmbrella: any = {}
+
+    ts.init(obj.fiat,obj.address, obj.consensusRole).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
+      if(err) {
+        console.log(err);
+      } else {
+        console.log("JSON saved to " + "test.json");
+        updatedUmbrella = transformToUnrealized(ts)
+        res.status(200).send(ts)
+
+        res.status(200).send(ts)
+      }
+  })});
+    
+  //   ts.updateProcess(obj, ts).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
+  //     if(err) {
+  //       console.log(err);
+  //     } else {
+  //       console.log("JSON saved to " + "test.json");
+  //       //updatedUmbrella = transformToSave(ts)
+  //       res.status(200).send(ts)
+
+  //       //res.status(200).send(ts)
+  //     }
+  // })});
+      //control the transformation to the state model 
+
+    //update the db entry with the ts object
+
+
+  })
   
