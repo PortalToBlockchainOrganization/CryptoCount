@@ -60,6 +60,7 @@ import generate from "./documentInterfaces/CycleAndDate";
   });
 
 
+  //get sets
   app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
   });
@@ -221,3 +222,56 @@ import generate from "./documentInterfaces/CycleAndDate";
 
   })
   
+
+
+
+  app.post('/Delete/', async (req, res)=>{
+
+  
+    
+  })
+
+  app.post('/Register/', async (req, res)=>{
+
+
+
+  })
+
+
+  app.post('/SignOut/', async (req, res)=>{
+
+  
+
+  })
+
+
+  app.post('/SignIn/', async (req, res)=>{
+
+
+
+  })
+
+  app.post('/GetSets/', async (req, res)=>{
+  
+
+  })
+
+  app.post('/GetSet/', async (req, res)=>{
+
+  })
+
+
+
+  app.post('/forgotPw/', async (req, res)=>{
+
+  
+
+  })
+
+
+  app.post('/changePw/', async (req, res)=>{
+
+  
+
+  })
+

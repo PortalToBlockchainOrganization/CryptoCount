@@ -123,7 +123,7 @@ export default class TezosSet {
     isCustodial: boolean;
     rewardsByCycle: Array<RewardsByDay>;
     balancesByDay: Record<string, number>;
-    pricesAndMarketCapsByDay: Map<string, PriceAndMarketCapByDay>;
+    pricesAndMarketCapsByDay: Map<[key: string], PriceAndMarketCapByDay>;
     nativeRewardsFMVByCycle: Array<RewardsByDay>;
     investmentsScaledBVByDomain: Array<BVbyDomain>;
     nativeSupplyDepletion: Array<DepletionByDay>;
@@ -176,7 +176,7 @@ export default class TezosSet {
         this.fiat = fiat;
         this.consensusRole = consensusRole
         this.firstRewardDate = "";
-        this.pricesAndMarketCapsByDay = new Map<string, PriceAndMarketCapByDay>();
+        this.pricesAndMarketCapsByDay = new Map<[key: string], PriceAndMarketCapByDay>();
         this.rewardsByDay = [];
         this.balancesByDay = {};
         this.unaccountedNetTransactions = [];
@@ -828,7 +828,11 @@ export default class TezosSet {
 
     calculateNativeRewardFMVByCycle(): Array<RewardsByDay> {
         //rewards by day by price that day
+        console.log(this.pricesAndMarketCapsByDay['2022-09-20'].price)
+        console.log(this.rewardsByCycle)
         return this.rewardsByCycle.map(reward => {
+            console.log(this.pricesAndMarketCapsByDay['2022-09-20'].price)
+            console.log(this.pricesAndMarketCapsByDay)
             return {date: reward.date, rewardAmount: reward.rewardAmount*this.pricesAndMarketCapsByDay[reward.date].price, cycle:reward.cycle}
         })
     }
