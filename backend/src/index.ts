@@ -16,6 +16,13 @@ import transformToSave from "./documentInterfaces/stateModels/saved"
 const testObjectRealize = require("./testObjectRealize.js")
 const testObjectSave = require("./testObjectSave.js")
 const testObjectUpdate = require("./testObjectUpdate.js")
+const mongoose = require('mongoose')
+const passport = require('passport')
+const keys = require('./config/keys')
+const authRoutes = require('./routes/auth-routes')
+const profileRoutes = require('./routes/profile-routes')
+const passportSetup = require('./config/passport-setup')
+const cookieSession = require('cookie-session')
 
 
 import generate from "./documentInterfaces/CycleAndDate";
@@ -48,22 +55,48 @@ import generate from "./documentInterfaces/CycleAndDate";
  app.use(cors());
  app.use(express.json());
 
+ mongoose.connect(keys.mongodb.dbURI, ()=>{
+  console.log('connected to db')
+})
+
+app.use(cookieSession({
+  maxAge: 1 * 60 *60 *1000,
+  keys: [keys.session.cookieKey]
+}))
+
+//setup view engine
+app.set('view engine', 'ejs')
+
+//initialize passport
+app.use(passport.initialize())
+app.use(passport.session())
+
+//setup routes
+app.use('/auth', authRoutes);
+app.use('/profile', profileRoutes);
+
 
 
 /**
  * Server Activation
  */
 
+ app.get('/', (req, res) => {
+  res.render('home');
+});
 
  app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
   });
 
 
+
+
+
   //get sets
-  app.get('/', (req, res) => {
-    res.send('Express + TypeScript Server');
-  });
+
+
+
 
   //import this from document interface
   interface gen {

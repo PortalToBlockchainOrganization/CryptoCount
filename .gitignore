@@ -6,6 +6,7 @@ frontend/public/manifest-extension.json
 # prod resources
 frontend/build/
 frontend/live/
+/backend/src/config/keys
 .env
 frontend/.env
 backend/.env
