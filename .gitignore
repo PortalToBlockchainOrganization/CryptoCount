@@ -2,11 +2,12 @@ frontend/node_modules/
 backend/node_modules/
 frontend/build
 frontend/public/manifest-extension.json
+backend/src/config/keys
+
 
 # prod resources
 frontend/build/
 frontend/live/
-/backend/src/config/keys
 .env
 frontend/.env
 backend/.env

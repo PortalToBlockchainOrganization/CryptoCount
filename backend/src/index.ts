@@ -106,7 +106,7 @@ app.use('/profile', profileRoutes);
 }
 
 
-  app.post('/Generate/', (req, res)=>{
+  app.get('/Generate/', (req, res)=>{
     // var body: generateBody = req.query.address;
     // //console.log(req)
     // console.log(body)
@@ -128,6 +128,7 @@ app.use('/profile', profileRoutes);
         } else {
           console.log("JSON saved to " + "test.json");
           unrealizedModel = transformToUnrealized(ts)
+
           res.status(200).send(unrealizedModel)
 
           //res.status(200).send(ts)
@@ -144,7 +145,7 @@ app.use('/profile', profileRoutes);
 
   })
 
-  app.post('/Realize/', (req, res)=>{
+  app.get('/Realize/', (req, res)=>{
 
     //req.objectId, req.quantity
 
@@ -165,7 +166,7 @@ app.use('/profile', profileRoutes);
       } else {
         console.log("JSON saved to " + "test.json");
         realizingModel = transformToRealizing(ts)
-        res.status(200).send(realizingModel)
+        res.status(200).send(realizingModel).render('home')
 
         //res.status(200).send(ts)
       }
