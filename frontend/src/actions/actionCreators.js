@@ -103,9 +103,9 @@ export function editParams(params, cb) {
 	return { type: "EDIT_PARAMS", payload: params };
 }
 
-export function analPost(params, cb) {
+export function generateAnalysis(params, cb) {
 	return (dispatch) => {
-		api.analPost(params)
+		api.generatePost(params)
 			.then((res) => {
 				if (cb) {
 					cb();
@@ -133,21 +133,21 @@ export function analPost(params, cb) {
 	};
 }
 
-export function getCalendarData(params, cb) {
-	let data;
-	return (dispatch) => {
-		api.getCalendarData(params)
-			.then((res) => res.json())
-			.then((res) => {
-				data = res;
-				if (cb) {
-					cb();
-				}
-				return dispatch({ type: "CREATE_CAL", payload: data });
-			})
-			.catch((error) => console.log(error));
-	};
-}
+// export function getCalendarData(params, cb) {
+// 	let data;
+// 	return (dispatch) => {
+// 		api.getCalendarData(params)
+// 			.then((res) => res.json())
+// 			.then((res) => {
+// 				data = res;
+// 				if (cb) {
+// 					cb();
+// 				}
+// 				return dispatch({ type: "CREATE_CAL", payload: data });
+// 			})
+// 			.catch((error) => console.log(error));
+// 	};
+// }
 
 export function getUnrealizedSetStarted() {
 	return { type: "CREATE_SET_STARTED" };
@@ -185,7 +185,7 @@ export function resetSet() {
 export function autoUnrealized(params, cb) {
 	return (dispatch) => {
 		dispatch(getUnrealizedSetStarted());
-		api.autoUnrealizedSet(params)
+		api.unrealizedSet(params)
 			.then((res) => {
 				//console.log(res.json());
 				res.json().then((data) => {
@@ -367,4 +367,11 @@ export function getHistory(cb) {
 		// dispatch({ type: "CREATE_HISTORY_SUCCEEDED", payload: history });
 		// return Promise.all(promises);
 	};
+}
+
+export function signInWithGoogle(cb){
+	api.googleAuth().then((userId)=>{
+		//assign to vars in react
+		
+	})
 }

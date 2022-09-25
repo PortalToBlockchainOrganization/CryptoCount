@@ -90,10 +90,10 @@ export function signIn(cred, set) {
 		.then((response) => {
 			let location = response.headers.get("Location").split("/");
 			sessionId = location[location.length - 1];
-			return get("Ssns/" + sessionId);
+			return get("login/auth/" + sessionId);
 		})
 		.then((response) => response.json()) // ..json() returns a Promise!
-		.then((body) => get("Prss/" + body.prsId))
+		.then((body) => get("login/auth" + body.prsId))
 		.then((userResponse) => userResponse.json())
 		.then((rsp) => rsp);
 }
@@ -102,7 +102,7 @@ export function signIn(cred, set) {
  * @returns {Promise} result of the sign out request
  */
 export function signOut() {
-	return del("Ssns/" + sessionId);
+	return del("/auth/logout" + sessionId);
 }
 
 /**
@@ -111,41 +111,41 @@ export function signOut() {
  * @returns {Promise resolving to new user}
  */
 export function register(user) {
-	return post("Prss", user);
+	return post("/auth/login", user);
 }
 
 export function deleteSet(id) {
-	return del(`Anal/${id}`, {});
+	return del(`/${id}`, {});
 }
 
-export function analPost(params) {
-	if (params) {
-		return post("Anal", {
-			address: params["address"],
-			basisDate: params["basisDate"],
-			fiat: params["fiat"],
-		});
-	}
-}
+// export function generatePost(params) {
+// 	if (params) {
+// 		return post("Anal", {
+// 			address: params["address"],
+// 			basisDate: params["basisDate"],
+// 			fiat: params["fiat"],
+// 		});
+// 	}
+// }
 
-export function getCalendarData(params) {
-	return post("Anal/Cal/", {
-		address: params["address"],
-		fiat: params["fiat"],
-	});
-}
+// export function getCalendarData(params) {
+// 	return post("Anal/Cal/", {
+// 		address: params["address"],
+// 		fiat: params["fiat"],
+// 	});
+// }
 
-export function getUnrealizedSet(params) {
-	return post("Anal/Unrel", {
-		address: params["address"],
-		basisDate: params["basisDate"],
-		fiat: params["fiat"],
-		histObjId: params["histObjId"],
-	});
-}
+// export function getUnrealizedSet(params) {
+// 	return post("Anal/Unrel", {
+// 		address: params["address"],
+// 		//basisDate: params["basisDate"],
+// 		fiat: params["fiat"],
+// 		histObjId: params["histObjId"],
+// 	});
+// }
 
-export function autoUnrealizedSet(params) {
-	return post("Anal/Auto", {
+export function unrealizedSet(params) {
+	return post("/Generate", {
 		fiat: params["fiat"],
 		address: params["address"],
 		consensusRole: params["consensusRole"],
@@ -153,7 +153,7 @@ export function autoUnrealizedSet(params) {
 }
 
 export function noAuthUnrealizedSet(params) {
-	return post("Anal/Noauth/Auto", {
+	return post("/Generate", {
 		fiat: params["fiat"],
 		address: params["address"],
 		consensusRole: params["consensusRole"],
@@ -161,7 +161,7 @@ export function noAuthUnrealizedSet(params) {
 }
 
 export function getRealizingSet(setId, quantity) {
-	return post("Anal/Realize", {
+	return post("/Realize", {
 		setId: setId,
 		realizedQuantity: quantity,
 	});
@@ -169,32 +169,36 @@ export function getRealizingSet(setId, quantity) {
 
 export function noAuthGetRealizingSet(setId, quantity) {
 	console.log("API", setId, quantity);
-	return post("Anal/Noauth/Realize", {
+	return post("/Realize", {
 		setId: setId,
 		realizedQuantity: quantity,
 	});
 }
 
 export function saveRealize(setId, confirm_quantity) {
-	return post("Anal/Save", {
+	return post("/Save", {
 		setId: setId,
 	});
 }
 
 export function getSet(setId) {
-	return get(`Anal/${setId}`);
+	return get(`/${setId}`);
 }
 
 export function getSets() {
-	return get("Anal/");
+	return get("/");
 }
 
 export function forgotPassword(emailObj) {
-	return post("Prss/forgotpw", emailObj);
+	return post("/forgotpw", emailObj);
 }
 
 export function changePassword(userWithNewPassword) {
-	return post("Prss/changepw", userWithNewPassword);
+	return post("/changepw", userWithNewPassword);
+}
+
+export function googleAuth(){
+	return get("/auth/google")
 }
 
 const errMap = {

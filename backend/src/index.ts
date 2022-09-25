@@ -73,6 +73,7 @@ app.use(passport.session())
 
 //setup routes
 app.use('/auth', authRoutes);
+//realized history
 app.use('/profile', profileRoutes);
 
 
