@@ -13,6 +13,8 @@ import { writeFile } from "fs";
 import transformToUnrealized from "./documentInterfaces/stateModels/generate"
 import transformToRealizing from "./documentInterfaces/stateModels/realizing"
 import transformToSave from "./documentInterfaces/stateModels/saved"
+import populateUmbrella from "./documentInterfaces/stateModels/populateUmbrella"
+import Umbrella from "./documentInterfaces/Umbrella"
 const testObjectRealize = require("./testObjectRealize.js")
 const testObjectSave = require("./testObjectSave.js")
 const testObjectUpdate = require("./testObjectUpdate.js")
@@ -26,6 +28,7 @@ const cookieSession = require('cookie-session')
 
 
 import generate from "./documentInterfaces/CycleAndDate";
+import umbrella from "./documentInterfaces/Umbrella";
 
 
  
@@ -128,21 +131,25 @@ app.use('/profile', profileRoutes);
           console.log(err);
         } else {
           console.log("JSON saved to " + "test.json");
-          unrealizedModel = transformToUnrealized(ts)
-
-          res.status(200).send(unrealizedModel)
-
           //res.status(200).send(ts)
+          //put ts in db by id
+          populateUmbrella(ts).then((obj)=>{
+            console.log("setid" + obj._id)
+            //call object from db by id
+            Umbrella.findOne({id: obj._id}).then((obj)=>{
+              //control model up
+            unrealizedModel = transformToUnrealized(obj)
+           })
+          })
+          
+
+          //send the controlered model to the frontend
+          res.status(200).send(unrealizedModel)
         }
     })});
 
 
-    //put ts in db by id
-
-    //control model to get generate
-  
-    //return gen model w og model id
-  
+    
 
   })
 

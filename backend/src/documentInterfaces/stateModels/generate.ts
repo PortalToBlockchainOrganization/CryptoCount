@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import umbrella from "./umbrella"
+import umbrella from "../umbrellaInteface"
 
 interface BakerCycle {
     bakerAddress: string;

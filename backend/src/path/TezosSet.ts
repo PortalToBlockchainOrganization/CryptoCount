@@ -753,7 +753,7 @@ export default class TezosSet {
     async basisInvestmentCostsToNativeRewards(): Promise<void>{
 
         console.log("start")
-        console.log(this.unrealizedNativeFMVRewards)
+        //console.log(this.unrealizedNativeFMVRewards)
         let basisCost: any = 0;
         let basisDate: any = ""
         let prevTopObj: any = {}
@@ -828,11 +828,11 @@ export default class TezosSet {
 
     calculateNativeRewardFMVByCycle(): Array<RewardsByDay> {
         //rewards by day by price that day
-        console.log(this.pricesAndMarketCapsByDay['2022-09-20'].price)
-        console.log(this.rewardsByCycle)
+        //console.log(this.pricesAndMarketCapsByDay['2022-09-20'].price)
+        //console.log(this.rewardsByCycle)
         return this.rewardsByCycle.map(reward => {
-            console.log(this.pricesAndMarketCapsByDay['2022-09-20'].price)
-            console.log(this.pricesAndMarketCapsByDay)
+            // console.log(this.pricesAndMarketCapsByDay['2022-09-20'].price)
+            // console.log(this.pricesAndMarketCapsByDay)
             return {date: reward.date, rewardAmount: reward.rewardAmount*this.pricesAndMarketCapsByDay[reward.date].price, cycle:reward.cycle}
         })
     }
@@ -1202,7 +1202,7 @@ export default class TezosSet {
         let resp1: AxiosResponse = await axios.get(urlr);
        // this.nextTimeStamp = resp1.data[resp1.data.length - 1].timestamp
         //map the response and push to array
-        console.log(resp1)
+        //.log(resp1)
         //let cycle: number = 0
         if(resp1 !== undefined){
             // if(resp1.data[0].cycle !== undefined){
