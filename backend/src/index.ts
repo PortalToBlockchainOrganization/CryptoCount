@@ -102,51 +102,38 @@ app.use('/profile', profileRoutes);
 }
 
 
-  app.get('/Generate/', async (req, res)=>{
-    // var body: generateBody = req.query.address;
-    // //console.log(req)
-    // console.log(body)
-    // var address: string = body.address
-    // fiat: string, consensusRole: string;
+  app.post('/Generate/', async (req, res)=>{
 
-    // {address, fiat, consensusRole} = body
-    // console.log(address, fiat, consensusRole)
-
+    console.log(req.body)
+    
     let ts: TezosSet = new TezosSet();
-    //generate this
 
     let unrealizedModel: any = {}
 
-    ts.init("USD","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH", "Delegator").then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), async function(err) {
+    ts.init(req.body.fiat,req.body.address, req.body.consensusRole).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), async function(err) {
         if(err) {
           console.log(err);
         } else {
           console.log("JSON saved to " + "test.json");
-          //res.status(200).send(ts)
           //put ts in db by id
           var setId: any
           //how do i get the same instance ?
           let model =  new UmbrellaModel(ts)
-          model.save(function(err,room) {
+          model.save(function(_err,room) {
             setId = room.id
             console.log(room.id);
+            model.objectId = setId
+            //control the model up 
+            unrealizedModel = transformToUnrealized(model)
+            res.status(200).send(unrealizedModel)
          });
-         
-          //control the model up 
-          unrealizedModel = transformToUnrealized(model)
-          res.status(200).send(unrealizedModel)
-                
-          
         }
     })});
-
-  
   })
 
-  app.get('/Realize/', (req, res)=>{
+  app.post('/Realize/', (req, res)=>{
 
-    //req.objectId, req.quantity
-    let setId = "633324b497ec55ac90e17273"
+    console.log(req.body, req.body.objectId, req.body.quantity)
 
     //define class framework
     let ts: TezosSet = new TezosSet();
@@ -154,7 +141,7 @@ app.use('/profile', profileRoutes);
     let obj: any = {}
 
     //let ts = query object from db by id
-    UmbrellaModel.findById(setId, function (err, docs) {
+    UmbrellaModel.findById(req.body.objectId, function (err, docs) {
       if (err){
           console.log(err);
       }
@@ -163,23 +150,14 @@ app.use('/profile', profileRoutes);
           console.log(docs.walletAddress)
          //import db umbrella into class framework
           let realizingModel: any = {}
-
           //console.log(obj)
-            ts.realizeProcess(20, docs).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
+            ts.realizeProcess(req.body.quantity, docs).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
               if(err) {
                 console.log(err);
               } else {
                 console.log("JSON saved to " + "test.json");
                 realizingModel = transformToRealizing(ts)
-              
-                // UmbrellaModel.findByIdAndUpdate(setId, ts, function(err, result){
-                //         if(err){
-                //             //res.send(err)
-                //         }
-                //         else{
-                //             console.log(result)
-                //         }
-                //     })
+            
               res.status(200).send(realizingModel).render('home')
               console.log(ts)
 
@@ -188,44 +166,40 @@ app.use('/profile', profileRoutes);
           })});
       }
   });
-
-
-
-    
-
-      //control the transformation to the state model 
-
-    //update the db entry with the ts object
-
-
   })
 
   app.get('/Unrealize', (req, res)=>{
 
   })
 
-  app.get('/Save/', (req, res)=>{
+  app.post('/Save/', (req, res)=>{
 
     //req.objectId, req.quantity
-    let setId = "633324b497ec55ac90e17273"
-
-
-    //let ts = query object from db by id
-    //let obj = testObjectSave
+    console.log(req.body.objectId, req.body.quantity)
 
     //define class framework
     let ts: TezosSet = new TezosSet();
 
-
     //import db umbrella into class framework
     let savedModel: any = {}
 
-    UmbrellaModel.findById(setId, function (err: any, docs: any) {
+    UmbrellaModel.findById(req.body.objectId, function (err: any, docs: any) {
       if (err){
           console.log(err);
       }
       else{
-          ts.saveProcess(docs).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
+        //var realizingModel: any = {}
+        ts.realizeProcess(req.body.quantity, docs).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
+          if(err) {
+            console.log(err);
+          } else {
+            console.log("JSON saved to " + "test.json");
+  
+          console.log(ts)
+
+          }
+        })});
+          ts.saveProcess(ts).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
             if(err) {
               console.log(err);
             } else {
@@ -233,7 +207,7 @@ app.use('/profile', profileRoutes);
               savedModel = transformToSave(ts)
               res.status(200).send(savedModel)
               
-              UmbrellaModel.findByIdAndUpdate(setId, ts, function(err, result){
+              UmbrellaModel.findByIdAndUpdate(req.body.objectId, ts, function(err, result){
                         if(err){
                             //res.send(err)
                         }
@@ -241,14 +215,9 @@ app.use('/profile', profileRoutes);
                             console.log(result)
                         }
                     })
-
-              //res.status(200).send(ts)
             }
         })});
     }
-      //control the transformation to the state model 
-
-    //update the db entry with the ts object
 
   })
 })

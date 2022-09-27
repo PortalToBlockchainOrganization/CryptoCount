@@ -1,6 +1,7 @@
 
 import { Document, Model } from "mongoose";
 export interface IUmbrella {
+    objectId: string;
     fiat: string;
     walletAddress: string;
     firstRewardDate: string;

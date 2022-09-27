@@ -1,4 +1,4 @@
-import umbrella from "../umbrellaInteface"
+import umbrella from "../umbrella/umbrella.types"
 
 
 interface BakerCycle {
