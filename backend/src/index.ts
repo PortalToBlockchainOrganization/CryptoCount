@@ -85,23 +85,24 @@ app.use('/profile', profileRoutes);
  * Server Activation
  */
 
+
+ app.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`);
+});
+
+
+//calls user object and gets set ids 
  app.get('/', (req, res) => {
   res.render('home');
 });
 
- app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}`);
-  });
+// //calls set object
+// app.get(`/${setId}`, (req, res) => {
+//   res.render('home');
+// });
 
 
-  //import this from document interface
-  interface gen {
-    address: string,
-    fiat: string,
-    consensusRole: string
-}
-
-
+  //creates db object
   app.post('/Generate/', async (req, res)=>{
 
     console.log(req.body)
@@ -131,6 +132,7 @@ app.use('/profile', profileRoutes);
     })});
   })
 
+  //reads db object
   app.post('/Realize/', (req, res)=>{
 
     console.log(req.body, req.body.objectId, req.body.quantity)
@@ -168,10 +170,7 @@ app.use('/profile', profileRoutes);
   });
   })
 
-  app.get('/Unrealize', (req, res)=>{
-
-  })
-
+  //takes db object and modifies it
   app.post('/Save/', (req, res)=>{
 
     //req.objectId, req.quantity
@@ -222,7 +221,7 @@ app.use('/profile', profileRoutes);
   })
 })
 
-
+  //takes db object and modifies it
   app.post('/Update/', async (req, res)=>{
 
     //req.objectId, req.quantity
@@ -269,6 +268,9 @@ app.use('/profile', profileRoutes);
   
 
 
+  app.get('/Unrealize', (req, res)=>{
+
+  })
 
   app.post('/Delete/', async (req, res)=>{
 
