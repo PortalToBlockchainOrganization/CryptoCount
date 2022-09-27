@@ -1,12 +1,14 @@
+//instances of model
+
 import { Document } from "mongoose";
-import { IUserDocument } from "./users.types";
-export async function setLastUpdated(this: IUserDocument): Promise<void> {
+import { IUmbrellaDocument } from "./umbrella.types";
+export async function setLastUpdated(this: IUmbrellaDocument): Promise<void> {
   const now = new Date();
   if (!this.lastUpdated || this.lastUpdated < now) {
     this.lastUpdated = now;
     await this.save();
   }
 }
-export async function sameLastName(this: IUserDocument): Promise<Document[]> {
-  return this.model("user").find({ lastName: this.lastName });
+export async function sameLastName(this: IUmbrellaDocument): Promise<Document[]> {
+  return this.$model("umbrella").find({ lastName: this.lastName });
 }

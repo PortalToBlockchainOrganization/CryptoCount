@@ -4,88 +4,11 @@ import mongoose, {Document, Schema, Model, Types, model} from 'mongoose';
 import umbrellaInterface from './umbrella.types'
 
 import { Schema } from "mongoose";
-import { findOneOrCreate, findByAge } from "./users.statics";
-import { setLastUpdated, sameLastName } from "./users.methods";
-const UserSchema = new Schema({
-  firstName: String,
-  lastName: String,
-  age: Number,
-  dateOfEntry: {
-    type: Date,
-    default: new Date()
-  },
-  lastUpdated: {
-    type: Date,
-    default: new Date()
-  }
-});
-UserSchema.statics.findOneOrCreate = findOneOrCreate;
-UserSchema.statics.findByAge = findByAge;
-UserSchema.methods.setLastUpdated = setLastUpdated;
-UserSchema.methods.sameLastName = sameLastName;
-export default UserSchema;
+import { findOneOrCreate, findByAge } from "./umbrella.statics";
+import { setLastUpdated, sameLastName } from "./umbrella.methods";
+const UmbrellaSchema = new Schema({
 
-interface BakerCycle {
-    bakerAddress: string;
-    cycleStart: number;
-    cycleEnd: number;
-    rewardsRequests: Array<string>;
-}
-
-interface TransactionsByDay {
-    date: string,
-    amount: number
-}
-
-interface BVbyDomain {
-    startDate: string,
-    endDate: string,
-    scaledBookValue: number
-}
-
-interface AccountingSetEntry{
-    date: string,
-    rewardAmount: number,
-    cycle: number,
-    basisCost: number
-}
-
-interface Set{
-    value: string
-}
-
-interface LabeledValue {
-    label: string;
-  }
-
-
-
-
-
-  interface Parent {
-    child?: Types.ObjectId,
-    name?: string
-  }
-  const ParentModel = model<Parent>('Parent', new Schema({
-    child: { type: Schema.Types.ObjectId, ref: 'Child' },
-    name: String
-  }));
-  
-  interface Child {
-    name: string;
-  }
-  const childSchema: Schema = new Schema({ name: String });
-  const ChildModel = model<Child>('Child', childSchema);
-  
-  // Populate with `Paths` generic `{ child: Child }` to override `child` path
-  ParentModel.findOne({}).populate<{ child: Child }>('child').orFail().then(doc => {
-    // Works
-    const t: string = doc.child.name;
-  });
-
-
-export const UmbrellaSchema = new mongoose.Schema({
-    fiat: String,
+     fiat: String,
     walletAddress: String,
     firstRewardDate: String,
     priceByDay: Array<PriceByDay>,
@@ -145,15 +68,150 @@ export const UmbrellaSchema = new mongoose.Schema({
     netDiffDilution: Number,
     netDiffSupplyDepletion: Number,
     investmentBasisCostArray: Array,
-  });
-
-  //const Umbrella = new Model<umbrellaInterface>;
-
-
+  dateOfEntry: {
+    type: Date,
+    default: new Date()
+  },
+  lastUpdated: {
+    type: Date,
+    default: new Date()
+  }
+});
+UmbrellaSchema.statics.findOneOrCreate = findOneOrCreate;
+UmbrellaSchema.statics.findByAge = findByAge;
+UmbrellaSchema.methods.setLastUpdated = setLastUpdated;
+UmbrellaSchema.methods.sameLastName = sameLastName;
 export default UmbrellaSchema;
 
+interface BakerCycle {
+    bakerAddress: string;
+    cycleStart: number;
+    cycleEnd: number;
+    rewardsRequests: Array<string>;
+}
 
-// export default class umbrella {
+interface TransactionsByDay {
+    date: string,
+    amount: number
+}
+
+interface BVbyDomain {
+    startDate: string,
+    endDate: string,
+    scaledBookValue: number
+}
+
+interface AccountingSetEntry{
+    date: string,
+    rewardAmount: number,
+    cycle: number,
+    basisCost: number
+}
+
+interface Set{
+    value: string
+}
+
+interface LabeledValue {
+    label: string;
+  }
+
+
+
+
+
+//   interface Parent {
+//     child?: Types.ObjectId,
+//     name?: string
+//   }
+//   const ParentModel = model<Parent>('Parent', new Schema({
+//     child: { type: Schema.Types.ObjectId, ref: 'Child' },
+//     name: String
+//   }));
+  
+//   interface Child {
+//     name: string;
+//   }
+//   const childSchema: Schema = new Schema({ name: String });
+//   const ChildModel = model<Child>('Child', childSchema);
+  
+//   // Populate with `Paths` generic `{ child: Child }` to override `child` path
+//   ParentModel.findOne({}).populate<{ child: Child }>('child').orFail().then(doc => {
+//     // Works
+//     const t: string = doc.child.name;
+//   });
+
+
+// export const mbrellaSchema = new mongoose.Schema({
+//     fiat: String,
+//     walletAddress: String,
+//     firstRewardDate: String,
+//     priceByDay: Array<PriceByDay>,
+//     bakerCycles: Array<BakerCycle>,
+//     rewardsByDay: Array<RewardsByDay>,
+//     bakerAddresses: Array<Set>,
+//     consensusRole: String,
+//     cyclesByDay: Array<CycleAndDate>,
+//     supplyByDay: Array<CurrencySupplyAndDate>,
+//     unaccountedNetTransactions: Array<TransactionsByDay>,
+//     transactionsUrl: String,
+//     delegatorRewardsUrl: String,
+//     balanceHistoryUrl: String,
+//     rawWalletTransactions: Array<{target: {address: string}, sender: {address: string, alias: string}, amount: number, timestamp: string}>,
+//     cyclesMappedToDays: Map<string, number>,
+//     isCustodial: Boolean,
+//     rewardsByCycle: Array<RewardsByDay>,
+//     balancesByDay: Array,
+//     pricesAndMarketCapsByDay: Map<string, PriceAndMarketCapByDay>,
+//     nativeRewardsFMVByCycle: Array<RewardsByDay>,
+//     investmentsScaledBVByDomain: Array<BVbyDomain>,
+//     nativeSupplyDepletion: Array<DepletionByDay>,
+//     nativeMarketDilutionRewards: Array<RewardsByDay>,
+//     nativeSupplyDepletionRewards: Array<RewardsByDay>,
+//     marketByDay: Array<MarketByDay>,
+//     unrealizedNativeRewards: Array<AccountingSetEntry>,
+//     unrealizedNativeFMVRewards: Array<AccountingSetEntry>,
+//     unrealizedNativeMarketDilutionRewards: Array<AccountingSetEntry>,
+//     unrealizedNativeSupplyDepletionRewards: Array<AccountingSetEntry>,
+//     realizingNativeRewards: Array<AccountingSetEntry>,
+//     realizingNativeFMVRewards: Array<AccountingSetEntry>,
+//     realizingNativeMarketDilutionRewards: Array<AccountingSetEntry>,
+//     realizingNativeSupplyDepletionRewards: Array<AccountingSetEntry>,
+//     realizedNativeRewards: Array<AccountingSetEntry>,
+//     realizedNativeFMVRewards: Array<AccountingSetEntry>,
+//     realizedNativeMarketDilutionRewards: Array<AccountingSetEntry>,
+//     realizedNativeSupplyDepletionRewards: Array<AccountingSetEntry>,
+//     aggregateUnrealizedNativeReward25p: Number,
+//     aggregateUnrealizedNativeReward50p: Number,
+//     aggregateUnrealizedNativeReward75p: Number,
+//     aggregateUnrealizedNativeReward100p: Number,
+//     aggregateRealizedNativeReward100p: Number,
+//     aggregateRealizedNativeReward50p: Number,
+//     aggregateRealizedNativeFMVReward100p: Number,
+//     aggregateRealizedNativeFMVReward50p: Number,
+//     aggregateRealizedNativeMarketDilution100p: Number,
+//     aggregateRealizedNativeMarketDilution50p: Number,
+//     aggregateRealizedNativeSupplyDepletion100p: Number,
+//     aggregateRealizedNativeSupplyDepletion50p: Number,
+//     weightedAverageTotalDomainInvestmentCost: Number,
+//     nextTimeStamp: String,
+//     totalOperations: Array,
+//     noRewards: Boolean,
+//     TezosPriceOnDateObjectGenerated: Number,
+//     pointOfSaleAggValue: Number,
+//     netDiffFMV: Number,
+//     netDiffDilution: Number,
+//     netDiffSupplyDepletion: Number,
+//     investmentBasisCostArray: Array,
+//   });
+
+//   //const Umbrella = new Model<umbrellaInterface>;
+
+
+// export default UmbrellaSchema;
+
+
+// // export default class umbrella {
  
 //     constructor(public date: string, 
 //         public fiat: string,

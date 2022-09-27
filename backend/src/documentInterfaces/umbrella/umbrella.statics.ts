@@ -1,21 +1,21 @@
 import umbrella from "./umbrella.types"
 import Umbrella from "./umbrella.schema"
 // const db = require('mongoose')
-import { IUserDocument, IUserModel } from "./users.types";
+import { IUmbrellaDocument, IUmbrellaModel } from "./umbrella.types";
 export async function findOneOrCreate(
-  userId: string
-): Promise<IUserDocument> {
-  const record = await this.findOne({ userId });
+  setId: string
+): Promise<IUmbrellaDocument> {
+  const record = await this.findOne({ setId });
   if (record) {
     return record;
   } else {
-    return this.create({ userId });
+    return this.create({ setId });
   }
 }
-export async function findByAge(
+export async function findByAge(this: any, 
   min?: number,
   max?: number
-): Promise<IUserDocument[]> {
+): Promise<IUmbrellaDocument[]> {
   return this.find({ age: { $gte: min || 0, $lte: max || Infinity } });
 }
 

@@ -1,4 +1,4 @@
 import { model } from "mongoose";
-import { IUserDocument } from "./users.types";
-import UserSchema from "./users.schema";
-export const UserModel = model<IUserDocument>("user", UserSchema);
+import { IUmbrellaDocument } from "./umbrella.types";
+import UmbrellaSchema from "./umbrella.schema";
+export const UmbrellaModel = model<IUmbrellaDocument>("umbrella", UmbrellaSchema);
