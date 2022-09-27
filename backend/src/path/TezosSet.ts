@@ -516,7 +516,7 @@ export default class TezosSet {
         this.initRealizing(object)
         this.realizeReward(quantity)
         this.aggregates()
-        this.pointOfSaleCosts()
+        await this.pointOfSaleCosts()
     }
 
     async saveProcess(object: any): Promise<any>{
@@ -817,7 +817,7 @@ export default class TezosSet {
     async pointOfSaleCosts(): Promise<void>{
         //add todays price to this 
         await this.retrieveTezosPriceToday()
-
+        console.log(this.TezosPriceOnDateObjectGenerated)
         this.pointOfSaleAggValue = this.TezosPriceOnDateObjectGenerated * this.aggregateRealizedNativeReward100p
         //add realized native rewards agg by todays price to this 
         this.netDiffFMV = this.pointOfSaleAggValue - this.aggregateRealizedNativeFMVReward100p //positive is good negative is bad
@@ -1114,10 +1114,14 @@ export default class TezosSet {
     //retreive methods
     async retrieveTezosPriceToday(): Promise<void>{
         let tezosTodayUrl: string = `https://api.coingecko.com/api/v3/simple/price?ids=Tezos&vs_currencies=${this.fiat}`
-        let response = await axios.get(tezosTodayUrl)
-        let value  = response.data.tezos
-        let lowercase = this.fiat.toLowerCase()
-        this.TezosPriceOnDateObjectGenerated = value[lowercase]
+        await axios.get(tezosTodayUrl).then((response)=>{
+            console.log(response)
+            let value  = response.data.tezos
+            let lowercase = this.fiat.toLowerCase()
+            this.TezosPriceOnDateObjectGenerated = value[lowercase]
+            console.log(this.TezosPriceOnDateObjectGenerated)
+        })
+       
     }
 
     async retrieveBakers(): Promise<void> {

@@ -62,8 +62,8 @@ export interface IUmbrella {
     netDiffDilution: number;
     netDiffSupplyDepletion: number;
     investmentBasisCostArray: any;
-  dateOfEntry?: Date;
-  lastUpdated?: Date;
+    dateOfEntry?: Date;
+    lastUpdated?: Date;
 
 }
 export interface IUmbrellaDocument extends IUmbrella, Document {}
