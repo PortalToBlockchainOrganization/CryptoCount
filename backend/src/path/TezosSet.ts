@@ -668,10 +668,20 @@ export default class TezosSet {
 
    async saveRealization(): Promise<any>{
 
-    this.realizedNativeRewards = this.realizingNativeRewards.map(value => value)
-    this.realizedNativeFMVRewards = this.realizingNativeFMVRewards.map(value => value)
-    this.realizedNativeMarketDilutionRewards = this.realizingNativeMarketDilutionRewards.map(value=>value)
-    this.realizedNativeSupplyDepletionRewards =  this.realizingNativeSupplyDepletionRewards.map(value => value)
+    //make so they append to the old realized values
+    if(this.realizedNativeRewards.length > 0){
+        this.realizedNativeRewards.concat(this.realizingNativeRewards.map(value => value)) 
+        this.realizedNativeFMVRewards.concat(this.realizingNativeFMVRewards.map(value => value))
+        this.realizedNativeMarketDilutionRewards.concat(this.realizingNativeMarketDilutionRewards.map(value=>value))
+        this.realizedNativeSupplyDepletionRewards.concat(this.realizingNativeSupplyDepletionRewards.map(value => value))
+    }
+    else{
+        this.realizedNativeRewards = this.realizingNativeRewards.map(value => value)
+        this.realizedNativeFMVRewards = this.realizingNativeFMVRewards.map(value => value)
+        this.realizedNativeMarketDilutionRewards = this.realizingNativeMarketDilutionRewards.map(value=>value)
+        this.realizedNativeSupplyDepletionRewards = this.realizingNativeSupplyDepletionRewards.map(value => value)
+    }
+
     //console.log(this.realizedNativeFMVRewards)    
 
     //or just overwrite the array to empty values
