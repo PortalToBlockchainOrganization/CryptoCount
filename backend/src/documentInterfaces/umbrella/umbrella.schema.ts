@@ -1,9 +1,29 @@
 import { ObjectId } from "mongodb";
-import mongoose, {Document, Schema, Model} from 'mongoose';
+import mongoose, {Document, Schema, Model, Types, model} from 'mongoose';
 //const mongoose = require('mongoose')
+import umbrellaInterface from './umbrella.types'
 
-
-
+import { Schema } from "mongoose";
+import { findOneOrCreate, findByAge } from "./users.statics";
+import { setLastUpdated, sameLastName } from "./users.methods";
+const UserSchema = new Schema({
+  firstName: String,
+  lastName: String,
+  age: Number,
+  dateOfEntry: {
+    type: Date,
+    default: new Date()
+  },
+  lastUpdated: {
+    type: Date,
+    default: new Date()
+  }
+});
+UserSchema.statics.findOneOrCreate = findOneOrCreate;
+UserSchema.statics.findByAge = findByAge;
+UserSchema.methods.setLastUpdated = setLastUpdated;
+UserSchema.methods.sameLastName = sameLastName;
+export default UserSchema;
 
 interface BakerCycle {
     bakerAddress: string;
@@ -38,68 +58,30 @@ interface LabeledValue {
     label: string;
   }
 
-  export interface umbrella extends mongoose.Document {
-    fiat: string;
-    walletAddress: string;
-    firstRewardDate: string;
-    priceByDay: Array<PriceByDay>
-    bakerCycles: Array<BakerCycle>;
-    rewardsByDay: Array<RewardsByDay>;
-    bakerAddresses: Array<Set>;
-    consensusRole: string;
-    cyclesByDay: Array<CycleAndDate>;
-    supplyByDay: Array<CurrencySupplyAndDate>;
-    unaccountedNetTransactions: Array<TransactionsByDay>;
-    transactionsUrl: string;
-    delegatorRewardsUrl: string;
-    balanceHistoryUrl: string;
-    rawWalletTransactions: Array<{target: {address: string}, sender: {address: string, alias: string}, amount: number, timestamp: string}>;
-    cyclesMappedToDays: Map<string, number>;
-    isCustodial: boolean;
-    rewardsByCycle: Array<RewardsByDay>;
-    balancesByDay: Record<string, number>;
-    pricesAndMarketCapsByDay: Map<string, PriceAndMarketCapByDay>;
-    nativeRewardsFMVByCycle: Array<RewardsByDay>;
-    investmentsScaledBVByDomain: Array<BVbyDomain>;
-    nativeSupplyDepletion: Array<DepletionByDay>;
-    nativeMarketDilutionRewards: Array<RewardsByDay>;
-    nativeSupplyDepletionRewards: Array<RewardsByDay>;
-    marketByDay: Array<MarketByDay>;
-    unrealizedNativeRewards: Array<AccountingSetEntry>;
-    unrealizedNativeFMVRewards: Array<AccountingSetEntry>;
-    unrealizedNativeMarketDilutionRewards: Array<AccountingSetEntry>;
-    unrealizedNativeSupplyDepletionRewards: Array<AccountingSetEntry>;
-    realizingNativeRewards: Array<AccountingSetEntry>;
-    realizingNativeFMVRewards: Array<AccountingSetEntry>;
-    realizingNativeMarketDilutionRewards: Array<AccountingSetEntry>;
-    realizingNativeSupplyDepletionRewards: Array<AccountingSetEntry>;
-    realizedNativeRewards: Array<AccountingSetEntry>;
-    realizedNativeFMVRewards: Array<AccountingSetEntry>;
-    realizedNativeMarketDilutionRewards: Array<AccountingSetEntry>;
-    realizedNativeSupplyDepletionRewards: Array<AccountingSetEntry>;
-    aggregateUnrealizedNativeReward25p: number;
-    aggregateUnrealizedNativeReward50p: number;
-    aggregateUnrealizedNativeReward75p: number;
-    aggregateUnrealizedNativeReward100p: number;
-    aggregateRealizedNativeReward100p: number;
-    aggregateRealizedNativeReward50p: number;
-    aggregateRealizedNativeFMVReward100p: number;
-    aggregateRealizedNativeFMVReward50p: number;
-    aggregateRealizedNativeMarketDilution100p: number;
-    aggregateRealizedNativeMarketDilution50p: number;
-    aggregateRealizedNativeSupplyDepletion100p: number;
-    aggregateRealizedNativeSupplyDepletion50p: number;
-    weightedAverageTotalDomainInvestmentCost: number;
-    nextTimeStamp: any;
-    totalOperations: any;
-    noRewards: any;
-    TezosPriceOnDateObjectGenerated: number;
-    pointOfSaleAggValue: number;
-    netDiffFMV: number;
-    netDiffDilution: number;
-    netDiffSupplyDepletion: number;
-    investmentBasisCostArray: any;
-  };
+
+
+
+
+  interface Parent {
+    child?: Types.ObjectId,
+    name?: string
+  }
+  const ParentModel = model<Parent>('Parent', new Schema({
+    child: { type: Schema.Types.ObjectId, ref: 'Child' },
+    name: String
+  }));
+  
+  interface Child {
+    name: string;
+  }
+  const childSchema: Schema = new Schema({ name: String });
+  const ChildModel = model<Child>('Child', childSchema);
+  
+  // Populate with `Paths` generic `{ child: Child }` to override `child` path
+  ParentModel.findOne({}).populate<{ child: Child }>('child').orFail().then(doc => {
+    // Works
+    const t: string = doc.child.name;
+  });
 
 
 export const UmbrellaSchema = new mongoose.Schema({
@@ -121,7 +103,7 @@ export const UmbrellaSchema = new mongoose.Schema({
     cyclesMappedToDays: Map<string, number>,
     isCustodial: Boolean,
     rewardsByCycle: Array<RewardsByDay>,
-    //balancesByDay: Record<string, number>,
+    balancesByDay: Array,
     pricesAndMarketCapsByDay: Map<string, PriceAndMarketCapByDay>,
     nativeRewardsFMVByCycle: Array<RewardsByDay>,
     investmentsScaledBVByDomain: Array<BVbyDomain>,
@@ -165,8 +147,10 @@ export const UmbrellaSchema = new mongoose.Schema({
     investmentBasisCostArray: Array,
   });
 
-  const Umbrella = mongoose.model<umbrella>('Umbrella', UmbrellaSchema);
-export default Umbrella;
+  //const Umbrella = new Model<umbrellaInterface>;
+
+
+export default UmbrellaSchema;
 
 
 // export default class umbrella {

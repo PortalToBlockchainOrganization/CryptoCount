@@ -126,6 +126,7 @@ app.use('/profile', profileRoutes);
 
      let unrealizedModel: any = {}
 
+
     ts.init("USD","tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH", "Delegator").then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
         if(err) {
           console.log(err);
