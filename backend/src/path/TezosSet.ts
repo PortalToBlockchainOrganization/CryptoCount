@@ -522,6 +522,8 @@ export default class TezosSet {
     async saveProcess(object: any): Promise<any>{
         this.initSave(object)
         this.saveRealization()
+        this.aggregates()
+        await this.pointOfSaleCosts()
 
     }
 

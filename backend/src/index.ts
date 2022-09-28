@@ -55,7 +55,8 @@ import umbrella from "./documentInterfaces/umbrella/umbrella.schema";
 
 
  app.use(helmet());
- app.use(cors());
+const options: cors.CorsOptions = {origin: "http://localhost:3000",credentials: true,methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",};
+app.use(cors(options));;
  app.use(express.json());
 
  mongoose.connect(keys.mongodb.dbURI, ()=>{
@@ -74,12 +75,17 @@ app.set('view engine', 'ejs')
 app.use(passport.initialize())
 app.use(passport.session())
 
-//setup routes
+
+
+// //setup routes
 app.use('/auth', authRoutes);
 //realized history
 app.use('/profile', profileRoutes);
 
-
+app.get('/cors', (req, res) => {
+  res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.send({ "msg": "This has CORS enabled 🎈" })
+  })
 
 /**
  * Server Activation
@@ -105,13 +111,13 @@ app.use('/profile', profileRoutes);
   //creates db object
   app.post('/Generate/', async (req, res)=>{
 
-    console.log(req.body)
+    console.log("wtf" + req.body.fiat)
     
     let ts: TezosSet = new TezosSet();
 
     let unrealizedModel: any = {}
 
-    ts.init(req.body.fiat,req.body.address, req.body.consensusRole).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), async function(err) {
+    await ts.init(req.body.fiat,req.body.address, req.body.consensusRole).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), async function(err) {
         if(err) {
           console.log(err);
         } else {
@@ -160,7 +166,7 @@ app.use('/profile', profileRoutes);
                 console.log("JSON saved to " + "test.json");
                 realizingModel = transformToRealizing(ts)
             
-              res.status(200).send(realizingModel).render('home')
+              res.status(200).send(realizingModel)
               console.log(ts)
 
                 //res.status(200).send(ts)
