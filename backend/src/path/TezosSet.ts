@@ -525,14 +525,15 @@ export default class TezosSet {
 
     }
 
-    async updateProcess(object: any, objectUpdated: any): Promise<any>{
+    async updateProcess(object: any, params: any): Promise<any>{
         //create updated data values
         //run original init
       
         //this.init(object.fiat, object.address, object.consensusRole)
-        this.initUpdate(object, objectUpdated)
+        this.init(params.address, params.fiat, params.consensusRole)
 
-        //append unrealized values to umbrella
+        let lastDate = object.unrealizedNativeRewards[object.unrealizedNativeRewards.length - 1].date
+
        
 
     }

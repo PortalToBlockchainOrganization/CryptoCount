@@ -23,5 +23,5 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res)=>{
     //res.send('u r at call back uri' + req.user)
     res.redirect('/profile/')
 })
-
+    
 module.exports = router

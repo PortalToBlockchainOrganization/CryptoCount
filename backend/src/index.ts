@@ -171,16 +171,18 @@ app.use('/profile', profileRoutes);
   })
 
   //takes db object and modifies it
+  //take user obj and add set id
   app.post('/Save/', (req, res)=>{
 
     //req.objectId, req.quantity
-    console.log(req.body.objectId, req.body.quantity)
+    console.log(req.body.objectId, req.body.quantity, req.body.userId)
 
     //define class framework
     let ts: TezosSet = new TezosSet();
 
     //import db umbrella into class framework
     let savedModel: any = {}
+
 
     UmbrellaModel.findById(req.body.objectId, function (err: any, docs: any) {
       if (err){
@@ -217,17 +219,29 @@ app.use('/profile', profileRoutes);
             }
         })});
     }
-
   })
+  //find user by id 
+  //insert set id
+
+
 })
 
   //takes db object and modifies it
   app.post('/Update/', async (req, res)=>{
 
-    //req.objectId, req.quantity
-
     //let ts = query object from db by id
-    let obj = testObjectUpdate
+    let obj: any = {}
+    UmbrellaModel.findById(req.body.objectId, function (err: any, docs: any) {
+      if (err){
+          console.log(err);
+          obj = docs
+      }})
+
+    let params: any = {
+      "fiat": obj.fiat,
+      "address": obj.walletAddress,
+      "consensusRole": obj.consensusRole
+    }
 
     //define class framework
     let ts: TezosSet = new TezosSet();
@@ -236,7 +250,7 @@ app.use('/profile', profileRoutes);
     //import db umbrella into class framework
     let updatedUmbrella: any = {}
 
-    ts.init(obj.fiat,obj.address, obj.consensusRole).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
+    ts.initUpdate(obj, params).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
       if(err) {
         console.log(err);
       } else {
@@ -247,21 +261,6 @@ app.use('/profile', profileRoutes);
         res.status(200).send(ts)
       }
   })});
-    
-  //   ts.updateProcess(obj, ts).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
-  //     if(err) {
-  //       console.log(err);
-  //     } else {
-  //       console.log("JSON saved to " + "test.json");
-  //       //updatedUmbrella = transformToSave(ts)
-  //       res.status(200).send(ts)
-
-  //       //res.status(200).send(ts)
-  //     }
-  // })});
-      //control the transformation to the state model 
-
-    //update the db entry with the ts object
 
 
   })
