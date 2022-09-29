@@ -51,6 +51,10 @@ interface generateModel{
     realizingNativeFMVRewards: Array<AccountingSetEntry>;
     realizingNativeMarketDilutionRewards: Array<AccountingSetEntry>;
     realizingNativeSupplyDepletionRewards: Array<AccountingSetEntry>;
+    realizedNativeRewards: Array<AccountingSetEntry>;
+        realizedNativeFMVRewards:  Array<AccountingSetEntry>;
+        realizedNativeMarketDilutionRewards:  Array<AccountingSetEntry>;
+        realizedNativeSupplyDepletionRewards:  Array<AccountingSetEntry>;
     aggregateRealizedNativeReward100p: number;
     aggregateRealizedNativeReward50p: number;
     aggregateRealizedNativeFMVReward100p: number;
@@ -92,6 +96,10 @@ export default function transform(umbrella: umbrella){
         realizingNativeFMVRewards: umbrella.realizingNativeFMVRewards,
         realizingNativeMarketDilutionRewards: umbrella.realizingNativeMarketDilutionRewards,
         realizingNativeSupplyDepletionRewards: umbrella.realizingNativeSupplyDepletionRewards,
+        realizedNativeRewards: umbrella.realizedNativeRewards,
+        realizedNativeFMVRewards: umbrella.realizedNativeFMVRewards,
+        realizedNativeMarketDilutionRewards: umbrella.realizedNativeMarketDilutionRewards,
+        realizedNativeSupplyDepletionRewards: umbrella.realizedNativeSupplyDepletionRewards,
         aggregateRealizedNativeReward100p: umbrella.aggregateRealizedNativeReward100p,
         aggregateRealizedNativeReward50p: umbrella.aggregateRealizedNativeReward50p,
         aggregateRealizedNativeFMVReward100p: umbrella.aggregateRealizedNativeFMVReward100p,

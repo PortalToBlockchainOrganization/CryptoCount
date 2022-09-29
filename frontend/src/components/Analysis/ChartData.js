@@ -2,15 +2,15 @@ import moment from "moment";
 export const getData = (setToRender, set, params, getUnrealizedSet) => {
 	// mapping for unrealized and realizing set
 	let mapping = {
-		unrealizedBasisRewards: "realizingRewardBasis",
-		unrealizedBasisRewardsDep: "realizingRewardBasisDep",
-		unrealizedBasisRewardsMVDep: "realizingRewardBasisMVDep",
+		unrealizedFMVRewards: "realizingNativeFMVRewards",
+		unrealizedRewardsSuplyDepletion: "realizingNativeSupplyDepletionRewards",
+		unrealizedRewardsMarketValueDilution: "realizingNativeMarketDilutionRewards",
 	};
 
 	let realMapping = {
-		unrealizedBasisRewards: "realizedBasisRewards",
-		unrealizedBasisRewardsDep: "realizedBasisRewardsDep",
-		unrealizedBasisRewardsMVDep: "realizedBasisRewardsMVDep",
+		unrealizedNativeFMVRewards: "realizedNativeFMVRewards",
+		unrealizedNativeSupplyDepletionRewards: "realizedNativeSupplyDepletionRewards",
+		unrealizedNativeMarketDilutionRewards: "realizedNativeMarketDilutionRewards",
 	};
 
 	// if there is no current data and if the id is not a duplicate
@@ -72,10 +72,10 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 				},
 			],
 			hoverOffset: 4,
-			address: set["data"]?.address,
+			address: set["data"]?.walletAddress,
 			fiat: set["data"]?.fiat,
-			basisDate: set["data"]?.basisDate,
-			basisPrice: set["data"]?.basisPrice,
+			//basisDate: set["data"]?.basisDate,
+			weightedAverageTotalDomainInvestmentCost: set["data"]?.weightedAverageTotalDomainInvestmentCost,
 			incomeToReport:
 				set["data"][incomeToReport] //+ set["data"]?.realizingBasisAgg,
 		};

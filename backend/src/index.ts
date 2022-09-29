@@ -57,8 +57,9 @@ import umbrella from "./documentInterfaces/umbrella/umbrella.schema";
  app.use(helmet());
 const options: cors.CorsOptions = {origin: "http://localhost:3000",credentials: true,methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",};
 app.use(cors(options));;
- app.use(express.json());
 
+
+ app.use(express.json());
  mongoose.connect(keys.mongodb.dbURI, ()=>{
   console.log('connected to db')
 })
@@ -82,10 +83,10 @@ app.use('/auth', authRoutes);
 //realized history
 app.use('/profile', profileRoutes);
 
-app.get('/cors', (req, res) => {
-  res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.send({ "msg": "This has CORS enabled 🎈" })
-  })
+// app.get('/cors', (req, res) => {
+//   res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+//   res.send({ "msg": "This has CORS enabled 🎈" })
+//   })
 
 /**
  * Server Activation

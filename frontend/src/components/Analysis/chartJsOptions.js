@@ -8,7 +8,7 @@ export const chartOptions = (set, consensusRole) => {
 		// first4.concat(last4)
 		// first4.concat(' ',"Block Reward Entries")
 		// console.log(first4)
-		var first4 = set?.data?.address
+		var first4 = set?.data?.walletAddress
 		return first4
 	})
 	return {
@@ -58,7 +58,7 @@ export const chartOptions = (set, consensusRole) => {
 			},
 			title: {
 				display: true,
-				text: set?.data?.address.slice(0, 9).concat('... ',"Fair Market Value Native Block Reward Entries" + " - " + consensusRole),
+				text: set?.data?.walletAddress.slice(0, 9).concat('... ',"Fair Market Value Native Block Reward Entries" + " - " + consensusRole),
 				align: "start",
 				font: {
 					size: 15,

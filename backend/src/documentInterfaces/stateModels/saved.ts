@@ -47,6 +47,10 @@ interface generateModel{
     aggregateUnrealizedNativeReward75p: number,
     aggregateUnrealizedNativeReward100p: number,
     weightedAverageTotalDomainInvestmentCost: number,
+    realizingNativeRewards:  Array<AccountingSetEntry>;
+        realizingNativeFMVRewards:  Array<AccountingSetEntry>;
+        realizingNativeMarketDilutionRewards:  Array<AccountingSetEntry>;
+        realizingNativeSupplyDepletionRewards:  Array<AccountingSetEntry>;
     realizedNativeRewards: Array<AccountingSetEntry>;
     realizedNativeFMVRewards: Array<AccountingSetEntry>;
     realizedNativeMarketDilutionRewards: Array<AccountingSetEntry>;
@@ -88,6 +92,10 @@ export default function transform(umbrella: umbrella){
          aggregateUnrealizedNativeReward75p: umbrella.aggregateUnrealizedNativeReward75p,
          aggregateUnrealizedNativeReward100p: umbrella.aggregateUnrealizedNativeReward100p,
          weightedAverageTotalDomainInvestmentCost: umbrella.weightedAverageTotalDomainInvestmentCost,
+         realizingNativeRewards: umbrella.realizingNativeRewards,
+        realizingNativeFMVRewards: umbrella.realizingNativeFMVRewards,
+        realizingNativeMarketDilutionRewards: umbrella.realizingNativeMarketDilutionRewards,
+        realizingNativeSupplyDepletionRewards: umbrella.realizingNativeSupplyDepletionRewards,
          realizedNativeRewards: umbrella.realizedNativeRewards,
         realizedNativeFMVRewards: umbrella.realizedNativeFMVRewards,
         realizedNativeMarketDilutionRewards: umbrella.realizedNativeMarketDilutionRewards,

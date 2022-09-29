@@ -1,6 +1,6 @@
 const baseURL =
 	process.env.NODE_ENV === "development"
-		? "http://localhost:7000/"
+		? "http://localhost:7000"
 		: "https://cryptocount.co/api/";
 const headers = new Headers();
 var sessionId;
@@ -40,9 +40,9 @@ function safeFetch(method, endpoint, body) {
 		body: JSON.stringify(body),
 		...reqConf,
 	})
-		.catch(function (response) {
-			return Promise.reject([{ tag: "UnRespServer" }]);
-		})
+		// .catch(function (response) {
+		// 	return Promise.reject([{ tag: "UnRespServer" }]);
+		// })
 		.then(function (response) {
 			if (response.status === 400) {
 				return response.json().then(function (response) {
@@ -58,26 +58,9 @@ function safeFetch(method, endpoint, body) {
 		});
 }
 
-async function postData(baseURL, endpoint, data) {
-	// Default options are marked with *
-	const response = await fetch(baseURL + endpoint, {
-	  method: 'POST', // *GET, POST, PUT, DELETE, etc.
-	  mode: 'no-cors', // no-cors, *cors, same-origin
-	  cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-	  credentials: 'same-origin', // include, *same-origin, omit
-	  headers: {
-		'Content-Type': 'application/json'
-		// 'Content-Type': 'application/x-www-form-urlencoded',
-	  },
-	  redirect: 'follow', // manual, *follow, error
-	  referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-	  body: JSON.stringify(data) // body data type must match "Content-Type" header
-	});
-	return response.json(); // parses JSON response into native JavaScript objects
-  }
 
 export function post(endpoint, body) {
-	return safeFetch(baseURL, endpoint, body);
+	return safeFetch("POST", endpoint, body);
 }
 
 export function put(endpoint, body) {
