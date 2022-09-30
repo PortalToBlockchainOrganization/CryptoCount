@@ -1,4 +1,4 @@
-{
+var it = {
     "objectId": "",
     "walletAddress": "tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH",
     "fiat": "AUD",
@@ -7744,6 +7744,11 @@
             "date": "2022-09-27",
             "price": 2.2774021767699133,
             "marketCap": 2053169719.0399213
+        },
+        "2022-09-28": {
+            "date": "2022-09-28",
+            "price": 2.2535010297074565,
+            "marketCap": 2043158619.7049809
         }
     },
     "rewardsByDay": [
@@ -11276,7 +11281,10 @@
         "2022-09-23": 0.004056389561,
         "2022-09-24": 0.004058144443,
         "2022-09-25": 0.004058144443,
-        "2022-09-26": 0.004059980458
+        "2022-09-26": 0.004059980458,
+        "2022-09-27": 0.004059980458,
+        "2022-09-28": 0.004059980458,
+        "2022-09-29": 0.0040618749979999995
     },
     "unaccountedNetTransactions": [
         {
@@ -11561,7 +11569,7 @@
         {
             "bakerAddress": "tz3e7LbZvUtoXhpUD1yb6wuFodZpfYRb9nWJ",
             "cycleStart": 498,
-            "cycleEnd": 534,
+            "cycleEnd": 535,
             "rewardsRequests": [
                 "https://api.baking-bad.org/v2/rewards/tz3e7LbZvUtoXhpUD1yb6wuFodZpfYRb9nWJ?cycle=498",
                 "https://api.baking-bad.org/v2/rewards/tz3e7LbZvUtoXhpUD1yb6wuFodZpfYRb9nWJ?cycle=499",
@@ -11599,7 +11607,8 @@
                 "https://api.baking-bad.org/v2/rewards/tz3e7LbZvUtoXhpUD1yb6wuFodZpfYRb9nWJ?cycle=531",
                 "https://api.baking-bad.org/v2/rewards/tz3e7LbZvUtoXhpUD1yb6wuFodZpfYRb9nWJ?cycle=532",
                 "https://api.baking-bad.org/v2/rewards/tz3e7LbZvUtoXhpUD1yb6wuFodZpfYRb9nWJ?cycle=533",
-                "https://api.baking-bad.org/v2/rewards/tz3e7LbZvUtoXhpUD1yb6wuFodZpfYRb9nWJ?cycle=534"
+                "https://api.baking-bad.org/v2/rewards/tz3e7LbZvUtoXhpUD1yb6wuFodZpfYRb9nWJ?cycle=534",
+                "https://api.baking-bad.org/v2/rewards/tz3e7LbZvUtoXhpUD1yb6wuFodZpfYRb9nWJ?cycle=535"
             ]
         }
     ],
@@ -17795,6 +17804,10 @@
         {
             "date": "2022-09-27",
             "amount": 2053169719.0399213
+        },
+        {
+            "date": "2022-09-28",
+            "amount": 2043158619.7049809
         }
     ],
     "priceByDay": [
@@ -23989,6 +24002,10 @@
         {
             "date": "2022-09-27",
             "amount": 2.2774021767699133
+        },
+        {
+            "date": "2022-09-28",
+            "amount": 2.2535010297074565
         }
     ],
     "cyclesByDay": [
@@ -32688,6 +32705,10 @@
             "date": "2022-09-26",
             "rewardAmount": 0,
             "cycle": 528
+        },
+        {
+            "date": "2022-09-27",
+            "rewardAmount": null
         }
     ],
     "supplyByDay": [
@@ -40445,6 +40466,11 @@
             "_id": "63339785c66256163a9b84a9",
             "dateString": "2022-09-27",
             "totalSupply": 931905229115800
+        },
+        {
+            "_id": "6334e90ec66256163a9b84ab",
+            "dateString": "2022-09-28",
+            "totalSupply": 931968139358795
         }
     ],
     "rawWalletTransactions": [
@@ -42725,6 +42751,17 @@
             },
             "amount": 1836015,
             "timestamp": "2022-09-26T18:32:14Z"
+        },
+        {
+            "target": {
+                "address": "tz1TzS7MEQoCT6rdc8EQMXiCGVeWb4SLjnsH"
+            },
+            "sender": {
+                "alias": "EcoTez Payouts",
+                "address": "tz1QS7N8HnRBG2RNh3Kjty58XFXuLFVdnKGY"
+            },
+            "amount": 1894540,
+            "timestamp": "2022-09-29T15:27:29Z"
         }
     ],
     "nativeSupplyDepletion": [],
@@ -45561,6 +45598,10 @@
             "date": "2022-09-26",
             "rewardAmount": 3.2168364726628647,
             "cycle": 528
+        },
+        {
+            "date": "2022-09-27",
+            "rewardAmount": 0
         }
     ],
     "unrealizedNativeRewards": [
@@ -49748,3 +49789,5 @@
         }
     ]
 }
+
+module.exports = it;

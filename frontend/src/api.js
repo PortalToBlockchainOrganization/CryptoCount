@@ -171,6 +171,7 @@ export function unrealizedSet(params) {
 	});
 }
 
+//is this for rendering a set after being called from the datbase?
 export function getUnrealizedSet(params) {
 	console.log("3")
 

@@ -118,25 +118,27 @@ app.use('/profile', profileRoutes);
 
     let unrealizedModel: any = {}
 
-    await ts.init(req.body.fiat,req.body.address, req.body.consensusRole).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), async function(err) {
-        if(err) {
-          console.log(err);
-        } else {
-          console.log("JSON saved to " + "test.json");
-          //put ts in db by id
-          var setId: any
-          //how do i get the same instance ?
-          let model =  new UmbrellaModel(ts)
-          model.save(function(_err,room) {
-            setId = room.id
-            console.log(room.id);
-            model.objectId = setId
-            //control the model up 
-            unrealizedModel = transformToUnrealized(model)
-            res.status(200).send(unrealizedModel)
-         });
-        }
-    })});
+    // await ts.init(req.body.fiat,req.body.address, req.body.consensusRole).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), async function(err) {
+    //     if(err) {
+    //       console.log(err);
+    //     } else {
+    //       console.log("JSON saved to " + "test.json");
+    //       //put ts in db by id
+    //       var setId: any
+    //       //how do i get the same instance ?
+    //       let model =  new UmbrellaModel(ts)
+    //       model.save(function(_err,room) {
+    //         setId = room.id
+    //         console.log(room.id);
+    //         model.objectId = setId
+    //         //control the model up 
+    //         unrealizedModel = transformToUnrealized(model)
+    //         res.status(200).send(unrealizedModel)
+    //      });
+    //     }
+    // })});
+    var test = require("../test.js")
+    res.status(200).send(test)
   })
 
   //reads db object

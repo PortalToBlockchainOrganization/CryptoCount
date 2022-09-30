@@ -123,6 +123,7 @@ const Analysis = (props) => {
 			set["data"]["unrealizedRewardAgg"].toFixed(0);
 	};
 
+	//jesus
 	const handleDownload = (e) => {
 			e.preventDefault();
 
@@ -159,6 +160,7 @@ const Analysis = (props) => {
 
 	// current set data
 	const [currentSet, setCurrentSet] = useState();
+
 	// rerender the chart
 	useEffect(() => {
 		setCurrentSet(getData(null, set, params, getUnrealizedSet));
@@ -321,7 +323,7 @@ const Analysis = (props) => {
 										: "outline-danger"
 								}
 								onClick={() => {
-									updateChart("unrealizedBasisRewards");
+									updateChart("unrealizedNativeFMVRewards");
 								}}
 							>
 								FMV Set
@@ -342,12 +344,12 @@ const Analysis = (props) => {
 						<div className={classes.buttonAndInfo}>
 							<Button
 								variant={
-									active === "unrealizedBasisRewardsMVDep"
+									active === "unrealizedBasisRewards"
 										? "danger"
 										: "outline-danger"
 								}
 								onClick={() =>
-									updateChart("unrealizedBasisRewardsMVDep")
+									updateChart("unrealizedNativeMarketDilutionRewards")
 								}
 							>
 								MV Dilution Set
@@ -364,12 +366,12 @@ const Analysis = (props) => {
 						<div className={classes.buttonAndInfo}>
 							<Button
 								variant={
-									active === "unrealizedBasisRewardsDep"
+									active === "unrealizedBasisRewards"
 										? "danger"
 										: "outline-danger"
 								}
 								onClick={() =>
-									updateChart("unrealizedBasisRewardsDep")
+									updateChart("unrealizedNativeSupplyDepletionRewards")
 								}
 							>
 								Supply Depletion Set
@@ -493,7 +495,7 @@ const Analysis = (props) => {
 						<Form.Label>Tax Period Start:</Form.Label>
 						<div className={classes.quantGroup}>
 							<div className={classes.buttonAndInfo}>
-								{console.log(currentSet)}
+								{/* {console.log(currentSet)} */}
 								{isNaN(currentSet["incomeToReport"]) ||
 								set["data"]["realizingRewards"] === undefined
 									? "N/A"
