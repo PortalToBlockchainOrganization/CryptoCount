@@ -22,6 +22,7 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 		}
 	};
 
+
 	const [theme, setTheme] = React.useState('dark');
 	const toggleTheme = ()=>{
 		setTheme((curr)=>(curr === "light" ? "dark" : "light"))
@@ -118,6 +119,15 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								>
 									Enter
 								</NavLink>
+								{/* <NavLink
+									className={analysisStyle}
+									activeClassName={classes.NavActive}
+									onClick={toAnalysisIfSetGen}
+									tooltip-data="Please enter or select delegation parameters to access."
+									to="/analysis"
+								>
+									Analysis
+								</NavLink> */}
 								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}

@@ -317,19 +317,13 @@ const Analysis = (props) => {
 						<Spinner animation="border" variant="danger" />
 					</div>
 				) : (
-					<Form
-						className={classes.setToggles}
-						onSubmit={handleRealizing}
-					>
-						<Form.Label>Realize Native Rewards by FIFO:</Form.Label>
+				
+					<div>
+						
 						<div className={classes.quantGroup}>
 							<div className={classes.buttonAndInfo}>
-								<Form.Control
-									type="number"
-									placeholder="0 XTZ"
-									ref={quantityRealize}
-									// {...register("Realize")}
-								/>
+								<div>
+								<div className={classes.words}>F. I. F. O. Station</div>
 								<div
 									className={classes.help}
 									tooltip-data="Enter a quantity of crypto you'd like to sell, realizes in FIFO manner, or select the MAX button. "
@@ -338,17 +332,62 @@ const Analysis = (props) => {
 										className={classes.helpIcon}
 									/>
 								</div>
-								<div>
-									<Button
+						
+								
+								</div>
+								{"\n"}
+								<div className={classes.words}>Quantity</div>
+								<Button
 										variant="primary"
 										onClick={handleMax}
+										className="buttonReward"
 									>
-										Max Rewards
+										25%
+								</Button>
+								<Button
+										variant="primary"
+										onClick={handleMax}
+										className={classes.buttonReward}
+
+									>
+										50%
 									</Button>
-								</div>
+								<Button
+										variant="primary"
+										onClick={handleMax}
+										className={classes.buttonReward}
+									>
+										75%
+									</Button>
+									<Button
+									className={classes.buttonReward}										variant="primary"
+										onClick={handleMax}
+									>
+										100%
+									</Button>
+
+									<div>
+						<form className="form-inline cool-form">
+
+						<div className="col-sm-4">
+						<input className={classes.smallerInput} placeholder="XTZ"  ref={quantityRealize}/>
+						</div>
+						</form>
+						</div>	
+
 							</div>
 						</div>
-						<Button type="submit" variant="danger">
+				
+					
+						
+					</div>
+						
+							
+					
+				)}
+
+
+				<div>	<Button className={classes.buttonReward} onSubmit={handleRealizing} variant="danger">
 							Generate
 						</Button>
 						<div
@@ -359,14 +398,14 @@ const Analysis = (props) => {
 								className={classes.helpIcon}
 							/>
 						</div>
-					</Form>
-				)}
+				</div>	
+
 
 				<div className={classes.setToggles}>
 					
 					<div className={classes.basisSet}>
 						<div className={classes.buttonAndInfo}>
-						<Form.Label style={space}>Accounting Sets: </Form.Label>
+						<div style={space}>Set Station </div>
 							<Button
 								variant={
 									active === "unrealizedBasisRewards"
@@ -391,8 +430,10 @@ const Analysis = (props) => {
 						</div>
 					</div>
 					{/* <div className={classes.header}>Depletion Sets</div> */}
+					<div>+</div>
 					<div className={classes.depletionSet}>
 						<div className={classes.buttonAndInfo}>
+							
 							<Button
 								variant={
 									active === "unrealizedBasisRewards"
@@ -403,7 +444,7 @@ const Analysis = (props) => {
 									updateChart("unrealizedNativeMarketDilutionRewards")
 								}
 							>
-								MV Dilution Set
+								Market Value Dilution
 							</Button>
 							<div
 								className={classes.help}
@@ -425,7 +466,7 @@ const Analysis = (props) => {
 									updateChart("unrealizedNativeSupplyDepletionRewards")
 								}
 							>
-								Supply Depletion Set
+								Native Tez Supply Depletion
 							</Button>
 							<div
 								className={classes.help}
@@ -441,7 +482,7 @@ const Analysis = (props) => {
 
 			
 
-				{currentSet.realizingNativeRewardAgg100p ? (
+				{currentSet ? (
 					<div className={classes.setToggles}>
 						<Form.Label>Reportable Income:</Form.Label>
 						<div className={classes.quantGroup}>
@@ -494,7 +535,7 @@ const Analysis = (props) => {
 						</div>
 					</div>
 				) : null}
-				{currentSet.realizingNativeRewardAgg100p ? (
+				{currentSet > 0 ? (
 					<div className={classes.setToggles}>
 						<Form.Label>Tax Period Start:</Form.Label>
 						<div className={classes.quantGroup}>

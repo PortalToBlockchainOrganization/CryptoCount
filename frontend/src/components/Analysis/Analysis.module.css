@@ -9,9 +9,36 @@
 	align-items: center;
 	color: rgb(80, 80, 80);
 	font-weight: bold;
-	background-color: rgb(241, 241, 241);
+	background-color: black;
 	overflow-y: scroll;
 }
+
+@font-face {
+	font-family: 'Blanka-Regular';
+	src: url('./Blanka-Regular.ttf');
+  }
+
+  .words{
+	font-family: "Blanka-Regular";
+	font-size: 1.5em;
+	color: white;
+  }
+
+
+.buttonReward{
+	margin-left: 5px;
+}
+
+.smaller-input {
+	font-size: 12px;
+	padding: 2px 5px;
+	max-width: 10px!important;
+  }
+
+  .cool-form .form-control {
+    width: 20px;
+}
+
 .button {
 	color: var(--danger);
 }
@@ -61,8 +88,8 @@
 	flex-direction: row;
 	justify-content: space-around;
 	align-items: center;
-	border: 1px solid rgb(177, 177, 177);
-	border-radius: 5px;
+	/* border: 1px solid rgb(177, 177, 177);
+	border-radius: 5px; */
 	padding: 25px;
 	margin: 20px;
 }
@@ -90,10 +117,12 @@
 
 .quantGroup {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	justify-content: center;
 	align-items: center;
 	height: 100%;
+	background-color: black;
+	
 }
 .triggerGroup {
 	display: flex;
