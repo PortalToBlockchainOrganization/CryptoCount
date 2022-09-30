@@ -12,6 +12,8 @@ export const ThemeContext = createContext(null)
 
 const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 	let analysisStyle = classes.NavLinkDisabled;
+	console.log("THINGGG")
+	console.log(canAccessAnalysis)
 	if (canAccessAnalysis) {
 		analysisStyle = classes.NavLink;
 	}
@@ -118,6 +120,15 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 									exact
 								>
 									Enter
+								</NavLink>
+								<NavLink
+									className={analysisStyle}
+									activeClassName={classes.NavActive}
+									onClick={handleClick}
+									tooltip-data="Please enter or select delegation parameters to access."
+									to="/analysis"
+								>
+									Analysis
 								</NavLink>
 								{/* <NavLink
 									className={analysisStyle}

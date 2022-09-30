@@ -366,7 +366,7 @@ const Analysis = (props) => {
 										100%
 									</Button>
 
-									<div>
+							<div>
 						<form className="form-inline cool-form">
 
 						<div className="col-sm-4">
@@ -386,7 +386,7 @@ const Analysis = (props) => {
 					
 				)}
 
-
+				<div className={classes.quantGroup}>
 				<div>	<Button className={classes.buttonReward} onSubmit={handleRealizing} variant="danger">
 							Generate
 						</Button>
@@ -479,6 +479,9 @@ const Analysis = (props) => {
 						</div>
 					</div>
 				</div>
+				</div>
+
+			
 
 			
 
