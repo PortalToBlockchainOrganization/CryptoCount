@@ -178,7 +178,7 @@ const Landing = (props) => {
 				<section className="static-wrapper">
 					<div className="logo-container">
 						<a href="https://tezos.com"><img className="logo" src="./Tezos.png" alt="logo" /></a>
-						<h1> X </h1>
+						<div className="X"> X </div>
 						<img className="logo" src="./logo.png" alt="logo" />
 					</div>
 				</section>
@@ -291,7 +291,7 @@ const Landing = (props) => {
 				</a>
 				<div className="name-one-liner">
 					<h2 className="logo-tagline3">
-						Interested in staking on Tezos? Observe your prospective return below. 
+						Interested in staking on Tezos? See your return below. 
 					</h2>
 				</div>
 				<div>
@@ -402,7 +402,7 @@ const Landing = (props) => {
 			<div>
 			<div className="bb2">
 					<h2 className="logo-tagline2">
-						Find YOUR Baker Here. 
+						Find Your Perfect Baker For Delegation Below. 
 					</h2>
 				</div>
 				<a  href="https://baking-bad.org"><img className="bb" src={BakingBad} alt="BB"></img></a>

@@ -98,6 +98,19 @@
 	font-weight: 700;
 	color: white;
 }
+.X {
+	font-size:3.5em;
+	font-family: "Louis George Café", sans-serif;
+	font-weight: 700;
+	color: black;
+}
+
+#dark .X {
+	font-size: 3.5em;
+	font-family: "Louis George Café", sans-serif;
+	font-weight: 700;
+	color: white;
+}
 
 .logo-tagline2 {
 	font-size: 1.5em;

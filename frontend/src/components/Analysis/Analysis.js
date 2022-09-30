@@ -220,8 +220,8 @@ const Analysis = (props) => {
 						<HelpOutlineRoundedIcon className={classes.helpIcon} />
 					</div>
 				</div>
-				<div className={classes.ChartParams}>
-					<div>
+				{/* <div className={classes.ChartParams}>
+					{/* <div>
 						<div className={classes.Label}>Staking Basis: </div>
 						<div className={classes.BarContainer}>
 							<div className={classes.Bar}>
@@ -286,16 +286,16 @@ const Analysis = (props) => {
 								/>
 							</div>
 						</div>
-					</div>
+					</div> */}
 					{/* <div>
 						{data !== undefined ? data.basisPrice.toFixed(2) : null}
 					</div> */}
-					<div>
+					{/* <div>
 						<div className={classes.Label}>Avg Basis Cost: </div>
 						{set?.data?.basisPrice &&
 							set?.data?.basisPrice.toFixed(2)}{" "}
 						{set?.data?.fiat} {/*{("   ", set["data"]?.fiat)} */}
-					</div>
+					{/* </div>
 					<div>
 						<img
 							className={classes.fiatImg}
@@ -309,8 +309,59 @@ const Analysis = (props) => {
 						tooltip-data="The weighted average cost of additions to your staking basis"
 					>
 						<HelpOutlineRoundedIcon className={classes.helpIcon} />
+					</div> */} 
+				{/* </div> */}
+
+				{set && set["isLoading"] ? (
+					<div className={classes.setToggles}>
+						<Spinner animation="border" variant="danger" />
 					</div>
-				</div>
+				) : (
+					<Form
+						className={classes.setToggles}
+						onSubmit={handleRealizing}
+					>
+						<Form.Label>Realize Native Rewards by FIFO:</Form.Label>
+						<div className={classes.quantGroup}>
+							<div className={classes.buttonAndInfo}>
+								<Form.Control
+									type="number"
+									placeholder="0 XTZ"
+									ref={quantityRealize}
+									// {...register("Realize")}
+								/>
+								<div
+									className={classes.help}
+									tooltip-data="Enter a quantity of crypto you'd like to sell, realizes in FIFO manner, or select the MAX button. "
+								>
+									<HelpOutlineRoundedIcon
+										className={classes.helpIcon}
+									/>
+								</div>
+								<div>
+									<Button
+										variant="primary"
+										onClick={handleMax}
+									>
+										Max Rewards
+									</Button>
+								</div>
+							</div>
+						</div>
+						<Button type="submit" variant="danger">
+							Generate
+						</Button>
+						<div
+							className={classes.help}
+							tooltip-data="Generate your true income statement."
+						>
+							<HelpOutlineRoundedIcon
+								className={classes.helpIcon}
+							/>
+						</div>
+					</Form>
+				)}
+
 				<div className={classes.setToggles}>
 					
 					<div className={classes.basisSet}>
@@ -388,56 +439,9 @@ const Analysis = (props) => {
 					</div>
 				</div>
 
-				{set && set["isLoading"] ? (
-					<div className={classes.setToggles}>
-						<Spinner animation="border" variant="danger" />
-					</div>
-				) : (
-					<Form
-						className={classes.setToggles}
-						onSubmit={handleRealizing}
-					>
-						<Form.Label>Realize Native Rewards by FIFO:</Form.Label>
-						<div className={classes.quantGroup}>
-							<div className={classes.buttonAndInfo}>
-								<Form.Control
-									type="number"
-									placeholder="0 XTZ"
-									ref={quantityRealize}
-									// {...register("Realize")}
-								/>
-								<div
-									className={classes.help}
-									tooltip-data="Enter a quantity of crypto you'd like to sell, realizes in FIFO manner, or select the MAX button. "
-								>
-									<HelpOutlineRoundedIcon
-										className={classes.helpIcon}
-									/>
-								</div>
-								<div>
-									<Button
-										variant="primary"
-										onClick={handleMax}
-									>
-										Max Rewards
-									</Button>
-								</div>
-							</div>
-						</div>
-						<Button type="submit" variant="danger">
-							Generate
-						</Button>
-						<div
-							className={classes.help}
-							tooltip-data="Generate your true income statement."
-						>
-							<HelpOutlineRoundedIcon
-								className={classes.helpIcon}
-							/>
-						</div>
-					</Form>
-				)}
-				{currentSet ? (
+			
+
+				{currentSet.realizingNativeRewardAgg100p ? (
 					<div className={classes.setToggles}>
 						<Form.Label>Reportable Income:</Form.Label>
 						<div className={classes.quantGroup}>
@@ -490,7 +494,7 @@ const Analysis = (props) => {
 						</div>
 					</div>
 				) : null}
-				{currentSet ? (
+				{currentSet.realizingNativeRewardAgg100p ? (
 					<div className={classes.setToggles}>
 						<Form.Label>Tax Period Start:</Form.Label>
 						<div className={classes.quantGroup}>

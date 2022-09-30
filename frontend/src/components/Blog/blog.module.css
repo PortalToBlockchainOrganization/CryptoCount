@@ -8,6 +8,16 @@
 	width: 100%;
 }
 
+#dark .APIWrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-top: 100px;
+	color: white;
+	padding: 20px 40px 20px 80px;
+	width: 100%;
+}
+
 .ImageWrapper {
 	display: flex;
 	justify-content: center;

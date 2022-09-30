@@ -5,9 +5,22 @@
 	padding: 20px 80px 80px 80px;
 }
 
+#dark .APIWrapper {
+	justify-content: center;
+	margin-top: 100px;
+	color: white;
+	padding: 20px 80px 80px 80px;
+}
+
 .API {
 	width: 80%;
 	overflow: 'auto'
+}
+
+#dark .API {
+	width: 80%;
+	overflow: 'auto';
+	color: white;
 }
 
 .code {
@@ -30,6 +43,13 @@
 
 .Header {
 	color: var(--dark-gray);
+	display: flex;
+	flex-direction: column;
+	align-items: left;
+}
+
+#dark .Header {
+	color: white;
 	display: flex;
 	flex-direction: column;
 	align-items: left;
