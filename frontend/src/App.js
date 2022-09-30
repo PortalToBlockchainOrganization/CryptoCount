@@ -18,6 +18,7 @@ function mapStateToProps(state) {
 		cal: state.cal,
 		set: state.set,
 		realizedHistory: state.realizedHistory,
+		mode: state.mode
 	};
 }
 

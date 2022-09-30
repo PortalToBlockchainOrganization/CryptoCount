@@ -9,6 +9,7 @@ import {
 import VerticalModal from "../VerticalModal/VerticalModal";
 import "./Landing.css";
 import tezos from "../../Assets/Orgs/Tezos.png";
+import BakingBad from "../../Assets/Orgs/BakingBad.png"
 import tzkt from "../../Assets/Orgs/tzkt.png";
 import tezosFoundation from "../../Assets/Orgs/TezosFoundation.png";
 import ptbo from "../../Assets/Orgs/ptbo.png";
@@ -19,9 +20,38 @@ import womenSigning from "../../Assets/womenSigning.json";
 import chrome from "../../Assets/chrome.svg";
 import firefox from "../../Assets/firefox.svg";
 import bb from "../../Assets/bb.png";
+//import { ThemeContext, themes } from '../DarkMode/SizeContainer';
+//import { Slider } from '@mui/material';
+import Slider from 'react-input-slider';
+
+
+
+//
 
 const Landing = (props) => {
 	// Begin POST data states
+	const [darkMode, setDarkMode] = React.useState(true);
+
+	const [state, setState] = React.useState({ x: 10, y: 10 });
+
+	<Slider
+		styles={{
+			track: {
+			backgroundColor: 'blue'
+			},
+			active: {
+			backgroundColor: 'red'
+			},
+			thumb: {
+			width: 50,
+			height: 5
+			},
+			disabled: {
+			opacity: 0.5
+			}
+		}}
+		/>
+
 	const [addrs, setAddrs] = React.useState({ delAddrs: "" });
 	const [basisDate, setBasisDate] = React.useState({ basisDate: "" });
 	const [fiat, setFiat] = React.useState("Select Fiat Currency");
@@ -190,23 +220,33 @@ const Landing = (props) => {
 						</Button>
 					</Form>
 				</div>
-				<div className="name-one-liner">
+				<div>
+				{/* <ThemeContext.Consumer>
+									{({ changeTheme }) => (
+									<Button
+										color="link"
+										onClick={() => {
+										setDarkMode(!darkMode);
+										changeTheme(darkMode ? themes.light : themes.dark);
+										}}
+									>
+										<i className={darkMode ? 'fas fa-sun' : 'fas fa-moon'}></i>
+										<span className="d-lg-none d-md-block">Switch mode</span>
+									</Button>
+									)}
+				</ThemeContext.Consumer> */}
+
+				</div>
+				
+				{/* <div className="name-one-liner">
 					<h2 className="logo-tagline2">
 						Learn more about CryptoCount
 					</h2>
-				</div>
-				<a
-					className="download-link1"
-					href="/Blog"
-					target="_blank"
-					rel="noreferrer"
-				>
-					How To Use
-					<img src="./logo.png" alt="chrome-web-store" />
-				</a>
+				</div> */}
+			
 
 				<div className="name-one-liner">
-					<h2 className="logo-tagline2">
+					<h2 className="logo-tagline3">
 						Browser extension (Beta). 
 					</h2>
 				</div>
@@ -219,12 +259,13 @@ const Landing = (props) => {
 					Download for Chrome
 					<img src={chrome} alt="chrome-web-store" />
 				</a>
-				<OverlayTrigger
+		
+				{/* <OverlayTrigger
 					placement="right"
 					overlay={
 						<Popover>
 							<Popover.Title as="h3">
-								In Development
+								In Development 
 							</Popover.Title>
 						</Popover>
 					}
@@ -238,7 +279,7 @@ const Landing = (props) => {
 						Download for FireFox{" "}
 						<img src={firefox} alt="firefox-add-on" />
 					</a>
-				</OverlayTrigger>
+				</OverlayTrigger> */}
 				<a
 					className="download-link"
 					href="https://discord.gg/7rYEu5c32E"
@@ -248,6 +289,22 @@ const Landing = (props) => {
 					Join Our Discord
 					<img className="ptbo-link" src={ptbo} alt="ptbo" />
 				</a>
+				<div className="name-one-liner">
+					<h2 className="logo-tagline3">
+						Interested in staking on Tezos? Observe your prospective return below. 
+					</h2>
+				</div>
+				<div>
+					({state.x}, {state.y})
+					<Slider axis="x" x={state.x} onChange={setState} />
+					{/* <Slider
+						axis="x"
+						x={state.x}
+						onChange={({ x }) => setState(state => ({ ...state, x }))}
+					/> */}
+					<p>{state.x * .05}</p>
+					{/* <Slider axis="y" y={state.y} onChange={({ y }) => setState(state => ({ ...state, y }))} /> */}
+					</div>
 				<VerticalModal
 					basisDate={basisDate}
 					handleDateInput={handleDateInput}
@@ -270,7 +327,7 @@ const Landing = (props) => {
 					getCalendar={getCalendar}
 				/>
 			</div>
-			{!props.signedIn() ? (
+			{/* {!props.signedIn() ? (
 				<div className="tutorial">
 					<div className="p-gif">
 						<div className="animation" id="women-thinking" />
@@ -333,7 +390,24 @@ const Landing = (props) => {
 						</div>
 					</div>
 				</div>
-			) : null}
+			) : null} */}
+			<div>	<a
+					className="download-link1"
+					href="/Blog"
+					target="_blank"
+					rel="noreferrer">
+					How To Use
+					<img src="./logo.png" alt="chrome-web-store" />
+				</a></div>
+			<div>
+			<div className="bb2">
+					<h2 className="logo-tagline2">
+						Find YOUR Baker Here. 
+					</h2>
+				</div>
+				<a  href="https://baking-bad.org"><img className="bb" src={BakingBad} alt="BB"></img></a>
+			</div>
+			
 			<div className="poweredBy">
 				Powered by
 				<a href="https://tezos.com/" target="_blank" rel="noreferrer">

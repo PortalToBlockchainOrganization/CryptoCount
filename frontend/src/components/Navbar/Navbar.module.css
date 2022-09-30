@@ -13,6 +13,12 @@
 	height: 100%;
 }
 
+.switch{
+	display: flex;
+	justify-content: center;
+	margin: auto;
+}
+
 
 .NavLink {
 	text-decoration: none;

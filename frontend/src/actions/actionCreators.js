@@ -153,6 +153,12 @@ export function getUnrealizedSetStarted() {
 	return { type: "CREATE_SET_STARTED" };
 }
 
+export function changeMode(){  
+	return {    
+	   type: "CHANGE_MODE"  
+	}
+ }
+
 export function getUnrealizedSet(params) {
 	return (dispatch) => {
 		dispatch(getUnrealizedSetStarted());
@@ -372,6 +378,6 @@ export function getHistory(cb) {
 export function signInWithGoogle(cb){
 	api.googleAuth().then((userId)=>{
 		//assign to vars in react
-		
+
 	})
 }

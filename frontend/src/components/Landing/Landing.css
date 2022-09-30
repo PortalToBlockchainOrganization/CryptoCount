@@ -19,6 +19,12 @@
 	min-height: 740px;
 	width: 100vw;
 }
+.slider-holder{
+	width:30vw;
+	justify-content: center;
+	align-items: center;
+	margin:auto;
+}
 .static-wrapper {
 	margin-top: 120px;
 	width: 100vw;
@@ -71,6 +77,14 @@
 	color: #2e2e2e;
 }
 
+#dark .logo-name {
+	font-size: 5em;
+	font-family: "Louis George Café", sans-serif;
+	font-weight: 700;
+	color: white;
+}
+
+
 .logo-tagline {
 	font-size: 1.5em;
 	font-family: "Louis George Café", sans-serif;
@@ -78,12 +92,47 @@
 	color: #2e2e2e;
 }
 
+#dark .logo-tagline {
+	font-size: 1.5em;
+	font-family: "Louis George Café", sans-serif;
+	font-weight: 700;
+	color: white;
+}
+
 .logo-tagline2 {
 	font-size: 1.5em;
 	font-family: "Louis George Café", sans-serif;
 	font-weight: 700;
 	color: #2e2e2e;
-	margin-top: 30px;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+#dark .logo-tagline2 {
+	font-size: 1.5em;
+	font-family: "Louis George Café", sans-serif;
+	font-weight: 700;
+	color: white;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+.logo-tagline3 {
+	font-size: 1.5em;
+	font-family: "Louis George Café", sans-serif;
+	font-weight: 700;
+	color: #2e2e2e;
+	margin-top: 20px;
+	margin-bottom: 15px;
+}
+
+#dark .logo-tagline3 {
+	font-size: 1.5em;
+	font-family: "Louis George Café", sans-serif;
+	font-weight: 700;
+	color: white;
+	margin-top: 20px;
+	margin-bottom: 15px;
 }
 
 p {
@@ -164,6 +213,10 @@ p {
 	}
 }
 
+#dark .name-one-liner{
+	color: white;
+}
+
 .button-continue:disabled {
 	cursor: not-allowed;
 }
@@ -187,6 +240,21 @@ p {
 	padding: 20px;
 	width: 100vw;
 	opacity: 0.75;
+}
+
+.bb{
+	display: flex;
+	justify-content: center;
+	margin: auto;
+	width: 70vw;
+	border-radius: 10%;
+}
+.bb2{
+	display: flex;
+	justify-content: center;
+	margin: auto;
+	width: 70vw;
+	border-radius: 30%;
 }
 
 .tutorial {
@@ -273,7 +341,10 @@ p {
 	border-radius: 100px;
 	padding: 5px 20px 5px 20px;
 	min-width: 225px;
+	width: 20vw;
+	margin: auto;
 	min-height: 40px;
+	margin-top: 10px;
 	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 	transition: all 100ms ease-in-out;
 }

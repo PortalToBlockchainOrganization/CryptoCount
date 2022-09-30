@@ -3,6 +3,12 @@ import { NavLink, Link } from "react-router-dom";
 import { Nav, Navbar } from "react-bootstrap";
 import classes from "./Navbar.module.css";
 import Menu from "../Menu/Menu";
+import ReactSwitch from "react-switch"
+import {createContext} from "react"
+
+
+export const ThemeContext = createContext(null)
+
 
 const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 	let analysisStyle = classes.NavLinkDisabled;
@@ -15,6 +21,12 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 			e.preventDefault();
 		}
 	};
+
+	const [theme, setTheme] = React.useState('dark');
+	const toggleTheme = ()=>{
+		setTheme((curr)=>(curr === "light" ? "dark" : "light"))
+	}
+
 
 	return (
 		<div>
@@ -43,6 +55,7 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								>
 									Enter
 								</NavLink>
+ 
 								<NavLink
 									className={analysisStyle}
 									activeClassName={classes.NavActive}
@@ -147,6 +160,12 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								>
 									Privacy
 								</NavLink>
+								<div className="switch">
+								<ReactSwitch onChange={toggleTheme} checked={theme==="dark"}/>
+								</div>
+								{/* <div className="switch">
+									<ReactSwitch onChange={toggleTheme} checked={theme==="dark"}/>
+								</div> */}
 							</Nav>
 						)}
 					</Nav>
