@@ -210,6 +210,7 @@ const Analysis = (props) => {
 	// otherwise if the set data exists render the graph
 	return set !== null && set?.isLoading === false ? (
 		<div className={classes.AnalysisWrapper}>
+			<div className={classes.words}>CryptoCount</div>
 			<div className={classes.Chart}>
 				<div className={classes.ChartWrapper}>
 					<Bar data={currentSet} options={options} />
