@@ -22,11 +22,26 @@
 	font-family: "Blanka-Regular";
 	font-size: 1.5em;
 	color: white;
+	margin: 10px 10px 10px 20px;
+  }
+
+	.the{
+	font-family: "Blanka-Regular";
+	font-size: 1.5em;
+	color: white;
+	margin: 10px 40px 10px 20px;
+
   }
 
 
 .buttonReward{
 	margin-left: 5px;
+}
+
+.buttonReward2{
+	size: 3em;
+	font-family: "Blanka-Regular";
+
 }
 
 .smaller-input {
@@ -51,8 +66,14 @@
 }
 
 
+.thetitle{
+		font-family: "Blanka-Regular";
+		font-size: 2.0em;
+		color: white;
+		margin: 20px 20px 20px 20px;
+}
 .Chart {
-	margin-top: 40px;
+	margin-top: 0px;
 	margin-bottom: 80px;
 	width: 80%;
 	max-width: 1000px;
@@ -87,6 +108,22 @@
 }
 
 .setToggles {
+	border: 1px groove white;
+	border-radius: 2%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	/* border: 1px solid rgb(177, 177, 177);
+	border-radius: 5px; */
+	padding: 25px;
+	margin: 20px;
+}
+
+.setToggles2 {
+	border: 1px groove white;
+	border-radius: 2%;
+	background-color: white;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
@@ -119,6 +156,11 @@
 }
 
 .quantGroup {
+	border: 1px groove white;
+	border-radius: 2%;
+
+	padding: 10px 10px 10px 15px;
+	margin-top: 40px;
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
@@ -133,6 +175,7 @@
 }
 
 .buttonAndInfo {
+	font-family: "Blanka-Regular";
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -140,8 +183,9 @@
 
 .helpIcon {
 	font-size: 28px !important;
-	margin-left: 3px;
+	margin-left: 10px;
 	padding: 5px;
+	display: flex;
 	transition: all 0.1s ease-in-out;
 }
 
@@ -183,7 +227,7 @@
 	flex: 0.5;
 	flex-direction: row;
 	justify-content: space-around;
-	border-left: 1px solid rgb(177, 177, 177);
+	margin: auto;
 }
 
 .basisSet {

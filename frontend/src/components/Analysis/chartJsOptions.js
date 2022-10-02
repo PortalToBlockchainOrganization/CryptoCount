@@ -1,3 +1,4 @@
+import { isWhiteSpaceLike } from "typescript";
 import { fiatLabels } from "./fiatLabels";
 export const chartOptions = (set, consensusRole) => {
 	const Title = (()=> {
@@ -26,6 +27,8 @@ export const chartOptions = (set, consensusRole) => {
 					font: {
 						size: 15,
 					},
+					color: "white"
+
 				},
 				ticks: {
 					precision: 0,
@@ -44,8 +47,9 @@ export const chartOptions = (set, consensusRole) => {
 					display: true,
 					text: "Date",
 					font: {
-						size: 15,
+						size: 16,
 					},
+					color: "white"
 				},
 				ticks: {
 					beginAtZero: true,
@@ -58,11 +62,21 @@ export const chartOptions = (set, consensusRole) => {
 			},
 			title: {
 				display: true,
-				text: set?.data?.walletAddress.slice(0, 9).concat('... ',"Fair Market Value Native Block Reward Entries" + " - " + consensusRole),
+				text: consensusRole.concat(" " + set?.data?.walletAddress.slice(0, 15) + '... ',"Native Tez Consensus Block Reward Entries"),
 				align: "start",
 				font: {
 					size: 15,
 				},
+				color: "white",
+				padding: {
+                    top: 10,
+                    bottom: 30,
+					left: 50
+                },
+				margin:{
+					left: 50
+				}
+				
 			},
 		},
 	};
