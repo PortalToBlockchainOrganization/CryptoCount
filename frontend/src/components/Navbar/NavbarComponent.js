@@ -153,19 +153,19 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								>
 									Regulation Tracker
 								</NavLink>
-								<NavLink
+								{/* <NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
 									to="/blog"
 								>
 									Blog
-								</NavLink>
+								</NavLink> */}
 								<a
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
 									href="https://portaltoblockchain.org"
 								>
-									B2B
+									API
 								</a>
 								<NavLink
 									className={classes.NavLink}
@@ -181,9 +181,9 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								>
 									Privacy
 								</NavLink>
-								<div className="switch">
+								{/* <div className="switch">
 								<ReactSwitch onChange={toggleTheme} checked={theme==="dark"}/>
-								</div>
+								</div> */}
 								{/* <div className="switch">
 									<ReactSwitch onChange={toggleTheme} checked={theme==="dark"}/>
 								</div> */}

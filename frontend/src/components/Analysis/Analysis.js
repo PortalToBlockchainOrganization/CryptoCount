@@ -210,7 +210,7 @@ const Analysis = (props) => {
 	// otherwise if the set data exists render the graph
 	return set !== null && set?.isLoading === false ? (
 		<div className={classes.AnalysisWrapper}>
-			<div className={classes.thetitle}>CryptoCount</div>
+			<div className={classes.thetitle}> <a href="https://tezos.com"><img className={classes.logoAnalysis} src="./Tezos.png" alt="logo" /></a> x CryptoCount </div>
 			<div className={classes.Chart}>
 				<div className={classes.ChartWrapper}>
 					<Bar data={currentSet} options={options} />
@@ -319,7 +319,117 @@ const Analysis = (props) => {
 					</div>
 				) : (
 				
+					
 					<div>
+
+					<div>
+							<div>
+								<div className={classes.the}>Accounting Set Selection</div>
+								<div
+									className={classes.help}
+									tooltip-data="Select the accounting set you want to report. "
+								>
+									<HelpOutlineRoundedIcon
+										className={classes.helpIcon}
+									/>
+								</div>
+						
+								
+							</div>
+				<div className={classes.setToggles}>		
+						<div className={classes.basisSet}>
+							<div className={classes.buttonAndInfo}>
+						
+								<Button
+									variant={
+										active === "unrealizedNativeFMVRewards"
+											? "danger"
+											: "outline-danger"
+									}
+									onClick={() => {
+										updateChart("unrealizedNativeFMVRewards");
+									}}
+								>
+									FMV Set
+								</Button>
+
+								<div
+									className={classes.help}
+									tooltip-data="Rewards times the price of Tezos on the day it was received, no depletion."
+								>
+									<HelpOutlineRoundedIcon
+										className={classes.helpIcon}
+									/>
+								</div>
+							</div>
+						</div>
+					
+						<div>+</div>
+
+							
+							<div className={classes.buttonAndInfo}>
+								<Button
+									variant={
+										active === "unrealizedNativeSupplyDepletionRewards"
+											? "danger"
+											: "outline-danger"
+									}
+									onClick={() =>
+										updateChart("unrealizedNativeSupplyDepletionRewards")
+									}
+								>
+									Tez Native Supply Depletion
+								</Button>
+								<div
+									className={classes.help}
+									tooltip-data="Fair market value rewards with depletion by supply additions added to the entries."
+								>
+									<HelpOutlineRoundedIcon
+										className={classes.helpIcon}
+									/>
+								</div>
+							</div>
+							<div className={classes.buttonAndInfo}>
+								<Button
+									variant={
+										active === "unrealizedNativeMarketDilutionRewards"
+											? "danger"
+											: "outline-danger"
+									}
+									onClick={() =>
+										updateChart("unrealizedNativeMarketDilutionRewards")
+									}
+								>
+									Tez Market Value Dilution
+								</Button>
+								<div
+									className={classes.help}
+									tooltip-data="Fair market value rewards with market value depletion added to the entries."
+								>
+									<HelpOutlineRoundedIcon
+										className={classes.helpIcon}
+									/>
+								</div>
+							</div>
+					</div>
+
+					{/* <div>
+								<div className={classes.the}>Generation Station</div>
+								<div
+									className={classes.help}
+									tooltip-data="Generate your assessment. "
+								>
+									<HelpOutlineRoundedIcon
+										className={classes.helpIcon}
+									/>
+								</div>
+						
+								
+							</div> */}
+				
+
+					</div>
+
 						
 							<div>
 								<div className={classes.words}>F. I. F. O. Station</div>
@@ -389,103 +499,7 @@ const Analysis = (props) => {
 						</div>
 				
 					
-						
-					</div>
-						
-							
-					
-				)}
-
-						<div>
-								<div className={classes.the}>Set Station</div>
-								<div
-									className={classes.help}
-									tooltip-data="Select the accounting set you want to report. "
-								>
-									<HelpOutlineRoundedIcon
-										className={classes.helpIcon}
-									/>
-								</div>
-						
-								
-							</div>
-				<div className={classes.setToggles}>		
-						<div className={classes.basisSet}>
-							<div className={classes.buttonAndInfo}>
-						
-								<Button
-									variant={
-										active === "unrealizedNativeFMVRewards"
-											? "danger"
-											: "outline-danger"
-									}
-									onClick={() => {
-										updateChart("unrealizedNativeFMVRewards");
-									}}
-								>
-									FMV Set
-								</Button>
-
-								<div
-									className={classes.help}
-									tooltip-data="Rewards times the price of Tezos on the day it was received, no depletion."
-								>
-									<HelpOutlineRoundedIcon
-										className={classes.helpIcon}
-									/>
-								</div>
-							</div>
-						</div>
-					
-						<div>+</div>
-
-							<div className={classes.buttonAndInfo}>
-								<Button
-									variant={
-										active === "unrealizedNativeMarketDilutionRewards"
-											? "danger"
-											: "outline-danger"
-									}
-									onClick={() =>
-										updateChart("unrealizedNativeMarketDilutionRewards")
-									}
-								>
-									Tez Market Value Dilution
-								</Button>
-								<div
-									className={classes.help}
-									tooltip-data="Fair market value rewards with market value depletion added to the entries."
-								>
-									<HelpOutlineRoundedIcon
-										className={classes.helpIcon}
-									/>
-								</div>
-							</div>
-							<div className={classes.buttonAndInfo}>
-								<Button
-									variant={
-										active === "unrealizedNativeSupplyDepletionRewards"
-											? "danger"
-											: "outline-danger"
-									}
-									onClick={() =>
-										updateChart("unrealizedNativeSupplyDepletionRewards")
-									}
-								>
-									Tez Native Supply Depletion
-								</Button>
-								<div
-									className={classes.help}
-									tooltip-data="Fair market value rewards with depletion by supply additions added to the entries."
-								>
-									<HelpOutlineRoundedIcon
-										className={classes.helpIcon}
-									/>
-								</div>
-							</div>
-					</div>
-
-					<div>
+						{/* <div>
 								<div className={classes.the}>Generation Station</div>
 								<div
 									className={classes.help}
@@ -497,7 +511,7 @@ const Analysis = (props) => {
 								</div>
 						
 								
-							</div>
+							</div> */}
 					<div className={classes.setToggles2}>	
 
 					<div>	
@@ -507,12 +521,17 @@ const Analysis = (props) => {
 							
 					</div>	
 					</div>	
-
-
+						
+					</div>
+						
+							
+					
+				)}
+			
 				
 
 			
-
+				
 			
 
 				{currentSet ? (
@@ -529,7 +548,10 @@ const Analysis = (props) => {
 
 					</div>
 					<div className={classes.setToggles}>
-							<Form.Label>Reportable Income:</Form.Label>
+							<div>Set:</div>
+							<div className={classes.incomeStuff}>Fair Market Value{"\n"}
+							Supply Depletion</div>
+
 							<div className={classes.quantGroup}>
 								<div className={classes.buttonAndInfo}>
 									{isNaN(currentSet["incomeToReport"])
@@ -546,34 +568,7 @@ const Analysis = (props) => {
 									</div>
 								</div>
 							</div>
-							<Button
-								variant="danger"
-								disabled={isNaN(currentSet["incomeToReport"])}
-								onClick={handleDownload}
-							>
-								Download Statement
-							</Button>
-							{!signedIn() ? (
-								<Link to="/register">
-									<Button variant="danger">Save</Button>
-								</Link>
-							) : (
-								<Button
-									type="submit"
-									variant="danger"
-									onClick={handleSave}
-									disabled={isNaN(currentSet["incomeToReport"])}
-								>
-									Save
-								</Button>
-							)}
-							<div
-								className={classes.help}
-								tooltip-data="Save this realization or enter a new quantity."
-							>
-								<HelpOutlineRoundedIcon
-									className={classes.helpIcon} />
-							</div>
+
 						</div></>
 				) : null}
 				{currentSet > 0 ? (

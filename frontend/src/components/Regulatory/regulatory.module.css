@@ -1,7 +1,7 @@
 .APIWrapper {
 	justify-content: center;
 	margin-top: 100px;
-	color: black;
+	color: white;
 	padding: 20px 40px 0px 80px;
     width: 100%;
 }
@@ -12,16 +12,16 @@
 }
 
 h2{
-    color:black;
+    color:white;
 }
 h3{
-    color: black;
+    color: white;
 }
 
 .regWrap{
     margin-top: 100px;
     width: 100%;
-    color:black;
+    color:white;
 }
 
 .code {

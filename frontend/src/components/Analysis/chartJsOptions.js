@@ -62,7 +62,7 @@ export const chartOptions = (set, consensusRole) => {
 			},
 			title: {
 				display: true,
-				text: consensusRole.concat(" " + set?.data?.walletAddress.slice(0, 15) + '... ',"Native Tez Consensus Block Reward Entries"),
+				text: consensusRole.concat(" " + set?.data?.walletAddress.slice(0, 15) + '... ',"Native Tez Consensus Block Reward Accounting Entries"),
 				align: "start",
 				font: {
 					size: 15,
