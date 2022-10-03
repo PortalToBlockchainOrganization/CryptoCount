@@ -249,13 +249,14 @@ p {
 	padding: 20px 40px;
 	border-style: solid;
 	border-radius: 10px;
-	border-bottom-color: rgb(54, 54, 195);
+	border-bottom-color: rgb(63, 179, 34);
 	border-top-width: 6px;
 	border-right-width: 10px;;
 	border-left-width: 10px;
 	border-bottom-width: 6px;
-	border-top-color: rgb(25, 25, 215);
+	border-top-color: rgb(63, 179, 34);
 	
+	/* rgb(25, 25, 215); */
 
 
 }

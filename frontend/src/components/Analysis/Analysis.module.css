@@ -38,9 +38,28 @@
 	margin-left: 5px;
 }
 
+.numberAlive{
+	font-family: "Louis George Café", sans-serif;
+	font-size: 1.5em;
+	background-color: rgb(33, 164, 53);
+	border:rgb(33, 164, 53);
+	border-radius: 5px;
+}
+
+.wordGood{
+	font-family: "Louis George Café", sans-serif;
+	font-size: 1.5em;
+	display: flex;
+	flex-direction: row;
+	color: white;
+}
+
+
 .buttonReward2{
 	size: 3em;
-	font-family: "Blanka-Regular";
+	font-size: 1em;
+	/* font-family: "Louis George Café", sans-serif; */
+	/* font-family: "Blanka-Regular"; */
 
 }
 

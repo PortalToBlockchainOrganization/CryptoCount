@@ -17,7 +17,7 @@ import TextTransition, { presets } from "react-text-transition";
  * @returns
  */
 
-const loadingTexts = [" Reading Data from the Tezos Blockchain...", " Analyzing Your Data...", " Baker analysis is in BETA and can take multiple minutes to load for larger accounts...", "Ignore Server Is Down Notification" , "If the request has taken longer than 300 seconds, use our API to get your data."]
+const loadingTexts = ["Reading your data from the Tezos Blockchain!", "Analyzing Your Tezos!", "Generating Aggregated Assessment."]
 
 
 
@@ -114,6 +114,15 @@ const Analysis = (props) => {
 		}
 	};
 
+	
+
+	
+	
+
+
+
+	//set["data"]["TezosPriceOnDateObjectGenerated"]
+	// console.log(priceToday)
 	// click handler
 	const handle100 = (e /** DOM event, click */) => {
 		// prevent page from refreshing
@@ -518,7 +527,7 @@ const Analysis = (props) => {
 						<form className="form-inline cool-form">
 
 						<div className="col-sm-4">
-						<input className={classes.smallerInput} placeholder="XTZ"  ref={quantityRealize}/>
+						<input className={classes.smallerInput} placeholder="XTZ" ref={quantityRealize}/>
 						</div>
 						</form>
 						</div>	
@@ -543,8 +552,8 @@ const Analysis = (props) => {
 					<div className={classes.setToggles2}>	
 
 					<div>	
-						<Button className={classes.buttonReward2} onClick=	{handleRealizing} variant="danger">
-								Generate
+						<Button className={classes.the} onClick={handleRealizing} variant="danger">
+								Generate Income
 							</Button>
 							
 					</div>	
@@ -557,12 +566,12 @@ const Analysis = (props) => {
 				)}
 			
 				
-
+{console.log(currentSet)}
 			
 				
 			
 
-				{currentSet ? (
+				{set["data"]["aggregateRealizedNativeReward100p"] > 1 ? (
 					<><div>
 						<div className={classes.the}>Income Station</div>
 						<div
@@ -577,11 +586,21 @@ const Analysis = (props) => {
 					</div>
 					<div className={classes.setToggles3}>
 						<div  className={classes.setToggles}>
-							<div className={classes.the}>Tez Price Today:</div>
+							<div className={classes.the}>Tez Price Today:  <href className={classes.numberAlive}>{(set["data"]["TezosPriceOnDateObjectGenerated"])} {(set["data"]["fiat"])}</href></div> 
+							<div className={classes.the}>Point of Sale Aggregate Value:<href className={classes.numberAlive}>{(Math.round((set["data"]["pointOfSaleAggValue"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{(set["data"]["fiat"])}</href></div> 
+							<div className={classes.the}>Quantity:<href className={classes.numberAlive}>{(Math.round((set["data"]["aggregateRealizedNativeReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}Tez</href></div>
+
 
 							</div>
 							<div  className={classes.setToggles}>
 							<div className={classes.the}>Net Difference:</div>
+							<div className={classes.wordGood}>
+								Fair Market Value (FMV):
+							</div>
+							<div className={classes.wordGood}>
+								Supply Depletion:
+							</div>
+							<div>yo</div>
 
 							</div>
 							<div  className={classes.setToggles}>

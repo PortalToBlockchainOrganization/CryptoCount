@@ -36,6 +36,10 @@ function set(state = {}, action) {
 				action.payload["aggregateRealizedNativeMarketDilution100p"];
 			tempSet["data"]["pointOfSaleAggValue"] =
 				action.payload["pointOfSaleAggValue"];
+			tempSet["data"]["TezosPriceOnDateObjectGenerated"] =
+				action.payload["TezosPriceOnDateObjectGenerated"];
+				tempSet["data"]["fiat"] =
+				action.payload["publicfiat"];
 			tempSet["data"]["netDiffFMV"] =
 				action.payload["netDiffFMV"];
 			tempSet["data"]["netDiffDilution"] =
