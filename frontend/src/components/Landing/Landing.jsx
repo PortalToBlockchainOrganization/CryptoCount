@@ -19,6 +19,7 @@ import womenComputer from "../../Assets/womenComputer.json";
 import womenSigning from "../../Assets/womenSigning.json";
 import chrome from "../../Assets/chrome.svg";
 import firefox from "../../Assets/firefox.svg";
+import SliderComponent from "./Slider.js"
 import bb from "../../Assets/bb.png";
 //import { ThemeContext, themes } from '../DarkMode/SizeContainer';
 //import { Slider } from '@mui/material';
@@ -37,17 +38,17 @@ const Landing = (props) => {
 	<Slider
 		styles={{
 			track: {
-			backgroundColor: 'blue'
+			backgroundColor: 'green'
 			},
 			active: {
-			backgroundColor: 'red'
+			backgroundColor: 'white'
 			},
 			thumb: {
 			width: 50,
 			height: 5
 			},
 			disabled: {
-			opacity: 0.5
+			opacity: 1
 			}
 		}}
 		/>
@@ -153,6 +154,24 @@ const Landing = (props) => {
 		props.setParams(params);
 		props.getCalendarData(params, setLoadingState);
 	};
+
+	// var slider = document.getElementById("myRange")
+	// var output = document.getElementById("value")
+
+	// console.log(slider)
+
+	// output.innerHTML = slider.value
+
+	// slider.oninput = function(){
+	// 	output.innerHTML = this.value * 0.0512
+	// }
+
+	// slider.addEventListener("mousemove", function(){
+	// 	var x = slider.value;
+	// 	var color = 'linear-gradient(90deg, white' + x + '%,black' + x  + '%)'
+	// 	slider.style.background = color;
+
+	// })
 
 	React.useEffect(() => {
 		lottie.loadAnimation({
@@ -294,17 +313,7 @@ const Landing = (props) => {
 						Interested in staking on Tezos? See your return below. 
 					</h2>
 				</div>
-				<div>
-					({state.x}, {state.y})
-					<Slider axis="x" x={state.x} onChange={setState} />
-					{/* <Slider
-						axis="x"
-						x={state.x}
-						onChange={({ x }) => setState(state => ({ ...state, x }))}
-					/> */}
-					<p>{state.x * .05}</p>
-					{/* <Slider axis="y" y={state.y} onChange={({ y }) => setState(state => ({ ...state, y }))} /> */}
-					</div>
+				<SliderComponent></SliderComponent>
 				<VerticalModal
 					basisDate={basisDate}
 					handleDateInput={handleDateInput}
@@ -402,7 +411,7 @@ const Landing = (props) => {
 			<div>
 			<div className="bb2">
 					<h2 className="logo-tagline2">
-						Find Your Perfect Baker For Delegation Below. 
+						Find Your Perfect Baker Below. 
 					</h2>
 				</div>
 				<a  href="https://baking-bad.org"><img className="bb" src={BakingBad} alt="BB"></img></a>

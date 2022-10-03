@@ -430,7 +430,7 @@ const Analysis = (props) => {
 
 					</div>
 
-						
+					
 							<div>
 								<div className={classes.words}>F. I. F. O. Station</div>
 								<div
@@ -444,7 +444,7 @@ const Analysis = (props) => {
 						
 								
 							</div>
-
+							<div className={classes.setToggles3}>
 							<div className={classes.quantGroup}>
 
 							
@@ -521,7 +521,7 @@ const Analysis = (props) => {
 							
 					</div>	
 					</div>	
-						
+						</div>
 					</div>
 						
 							
@@ -547,10 +547,27 @@ const Analysis = (props) => {
 
 
 					</div>
-					<div className={classes.setToggles}>
-							<div>Set:</div>
-							<div className={classes.incomeStuff}>Fair Market Value{"\n"}
-							Supply Depletion</div>
+					<div className={classes.setToggles3}>
+						<div  className={classes.setToggles}>
+							<div className={classes.the}>Tez Price Today:</div>
+
+							</div>
+							<div  className={classes.setToggles}>
+							<div className={classes.the}>Net Difference:</div>
+
+							</div>
+							<div  className={classes.setToggles}>
+							<div className={classes.the}>Time Period:</div>
+
+							</div>
+							<div  className={classes.setToggles}>
+							<div className={classes.the}>Income</div>
+
+							</div>
+							<div  className={classes.setToggles}>
+							<div className={classes.the}>Download Save</div>
+
+							</div>
 
 							<div className={classes.quantGroup}>
 								<div className={classes.buttonAndInfo}>

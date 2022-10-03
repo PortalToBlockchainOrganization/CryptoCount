@@ -1,6 +1,7 @@
 
 
 import moment from "moment";
+import { isWhiteSpaceLike } from "typescript";
 export const getData = (setToRender, set, params, getUnrealizedSet) => {
 	// mapping for unrealized and realizing set
 	let mapping = {
@@ -72,6 +73,7 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 					borderRadius: 3,
 					barThickness: 15,
 					data: [],
+					color: "white",
 				},
 			],
 			hoverOffset: 4,
@@ -173,6 +175,9 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 
 		data["realizingRatio"] =
 			set["data"]["realizingBasisP"] / set["data"]["unrealizedBasisP"];
+
+		console.log("dataChart")
+		console.log(data)
 		return data;
 	}
 };

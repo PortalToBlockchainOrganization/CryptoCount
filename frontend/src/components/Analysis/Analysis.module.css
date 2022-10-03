@@ -121,6 +121,19 @@
 	margin: 20px;
 }
 
+.setToggles3 {
+	border: 1px groove white;
+	border-radius: 2%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: vertical;
+	/* border: 1px solid rgb(177, 177, 177);
+	border-radius: 5px; */
+	padding: 25px;
+	margin: 20px;
+}
+
 .setToggles2 {
 	border: 1px groove white;
 	border-radius: 2%;
@@ -197,6 +210,7 @@
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	color: white;
 }
 
 .helpIcon {
