@@ -10,10 +10,21 @@
 
 .wrapper {
 	display: block;
-	height: calc(100vh - 57px);
+	height: calc(260vh - 57px);
 	min-height: 900px;
 	overflow-y: scroll;
 	overflow-x: hidden;
+}
+
+h4{
+	margin-right: 400px;
+	color: white;
+}
+
+.he5{
+	margin-top: 400px;
+	margin-left: 400px;
+	color: white;
 }
 .lp-container {
 	margin-top: 46px;
@@ -23,7 +34,7 @@
 	justify-content: center;
 	align-items: center;
 	height: 100%;
-	max-height: 1000px;
+	max-height: 2000px;
 	min-height: 740px;
 	width: 100vw;
 }
@@ -34,7 +45,7 @@
 	margin:auto;
 }
 .static-wrapper {
-	margin-top: 120px;
+	margin-top: 320px;
 	width: 100vw;
 	display: flex;
 	justify-content: center;
@@ -78,16 +89,22 @@
 	margin-right: 50px;
 }
 
+
+@font-face {
+	font-family: 'Blanka-Regular';
+	src: url('../Analysis/Blanka-Regular.ttf');
+  }
+
 .logo-name {
 	font-size: 5em;
-	font-family: "Louis George Café", sans-serif;
+	font-family: 'Blanka-Regular';
 	font-weight: 700;
 	color: #2e2e2e;
 }
 
 #dark .logo-name {
 	font-size: 5em;
-	font-family: "Louis George Café", sans-serif;
+	font-family: 'Blanka-Regular';
 	font-weight: 700;
 	color: white;
 }
@@ -213,7 +230,7 @@ p {
 	font-family: "Louis George Café", sans-serif;
 	font-weight: 700;
 	color: white;
-	margin-top: 20px;
+	margin-top: 50px;
 	margin-bottom: 15px;
 }
 
@@ -228,20 +245,23 @@ p {
 	justify-content: center;
 	margin-top: 25px;
 	height: 100vh;
-	background-color: aliceblue;
+	background-color: #482424;
 	padding: 20px 40px;
 	border-style: solid;
 	border-radius: 10px;
-	border-bottom-color: darkblue;
+	border-bottom-color: rgb(54, 54, 195);
 	border-top-width: 6px;
-	border-right-width: 0px;;
-	border-left-width: 0px;
+	border-right-width: 10px;;
+	border-left-width: 10px;
 	border-bottom-width: 6px;
-	border-top-color: navy;
+	border-top-color: rgb(25, 25, 215);
+	
+
+
 }
 
 .thickerplz{
-	color: black;
+	color: white;
 	font-weight: 2em;
 	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 	display: flex;
@@ -292,6 +312,8 @@ p {
 	}
 	.name-one-liner {
 		margin-left: 25px;
+		margin-bottom: 10px;
+		margin-top: 20px;
 	}
 }
 
@@ -415,18 +437,16 @@ p {
 .download-link1 {
 	display: flex;
 	justify-content: space-evenly;
-	align-items: center;
-	margin: 5px;
-	color: rgb(117, 0, 0);
+	margin: auto;
 	margin-top: 30px;
+	align-items: center;
+	color: rgb(117, 0, 0);
 	background-color: rgb(252, 231, 235);
 	border-radius: 100px;
 	padding: 5px 20px 5px 20px;
 	min-width: 225px;
 	width: 20vw;
-	margin: auto;
 	min-height: 40px;
-	margin-top: 10px;
 	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 	transition: all 100ms ease-in-out;
 }

@@ -197,7 +197,7 @@ export function noAuthUnrealizedSet(params) {
 export function getRealizingSet(setId, quantity) {
 	return post("/Realize", {
 		setId: setId,
-		realizedQuantity: quantity,
+		quantity: quantity,
 	});
 }
 
@@ -205,7 +205,7 @@ export function noAuthGetRealizingSet(setId, quantity) {
 	console.log("API", setId, quantity);
 	return post("/Realize", {
 		setId: setId,
-		realizedQuantity: quantity,
+		quantity: quantity,
 	});
 }
 

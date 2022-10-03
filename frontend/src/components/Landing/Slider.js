@@ -14,40 +14,45 @@ const sliderThumbStyles = (props) => (`
 `)
 
 const Styles = styled.div`
-    display: flex;
     align-item: center;
     color: white;
-    margin-top:50px;
+    margin-top:5px;
 
     .value{
         display: flex;
         margin-top: 50px;
         margin-left: -80px;
         font-size: 2rem;
-    }
-    .value2{
-        display: flex;
-        margin-top: 30px;
-    }
-    .value3{
-        display: flex;
-        margin-top: 30px;
-                flex-direction: column;
-
-
+ 
     }
 
     .value4{
         display: flex;
         flex-direction: column;
+        position:relative;
+        font-size: 3em;
+        margin: 20px 20px 20px 20px;
+        align-items: center;
+        padding: auto;
+        
 
 
+
+    }
+    .wrap{
+        margin: auto;
     }
 
     .value5{
         display: flex;
         flex-direction: column;
-
+        position:relative;
+        justify-content: center;
+        align-items: center;
+        font-size: 3em;
+        margin: 20px 20px 20px 20px;
+        padding: auto;
+        // background: rgba(51, 170, 51, .1) 
     }
 
     .slider{
@@ -57,6 +62,9 @@ const Styles = styled.div`
         border-radius: 5px;
         background: blue;
         outline: none;
+        margin: auto;
+        padding: auto;
+        align-items: center;
 
         &::-webkit-slider-thumb{
             -webkit-appearance: none;
@@ -72,7 +80,7 @@ const Styles = styled.div`
 
 export default class Slider extends React.Component{
     state={
-        value: 20000
+        value: 100000
     }
 
     handleOnChange = (e) => this.setState({value: e.target.value})
@@ -81,16 +89,16 @@ export default class Slider extends React.Component{
     render(){
         return(
             <Styles color={this.props.color }>
-                 <div className='value4'>{this.state.value}</div>
+                <div className='value4'>Tez Investment Quantity</div>
+                 <div className='value4'>${(this.state.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
                  <br></br>
-                 <div>
-                        <div className='value2'>$0</div>
-                        <input type='range' min={500} step={100} max={100000} value={this.state.value} className='slider' onChange={this.handleOnChange}></input>
-                        <div className='value3'>$100000</div>
+                 <div >
+                        <input type='range' min={500} step={100} max={600000} value={this.state.value} className='slider' onChange={this.handleOnChange}></input>
                  </div>
                  <br></br>
+                 <div className='value4'>Expected Annual Return</div>
+                <div className='value5'>${(Math.round((this.state.value * .0516)*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
 
-                <div className='value5'>{Math.round((this.state.value * .0513)*10)/10}</div>
 
             </Styles>
         )

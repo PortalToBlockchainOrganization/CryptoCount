@@ -840,12 +840,15 @@ export default class TezosSet {
     }
 
     calculateNativeRewardFMVByCycle(): Array<RewardsByDay> {
+        //make this so if one day fails they all wont fails
         //rewards by day by price that day
         //console.log(this.pricesAndMarketCapsByDay['2022-09-20'].price)
         //console.log(this.rewardsByCycle)
+        console.log(this.rewardsByCycle)
         return this.rewardsByCycle.map(reward => {
-            // console.log(this.pricesAndMarketCapsByDay['2022-09-20'].price)
+             //console.log(this.pricesAndMarketCapsByDay['2022-09-20'].price)
             // console.log(this.pricesAndMarketCapsByDay)
+            //console.log(this.pricesAndMarketCapsByDay)
             return {date: reward.date, rewardAmount: reward.rewardAmount*this.pricesAndMarketCapsByDay[reward.date].price, cycle:reward.cycle}
         })
     }
@@ -881,7 +884,6 @@ export default class TezosSet {
     //make the prices a dict so you can put a date in and get the price amount
     let dictionaryPriceByDay = Object.assign({}, ...filtereredPriceByDay.map((x) => ({[x.date]: x.amount})));
 
-    
     let lastMarket: DilutionByDay = filteredMarketByDay[0];
     let lastPrice = filtereredPriceByDay[0].amount; 
     nativeMarketDilutionByDay = filteredMarketByDay.slice(1).map(market => {
@@ -899,10 +901,15 @@ export default class TezosSet {
 
 
     let nativeFilteredMarketDilutionByDay: Array<DilutionByDay>
+    console.log(nativeMarketDilutionByDay)
+
+    console.log(nativeMarketDilutionByDay[0].date)
+    console.log(nativeMarketDilutionByDay[nativeMarketDilutionByDay.length-1].amount)
 
 
     //filter for existing dilution 
     nativeFilteredMarketDilutionByDay = nativeMarketDilutionByDay.map(element => {
+        console.log(element)
         if(element.amount <= 0){
             return {date: element.date, amount: 0}
         }

@@ -18,30 +18,30 @@ function set(state = {}, action) {
 		case "ADD_REALIZING_SET":
 			// TYPO IN RESPONSE PLS FIX
 			let tempSet = state;
-			tempSet["data"]["realizingRewards"] =
-				action.payload["realizingRewards"];
-			tempSet["data"]["realizingRewardBasis"] =
-				action.payload["realizingRewardBasis"];
-			tempSet["data"]["realizingRewardBasisDep"] =
-				action.payload["realizingRewardBasisDep"];
-			tempSet["data"]["realizingRewardBasisMVDep"] =
-				action.payload["realizingRewardBasisMVDep"];
-			tempSet["data"]["realizingRewardAgg"] =
-				action.payload["realizingRewardAgg"];
-			tempSet["data"]["realizingBasisAgg"] =
-				action.payload["realizingBasisAgg"];
-			tempSet["data"]["realizingDepAgg"] =
-				action.payload["realizingDepAgg"];
-			tempSet["data"]["realizingMVdAgg"] =
-				action.payload["realizingMVdAgg"];
-			tempSet["data"]["unrealizedBasisP"] =
-				action.payload["unrealizedBasisP"];
-			tempSet["data"]["realizingBasisP"] =
-				action.payload["realizingBasisP"];
-			tempSet["data"]["realizingMVDAgg"] =
-				action.payload["realizingMVDAgg"];
-			tempSet["data"]["unrealizedRewardAgg"] =
-				action.payload["unrealizedRewardAgg"];
+			tempSet["data"]["realizingNativeRewards"] =
+				action.payload["realizingNativeRewards"];
+			tempSet["data"]["realizingNativeFMVRewards"] =
+				action.payload["realizingNativeFMVRewards"];
+			tempSet["data"]["realizingNativeSupplyDepletionRewards"] =
+				action.payload["realizingNativeSupplyDepletionRewards"];
+			tempSet["data"]["realizingNativeMarketDilutionRewards"] =
+				action.payload["realizingNativeMarketDilutionRewards"];
+			tempSet["data"]["aggregateRealizedNativeReward100p"] =
+				action.payload["aggregateRealizedNativeReward100p"];
+			tempSet["data"]["aggregateRealizedNativeFMVReward100p"] =
+				action.payload["aggregateRealizedNativeFMVReward100p"];
+			tempSet["data"]["aggregateRealizedNativeSupplyDepletion100p"] =
+				action.payload["aggregateRealizedNativeSupplyDepletion100p"];
+			tempSet["data"]["aggregateRealizedNativeMarketDilution100p"] =
+				action.payload["aggregateRealizedNativeMarketDilution100p"];
+			tempSet["data"]["pointOfSaleAggValue"] =
+				action.payload["pointOfSaleAggValue"];
+			tempSet["data"]["netDiffFMV"] =
+				action.payload["netDiffFMV"];
+			tempSet["data"]["netDiffDilution"] =
+				action.payload["netDiffDilution"];
+			tempSet["data"]["netDiffSupplyDepletion"] =
+				action.payload["netDiffSupplyDepletion"];
             tempSet["isLoading"] = false;
             tempSet["email"] = action.payload["email"]
             tempSet["firstName"] = action.payload["firstName"]

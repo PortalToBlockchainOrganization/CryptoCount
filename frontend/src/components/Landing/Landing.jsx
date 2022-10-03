@@ -208,7 +208,7 @@ const Landing = (props) => {
 				</div>
 				<div className="name-one-liner">
 					<h2 className="logo-tagline">
-						Mockup realizations of your Tezos based assets in 40 fiat currencies. CryptoCount is a read-only tax tool.
+					Aggregated on-chain asset assessment tax tool. Mockup realizations of Tezos based assets in 40 fiat currencies.
 					</h2>
 				</div>
 				<div className="form">
@@ -222,6 +222,34 @@ const Landing = (props) => {
 								type="text"
 								class="placeholdbetter"
 								placeholder="Tz... Delegator Or Baker Address"
+								onChange={handleDelegationChange}
+							/>
+						</Form.Group>
+
+						<Button
+							className="button-continue"
+							disabled={
+								addrs["delAddrs"].length > 0 ? "" : "disabled"
+							}
+							variant="outline-danger"
+							block
+							onClick={handleDelegationSubmit}
+						>
+							Continue
+						</Button>
+					</Form>
+				</div>
+				<div className="form">
+					<Form onSubmit={handleSignIn}>
+						<Form.Group controlId="formBasicEmail">
+						
+							<h4 class="thickerplz">
+								Paste Your Set Id
+							</h4>
+							<Form.Control
+								type="text"
+								class="placeholdbetter"
+								placeholder="Set Id"
 								onChange={handleDelegationChange}
 							/>
 						</Form.Group>
@@ -313,6 +341,7 @@ const Landing = (props) => {
 						Interested in staking on Tezos? See your return below. 
 					</h2>
 				</div>
+				
 				<SliderComponent></SliderComponent>
 				<VerticalModal
 					basisDate={basisDate}
@@ -335,7 +364,7 @@ const Landing = (props) => {
 					setSelectedAnalysisType={setSelectedAnalysisType}
 					getCalendar={getCalendar}
 				/>
-			</div>
+			
 			{/* {!props.signedIn() ? (
 				<div className="tutorial">
 					<div className="p-gif">
@@ -407,11 +436,12 @@ const Landing = (props) => {
 					rel="noreferrer">
 					How To Use
 					<img src="./logo.png" alt="chrome-web-store" />
-				</a></div>
+				</a>
+			</div>
 			<div>
 			<div className="bb2">
 					<h2 className="logo-tagline2">
-						Find Your Perfect Baker Below. 
+						Find Your Baker Below. 
 					</h2>
 				</div>
 				<a  href="https://baking-bad.org"><img className="bb" src={BakingBad} alt="BB"></img></a>
@@ -449,6 +479,7 @@ const Landing = (props) => {
 				</div>
 			</div>
 		</div>
+	</div>
 	);
 };
 

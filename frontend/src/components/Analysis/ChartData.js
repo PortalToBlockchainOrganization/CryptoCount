@@ -120,6 +120,7 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 			});
 		}
 		console.log(data.labels.length)
+		console.log(set?.data?.unrealizedNativeRewards)
 		console.log(set?.data?.realizingNativeRewards)
 		//new color here new data entry render thang
 		if (set?.data?.realizingNativeRewards) {

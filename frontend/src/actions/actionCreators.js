@@ -240,6 +240,8 @@ export function getRealizingSetStart() {
 export function getRealizingSet(setId, quantity, cb) {
 	return (dispatch) => {
 		dispatch(getRealizingSetStart());
+		console.log("exporting")
+		console.log(setId, quantity)
 		api.getRealizingSet(setId, quantity).then((res) => {
 			res.json().then((res) => {
 				dispatch({

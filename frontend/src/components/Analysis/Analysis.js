@@ -84,19 +84,20 @@ const Analysis = (props) => {
 		request to get Realized
 		*/
 		e.preventDefault();
+		console.log("asdf")
 
-		if (set["data"]["_id"] !== undefined && quantityRealize !== 0) {
+		if (set["data"]["objectId"] !== undefined && quantityRealize !== 0) {
 			if (!signedIn()) {
 				console.log("NOAUTH TRIGGERED");
 				noAuthRealizingSet(
-					set["data"]["_id"],
+					set["data"]["objectId"],
 					quantityRealize.current.value,
 					updateChart
 				);
 			} else {
                 console.log("NOAUTHSKIPPED")
 				getRealizingSet(
-					set["data"]["_id"],
+					set["data"]["objectId"],
 					quantityRealize.current.value,
 					updateChart
 				);
@@ -114,13 +115,40 @@ const Analysis = (props) => {
 	};
 
 	// click handler
-	const handleMax = (e /** DOM event, click */) => {
+	const handle100 = (e /** DOM event, click */) => {
 		// prevent page from refreshing
 		e.preventDefault();
 
 		// quantityRealize is Ref
 		quantityRealize.current.value =
-			set["data"]["unrealizedRewardAgg"].toFixed(0);
+			set["data"]["aggregateUnrealizedNativeReward100p"].toFixed(0);
+	};
+
+	const handle25 = (e /** DOM event, click */) => {
+		// prevent page from refreshing
+		e.preventDefault();
+
+		// quantityRealize is Ref
+		quantityRealize.current.value =
+			set["data"]["aggregateUnrealizedNativeReward25p"].toFixed(0);
+	};
+
+	const handle50 = (e /** DOM event, click */) => {
+		// prevent page from refreshing
+		e.preventDefault();
+
+		// quantityRealize is Ref
+		quantityRealize.current.value =
+			set["data"]["aggregateUnrealizedNativeReward50p"].toFixed(0);
+	};
+
+	const handle75 = (e /** DOM event, click */) => {
+		// prevent page from refreshing
+		e.preventDefault();
+
+		// quantityRealize is Ref
+		quantityRealize.current.value =
+			set["data"]["aggregateUnrealizedNativeReward75p"].toFixed(0);
 	};
 
 	//jesus
@@ -459,14 +487,14 @@ const Analysis = (props) => {
 								</div>
 								<Button
 										variant="primary"
-										onClick={handleMax}
+										onClick={handle25}
 										className="buttonReward"
 									>
 										25%
 								</Button>
 								<Button
 										variant="primary"
-										onClick={handleMax}
+										onClick={handle50}
 										className={classes.buttonReward}
 
 									>
@@ -474,14 +502,14 @@ const Analysis = (props) => {
 									</Button>
 								<Button
 										variant="primary"
-										onClick={handleMax}
+										onClick={handle75}
 										className={classes.buttonReward}
 									>
 										75%
 									</Button>
 									<Button
 									className={classes.buttonReward}										variant="primary"
-										onClick={handleMax}
+										onClick={handle100}
 									>
 										100%
 									</Button>
@@ -515,7 +543,7 @@ const Analysis = (props) => {
 					<div className={classes.setToggles2}>	
 
 					<div>	
-						<Button className={classes.buttonReward2} onSubmit=	{handleRealizing} variant="danger">
+						<Button className={classes.buttonReward2} onClick=	{handleRealizing} variant="danger">
 								Generate
 							</Button>
 							
@@ -641,6 +669,7 @@ const Analysis = (props) => {
 			<Spinner animation="border" variant="danger" />
 			<br></br>
 			<TextTransition
+				className={classes.colorForLoad}
 				text={ loadingTexts[index % loadingTexts.length] }
 				springConfig={ presets.wobbly }
 			/>
