@@ -515,8 +515,13 @@ export default class TezosSet {
     async realizeProcess(quantity: number, object: any): Promise<any>{
         this.initRealizing(object)
         this.realizeReward(quantity)
+
         this.aggregates()
+   
+
         await this.pointOfSaleCosts()
+        console.log("here4")
+
     }
 
     async saveProcess(object: any): Promise<any>{
@@ -527,12 +532,12 @@ export default class TezosSet {
 
     }
 
-    async updateProcess(object: any, params: any): Promise<any>{
+    async updateProcess(object: any): Promise<any>{
         //create updated data values
         //run original init
       
         //this.init(object.fiat, object.address, object.consensusRole)
-        this.init(params.address, params.fiat, params.consensusRole)
+        this.init(object.address, object.fiat, object.consensusRole)
 
         let lastDate = object.unrealizedNativeRewards[object.unrealizedNativeRewards.length - 1].date
 

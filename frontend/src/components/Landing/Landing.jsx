@@ -34,6 +34,14 @@ const Landing = (props) => {
 	const [darkMode, setDarkMode] = React.useState(true);
 
 	const [state, setState] = React.useState({ x: 10, y: 10 });
+	const {
+		set,
+		
+	
+		getSet,
+   
+	} = props;
+
 
 	<Slider
 		styles={{
@@ -52,6 +60,27 @@ const Landing = (props) => {
 			}
 		}}
 		/>
+
+	const [setId, setSetId] = React.useState({setId: ""})
+	const handleSet = (e) => {
+		/* if there is set data and quantityRealize is not 0 then allow API
+		request to get Realized
+		*/
+		e.preventDefault();
+		console.log("asdf")
+
+		console.log("Getting set by Id");
+		getSet(
+			set["data"]["objectId"], // from component
+		);
+
+		
+
+		//set to /analysis
+	};
+
+
+
 
 	const [addrs, setAddrs] = React.useState({ delAddrs: "" });
 	const [basisDate, setBasisDate] = React.useState({ basisDate: "" });
@@ -155,6 +184,8 @@ const Landing = (props) => {
 		props.getCalendarData(params, setLoadingState);
 	};
 
+	
+
 	// var slider = document.getElementById("myRange")
 	// var output = document.getElementById("value")
 
@@ -240,7 +271,7 @@ const Landing = (props) => {
 					</Form>
 				</div>
 				<div className="form">
-					<Form onSubmit={handleSignIn}>
+					<Form onSubmit={handleSet}>
 						<Form.Group controlId="formBasicEmail">
 						
 							<h4 class="thickerplz">
@@ -250,7 +281,7 @@ const Landing = (props) => {
 								type="text"
 								class="placeholdbetter"
 								placeholder="Set Id"
-								onChange={handleDelegationChange}
+								// onChange={handleDelegationChange}
 							/>
 						</Form.Group>
 
@@ -338,7 +369,7 @@ const Landing = (props) => {
 				</a>
 				<div className="name-one-liner">
 					<h2 className="logo-tagline3">
-						Interested in staking on Tezos? See your return below. 
+						Interested in staking on Tezos? See your expected return below. 
 					</h2>
 				</div>
 				
@@ -441,7 +472,7 @@ const Landing = (props) => {
 			<div>
 			<div className="bb2">
 					<h2 className="logo-tagline2">
-						Find Your Baker Below. 
+						Find A Baker Below To Begin Staking Your Tez.
 					</h2>
 				</div>
 				<a  href="https://baking-bad.org"><img className="bb" src={BakingBad} alt="BB"></img></a>

@@ -216,7 +216,9 @@ export function saveRealize(setId, confirm_quantity) {
 }
 
 export function getSet(setId) {
-	return get(`/${setId}`);
+	return get("/Retrieve", {
+		setId: setId
+	});
 }
 
 export function getSets() {

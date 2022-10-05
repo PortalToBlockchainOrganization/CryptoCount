@@ -98,10 +98,10 @@ app.use('/profile', profileRoutes);
 });
 
 
-//calls user object and gets set ids 
- app.get('/', (req, res) => {
-  res.render('home');
-});
+// //calls user object and gets set ids 
+//  app.get('/', (req, res) => {
+//   res.render('home');
+// });
 
 // //calls set object
 // app.get(`/${setId}`, (req, res) => {
@@ -139,6 +139,56 @@ app.use('/profile', profileRoutes);
     })});
     // var test = require("../test.js")
     // res.status(200).send(test)
+  })
+
+ //takes db object and updates it
+  app.post('/Retrieve/', async (req, res)=>{
+
+    //let ts = query object from db by id
+    let obj: any = {}
+    UmbrellaModel.findById(req.body.setId, function (err: any, docs: any) {
+      if (err){
+          console.log(err);
+          obj = docs
+      }})
+
+    //check if last updated within last two days
+      if(obj.lastUpdated < Date.now() + 2){
+        //return database version of set
+        res.status(200).send(obj)
+      }
+      else{
+          //update tha bi
+        let params: any = {
+          "fiat": obj.fiat,
+          "address": obj.walletAddress,
+          "consensusRole": obj.consensusRole
+        }
+
+        //define class framework
+        let ts: TezosSet = new TezosSet();
+
+
+        //import db umbrella into new class framework
+        let updatedUmbrella: any = {}
+
+        ts.initUpdate(obj, params).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
+          if(err) {
+            console.log(err);
+          } else {
+            console.log("JSON saved to " + "test.json");
+            updatedUmbrella = transformToUnrealized(ts)
+            res.status(200).send(ts)
+
+            res.status(200).send(ts)
+          }
+          })});
+
+          //requery for the set findById and update it
+
+
+      }
+
   })
 
   //reads db object
@@ -235,44 +285,7 @@ app.use('/profile', profileRoutes);
 
 })
 
-  //takes db object and modifies it
-  app.post('/Update/', async (req, res)=>{
-
-    //let ts = query object from db by id
-    let obj: any = {}
-    UmbrellaModel.findById(req.body.objectId, function (err: any, docs: any) {
-      if (err){
-          console.log(err);
-          obj = docs
-      }})
-
-    let params: any = {
-      "fiat": obj.fiat,
-      "address": obj.walletAddress,
-      "consensusRole": obj.consensusRole
-    }
-
-    //define class framework
-    let ts: TezosSet = new TezosSet();
-
-
-    //import db umbrella into class framework
-    let updatedUmbrella: any = {}
-
-    ts.initUpdate(obj, params).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
-      if(err) {
-        console.log(err);
-      } else {
-        console.log("JSON saved to " + "test.json");
-        updatedUmbrella = transformToUnrealized(ts)
-        res.status(200).send(ts)
-
-        res.status(200).send(ts)
-      }
-  })});
-
-
-  })
+  
   
 
 
@@ -311,9 +324,9 @@ app.use('/profile', profileRoutes);
 
   })
 
-  app.post('/GetSet/', async (req, res)=>{
+  // app.post('/GetSet/', async (req, res)=>{
 
-  })
+  // })
 
 
 
