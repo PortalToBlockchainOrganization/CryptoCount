@@ -401,9 +401,10 @@ export default class TezosSet {
 
     }
 
-    async initUpdate(object: any, objectUpdated: any): Promise<any>{
+    async combineUpdate(object: any, objectUpdated: any): Promise<any>{
         //append the new unrealized values and overwrite the bv domains and other values
 
+        //overwrites
         this.walletAddress = object.walletAddress
         this.fiat = object.fiat
         this.consensusRole = object.consensusRole
@@ -427,28 +428,26 @@ export default class TezosSet {
         this.delegatorRewardsUrl = objectUpdated.delegatorRewardsUrl
         this.nativeRewardsFMVByCycle = objectUpdated.nativeRewardsFMVByCycle
         this.nativeSupplyDepletionRewards = objectUpdated.nativeSupplyDepletionRewards
-        //logic
-        let date = object.unrealizedNativeRewards[object.unrealizedNativeRewards.length - 1].date
-
-        let newEntriesNative: any = objectUpdated.unrealizedNativeRewards.forEach((value: { date: number; })=>{if(value.date > date){return value}})
-        this.unrealizedNativeRewards = object.unrealizedNativeRewards + newEntriesNative
-
-        let newEntriesFMV: any = objectUpdated.unrealizedNativeFMVRewards.forEach((value: { date: number; })=>{if(value.date > date){return value}})
-        this.unrealizedNativeFMVRewards = object.unrealizedNativeFMVRewards + newEntriesFMV
-
-        this.unrealizedNativeFMVRewards = object.unrealizedNativeFMVRewards
-        this.unrealizedNativeMarketDilutionRewards = object.unrealizedNativeMarketDilutionRewards
-        this.unrealizedNativeSupplyDepletionRewards = object.unrealizedNativeSupplyDepletionRewards
-        this.realizingNativeRewards = object.realizingNativeRewards
-        this.realizingNativeFMVRewards = object.realizingNativeFMVRewards
-        this.realizingNativeMarketDilutionRewards = object.realizingNativeMarketDilutionRewards
-        this.realizingNativeSupplyDepletionRewards = object.realizingNativeSupplyDepletionRewards
+        this.weightedAverageTotalDomainInvestmentCost = objectUpdated.weightedAverageTotalDomainInvestmentCost
+        this.nextTimeStamp = objectUpdated.nextTimeStamp
+        this.totalOperations = objectUpdated.totalOperations
+        this.noRewards = objectUpdated.noRewards
+        this.TezosPriceOnDateObjectGenerated = objectUpdated.TezosPriceOnDateObjectGenerated
+        this.pointOfSaleAggValue = 0
+        this.netDiffFMV = 0
+        this.netDiffDilution = 0
+        this.netDiffSupplyDepletion = 0
+        this.investmentBasisCostArray = objectUpdated.investmentBasisCostArray
+        this.isCustodial = object.isCustodial
+        this.investmentsScaledBVByDomain = objectUpdated.investmentsScaledBVByDomain
+       
         //re agg
         this.aggregateUnrealizedNativeReward25p = object.aggregateUnrealizedNativeReward25p
         this.aggregateUnrealizedNativeReward50p = object.aggregateUnrealizedNativeReward50p
         this.aggregateUnrealizedNativeReward75p = object.aggregateUnrealizedNativeReward75p
         this.aggregateUnrealizedNativeReward100p = object.aggregateUnrealizedNativeReward100p
 
+        //the same 
         this.aggregateRealizedNativeReward100p = object.aggregateRealizedNativeReward100p
         this.aggregateRealizedNativeReward50p = object.aggregateRealizedNativeReward50p
         this.aggregateRealizedNativeFMVReward100p = object.aggregateRealizedNativeFMVReward100p
@@ -457,22 +456,14 @@ export default class TezosSet {
         this.aggregateRealizedNativeMarketDilution50p = object.aggregateRealizedNativeMarketDilution50p
         this.aggregateRealizedNativeSupplyDepletion100p = object.aggregateRealizedNativeSupplyDepletion100p
         this.aggregateRealizedNativeSupplyDepletion50p = object.aggregateRealizedNativeSupplyDepletion50p
+
+        // the same
         this.realizedNativeRewards = object.realizedNativeRewards
         this.realizedNativeFMVRewards = object.realizedNativeFMVRewards
         this.realizedNativeMarketDilutionRewards = object.realizedNativeMarketDilutionRewards
         this.realizedNativeSupplyDepletionRewards = object.realizedNativeSupplyDepletionRewards
-        this.weightedAverageTotalDomainInvestmentCost = objectUpdated.weightedAverageTotalDomainInvestmentCost
-        this.nextTimeStamp = objectUpdated.nextTimeStamp
-        this.totalOperations = objectUpdated.totalOperations
-        this.noRewards = objectUpdated.noRewards
-        this.TezosPriceOnDateObjectGenerated = objectUpdated.TezosPriceOnDateObjectGenerated
-        this.pointOfSaleAggValue = objectUpdated.pointOfSaleAggValue
-        this.netDiffFMV = objectUpdated.netDiffFMV
-        this.netDiffDilution = objectUpdated.netDiffDilution
-        this.netDiffSupplyDepletion = objectUpdated.netDiffSupplyDepletion
-        this.investmentBasisCostArray = objectUpdated.investmentBasisCostArray
-        this.isCustodial = object.isCustodial
-        this.investmentsScaledBVByDomain = objectUpdated.investmentsScaledBVByDomain
+
+       
     }
 
     //product methods
@@ -532,16 +523,69 @@ export default class TezosSet {
 
     }
 
-    async updateProcess(object: any): Promise<any>{
-        //create updated data values
-        //run original init
+    async updateProcess(object: any, updatedObject: any): Promise<any>{
       
-        //this.init(object.fiat, object.address, object.consensusRole)
-        this.init(object.address, object.fiat, object.consensusRole)
+        //less sensisitve overwrite
+        this.combineUpdate(object, updatedObject)
 
-        let lastDate = object.unrealizedNativeRewards[object.unrealizedNativeRewards.length - 1].date
+        //realized and unrealized preservation
+        this.sensitiveProps(object, updatedObject)
+
+        //re agg? //need unrealized re agg
+
+
+    }
+
+    async sensitiveProps(object: any, updatedObject: any): Promise<any>{
+        
+        
+        var lastDate = new Date(object.unrealizedNativeRewards[object.unrealizedNativeRewards.length - 1].date) //last unrealized rewqard date
+        var newUnrealizedNativeRewards: any = []
+        var newUnrealizedNativeFMVRewards: any = []
+        var newUnrealizedNativeMarketDilutionRewards: any = []
+        var newUnrealizedNativeSupplyDepletionRewards: any = []
+
+        //push to new unrealized rewards
+        updatedObject.unrealizedNativeRewards.forEach((obj: any)=>{
+            var date = new Date(obj.date)
+            if (date > lastDate) {
+                newUnrealizedNativeRewards.push(obj) //pushes unrealized native entry to new entries
+            }
+        })
+        updatedObject.unrealizedNativeFMVRewards.forEach((obj: any)=>{
+            var date = new Date(obj.date)
+            if (date > lastDate) {
+                newUnrealizedNativeFMVRewards.push(obj) //pushes unrealized native entry to new entries
+            }
+        })
+        updatedObject.unrealizedNativeMarketDilutionRewards.forEach((obj: any)=>{
+            var date = new Date(obj.date)
+            if (date > lastDate) {
+                newUnrealizedNativeMarketDilutionRewards.push(obj) //pushes unrealized native entry to new entries
+            }
+        })
+        updatedObject.unrealizedNativeSupplyDepletionRewards.forEach((obj: any)=>{
+            var date = new Date(obj.date)
+            if (date > lastDate) {
+                newUnrealizedNativeSupplyDepletionRewards.push(obj) //pushes unrealized native entry to new entries
+            }
+        })
+
+
+        //add / append to this
+        this.unrealizedNativeRewards = object.unrealizedNativeRewards + newUnrealizedNativeRewards
+        this.unrealizedNativeFMVRewards = object.unrealizedNativeFMVRewards + newUnrealizedNativeFMVRewards
+        this.unrealizedNativeMarketDilutionRewards = object.unrealizedNativeMarketDilutionRewards + newUnrealizedNativeMarketDilutionRewards
+        this.unrealizedNativeSupplyDepletionRewards = object.unrealizedNativeSupplyDepletionRewards + newUnrealizedNativeSupplyDepletionRewards
+        
 
        
+
+        //should be empty
+        this.realizingNativeRewards = object.realizingNativeRewards // should be empty
+        this.realizingNativeFMVRewards = object.realizingNativeFMVRewards
+        this.realizingNativeMarketDilutionRewards = object.realizingNativeMarketDilutionRewards
+        this.realizingNativeSupplyDepletionRewards = object.realizingNativeSupplyDepletionRewards
 
     }
 
@@ -704,18 +748,7 @@ export default class TezosSet {
 
    }
 
-   async updateSets(): Promise<any>{
-    //rerun the reward retriveal methods
-    //rerun the products
-    //add 
-        //unrealized rewards to the exisiting unrealized rewards
-        //investmensscaledBVdomain /replace
-            //sub req replace transactions
-        //cycles and prices data fetch /replace
-        //basis cost replace too 
-    
-    //superclass the tezos set object and save each state at update and realize at routing level 
-   }
+
 
    async basisInvestmentCosts(): Promise<void>{
 

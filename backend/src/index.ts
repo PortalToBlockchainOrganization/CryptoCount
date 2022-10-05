@@ -144,50 +144,71 @@ app.use('/profile', profileRoutes);
  //takes db object and updates it
   app.post('/Retrieve/', async (req, res)=>{
 
+    console.log(req.body.setId)
+    var date = new Date();
+ 
+
     //let ts = query object from db by id
     let obj: any = {}
+  
     UmbrellaModel.findById(req.body.setId, function (err: any, docs: any) {
       if (err){
           console.log(err);
-          obj = docs
-      }})
+         
+      }else{
+        console.log("what ")
+        obj = docs
+        console.log(docs.walletAddress)
 
-    //check if last updated within last two days
-      if(obj.lastUpdated < Date.now() + 2){
-        //return database version of set
-        res.status(200).send(obj)
-      }
-      else{
-          //update tha bi
-        let params: any = {
-          "fiat": obj.fiat,
-          "address": obj.walletAddress,
-          "consensusRole": obj.consensusRole
+        //check if last updated within last two days
+        if(!(new Date(obj.lastUpdated) < new Date(date.setDate(date.getDate() - 2)))){
+          //return database version of set
+
+          console.log('doesnt need update')
+          //res.status(200).send(obj)
+        }
+        else{
+            //update tha bi
+            console.log('updating')
+  
+          //define class framework
+          let ts: TezosSet = new TezosSet();
+          let ts2: TezosSet = new TezosSet();
+
+          //obj workable, pass in obj to third class 
+
+          //generate the updated set on first class, generate set with the og params
+          ts.init(obj.fiat, obj.walletAddress, obj.consensusRole).then(updatedObject => {
+                //second init method is combineUpdate class combines the classes //method combineUpdate in class, writing after two class passes in 
+                ts2.updateProcess(obj, updatedObject)
+                res.status(200).send(ts2)
+         
+          })
+
+          
+          // //import db umbrella into new class framework
+          // let updatedUmbrella: any = {}
+
+          // ts.initUpdate(obj, params).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
+          //   if(err) {
+          //     console.log(err);
+          //   } else {
+          //     console.log("JSON saved to " + "test.json");
+          //     updatedUmbrella = transformToUnrealized(ts)
+          //     res.status(200).send(ts)
+
+          //     res.status(200).send(ts)
+          //   }
+          //   })});
+
+            //requery for the set findById and update it
+
+
         }
 
-        //define class framework
-        let ts: TezosSet = new TezosSet();
-
-
-        //import db umbrella into new class framework
-        let updatedUmbrella: any = {}
-
-        ts.initUpdate(obj, params).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
-          if(err) {
-            console.log(err);
-          } else {
-            console.log("JSON saved to " + "test.json");
-            updatedUmbrella = transformToUnrealized(ts)
-            res.status(200).send(ts)
-
-            res.status(200).send(ts)
-          }
-          })});
-
-          //requery for the set findById and update it
-
-
+        
       }
+    })
 
   })
 
@@ -342,4 +363,5 @@ app.use('/profile', profileRoutes);
   
 
   })
+
 
