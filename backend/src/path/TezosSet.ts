@@ -164,6 +164,7 @@ export default class TezosSet {
     netDiffDilution: number;
     netDiffSupplyDepletion: number;
     investmentBasisCostArray: any;
+    lastUpdated: Date;
 
 
     constructor(){
@@ -229,6 +230,7 @@ export default class TezosSet {
         this.netDiffDilution = 0
         this.netDiffSupplyDepletion = 0
         this.investmentBasisCostArray = []
+        this.lastUpdated = new Date()
             
 
         await connectToDatabase();
@@ -462,8 +464,17 @@ export default class TezosSet {
         this.realizedNativeFMVRewards = object.realizedNativeFMVRewards
         this.realizedNativeMarketDilutionRewards = object.realizedNativeMarketDilutionRewards
         this.realizedNativeSupplyDepletionRewards = object.realizedNativeSupplyDepletionRewards
+         //should be empty
+         this.realizingNativeRewards = []
+         this.realizingNativeFMVRewards = []
+         this.realizingNativeMarketDilutionRewards = []
+         this.realizingNativeSupplyDepletionRewards = []
 
-       
+        //initing
+        this.unrealizedNativeRewards = object.unrealizedNativeRewards
+        this.unrealizedNativeFMVRewards = object.unrealizedNativeFMVRewards
+        this.unrealizedNativeMarketDilutionRewards = object.unrealizedNativeMarketDilutionRewards 
+        this.unrealizedNativeSupplyDepletionRewards = object.unrealizedNativeSupplyDepletionRewards 
     }
 
     //product methods
@@ -526,11 +537,16 @@ export default class TezosSet {
     async updateProcess(object: any, updatedObject: any): Promise<any>{
       
         //less sensisitve overwrite
+        console.log("updatedObj")
+       // console.log(updatedObject)
         this.combineUpdate(object, updatedObject)
 
         //realized and unrealized preservation
         this.sensitiveProps(object, updatedObject)
 
+        this.aggregates()
+
+        this.lastUpdated = new Date() 
         //re agg? //need unrealized re agg
 
 
@@ -573,19 +589,23 @@ export default class TezosSet {
 
 
         //add / append to this
-        this.unrealizedNativeRewards = object.unrealizedNativeRewards + newUnrealizedNativeRewards
-        this.unrealizedNativeFMVRewards = object.unrealizedNativeFMVRewards + newUnrealizedNativeFMVRewards
-        this.unrealizedNativeMarketDilutionRewards = object.unrealizedNativeMarketDilutionRewards + newUnrealizedNativeMarketDilutionRewards
-        this.unrealizedNativeSupplyDepletionRewards = object.unrealizedNativeSupplyDepletionRewards + newUnrealizedNativeSupplyDepletionRewards
-        
+        newUnrealizedNativeRewards.forEach((obj: any)=>{
+            //console.log(obj)
+            this.unrealizedNativeRewards.push({date: obj.date, rewardAmount: obj.rewardAmount, cycle: obj.cycle, basisCost: obj.basisCost})
+        })
+        newUnrealizedNativeFMVRewards.forEach((obj: any)=>{
+            //console.log(obj)
+            this.unrealizedNativeFMVRewards.push({date: obj.date, rewardAmount: obj.rewardAmount, cycle: obj.cycle, basisCost: obj.basisCost})
+        })
+        newUnrealizedNativeMarketDilutionRewards.forEach((obj: any)=>{
+            //console.log(obj)
+            this.unrealizedNativeMarketDilutionRewards.push({date: obj.date, rewardAmount: obj.rewardAmount, cycle: obj.cycle, basisCost: obj.basisCost})
+        })
+        newUnrealizedNativeSupplyDepletionRewards.forEach((obj: any)=>{
+            //console.log(obj)
+            this.unrealizedNativeSupplyDepletionRewards.push({date: obj.date, rewardAmount: obj.rewardAmount, cycle: obj.cycle, basisCost: obj.basisCost})
+        })
 
-       
-
-        //should be empty
-        this.realizingNativeRewards = object.realizingNativeRewards // should be empty
-        this.realizingNativeFMVRewards = object.realizingNativeFMVRewards
-        this.realizingNativeMarketDilutionRewards = object.realizingNativeMarketDilutionRewards
-        this.realizingNativeSupplyDepletionRewards = object.realizingNativeSupplyDepletionRewards
 
     }
 

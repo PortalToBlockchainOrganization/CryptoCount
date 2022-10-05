@@ -154,7 +154,6 @@ app.use('/profile', profileRoutes);
     UmbrellaModel.findById(req.body.setId, function (err: any, docs: any) {
       if (err){
           console.log(err);
-         
       }else{
         console.log("what ")
         obj = docs
@@ -165,7 +164,7 @@ app.use('/profile', profileRoutes);
           //return database version of set
 
           console.log('doesnt need update')
-          //res.status(200).send(obj)
+          res.status(200).send(obj)
         }
         else{
             //update tha bi
@@ -178,12 +177,25 @@ app.use('/profile', profileRoutes);
           //obj workable, pass in obj to third class 
 
           //generate the updated set on first class, generate set with the og params
-          ts.init(obj.fiat, obj.walletAddress, obj.consensusRole).then(updatedObject => {
+          ts.init(obj.fiat, obj.walletAddress, obj.consensusRole).then(async updatedObject => {
                 //second init method is combineUpdate class combines the classes //method combineUpdate in class, writing after two class passes in 
-                ts2.updateProcess(obj, updatedObject)
-                res.status(200).send(ts2)
+                await ts2.updateProcess(obj, ts)
+                //UmbrellaModel.schema.methods.setLastUpdated(UmbrellaModel)
+                UmbrellaModel.findByIdAndUpdate(req.body.setId, ts2, function(err, result){
+                  if(err){
+                      //res.send(err)
+                  }
+                  else{
+                     //console.log(result)
+                  }
+              })
+              res.status(200).send(ts2)
+
          
           })
+
+      
+        
 
           
           // //import db umbrella into new class framework
