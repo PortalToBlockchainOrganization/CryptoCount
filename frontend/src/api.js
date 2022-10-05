@@ -216,7 +216,7 @@ export function saveRealize(setId, confirm_quantity) {
 }
 
 export function getSet(setId) {
-	return get("/Retrieve", {
+	return post("/Retrieve", {
 		setId: setId
 	});
 }

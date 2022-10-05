@@ -61,23 +61,23 @@ const Landing = (props) => {
 		}}
 		/>
 
-	const [setId, setSetId] = React.useState({setId: ""})
-	const handleSet = (e) => {
-		/* if there is set data and quantityRealize is not 0 then allow API
-		request to get Realized
-		*/
-		e.preventDefault();
-		console.log("asdf")
+	// const [setId, setSetId] = React.useState({setId: ""})
+	// const handleSet = (e) => {
+	// 	/* if there is set data and quantityRealize is not 0 then allow API
+	// 	request to get Realized
+	// 	*/
+	// 	e.preventDefault();
+	// 	console.log("asdf")
 
-		console.log("Getting set by Id");
-		getSet(
-			set["data"]["objectId"], // from component
-		);
+	// 	console.log("Getting set by Id");
+	// 	getSet(
+	// 		set["data"]["objectId"], // from component
+	// 	);
 
 		
 
-		//set to /analysis
-	};
+	// 	//set to /analysis
+	// };
 
 
 
@@ -92,14 +92,24 @@ const Landing = (props) => {
 	const [modalPage, setModalPage] = React.useState(0);
 	const [selectedAnalysisType, setSelectedAnalysisType] = React.useState();
 	const [isLoading, setLoadingState] = React.useState(false);
+	const [setId, setSetId] = React.useState({ setObjectId: "" });
 
 	const handleDelegationSubmit = () => {
 		setShowModal(true);
 	};
 
+	const handleSetIdSubmit = () =>{
+		console.log('setid')
+		setShowModal(false);
+	}
+
 	const handleDelegationChange = (e) => {
 		setAddrs({ delAddrs: e.target.value });
 	};
+
+	const handleSetIdChange = (e) => {
+		setSetId({setObjectId: e.target.value})
+	}
 
 	const handleEmailChange = (e) => {
 		setEmail(e.target.value);
@@ -176,6 +186,29 @@ const Landing = (props) => {
 		setShowModal(false);
 		e.preventDefault();
 	};
+
+	const setIdQuery = (e) => {
+		// if (props.set["data"] !== undefined) {
+		// 	props.resetSet();
+		// }
+		console.log(setId["setObjectId"])
+		handleConsensusRoleUpdate(e)
+		props.consensusRole = "boob"
+
+		props.getSet(
+			{
+				setId: setId["setObjectId"],
+			},
+		);
+		props.history.push("/analysis");
+		setShowModal(false);
+		e.preventDefault();
+	};
+
+	const handleConsensusRoleUpdate = (e) => {
+		e = 'boobs'
+		props.setConsensus(e);
+	}
 
 	const getCalendar = (e) => {
 		let params = { address: addrs["delAddrs"], fiat: fiat };
@@ -271,28 +304,32 @@ const Landing = (props) => {
 					</Form>
 				</div>
 				<div className="form">
-					<Form onSubmit={handleSet}>
+					
+					<Form
+					updateConsensus={setConsensus}
+					>
 						<Form.Group controlId="formBasicEmail">
 						
 							<h4 class="thickerplz">
 								Paste Your Set Id
 							</h4>
 							<Form.Control
+								setId={setId}
 								type="text"
 								class="placeholdbetter"
 								placeholder="Set Id"
-								// onChange={handleDelegationChange}
+								onChange={handleSetIdChange}
 							/>
 						</Form.Group>
 
 						<Button
 							className="button-continue"
-							disabled={
-								addrs["delAddrs"].length > 0 ? "" : "disabled"
-							}
+							// disabled={
+							// 	setId["setId"].length > 0 ? "" : "disabled"
+							// }
 							variant="outline-danger"
 							block
-							onClick={handleDelegationSubmit}
+							onClick={setIdQuery}
 						>
 							Continue
 						</Button>
