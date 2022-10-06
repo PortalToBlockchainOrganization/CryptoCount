@@ -211,11 +211,11 @@ const Analysis = (props) => {
 		marginRight: "20px",
 	}
 	// load the fiat flag from directory
-	if (params.fiat === undefined) {
-		history.push("/");
-		return <div></div>;
-	}
-	let path = require(`../../Assets/Flags/${params.fiat}.PNG`);
+	// if (params.fiat === undefined) {
+	// 	history.push("/");
+	// 	return <div></div>;
+	// }
+	// let path = require(`../../Assets/Flags/${params.fiat}.PNG`);
 
 	// const { register, setValue } = useForm();
 

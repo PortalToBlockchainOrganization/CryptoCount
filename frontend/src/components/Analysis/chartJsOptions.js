@@ -1,6 +1,6 @@
 import { isWhiteSpaceLike } from "typescript";
 import { fiatLabels } from "./fiatLabels";
-export const chartOptions = (set, consensusRole) => {
+export const chartOptions = (set) => {
 	const Title = (()=> {
 		//img.concat
 		// var first4 = set?.data?.address.slice(0,4)
@@ -62,7 +62,7 @@ export const chartOptions = (set, consensusRole) => {
 			},
 			title: {
 				display: true,
-				text: consensusRole.concat(" " + set?.data?.walletAddress.slice(0, 15) + '... ',"Native Tez Consensus Block Reward Accounting Entries"),
+				text: "boob".concat(" " + set?.data?.walletAddress.slice(0, 15) + '... ',"Native Tez Consensus Block Reward Accounting Entries"),
 				align: "start",
 				font: {
 					size: 15,

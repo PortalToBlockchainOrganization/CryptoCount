@@ -192,23 +192,24 @@ const Landing = (props) => {
 		// 	props.resetSet();
 		// }
 		console.log(setId["setObjectId"])
-		handleConsensusRoleUpdate(e)
-		props.consensusRole = "boob"
-
+		
 		props.getSet(
 			{
 				setId: setId["setObjectId"],
 			},
+			// () => {
+			// 	props.history.push("/analysis");
+			// }
 		);
 		props.history.push("/analysis");
 		setShowModal(false);
 		e.preventDefault();
 	};
 
-	const handleConsensusRoleUpdate = (e) => {
-		e = 'boobs'
-		props.setConsensus(e);
-	}
+	// const handleConsensusRoleUpdate = (e) => {
+	// 	e = 'boobs'
+	// 	props.setConsensus();
+	// }
 
 	const getCalendar = (e) => {
 		let params = { address: addrs["delAddrs"], fiat: fiat };
