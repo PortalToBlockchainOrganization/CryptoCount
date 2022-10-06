@@ -52,11 +52,17 @@ const Analysis = (props) => {
 
 	const quantityRealize = React.createRef();
 
+	useEffect((e)=>{
+		setActive("unrealizedNativeFMVRewards")
+		
+		}, [])
+
 	const updateChart = (setToRender) => {
 		// update chart based on button press
 		setCurrentSet(getData(setToRender, set, params, getUnrealizedSet));
 		setActive(setToRender);
 	};
+
 
 	const numberWithCommas = (x) => {
 		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -207,6 +213,10 @@ const Analysis = (props) => {
 	const options = chartOptions(set, params.consensusRole);
 
 
+	const backgrounds = {
+		"Red": "#C62E2E",
+		"Green": "#14A32A",
+	}
 	const space = {
 		marginRight: "20px",
 	}
@@ -376,12 +386,11 @@ const Analysis = (props) => {
 				<div className={classes.setToggles}>		
 						<div className={classes.basisSet}>
 							<div className={classes.buttonAndInfo}>
-						
 								<Button
 									variant={
 										active === "unrealizedNativeFMVRewards"
-											? "danger"
-											: "outline-danger"
+											? "info"
+											: "outline-info"
 									}
 									onClick={() => {
 										updateChart("unrealizedNativeFMVRewards");
@@ -408,8 +417,8 @@ const Analysis = (props) => {
 								<Button
 									variant={
 										active === "unrealizedNativeSupplyDepletionRewards"
-											? "danger"
-											: "outline-danger"
+											? "info"
+											: "outline-info"
 									}
 									onClick={() =>
 										updateChart("unrealizedNativeSupplyDepletionRewards")
@@ -430,8 +439,8 @@ const Analysis = (props) => {
 								<Button
 									variant={
 										active === "unrealizedNativeMarketDilutionRewards"
-											? "danger"
-											: "outline-danger"
+											? "info"
+											: "outline-info"
 									}
 									onClick={() =>
 										updateChart("unrealizedNativeMarketDilutionRewards")
@@ -585,56 +594,80 @@ const Analysis = (props) => {
 
 					</div>
 					<div className={classes.setToggles3}>
+					<div className={classes.the}>Point Of Sale Highlights</div>
 						<div  className={classes.setToggles}>
-							<div className={classes.the}>Tez Price Today:  <href className={classes.numberAlive}>{(set["data"]["TezosPriceOnDateObjectGenerated"])} {(set["data"]["fiat"])}</href></div> 
-							<div className={classes.the}>Point of Sale Aggregate Value:<href className={classes.numberAlive}>{(Math.round((set["data"]["pointOfSaleAggValue"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{(set["data"]["fiat"])}</href></div> 
-							<div className={classes.the}>Quantity:<href className={classes.numberAlive}>{(Math.round((set["data"]["aggregateRealizedNativeReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}Tez</href></div>
+							<div className={classes.wordGood}>Tez Price Today: </div>  <href className={classes.numberAlive}>{(set["data"]["TezosPriceOnDateObjectGenerated"])} {(set["data"]["fiat"])}</href>
+							<div className={classes.wordGood}>Point of Sale Aggregate Value: </div> <href className={classes.numberAlive}>{(Math.round((set["data"]["pointOfSaleAggValue"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{' '}{(set["data"]["fiat"])}</href>
+							<div className={classes.wordGood}>Quantity:</div><href className={classes.numberAlive}>{(Math.round((set["data"]["aggregateRealizedNativeReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{' '}Tez</href>
 
 
 							</div>
-							<div  className={classes.setToggles}>
+
 							<div className={classes.the}>Set Incomes:</div>
+							<div  className={classes.setToggles}>
 							<div className={classes.wordGood}>
 								Fair Market Value (FMV):</div><div className={classes.numberAlive}>
-								{(Math.round((set["data"]["aggregateRealizedNativeFMVReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
+								{(Math.round((set["data"]["aggregateRealizedNativeFMVReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} {' '}{(set["data"]["fiat"])}</div>
 							
 							<div className= {classes.wordGood}>
 								Supply Depletion:</div>
-								<div className={classes.numberAlive}> {(Math.round((set["data"]["aggregateRealizedNativeSupplyDepletion100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+								<div className={classes.numberAlive}> {(Math.round((set["data"]["aggregateRealizedNativeSupplyDepletion100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{' '}{(set["data"]["fiat"])}
 							</div>
 							<div className={classes.wordGood}>
 								Market Dilution:</div>
-								<div className={classes.numberAlive}> {(Math.round((set["data"]["aggregateRealizedNativeMarketDilution100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+								<div className={classes.numberAlive}> {(Math.round((set["data"]["aggregateRealizedNativeMarketDilution100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{' '}{(set["data"]["fiat"])}
 							</div>
 
 							</div>
-							<div  className={classes.setToggles}>
 							<div className={classes.the}>Net Differences:</div>
-							<div style={{ backgroundColor: set["data"]["netDiffFMV"] >=  0 ? 'green': 'red'}} className={classes.wordGood}>
-								Fair Market Value (FMV): {(Math.round((set["data"]["netDiffFMV"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+
+							<div  className={classes.setToggles}>
+							<div  className={classes.wordGood}>
+								Fair Market Value (FMV): <div className={classes.diffs} style={{ fontSize: "1em",backgroundColor: set["data"]["netDiffFMV"] >=  0 ? backgrounds.Green: backgrounds.Red,
+								}}>
+								{(Math.round((set["data"]["netDiffFMV"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{' '}{(set["data"]["fiat"])}
+									</div>
 							</div>
-							<div style={{ backgroundColor: set["data"]["netDiffSupplyDepletion"] >=  0 ? 'green': 'red'}}  className={classes.wordGood}>
-								Tez Supply Depletion: {(Math.round((set["data"]["netDiffSupplyDepletion"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+							<div  className={classes.wordGood}>
+								Tez Supply Depletion: <div className={classes.diffs}style={{ fontSize: "1em",
+								backgroundColor: set["data"]["netDiffSupplyDepletion"] >  0 ? backgrounds.Green: backgrounds.Red,
+								}}>
+									{(Math.round((set["data"]["netDiffSupplyDepletion"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{' '}{(set["data"]["fiat"])}
+									</div>
 							</div>
-							<div style={{ backgroundColor: set["data"]["netDiffDilution"] >=  0 ? 'green': 'red'}}
+							<div className={classes.wordGood}>
+								Tez Market Value Dilution: <div className={classes.diffs} style={{ fontSize: "1em",backgroundColor: set["data"]["netDiffDilution"] >  0 ? backgrounds.Green : backgrounds.Red,
+								}}>
+									{(Math.round((set["data"]["netDiffDilution"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{' '}{(set["data"]["fiat"])}
+									</div> 
+							</div>
+
+							</div>
+							<div className={classes.the}>Asset Aggregation Period:</div>
+
+							<div  className={classes.setToggles}>
+							<div className={classes.wordGood}>
+								 {(set["data"]["realizingDomainStartDate"])}
+							</div>
+							<div className={classes.wordGood}>
+								{(set["data"]["realizingDomainEndDate"])}
+							</div>
+
+							</div>
+							<div className={classes.the}>DO:</div>
+
+							<div  className={classes.setToggles}>
+							<div className={classes.the}><Button>Download Statement</Button> <Button>Save</Button> 
 							
-							className={classes.wordGood}>
-								Tez Market Value Dilution: {(Math.round((set["data"]["netDiffDilution"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
 							</div>
 
 							</div>
-							<div  className={classes.setToggles}>
-							<div className={classes.the}>Time Period:</div>
-							<div className={classes.wordGood}>
-								Start Date: {(set["data"]["realizingDomainStartDate"])}
-							</div>
-							<div className={classes.wordGood}>
-								End Date: {(set["data"]["realizingDomainEndDate"])}
-							</div>
+							<div className={classes.the}>RETURN:</div>
 
-							</div>
 							<div  className={classes.setToggles}>
-							<div className={classes.the}>Download Save SetId</div>
+							<div className={classes.wordGood}>
+							
+							SetId: <href className={classes.numberAlive}>{(set["data"]["objectId"])}</href></div>
 
 							</div>
 
