@@ -68,6 +68,8 @@ interface generateModel{
     netDiffFMV: number;
     netDiffDilution: number;
     netDiffSupplyDepletion: number;
+    realizingDomainStartDate: string;
+    realizingDomainEndDate: string;
   }
 
 
@@ -113,6 +115,8 @@ export default function transform(umbrella: umbrella){
         netDiffFMV: umbrella.netDiffFMV,
         netDiffDilution: umbrella.netDiffDilution,
         netDiffSupplyDepletion: umbrella.netDiffSupplyDepletion,
+        realizingDomainStartDate: umbrella.realizingDomainStartDate,
+        realizingDomainEndDate: umbrella.realizingDomainEndDate
  
     }
  

@@ -46,10 +46,14 @@ function set(state = {}, action) {
 				action.payload["netDiffDilution"];
 			tempSet["data"]["netDiffSupplyDepletion"] =
 				action.payload["netDiffSupplyDepletion"];
+			tempSet["data"]["realizingDomainStartDate"] = action.payload["realizingDomainStartDate"]
+			tempSet["data"]["realizingDomainEndDate"] = action.payload["realizingDomainEndDate"]
+			tempSet["objectId"] = action.payload["_id"];
             tempSet["isLoading"] = false;
             tempSet["email"] = action.payload["email"]
             tempSet["firstName"] = action.payload["firstName"]
             tempSet["lastName"] = action.payload["lastName"]
+			
 			return tempSet;
 		case "SAVE_REALIZE":
 			return action.payload;

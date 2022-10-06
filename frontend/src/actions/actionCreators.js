@@ -312,6 +312,7 @@ export function getSet(params) {
 			})
 			.catch((err) => {
 				console.log(err);
+				dispatch({ type: "BAD_ADDRESS_ERROR", details: err });
 			});
 	};
 }

@@ -68,6 +68,8 @@ const UmbrellaSchema = new Schema({
     netDiffDilution: Number,
     netDiffSupplyDepletion: Number,
     investmentBasisCostArray: Array,
+    realizingDomainStartDate: String,
+    realizingDomainEndDate:String,
   dateOfEntry: {
     type: Date,
     default: new Date()

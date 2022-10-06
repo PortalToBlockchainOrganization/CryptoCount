@@ -41,9 +41,10 @@
 .numberAlive{
 	font-family: "Louis George Café", sans-serif;
 	font-size: 1.5em;
-	background-color: rgb(33, 164, 53);
+	background-color: rgb(207, 228, 210);
 	border:rgb(33, 164, 53);
 	border-radius: 5px;
+	color: black;
 }
 
 .wordGood{

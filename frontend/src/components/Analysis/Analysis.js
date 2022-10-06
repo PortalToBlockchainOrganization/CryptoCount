@@ -593,30 +593,52 @@ const Analysis = (props) => {
 
 							</div>
 							<div  className={classes.setToggles}>
-							<div className={classes.the}>Net Difference:</div>
+							<div className={classes.the}>Set Incomes:</div>
 							<div className={classes.wordGood}>
-								Fair Market Value (FMV):
+								Fair Market Value (FMV):</div><div className={classes.numberAlive}>
+								{(Math.round((set["data"]["aggregateRealizedNativeFMVReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
+							
+							<div className= {classes.wordGood}>
+								Supply Depletion:</div>
+								<div className={classes.numberAlive}> {(Math.round((set["data"]["aggregateRealizedNativeSupplyDepletion100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
 							</div>
 							<div className={classes.wordGood}>
-								Supply Depletion:
+								Market Dilution:</div>
+								<div className={classes.numberAlive}> {(Math.round((set["data"]["aggregateRealizedNativeMarketDilution100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
 							</div>
-							<div>yo</div>
+
+							</div>
+							<div  className={classes.setToggles}>
+							<div className={classes.the}>Net Differences:</div>
+							<div style={{ backgroundColor: set["data"]["netDiffFMV"] >=  0 ? 'green': 'red'}} className={classes.wordGood}>
+								Fair Market Value (FMV): {(Math.round((set["data"]["netDiffFMV"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+							</div>
+							<div style={{ backgroundColor: set["data"]["netDiffSupplyDepletion"] >=  0 ? 'green': 'red'}}  className={classes.wordGood}>
+								Tez Supply Depletion: {(Math.round((set["data"]["netDiffSupplyDepletion"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+							</div>
+							<div style={{ backgroundColor: set["data"]["netDiffDilution"] >=  0 ? 'green': 'red'}}
+							
+							className={classes.wordGood}>
+								Tez Market Value Dilution: {(Math.round((set["data"]["netDiffDilution"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+							</div>
 
 							</div>
 							<div  className={classes.setToggles}>
 							<div className={classes.the}>Time Period:</div>
+							<div className={classes.wordGood}>
+								Start Date: {(set["data"]["realizingDomainStartDate"])}
+							</div>
+							<div className={classes.wordGood}>
+								End Date: {(set["data"]["realizingDomainEndDate"])}
+							</div>
 
 							</div>
 							<div  className={classes.setToggles}>
-							<div className={classes.the}>Income</div>
-
-							</div>
-							<div  className={classes.setToggles}>
-							<div className={classes.the}>Download Save</div>
+							<div className={classes.the}>Download Save SetId</div>
 
 							</div>
 
-							<div className={classes.quantGroup}>
+							{/* <div className={classes.quantGroup}>
 								<div className={classes.buttonAndInfo}>
 									{isNaN(currentSet["incomeToReport"])
 										? "0.00"
@@ -631,7 +653,7 @@ const Analysis = (props) => {
 											className={classes.helpIcon} />
 									</div>
 								</div>
-							</div>
+							</div> */}
 
 						</div></>
 				) : null}
@@ -660,7 +682,7 @@ const Analysis = (props) => {
 						<div>
 							<>Tax Period End:</>
 						</div>
-						<div className={classes.quantGroup}>
+						{/* <div className={classes.quantGroup}>
 							<div className={classes.buttonAndInfo}>
 								{isNaN(currentSet["incomeToReport"]) ||
 								set["data"]["realizingRewards"] === undefined
@@ -678,7 +700,7 @@ const Analysis = (props) => {
 									/>
 								</div>
 							</div>
-						</div>
+						</div> */}
 					</div>
 				) : null}
 			</div>

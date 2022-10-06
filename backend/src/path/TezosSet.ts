@@ -165,6 +165,8 @@ export default class TezosSet {
     netDiffSupplyDepletion: number;
     investmentBasisCostArray: any;
     lastUpdated: Date;
+    realizingDomainStartDate: string;
+    realizingDomainEndDate: string;
 
 
     constructor(){
@@ -231,6 +233,8 @@ export default class TezosSet {
         this.netDiffSupplyDepletion = 0
         this.investmentBasisCostArray = []
         this.lastUpdated = new Date()
+        this.realizingDomainStartDate = ""
+        this.realizingDomainEndDate = ""
             
 
         await connectToDatabase();
@@ -519,9 +523,10 @@ export default class TezosSet {
         this.realizeReward(quantity)
 
         this.aggregates()
-   
+        this.getRealizingAssetDomain()
 
         await this.pointOfSaleCosts()
+
         console.log("here4")
 
     }
@@ -550,6 +555,11 @@ export default class TezosSet {
         //re agg? //need unrealized re agg
 
 
+    }
+
+    async getRealizingAssetDomain(): Promise<any>{
+        this.realizingDomainStartDate = this.realizingNativeRewards[0].date
+        this.realizingDomainEndDate = this.realizingNativeRewards[this.realizingNativeRewards.length -1].date
     }
 
     async sensitiveProps(object: any, updatedObject: any): Promise<any>{
