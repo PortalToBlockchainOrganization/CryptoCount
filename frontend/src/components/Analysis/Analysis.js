@@ -390,8 +390,8 @@ const Analysis = (props) => {
 								<Button
 									variant={
 										active === "unrealizedNativeFMVRewards"
-											? "info"
-											: "outline-info"
+											? "primary"
+											: "outline-primary"
 									}
 									onClick={() => {
 										updateChart("unrealizedNativeFMVRewards");
@@ -418,8 +418,8 @@ const Analysis = (props) => {
 								<Button
 									variant={
 										active === "unrealizedNativeSupplyDepletionRewards"
-											? "info"
-											: "outline-info"
+											? "primary"
+											: "outline-primary"
 									}
 									onClick={() =>
 										updateChart("unrealizedNativeSupplyDepletionRewards")
@@ -440,8 +440,8 @@ const Analysis = (props) => {
 								<Button
 									variant={
 										active === "unrealizedNativeMarketDilutionRewards"
-											? "info"
-											: "outline-info"
+											? "primary"
+											: "outline-primary"
 									}
 									onClick={() =>
 										updateChart("unrealizedNativeMarketDilutionRewards")
