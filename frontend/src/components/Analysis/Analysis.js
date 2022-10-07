@@ -45,7 +45,7 @@ const Analysis = (props) => {
 	React.useEffect(() => {
 	  const intervalId = setInterval(() =>
 		setIndex(index => index + 1),
-		10000 // every 3 seconds
+		100000 // every 3 seconds
 	  );
 	  return () => clearTimeout(intervalId);
 	}, []);
@@ -61,6 +61,7 @@ const Analysis = (props) => {
 		// update chart based on button press
 		setCurrentSet(getData(setToRender, set, params, getUnrealizedSet));
 		setActive(setToRender);
+		
 	};
 
 
@@ -260,7 +261,7 @@ const Analysis = (props) => {
 			<div className={classes.thetitle}> <a href="https://tezos.com"><img className={classes.logoAnalysis} src="./Tezos.png" alt="logo" /></a> x CryptoCount </div>
 			<div className={classes.Chart}>
 				<div className={classes.ChartWrapper}>
-					<Bar data={currentSet} options={options} />
+					<Bar data={currentSet} options={options} className={classes.canvas} />
 					<div
 						className={classes.help}
 						tooltip-data="This chart shows your block rewards"
@@ -370,7 +371,7 @@ const Analysis = (props) => {
 					<div>
 
 					<div>
-							<div>
+							<div className={classes.space}>
 								<div className={classes.the}>Accounting Set Selection</div>
 								<div
 									className={classes.help}
@@ -410,7 +411,7 @@ const Analysis = (props) => {
 							</div>
 						</div>
 					
-						<div>+</div>
+						<div className={classes.plus}>+</div>
 
 							
 							<div className={classes.buttonAndInfo}>
@@ -477,7 +478,7 @@ const Analysis = (props) => {
 					</div>
 
 					
-							<div>
+							<div className={classes.space}>
 								<div className={classes.words}>F. I. F. O. Station</div>
 								<div
 									className={classes.help}
@@ -581,7 +582,7 @@ const Analysis = (props) => {
 			
 
 				{set["data"]["aggregateRealizedNativeReward100p"] > 1 ? (
-					<><div>
+					<><div className={classes.space}>
 						<div className={classes.the}>Income Station</div>
 						<div
 							className={classes.help}
@@ -645,7 +646,7 @@ const Analysis = (props) => {
 							</div>
 							<div className={classes.the}>Asset Aggregation Period:</div>
 
-							<div  className={classes.setToggles}>
+							<div  className={classes.setToggles4}>
 							<div className={classes.wordGood}>
 								 {(set["data"]["realizingDomainStartDate"])}
 							</div>
@@ -654,22 +655,7 @@ const Analysis = (props) => {
 							</div>
 
 							</div>
-							<div className={classes.the}>DO:</div>
-
-							<div  className={classes.setToggles}>
-							<div className={classes.the}><Button>Download Statement</Button> <Button>Save</Button> 
-							
-							</div>
-
-							</div>
-							<div className={classes.the}>RETURN:</div>
-
-							<div  className={classes.setToggles}>
-							<div className={classes.wordGood}>
-							
-							SetId: <href className={classes.numberAlive}>{(set["data"]["objectId"])}</href></div>
-
-							</div>
+						
 
 							{/* <div className={classes.quantGroup}>
 								<div className={classes.buttonAndInfo}>
@@ -688,7 +674,23 @@ const Analysis = (props) => {
 								</div>
 							</div> */}
 
-						</div></>
+						</div>
+						<div className={classes.the}>MORE:</div>
+
+							<div  className={classes.setToggles}>
+							<div className={classes.the}><Button className={classes.lastButtons}>Download Statement</Button><Button className={classes.lastButtons}>Save</Button> 
+							
+							</div>
+
+							</div>
+							<div className={classes.the}>RETURN:</div>
+
+							<div  className={classes.setToggles}>
+							<div className={classes.wordGood}>
+							
+							SetId: <href className={classes.numberAlive}>{(set["data"]["objectId"])}</href></div>
+
+							</div></>
 				) : null}
 				{currentSet > 0 ? (
 					<div className={classes.setToggles}>

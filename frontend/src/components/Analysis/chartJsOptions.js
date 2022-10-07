@@ -13,6 +13,7 @@ export const chartOptions = (set) => {
 		return first4
 	})
 	return {
+		responsive: true,
 		scales: {
 			yAxes: {
 				grid: {

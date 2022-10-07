@@ -93,7 +93,7 @@ export default class Slider extends React.Component{
                  <div className='value4'>${(this.state.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
                  <br></br>
                  <div >
-                        <input type='range' min={500} step={100} max={600000} value={this.state.value} className='slider' onChange={this.handleOnChange}></input>
+                        <input type='range' min={500} step={100} max={200000} value={this.state.value} className='slider' onChange={this.handleOnChange}></input>
                  </div>
                  <br></br>
                  <div className='value4'>Expected Annual Return</div>

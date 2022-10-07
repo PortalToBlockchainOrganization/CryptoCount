@@ -33,6 +33,15 @@
 
   }
 
+  .theSpace{
+	margin-top: 200px;
+	font-family: "Blanka-Regular";
+	font-size: 1.5em;
+	color: white;
+	margin: 10px 40px 10px 20px;
+
+  }
+
 
 .buttonReward{
 	margin-left: 5px;
@@ -40,7 +49,7 @@
 
 .numberAlive{
 	font-family: "Louis George Café", sans-serif;
-	font-size: 1.2em;
+	font-size: 1.5em;
 	background-color: rgb(207, 228, 210);
 	border:rgb(33, 164, 53);
 	border-radius: 5px;
@@ -49,6 +58,12 @@
 	color: black;
 	margin: auto;
 	margin-left: 10px;
+}
+
+.lastButtons{
+	margin-left: 50px;
+	margin-right: 50px;
+	font-size: 1.5rem;
 }
 
 .diffs{
@@ -113,8 +128,8 @@
 .Chart {
 	margin-top: 0px;
 	margin-bottom: 80px;
-	width: 80%;
-	max-width: 1000px;
+	width: 100%;
+	max-width: 1100px;
 	background-color: #2e2e2e;
 	border-radius: 5px;
 	padding: 25px;
@@ -125,6 +140,16 @@
 	flex-direction: row;
 	padding: 10px;
 	background-color: #2e2e2e;
+	border: 1.4px solid rgb(113, 234, 202);
+	border-radius: 7px;
+}
+
+.plus{
+	color: white;
+}
+
+.space{
+	margin-top: 100px;
 }
 
 .ChartParams {
@@ -146,8 +171,41 @@
 }
 
 .setToggles {
-	border: 1px groove white;
-	border-radius: 2%;
+	border: 2.5px solid rgb(113, 234, 202);
+	border-radius: 7px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	/* border: 1px solid rgb(177, 177, 177);
+	border-radius: 5px; */
+	padding: 25px;
+	margin: 20px;
+	margin-bottom: 100px;
+}
+
+.setToggles3 {
+	border: 3px solid rgb(113, 234, 202);
+	border-radius: 7px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: vertical;
+	/* border: 1px solid rgb(177, 177, 177);
+	border-radius: 5px; */
+	padding: 25px;
+	margin: 20px;
+	margin-bottom: 100px;
+
+}
+
+.canvas{
+	width:1000px !important;
+	height:500px !important;
+}
+.setToggles4 {
+	border: 2.5px solid rgb(113, 234, 202);
+	border-radius: 7px;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
@@ -158,22 +216,10 @@
 	margin: 20px;
 }
 
-.setToggles3 {
-	border: 1px groove white;
-	border-radius: 2%;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
-	align-items: vertical;
-	/* border: 1px solid rgb(177, 177, 177);
-	border-radius: 5px; */
-	padding: 25px;
-	margin: 20px;
-}
 
 .setToggles2 {
-	border: 1px groove white;
-	border-radius: 2%;
+	border: 3px solid rgb(113, 234, 202);
+	border-radius: 7px;
 	background-color: #F1E1E1;
 	display: flex;
 	flex-direction: row;
@@ -229,8 +275,8 @@
 }
 
 .quantGroup {
-	border: 1px groove white;
-	border-radius: 2%;
+	border: 2.5px solid rgb(113, 234, 202);
+	border-radius: 7px;
 
 	padding: 10px 10px 10px 15px;
 	margin-top: 40px;
