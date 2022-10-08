@@ -19,9 +19,15 @@ router.get('/google', passport.authenticate('google', {
 }))
 
 //callback route for google to rediect to
+//passport attaches user information to req body
 router.get('/google/redirect', passport.authenticate('google'), (req, res)=>{
     //res.send('u r at call back uri' + req.user)
-    res.redirect('/profile/')
+    console.log("wow")
+    console.log(req.user)
+    console.log(req.path)
+    //can we post to the front end?
+    //add req user in the query thingy of the localhost:300
+    res.redirect(301, `http://localhost:3000?${req.user}` )
 })
     
 module.exports = router

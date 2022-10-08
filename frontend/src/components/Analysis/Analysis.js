@@ -678,7 +678,7 @@ const Analysis = (props) => {
 						<div className={classes.the}>MORE:</div>
 
 							<div  className={classes.setToggles}>
-							<div className={classes.the}><Button className={classes.lastButtons}>Download Statement</Button><Button className={classes.lastButtons}>Save</Button> 
+							<div className={classes.the}><button className={classes.lastButtons}>Download Statement</button><button className={classes.lastButtons}>Save</button> 
 							
 							</div>
 

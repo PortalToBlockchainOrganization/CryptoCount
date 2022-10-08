@@ -98,6 +98,19 @@ const Landing = (props) => {
 		setShowModal(true);
 	};
 
+	const urlSearchParams = new URLSearchParams(window.location.search);
+		console.log(Object.fromEntries(urlSearchParams.entries())
+	)
+
+	//handle dispatch 
+	//handle session
+	//make it so histories renders
+
+
+	const getSignInOutOfURL = () => {
+
+	}
+
 	const handleSetIdSubmit = () =>{
 		console.log('setid')
 		setShowModal(false);

@@ -44180,11 +44180,11 @@
     "nextTimeStamp": "",
     "totalOperations": [],
     "noRewards": false,
-    "TezosPriceOnDateObjectGenerated": 1.43,
-    "pointOfSaleAggValue": 238.81000000000012,
-    "netDiffFMV": -603.3127276996497,
+    "TezosPriceOnDateObjectGenerated": 1.4,
+    "pointOfSaleAggValue": 233.8000000000001,
+    "netDiffFMV": -608.3227276996497,
     "netDiffDilution": null,
-    "netDiffSupplyDepletion": -440.08567504094043,
+    "netDiffSupplyDepletion": -445.0956750409405,
     "investmentBasisCostArray": [
         {
             "cost": 4.219648940300373,

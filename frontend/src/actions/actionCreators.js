@@ -37,6 +37,17 @@ export function signIn(credentials, set, cb) {
 
 }
 
+export function signInWithGoogle(cb){
+	return (dispatch, prevState) => {
+		api.googleAuth().then((userInfo)=>{
+			console.log('holy fuck' + userInfo)
+			// dispatch({ type: "SIGN_IN", user: userInfo })
+
+		})
+	}
+}
+
+
 export function signOut(cb) {
 	return (dispatch, prevState) => {
 		api.signOut()
@@ -379,9 +390,3 @@ export function getHistory(cb) {
 	};
 }
 
-export function signInWithGoogle(cb){
-	api.googleAuth().then((userId)=>{
-		//assign to vars in react
-
-	})
-}
