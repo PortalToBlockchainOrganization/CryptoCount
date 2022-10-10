@@ -52,14 +52,17 @@ router.post("/login", async (req, res) => {
         const cmp = await bcrypt.compare(req.body.password, user.password);
         if (cmp) {
           //   ..... further code to maintain authentication like jwt or sessions
-          console.log(user)
+          //console.log(user)
           var ssn = new Session(user, res);
         //   if(Object.keys(req.body.set) !== 0){
         //   ssn.realizing = req.body.set.data
 
-        console.log(ssn)
+        // user.push({"ssnAuth": ssn.authToken})
+        // user.push({"ssnPrsId": ssn.prsId})
+
+       console.log(user)
         //   res.send("Auth Successful");
-        res.send(ssn)
+        res.send(user)
 
         } else {
           res.send("Wrong username or password.");

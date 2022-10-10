@@ -215,7 +215,7 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								<div className={classes.Log}>
 									Logged in as:
 									<Menu
-										label={`${user.firstName} ${user.lastName}`}
+										label={`${user.email}`}
 									>
 										<NavLink
 											to="change-password"

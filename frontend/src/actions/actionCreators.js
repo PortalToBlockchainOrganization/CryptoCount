@@ -24,7 +24,11 @@ export function signIn(credentials, set, cb) {
 		console.log(credentials)
         return (dispatch, prevState) => {
             api.signIn(credentials, set)
-                .then((userinfo) => dispatch({ type: "SIGN_IN", user: userinfo }))
+                .then((userinfo) =>{ 
+					console.log(userinfo); 
+					
+					dispatch({ type: "SIGN_IN", user: userinfo })
+				})
                 .then(() => {
                     if (cb) {
                         cb();

@@ -89,13 +89,15 @@ export function signIn(cred, set) {
     }
 	return post("/auth/login", cred)
 		.then((response) => {
-			console.log(response)
-			// let location = response.headers.get("Location").split("/");
-			sessionId = response.authToken;
-			console.log('woopee')
-			return response + sessionId
-		})
-		// .then((response) => response.json()) // ..json() returns a Promise!
+			return response.json()})
+			.then((response)=>{
+				// let location = response.headers.get("Location").split("/");
+				sessionId = response.authToken;
+				console.log('woopee')
+				console.log(response)
+				return response
+			})
+		//  .then((response) => response.json()) // ..json() returns a Promise!
 		// .then((body) => get("login/auth" + body.prsId))
 		// .then((userResponse) => userResponse.json())
 		.then((rsp) => rsp);

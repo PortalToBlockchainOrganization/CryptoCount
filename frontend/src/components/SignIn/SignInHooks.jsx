@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Form, FormGroup, FormControl, Button } from "react-bootstrap";
 import classes from "./SignIn.module.css";
+import { useEffect } from 'react'
 
 const SignInHooks = (props) => {
 	const [email, setEmail] = useState("");
@@ -27,12 +28,23 @@ const SignInHooks = (props) => {
 					props.analPost(props.params);
 				}
 			}
+
 		});
 		//console.log(signedIn())
-		console.log(props)
+		if(props.user !== undefined){
+					props.history.push("/history")
+				}
 		event.preventDefault();
-		props.history.push("/history")
+		//props.history.push("/history")
 	};
+	useEffect(()=>{
+
+		if(props.user.email !== undefined){
+			props.history.push("/history")
+		}
+		
+	}, [props])
+	
 
 	let signInWithGoogle = (event) => {
 		props.signInWithGoogle({ }, () => {
