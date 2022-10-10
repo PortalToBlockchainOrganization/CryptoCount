@@ -1,146 +1,24 @@
-/**
- * Required External Modules
- */
+import TezosSet from "../path/TezosSet";
 
-
-
- import * as dotenv from "dotenv";
- import express from "express";
- import cors from "cors";
- import helmet from "helmet";
- import TezosSet from "./path/TezosSet";
+import {UmbrellaModel} from "../documentInterfaces/umbrella/umbrella.model"
+import transformToUnrealized from "../documentInterfaces/stateModels/generate"
+import transformToRealizing from "../documentInterfaces/stateModels/realizing"
+import transformToSave from "../documentInterfaces/stateModels/saved"
+import populateUmbrella from "../documentInterfaces/umbrella/umbrella.statics"
 import { writeFile } from "fs";
-import transformToUnrealized from "./documentInterfaces/stateModels/generate"
-import transformToRealizing from "./documentInterfaces/stateModels/realizing"
-import transformToSave from "./documentInterfaces/stateModels/saved"
-import populateUmbrella from "./documentInterfaces/umbrella/umbrella.statics"
-import {UmbrellaModel} from "./documentInterfaces/umbrella/umbrella.model"
-const testObjectRealize = require("./testObjectRealize.js")
-const testObjectSave = require("./testObjectSave.js")
-const testObjectUpdate = require("./testObjectUpdate.js")
-const mongoose = require('mongoose')
-const passport = require('passport')
-const keys = require('./config/keys')
-const authRoutes = require('./routes/auth-routes')
-const profileRoutes = require('./routes/profile-routes')
-const passportSetup = require('./config/passport-setup')
-const cookieSession = require('cookie-session')
-const tezosRoutes = require('./routes/tezos-routes')
-var Validator = require("./routes/Validator.js");
-var { Session, router } = require("./routes/Session.js");
-const { body, validationResult } = require('express-validator');
 
 
+const testObjectRealize = require("../testObjectRealize.js")
+const testObjectSave = require("../testObjectSave.js")
+const testObjectUpdate = require("../testObjectUpdate.js")
 
-
-
-import generate from "./documentInterfaces/CycleAndDate";
-import umbrella from "./documentInterfaces/umbrella/umbrella.schema";
-
-
- 
- dotenv.config();
-
-
-
-/**
- * App Variables
- */
-
-
- if (!process.env.PORT) {
-    process.exit(1);
- }
- 
- const PORT: number = parseInt(process.env.PORT as string, 10);
- 
- const app = express();
-
-/**
- *  App Configuration
- */
-
-
- app.use(helmet());
-const options: cors.CorsOptions = {origin: "http://localhost:3000",credentials: true,methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",};
-app.use(cors(options));;
-
-
- app.use(express.json());
- mongoose.connect(keys.mongodb.dbURI, ()=>{
-  console.log('connected to db')
-})
-
-app.use(cookieSession({
-  maxAge: 1 * 60 *60 *1000,
-  keys: [keys.session.cookieKey]
-}))
-
-//setup view engine
-app.set('view engine', 'ejs')
-
-//initialize passport
-app.use(passport.initialize())
-app.use(passport.session())
-
-
-
-// //setup routes
-app.use('/auth', authRoutes);
-
-//realized history
-app.use('/profile', profileRoutes);
-
-app.use('/Tezos', tezosRoutes)
-
-// app.get('/cors', (req, res) => {
-//   res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
-//   res.send({ "msg": "This has CORS enabled 🎈" })
-//   })
-
-/**
- * Server Activation
-//  */
-
-//  app.use(function (req, res, next) {
-// 	if (
-// 		req.path.includes("auth") ||
-// 		req.path === "/Prss/forgotpw" ||
-// 		req.method === "GET" ||
-// 		req.session ||
-// 		(req.method === "POST" &&
-// 			(req.path === "/Prss" || req.path === "/auth"))
-// 	) {
-// 		req.validator = new Validator(req, res);
-// 		console.log(req.validator);
-// 		next();
-// 	} else {
-// 		console.log("is this really happening");
-// 		res.status(401).end();
-// 	}
-// });
-
-
- app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
-});
-
-
-// //calls user object and gets set ids 
-//  app.get('/', (req, res) => {
-//   res.render('home');
-// });
-
-// //calls set object
-// app.get(`/${setId}`, (req, res) => {
-//   res.render('home');
-// });
+const router = require('express').Router()
 
 
   //creates db object
-  app.post('/Generate/', async (req, res)=>{
+  router.post('/Generate/', async (req, res)=>{
 
-    console.log("wtf" + req.body.fiat)
+    console.log("wtf tezos set" + req.body.fiat)
     
     let ts: TezosSet = new TezosSet();
 
@@ -165,12 +43,13 @@ app.use('/Tezos', tezosRoutes)
     //      });
     //     }
     // })});
-    var test = require("../test.js")
+    var test = require("../../test.js")
     res.status(200).send(test)
   })
 
- //takes db object and updates it
-  app.post('/Retrieve/', async (req, res)=>{
+
+
+  router.post('/Retrieve/', async (req, res)=>{
 
     console.log(req.body.setId)
     var date = new Date();
@@ -256,7 +135,7 @@ app.use('/Tezos', tezosRoutes)
   })
 
   //reads db object
-  app.post('/Realize/', (req, res)=>{
+  router.post('/Realize/', (req, res)=>{
 
     console.log(req.body.setId, req.body.quantity)
 
@@ -295,7 +174,7 @@ app.use('/Tezos', tezosRoutes)
 
   //takes db object and modifies it
   //take user obj and add set id
-  app.post('/Save/', (req, res)=>{
+  router.post('/Save/', (req, res)=>{
 
     //req.objectId, req.quantity
     console.log(req.body.objectId, req.body.quantity, req.body.userId)
@@ -349,62 +228,4 @@ app.use('/Tezos', tezosRoutes)
 
 })
 
-  
-  
-
-
-  app.get('/Unrealize', (req, res)=>{
-
-  })
-
-  app.post('/Delete/', async (req, res)=>{
-
-  
-    
-  })
-
-  app.post('/Register/', async (req, res)=>{
-
-
-
-  })
-
-
-  app.post('/SignOut/', async (req, res)=>{
-
-  
-
-  })
-
-
-  app.post('/SignIn/', async (req, res)=>{
-
-
-
-  })
-
-  app.post('/GetSets/', async (req, res)=>{
-  
-
-  })
-
-  // app.post('/GetSet/', async (req, res)=>{
-
-  // })
-
-
-
-  app.post('/forgotPw/', async (req, res)=>{
-
-  
-
-  })
-
-
-  app.post('/changePw/', async (req, res)=>{
-
-  
-
-  })
-
-
+  module.exports = router

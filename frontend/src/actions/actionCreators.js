@@ -3,6 +3,7 @@ import * as api from "../api";
 export function signIn(credentials, set, cb) {
     if(set === undefined){
         return (dispatch, prevState) => {
+			console.log(credentials)
             api.signIn(credentials, undefined)
                 .then((userinfo) => {
                     console.log(userinfo);
@@ -20,6 +21,7 @@ export function signIn(credentials, set, cb) {
         };
     }
     else{
+		console.log(credentials)
         return (dispatch, prevState) => {
             api.signIn(credentials, set)
                 .then((userinfo) => dispatch({ type: "SIGN_IN", user: userinfo }))
@@ -37,13 +39,15 @@ export function signIn(credentials, set, cb) {
 
 }
 
-export function signInWithGoogle(cb){
+export function signInWithGoogle(data, cb){
 	return (dispatch, prevState) => {
-		api.googleAuth().then((userInfo)=>{
-			console.log('holy fuck' + userInfo)
-			// dispatch({ type: "SIGN_IN", user: userInfo })
+		console.log("dispatch")
+		// dispatch({ type: "SIGN_IN", user: data })
+		// api.googleAuth().then((userInfo)=>{
+		// 	console.log('holy fuck' + userInfo)
+		// 	dispatch({ type: "SIGN_IN", user: userInfo })
 
-		})
+		// })
 	}
 }
 

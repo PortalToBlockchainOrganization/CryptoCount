@@ -87,15 +87,17 @@ export function signIn(cred, set) {
     if (set!==undefined){
         cred.set = set
     }
-	return post("Ssns", cred)
+	return post("/auth/login", cred)
 		.then((response) => {
-			let location = response.headers.get("Location").split("/");
-			sessionId = location[location.length - 1];
-			return get("login/auth/" + sessionId);
+			console.log(response)
+			// let location = response.headers.get("Location").split("/");
+			sessionId = response.authToken;
+			console.log('woopee')
+			return response + sessionId
 		})
-		.then((response) => response.json()) // ..json() returns a Promise!
-		.then((body) => get("login/auth" + body.prsId))
-		.then((userResponse) => userResponse.json())
+		// .then((response) => response.json()) // ..json() returns a Promise!
+		// .then((body) => get("login/auth" + body.prsId))
+		// .then((userResponse) => userResponse.json())
 		.then((rsp) => rsp);
 }
 

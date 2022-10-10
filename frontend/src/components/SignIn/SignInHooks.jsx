@@ -6,10 +6,14 @@ const SignInHooks = (props) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	let signIn = (event) => {
+	let signIn = (event, signedIn) => {
 		props.signIn({ email, password }, () => {
+			console.log("we signed in ")
+			console.log(password)
 			if (props.user._id !== null) {
-				// props.history.push("/history");
+				props.history.push("/");
+			
+
 				if (
 					props.location.state &&
 					props.location.state.from !== undefined
@@ -24,7 +28,10 @@ const SignInHooks = (props) => {
 				}
 			}
 		});
+		//console.log(signedIn())
+		console.log(props)
 		event.preventDefault();
+		props.history.push("/history")
 	};
 
 	let signInWithGoogle = (event) => {

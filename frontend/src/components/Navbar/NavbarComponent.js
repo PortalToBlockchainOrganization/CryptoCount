@@ -73,7 +73,7 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 									activeClassName={classes.NavActive}
 									to="/history"
 								>
-									Realized History
+									Histories
 								</NavLink>
 								<NavLink
 									className={classes.NavLink}
@@ -89,27 +89,27 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								>
 									Regulation Tracker
 								</NavLink>
-								<NavLink
+								{/* <NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
 									to="/blog"
 								>
 									Blog
-								</NavLink>
+								</NavLink> */}
 								<a
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
 									href="https://portaltoblockchain.org"
 								>
-									B2B
+									API
 								</a>
-								<NavLink
+								{/* <NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
 									to="/privacy"
 								>
 									Privacy
-								</NavLink>
+								</NavLink> */}
 							</>
 						) : (
 							<Nav className={classes.AccountNav}>

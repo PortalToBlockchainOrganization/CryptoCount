@@ -24,6 +24,7 @@ import bb from "../../Assets/bb.png";
 //import { ThemeContext, themes } from '../DarkMode/SizeContainer';
 //import { Slider } from '@mui/material';
 import Slider from 'react-input-slider';
+import { keys } from "@mui/system";
 
 
 
@@ -98,8 +99,37 @@ const Landing = (props) => {
 		setShowModal(true);
 	};
 
+
 	const urlSearchParams = new URLSearchParams(window.location.search);
 		console.log(Object.fromEntries(urlSearchParams.entries())
+	)
+	const signedInWithGoogle = Object.fromEntries(urlSearchParams.entries())
+	const googleObject = JSON.stringify(signedInWithGoogle)
+	if (googleObject.length > 3){
+		console.log(googleObject)
+		props.signInWithGoogle(googleObject)
+
+	}else{
+		console.log('string')
+	}
+	// const keys = googleObject.split('%20%20');
+	// const vals = googleObject.split('%20')
+	// console.log("Keys" + keys)
+	// console.log('vals' + vals)
+	
+	// console.log(signedInWithGoogle.length)
+	// if(signedInWithGoogle === undefined){
+	// 	console.log('no google')
+
+	// }
+	//user data 
+	// props.signInWithGoogle(googleObject)
+
+
+
+
+
+	(Object.fromEntries(urlSearchParams.entries())
 	)
 
 	//handle dispatch 
