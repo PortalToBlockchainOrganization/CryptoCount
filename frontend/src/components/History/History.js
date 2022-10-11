@@ -12,6 +12,7 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 	// history component state
 	const [history, setHistory] = React.useState([]);
 	const [body, setBody] = React.useState([]);
+	
 	const pushToHistory = (data) => {
 		let temp = history;
 		temp.push(data);
@@ -54,13 +55,16 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
         console.log(history, "This is History")
 		let temp = history?.map((obj, objIdx) => {
 			return (
+			// <div className={classes.wrap}>
+
+				
 				<tr key={objIdx}>
 					<td><img className="logo1" width="40" height="50" src={Image} alt="logo" /></td>
 					<td>{obj.createdAt.split("T")[0]}</td>
 					<td>{obj.address}</td>
 					<td>{obj.fiat}</td>
 					<td>{obj.basisDate.substring(0, 10)}</td>
-					<td className={classes.Actions}>
+					<td >
 						<Menu>
 							<div className={classes.Buttons}>
 								<Button
@@ -92,6 +96,7 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 						</Menu>
 					</td>
 				</tr>
+			// </div>
 			);
 		});
 		setBody(temp);
@@ -108,7 +113,7 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 		return (
 			<div className={classes.EmptyWrapper}>
 				<div className={classes.Empty}>
-					It looks like you don't have any addresses yet.
+					You don't have any accounting sets yet.
 					<div>
 						<br />
 					</div>
@@ -119,9 +124,9 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 							onClick={() => browserHistory.push("/")}
 						>
 							{" "}
-							home page
+							enter page
 						</span>{" "}
-						to get started.
+						to generate them.
 					</div>
 				</div>
 			</div>

@@ -40,25 +40,42 @@ table {
 tr > th {
 	color: rgb(77, 77, 77);
 	font-weight: 500;
+	position: sticky;
+	border-style:hidden;
+
 }
 tr > td {
-	color: rgb(61, 61, 61);
+	color: rgb(255, 255, 255);
+	background-color: rgb(74, 107, 108);
+	border-color:rgb(255, 255, 255);
+
+
 }
 tr th,
 tr td {
 	padding: 20px;
+	border-color:rgb(255, 255, 255);
+	
 }
 tr th:first-child,
 tr td:first-child {
 }
+th{
+	position: sticky;
+	top: 3px;
+}
 tr th {
 	background: #eee;
 	text-align: left;
+	border-style:hidden;
+	/* position: sticky;
+	top: 3px; */
 }
 
 /* top-left border-radius */
 tr:first-child th:first-child {
 	border-top-left-radius: 5px;
+	border-style:hidden;
 }
 
 /* top-right border-radius */
@@ -106,9 +123,14 @@ tr:last-child td:last-child {
 }
 
 .Actions {
-	position: relative;
+	position: sticky;
+	top: 3px;
 }
 
+.wrap{
+	background-color: rgb(50, 81, 80);
+	padding: 20 20 20 20;
+}
 .Buttons {
 	height: 100%;
 	display: flex;

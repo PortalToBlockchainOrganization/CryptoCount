@@ -17,7 +17,7 @@ import TextTransition, { presets } from "react-text-transition";
  * @returns
  */
 
-const loadingTexts = ["Reading your data from the Tezos Blockchain!", "Analyzing Your Tezos!", "Generating Aggregated Assessment."]
+const loadingTexts = ["Reading or updating your data from the Tezos blockchain.", "Assessing your assets", "Generating aggregated assessment."]
 
 
 

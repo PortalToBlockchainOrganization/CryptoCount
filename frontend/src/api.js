@@ -226,7 +226,7 @@ export function getSet(setId) {
 }
 
 export function getSets() {
-	return get("/");
+	return get("/history/");
 }
 
 export function forgotPassword(emailObj) {

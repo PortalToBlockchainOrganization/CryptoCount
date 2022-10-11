@@ -7,6 +7,7 @@ export function signIn(credentials, set, cb) {
             api.signIn(credentials, undefined)
                 .then((userinfo) => {
                     console.log(userinfo);
+					console.log(sessionStorage)
                     dispatch({ type: "SIGN_IN", user: userinfo })
                 })
                 .then(() => {

@@ -237,3 +237,23 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 };
 
 export default NavbarComponent;
+
+
+// {signedIn() ? (
+// 	<div className={classes.Log}>
+
+// 	<Menu
+// 		label={`${user.email}`}
+// 	>
+// 		<Link
+// 			onclick={signOut}
+// 			// to="change-password"
+// 			className={classes.Link}
+// 		>
+// 			Log Out
+// 		</Link>
+// 	</Menu>
+// </div>
+// ) : (
+// 	""
+// )}
