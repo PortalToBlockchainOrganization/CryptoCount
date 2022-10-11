@@ -25,6 +25,8 @@ import bb from "../../Assets/bb.png";
 //import { Slider } from '@mui/material';
 import Slider from 'react-input-slider';
 import { keys } from "@mui/system";
+import { useEffect } from 'react'
+
 
 
 
@@ -100,39 +102,38 @@ const Landing = (props) => {
 	};
 
 
-	const urlSearchParams = new URLSearchParams(window.location.search);
-		console.log(Object.fromEntries(urlSearchParams.entries())
-	)
-	const signedInWithGoogle = Object.fromEntries(urlSearchParams.entries())
-	const googleObject = JSON.stringify(signedInWithGoogle)
-	if (googleObject.length > 3){
-		console.log(googleObject)
-		props.signInWithGoogle(googleObject)
+	useEffect(()=>{
 
-	}else{
-		console.log('string')
-	}
-	// const keys = googleObject.split('%20%20');
-	// const vals = googleObject.split('%20')
-	// console.log("Keys" + keys)
-	// console.log('vals' + vals)
+		const urlSearchParams = new URLSearchParams(window.location.search);
+		console.log("running")
+		var intermObject = Object.fromEntries(urlSearchParams.entries())
+		const it = JSON.stringify(intermObject);
+		console.log(it.length)
+		if(it.length>0){
+			console.log('yo')
+		}else{console.log('no')}
+
+		if(it.length > 3){
+			console.log(Object.fromEntries(urlSearchParams.entries())
+			)
+			var isITOBJ = (Object.fromEntries(urlSearchParams.entries()))
+			//var string = JSON.stringify(isITOBJ)
+			console.log(urlSearchParams)
+			//console.log(string)
+			// var parsed = JSON.parse(urlSearchParams)
+			console.log(isITOBJ)
 	
-	// console.log(signedInWithGoogle.length)
-	// if(signedInWithGoogle === undefined){
-	// 	console.log('no google')
+	
+			//handle dispatch 
+			props.signInWithGoogle(isITOBJ)
+			if(props.user.email !== undefined){
+				props.history.push("/history")
+			}
+		}
+		
+	}, [props])
 
-	// }
-	//user data 
-	// props.signInWithGoogle(googleObject)
-
-
-
-
-
-	(Object.fromEntries(urlSearchParams.entries())
-	)
-
-	//handle dispatch 
+		
 	//handle session
 	//make it so histories renders
 

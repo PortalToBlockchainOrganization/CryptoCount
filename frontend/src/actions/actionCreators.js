@@ -46,6 +46,7 @@ export function signIn(credentials, set, cb) {
 export function signInWithGoogle(data, cb){
 	return (dispatch, prevState) => {
 		console.log("dispatch")
+		dispatch({ type: "SIGN_IN", user: data })
 		// dispatch({ type: "SIGN_IN", user: data })
 		// api.googleAuth().then((userInfo)=>{
 		// 	console.log('holy fuck' + userInfo)

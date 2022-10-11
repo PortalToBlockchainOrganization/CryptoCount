@@ -35,10 +35,25 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res)=>{
     //res.send('u r at call back uri' + req.user)
     console.log("wow")
     console.log(req.user)
+    console.log(req.user.username)
+    console.log(req.user.googleId)
+    console.log(req.user.setIds)
+    console.log(req.user.email)
+    console.log(req.user._id)
+    console.log(req.user.joined)
     console.log(req.path)
+    var object = {
+        username: req.user.username,
+        googleId: req.user.googleId,
+        setIds: req.user.setIds,
+        email: req.user.email,
+        _id: req.user._id
+    }
+    console.log(object)
+    const paramsString = new URLSearchParams(object).toString();
     //can we post to the front end?
     //add req user in the query thingy of the localhost:300
-    res.redirect(301, `http://localhost:3000?${req.user}` )
+    res.redirect(301, `http://localhost:3000?${paramsString}` )
 })
 
 router.post("/login", async (req, res) => {
