@@ -303,6 +303,7 @@ const Landing = (props) => {
 	return (
 		<div className="wrapper">
 			<div className="lp-container">
+				
 				<section className="static-wrapper">
 					<div className="logo-container">
 						<a href="https://tezos.com"><img className="logo" src="./Tezos.png" alt="logo" /></a>
@@ -315,9 +316,10 @@ const Landing = (props) => {
 				<div className="name-one-liner">
 					<h1 className="logo-name">CryptoCount</h1>
 				</div>
+				
 				<div className="name-one-liner">
 					<h2 className="logo-tagline">
-					Aggregated on-chain asset assessment tax tool. Mockup realizations of Tezos based assets in 40 fiat currencies.
+					 On-chain asset assessment tax tool. Mockup realizations of aggregated Tezos based assets in 40 fiat currencies.
 					</h2>
 				</div>
 				<div className="form">
@@ -348,6 +350,7 @@ const Landing = (props) => {
 						</Button>
 					</Form>
 				</div>
+				<div class="thickerplz">Or</div>
 				<div className="form">
 					
 					<Form
@@ -449,13 +452,16 @@ const Landing = (props) => {
 					Join Our Discord
 					<img className="ptbo-link" src={ptbo} alt="ptbo" />
 				</a>
-				<div className="name-one-liner">
-					<h2 className="logo-tagline3">
-						Interested in staking on Tezos? See your expected return below. 
-					</h2>
-				</div>
+				{/* <div className='slideWrap'> */}
 				
-				<SliderComponent></SliderComponent>
+					<div className="name-one-liner">
+						<h2 className="logo-tagline3">
+							Interested in staking on Tezos? See your expected return below. 
+						</h2>
+					</div>
+					
+					<SliderComponent></SliderComponent>
+				{/* </div> */}
 				<VerticalModal
 					basisDate={basisDate}
 					handleDateInput={handleDateInput}
@@ -554,7 +560,7 @@ const Landing = (props) => {
 			<div>
 			<div className="bb2">
 					<h2 className="logo-tagline2">
-						Find A Baker Below To Begin Staking Your Tez.
+						Find A Baker Below To Begin Staking Tez.
 					</h2>
 				</div>
 				<a  href="https://baking-bad.org"><img className="bb" src={BakingBad} alt="BB"></img></a>

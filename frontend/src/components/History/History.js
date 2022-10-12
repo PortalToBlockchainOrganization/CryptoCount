@@ -58,7 +58,7 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 			// <div className={classes.wrap}>
 
 				
-				<tr key={objIdx}>
+				<tr  key={objIdx}>
 					<td><img className="logo1" width="40" height="50" src={Image} alt="logo" /></td>
 					<td>{obj.createdAt.split("T")[0]}</td>
 					<td>{obj.address}</td>
@@ -109,6 +109,7 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 			</div>
 		);
 	}
+	
 	if (realizedHistory?.isLoading === false && (realizedHistory?.history == null || realizedHistory?.history?.length === 0)) {
 		return (
 			<div className={classes.EmptyWrapper}>
@@ -152,12 +153,12 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 		<div className={classes.Page}>
 			<div className={classes.Wrapper}>
 				<table>
-					<thead>
+					<thead >
 						<tr>
-							<th>Blockchain</th>
-							<th>Created At</th>
-							<th>Address</th>
-							<th>Fiat</th>
+							<th >Blockchain</th>
+							<th >Created At</th>
+							<th >Address</th>
+							<th >Fiat</th>
 							<th>Basis</th>
 							<th>Action</th>
 						</tr>

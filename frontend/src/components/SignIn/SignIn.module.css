@@ -8,6 +8,28 @@
 	margin-top: 50px;
 }
 
+.image{
+	height:50px;
+	width: 50px;
+}
+
+.words{
+	margin-top: 40px;
+	margin-left: 30px;
+}
+
+.logo {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 5px;
+	height: 4vw;
+	margin-top: 35px;
+	margin-left: 50px;
+	margin-right: 50px;
+}
+
+
 .SignInWrapper {
 	display: flex;
 	justify-content: center;
@@ -59,6 +81,13 @@ h1 {
 .button{
 	margin-top: 20px;
 	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.button{
+	margin-top: 20px;
+	margin-left: 20px;
+
 }
 
 .RegisterLink:hover {

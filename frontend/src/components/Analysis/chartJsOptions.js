@@ -63,7 +63,7 @@ export const chartOptions = (set) => {
 			},
 			title: {
 				display: true,
-				text: "boob".concat(" " + set?.data?.walletAddress.slice(0, 15) + '... ',"Native Tez Consensus Block Reward Accounting Entries"),
+				text: " ".concat(" " + set?.data?.walletAddress + "    ","Native Tez Consensus Block Reward Accounting Entries"),
 				align: "start",
 				font: {
 					size: 15,

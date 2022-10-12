@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form, FormGroup, FormControl, Button } from "react-bootstrap";
 import classes from "./SignIn.module.css";
 import { useEffect } from 'react'
+// import google from "../../Assets/Orgs/google.png";
 
 const SignInHooks = (props) => {
 	const [email, setEmail] = useState("");
@@ -102,10 +103,11 @@ const SignInHooks = (props) => {
 							Sign in
 						</Button>
 						{/* <div className={classes.need}>Or</div> */}
-						<Button variant="danger"
-							className={classes.button}
-							type="submit"
-							href="http://localhost:7000/auth/google" >Google +</Button>
+						<div className={classes.words}>Or</div>
+						<br></br>
+						
+							
+						<img href="http://localhost:7000/auth/google" className={classes.logo} src="./google.png" alt="google"></img>
 						</div>
 						
 						<p className="mt-3">

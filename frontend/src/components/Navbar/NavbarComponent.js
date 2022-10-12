@@ -213,16 +213,16 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 						{signedIn() ? (
 							<div className={classes.MenuWrapper}>
 								<div className={classes.Log}>
-									Logged in as:
+									
 									<Menu
 										label={`${user.email}`}
 									>
-										<NavLink
+										{/* <NavLink
 											to="change-password"
 											className={classes.Link}
 										>
 											Change Password
-										</NavLink>
+										</NavLink> */}
 									</Menu>
 								</div>
 							</div>

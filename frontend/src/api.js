@@ -152,7 +152,7 @@ export function deleteSet(id) {
 export function generatePost(params) {
 	console.log("1")
 
-	return post("/Generate", 
+	return post("/tezos/Generate", 
 		{
 			"fiat": params["fiat"],
 			"address": params["address"],
@@ -164,7 +164,7 @@ export function generatePost(params) {
 export function unrealizedSet(params) {
 	console.log("2")
 
-	return post("/Generate", 	
+	return post("/tezos/Generate", 	
 	{
 
 			"fiat": params["fiat"],
@@ -179,7 +179,7 @@ export function unrealizedSet(params) {
 export function getUnrealizedSet(params) {
 	console.log("3")
 
-	return post("/Generate", {
+	return post("/tezos/Generate", {
 			"fiat": params["fiat"],
 			"address": params["address"],
 			"consensusRole": params["consensusRole"],
@@ -191,7 +191,7 @@ export function getUnrealizedSet(params) {
 export function noAuthUnrealizedSet(params) {
 	console.log("4" )
 
-	return post("/Generate", {
+	return post("/tezos/Generate", {
 			fiat: params["fiat"],
 			address: params["address"],
 			consensusRole: params["consensusRole"],	
@@ -199,7 +199,7 @@ export function noAuthUnrealizedSet(params) {
 }
 
 export function getRealizingSet(setId, quantity) {
-	return post("/Realize", {
+	return post("/tezos/Realize", {
 		setId: setId,
 		quantity: quantity,
 	});
@@ -207,20 +207,20 @@ export function getRealizingSet(setId, quantity) {
 
 export function noAuthGetRealizingSet(setId, quantity) {
 	console.log("API", setId, quantity);
-	return post("/Realize", {
+	return post("/tezos/Realize", {
 		setId: setId,
 		quantity: quantity,
 	});
 }
 
 export function saveRealize(setId, confirm_quantity) {
-	return post("/Save", {
+	return post("/tezos/Save", {
 		setId: setId,
 	});
 }
 
 export function getSet(setId) {
-	return post("/Retrieve", {
+	return post("/tezos/Retrieve", {
 		setId: setId
 	});
 }

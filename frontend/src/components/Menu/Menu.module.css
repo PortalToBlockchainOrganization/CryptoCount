@@ -5,7 +5,7 @@
 	flex-direction: column;
 }
 .Menu {
-	position: absolute;
+	position: relative;
 	top: 50px;
 	display: flex;
 	justify-content: center;
@@ -15,7 +15,7 @@
 	padding: 15px;
 	border-radius: 5px;
 	min-height: 50px;
-	min-width: 150px;
+	min-width: 120px;
 	background-color: white;
 	box-shadow: 0px 1px 5px rgb(0 0 0 / 12%);
 	font-size: 0.9rem;
@@ -28,7 +28,7 @@
 	text-align: center;
 	margin-left: 5px;
 	padding: 5px 10px 5px 10px;
-	border: 1px solid rgb(235, 235, 235);
+	border: 2px solid rgb(235, 235, 235);
 	border-radius: 5px;
 }
 

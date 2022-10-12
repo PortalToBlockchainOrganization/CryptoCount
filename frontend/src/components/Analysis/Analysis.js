@@ -479,7 +479,7 @@ const Analysis = (props) => {
 
 					
 							<div className={classes.space}>
-								<div className={classes.words}>F. I. F. O. Station</div>
+								<div className={classes.the}>F. I. F. O. Station</div>
 								<div
 									className={classes.help}
 									tooltip-data="Enter or select a quantity of native rewards you'd like to sell. "
@@ -604,7 +604,7 @@ const Analysis = (props) => {
 
 							</div>
 
-							<div className={classes.the}>Set Incomes:</div>
+							<div className={classes.the}>Incomes:</div>
 							<div  className={classes.setToggles}>
 							<div className={classes.wordGood}>
 								Fair Market Value (FMV):</div><div className={classes.numberAlive}>
@@ -620,7 +620,7 @@ const Analysis = (props) => {
 							</div>
 
 							</div>
-							<div className={classes.the}>Net Differences:</div>
+							<div className={classes.the}>Profit/Loss:</div>
 
 							<div  className={classes.setToggles}>
 							<div  className={classes.wordGood}>
@@ -646,11 +646,11 @@ const Analysis = (props) => {
 							</div>
 							<div className={classes.the}>Asset Aggregation Period:</div>
 
-							<div  className={classes.setToggles4}>
-							<div className={classes.wordGood}>
+							<div  className={classes.setToggles2}>
+							<div className={classes.words}>
 								 {(set["data"]["realizingDomainStartDate"])}
 							</div>
-							<div className={classes.wordGood}>
+							<div className={classes.words}>
 								{(set["data"]["realizingDomainEndDate"])}
 							</div>
 
@@ -677,7 +677,7 @@ const Analysis = (props) => {
 						</div>
 						<div className={classes.the}>MORE:</div>
 
-							<div  className={classes.setToggles}>
+							<div  className={classes.setToggles2}>
 							<div className={classes.the}><button className={classes.lastButtons}>Download Statement</button><button className={classes.lastButtons}>Save</button> 
 							
 							</div>
@@ -685,10 +685,10 @@ const Analysis = (props) => {
 							</div>
 							<div className={classes.the}>RETURN:</div>
 
-							<div  className={classes.setToggles}>
-							<div className={classes.wordGood}>
+							<div  className={classes.setToggles2}>
+							<div className={classes.words}>
 							
-							SetId: <href className={classes.numberAlive}>{(set["data"]["objectId"])}</href></div>
+							SetId: <href className={classes.numberAlive2}>{(set["data"]["objectId"])}</href>Copy</div>
 
 							</div></>
 				) : null}

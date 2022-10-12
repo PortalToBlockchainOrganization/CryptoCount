@@ -8,17 +8,24 @@
     align-items: center;
     justify-content: center;
     border-radius: 5px;
+	border-style: hidden;
+	border-width: 3px;
 }
 
 .Wrapper {
 	position: relative;
 	height: calc(100vh - 120px);
 	width: 100%;
+	/* margin: 30px 30px 30px 30px; */
 	top: 56px;
+	border-radius: 10px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	overflow-y: scroll;
+	margin-bottom: 150px;
+	/* overflow-x: hidden; */
+	/* background-color: rgb(45, 41, 41); */
 }
 
 .EmptyWrapper {
@@ -27,6 +34,7 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	background-color: rgb(51, 47, 47);
 }
 
 table {
@@ -41,13 +49,19 @@ tr > th {
 	color: rgb(77, 77, 77);
 	font-weight: 500;
 	position: sticky;
-	border-style:hidden;
+	/* border-style: ; */
+	border-color: white;
+	background: white;
+	border-width: 3px;
+
 
 }
 tr > td {
 	color: rgb(255, 255, 255);
 	background-color: rgb(74, 107, 108);
 	border-color:rgb(255, 255, 255);
+	border-width: 3px;
+
 
 
 }
@@ -55,8 +69,17 @@ tr th,
 tr td {
 	padding: 20px;
 	border-color:rgb(255, 255, 255);
+	border-style:hidden;
+	border-color: white;
+	border-width: 3px;
+
+
 	
 }
+.border{
+	border-style:hidden;
+}
+
 tr th:first-child,
 tr td:first-child {
 }
