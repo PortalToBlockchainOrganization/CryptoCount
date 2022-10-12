@@ -388,6 +388,7 @@ const Analysis = (props) => {
 						<div className={classes.basisSet}>
 							<div className={classes.buttonAndInfo}>
 								<Button
+								// className = {classes.lastButtons}
 									variant={
 										active === "unrealizedNativeFMVRewards"
 											? "primary"
@@ -416,6 +417,7 @@ const Analysis = (props) => {
 							
 							<div className={classes.buttonAndInfo}>
 								<Button
+								// className = {classes.lastButtons}
 									variant={
 										active === "unrealizedNativeSupplyDepletionRewards"
 											? "primary"
@@ -438,6 +440,7 @@ const Analysis = (props) => {
 							</div>
 							<div className={classes.buttonAndInfo}>
 								<Button
+								// className = {classes.lastButtons}
 									variant={
 										active === "unrealizedNativeMarketDilutionRewards"
 											? "primary"
@@ -596,7 +599,7 @@ const Analysis = (props) => {
 					</div>
 					<div className={classes.setToggles3}>
 					<div className={classes.the}>Point Of Sale Highlights</div>
-						<div  className={classes.setToggles}>
+						<div  className={classes.setTogglesX}>
 							<div className={classes.wordGood}>Tez Price Today: </div>  <href className={classes.numberAlive}>{(set["data"]["TezosPriceOnDateObjectGenerated"])} {(set["data"]["fiat"])}</href>
 							<div className={classes.wordGood}>Point of Sale Aggregate Value: </div> <href className={classes.numberAlive}>{(Math.round((set["data"]["pointOfSaleAggValue"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{' '}{(set["data"]["fiat"])}</href>
 							<div className={classes.wordGood}>Quantity:</div><href className={classes.numberAlive}>{(Math.round((set["data"]["aggregateRealizedNativeReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{' '}Tez</href>
@@ -605,7 +608,7 @@ const Analysis = (props) => {
 							</div>
 
 							<div className={classes.the}>Incomes:</div>
-							<div  className={classes.setToggles}>
+							<div  className={classes.setTogglesX}>
 							<div className={classes.wordGood}>
 								Fair Market Value (FMV):</div><div className={classes.numberAlive}>
 								{(Math.round((set["data"]["aggregateRealizedNativeFMVReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} {' '}{(set["data"]["fiat"])}</div>
@@ -622,7 +625,7 @@ const Analysis = (props) => {
 							</div>
 							<div className={classes.the}>Profit/Loss:</div>
 
-							<div  className={classes.setToggles}>
+							<div  className={classes.setTogglesX}>
 							<div  className={classes.wordGood}>
 								Fair Market Value (FMV): <div className={classes.diffs} style={{ fontSize: "1em",backgroundColor: set["data"]["netDiffFMV"] >=  0 ? backgrounds.Green: backgrounds.Red,
 								}}>
@@ -644,6 +647,33 @@ const Analysis = (props) => {
 							</div>
 
 							</div>
+
+							<div className={classes.the}>Assets' Basis Costs:</div>
+<div  className={classes.setTogglesX}>
+							<div  className={classes.wordGood}>
+								Fair Market Value (FMV): <div className={classes.diffs} style={{ fontSize: "1em",backgroundColor: set["data"]["netDiffFMV"] >=  0 ? backgrounds.Green: backgrounds.Red,
+								}}>
+								{(Math.round((set["data"]["netDiffFMV"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{' '}{(set["data"]["fiat"])}
+									</div>
+							</div>
+							<div  className={classes.wordGood}>
+								Tez Supply Depletion: <div className={classes.diffs}style={{ fontSize: "1em",
+								backgroundColor: set["data"]["netDiffSupplyDepletion"] >  0 ? backgrounds.Green: backgrounds.Red,
+								}}>
+									{(Math.round((set["data"]["netDiffSupplyDepletion"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{' '}{(set["data"]["fiat"])}
+									</div>
+							</div>
+							<div className={classes.wordGood}>
+								Tez Market Value Dilution: <div className={classes.diffs} style={{ fontSize: "1em",backgroundColor: set["data"]["netDiffDilution"] >  0 ? backgrounds.Green : backgrounds.Red,
+								}}>
+									{(Math.round((set["data"]["netDiffDilution"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{' '}{(set["data"]["fiat"])}
+									</div> 
+							</div>
+
+							</div>
+
+
+
 							<div className={classes.the}>Asset Aggregation Period:</div>
 
 							<div  className={classes.setToggles2}>

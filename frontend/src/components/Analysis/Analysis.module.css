@@ -63,7 +63,7 @@
 .lastButtons{
 	margin-left: 50px;
 	margin-right: 50px;
-	font-size: 1.5rem;
+	font-size: 1.2rem;
 	display: inline-block;
     font-weight: 400;
     color: #212529;
@@ -177,7 +177,7 @@
 }
 
 .plus{
-	color: white;
+	color: black;
 }
 
 .space{
@@ -208,7 +208,22 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
-	background-color: #202020;
+	background-color: #f4f4f4;
+	align-items: center;
+	/* border: 1px solid rgb(177, 177, 177);
+	border-radius: 5px; */
+	padding: 25px;
+	margin: 20px;
+	margin-bottom: 100px;
+}
+
+.setTogglesX {
+	border: 8px solid rgb(23, 25, 25);
+	border-radius: 7px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	background-color: #141414;
 	align-items: center;
 	/* border: 1px solid rgb(177, 177, 177);
 	border-radius: 5px; */
@@ -224,6 +239,7 @@
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: vertical;
+	background-color: #212529;
 	/* border: 1px solid rgb(177, 177, 177);
 	border-radius: 5px; */
 	padding: 25px;

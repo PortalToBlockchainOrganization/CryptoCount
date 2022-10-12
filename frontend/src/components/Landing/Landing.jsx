@@ -350,7 +350,7 @@ const Landing = (props) => {
 						</Button>
 					</Form>
 				</div>
-				<div class="thickerplz">Or</div>
+				<div class="logo-tagline">Or</div>
 				<div className="form">
 					
 					<Form

@@ -107,7 +107,7 @@ const SignInHooks = (props) => {
 						<br></br>
 						
 							
-						<img href="http://localhost:7000/auth/google" className={classes.logo} src="./google.png" alt="google"></img>
+						<a href="http://localhost:7000/auth/google" ><img className={classes.logo} src="./google.png" alt="google"></img></a>
 						</div>
 						
 						<p className="mt-3">
