@@ -203,7 +203,7 @@
 }
 
 .setToggles {
-	border: 8px solid rgb(23, 25, 25);
+	border: 12px solid rgb(23, 25, 25);
 	border-radius: 7px;
 	display: flex;
 	flex-direction: row;

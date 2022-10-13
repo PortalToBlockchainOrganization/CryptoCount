@@ -303,10 +303,10 @@ export function startSaveRealizing() {
 	return { type: "START_SAVE_REALIZE", payload: { isLoading: true } };
 }
 
-export function saveRealizing(setId) {
+export function saveRealizing(setId, quantity) {
 	return (dispatch) => {
 		dispatch(startSaveRealizing);
-		api.saveRealize(setId).then((res) => {
+		api.saveRealize(setId, quantity).then((res) => {
 			res.json().then((res) => {
 				return dispatch({
 					type: "SAVE_REALIZE",

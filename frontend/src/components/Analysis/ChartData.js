@@ -3,6 +3,12 @@
 import moment from "moment";
 import { isWhiteSpaceLike } from "typescript";
 export const getData = (setToRender, set, params, getUnrealizedSet) => {
+	//set to render is unrealizedNativeFMVRewards or others
+
+
+	//add a dataset[i].label for basis cost 
+	//add dataset[i].data[i] for basis cost
+
 	// mapping for unrealized and realizing set
 	let mapping = {
 		unrealizedNativeFMVRewards: "realizingNativeFMVRewards",
@@ -31,7 +37,7 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 		// get subset data to render default is basis rewards
 		let incomeToReport;
 		setToRender = setToRender ? setToRender : "unrealizedNativeFMVRewards";  //default set
-		console.log(set?.data[`${setToRender}`])
+		// console.log(set?.data[`${setToRender}`])
 
 		/* reward key for the quantity within the list of objects for 
 			each set */
@@ -57,24 +63,31 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 					label: "Realized Rewards",
 					backgroundColor: "rgba(255, 99, 132, 0.9)",
 					borderRadius: 3,
-					barThickness: 15,
+					barThickness: 7,
 					data: [],
 				},
 				{
 					label: "Realizing Rewards",
 					backgroundColor: "rgba(242, 120, 75, 0.9)",
 					borderRadius: 3,
-					barThickness: 15,
+					barThickness: 7,
 					data: [],
 				},
 				{
 					label: "Unrealized Rewards",
 					backgroundColor: "rgba(191, 191, 191, 0.9)",
 					borderRadius: 3,
-					barThickness: 15,
+					barThickness: 7,
 					data: [],
 					color: "white",
 				},
+				// {
+				// 	label: "Basis Cost",
+				// 	borderRadius: 3,
+				// 	backgroundColor: "rgba(100, 120, 75, 0.9)",
+				// 	barThickness: 7,
+				// 	data: [],
+				// },
 			],
 			hoverOffset: 4,
 			address: set["data"]?.address,
@@ -91,12 +104,12 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 		// get all dates, all dates are accounted for in realized and unrealized sets
 		//useing the map becuase of 3 sets
 		//populate data.labels of chart
-		console.log(data.labels.length)
+		// console.log(data.labels.length)
 		if (data.labels.length === 0) {
 			//this one gets the realized data
-			console.log(setToRender)
-			console.log(currentRealizedSet)
-			console.log(set?.data[currentRealizedSet])
+			// console.log(setToRender)
+			// console.log(currentRealizedSet)
+			// console.log(set?.data[currentRealizedSet])
 			set?.data[currentRealizedSet].map(({ date }) => {
 				return data.labels.push(
 					new moment(date).format("MMM DD, YYYY")
@@ -112,16 +125,24 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 		//data sets 
 		// if realized set, render
 		//the key for whatever set being displayed, and the current realized set also like that
-		console.log(set?.data?.realizedNativeRewards)
+		// console.log(set?.data?.realizedNativeRewards)
+		//reward key is always rewardAmount
 		if (set?.data?.realizedNativeRewards) {
-			console.log(set?.data[currentRealizedSet])
+			// console.log(set?.data[currentRealizedSet])
 			realizedRewards = set.data[currentRealizedSet].map((element) => {
-				return data.datasets[0].data.push(element[`${rewardKey}`]);
+				return data.datasets[0].data.push(element[`${rewardKey}`], );
 			});
 		}
-		console.log(data.labels.length)
-		console.log(set?.data?.unrealizedNativeRewards)
-		console.log(set?.data?.realizingNativeRewards)
+
+		// var basisCostData = [];
+		// set.data[currentRealizedSet].map((element) => {
+		// 	return basisCostData.push(element["basisCost"])
+		// })
+
+
+		// console.log(data.labels.length)
+		// console.log(set?.data?.unrealizedNativeRewards)
+		// console.log(set?.data?.realizingNativeRewards)
 		//new color here new data entry render thang
 		if (set?.data?.realizingNativeRewards) {
 			// if realized Set skip those dates, gets deep over the realized rewards in its iteration when building the chart
@@ -134,7 +155,7 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 				return data.datasets[1].data.push(element[`${rewardKey}`]); //populating with realizing
 			});
 		}
-		console.log(data.labels.length)
+		//console.log(data.labels.length)
 
 
 		// if realizing rewards is greater than 0 add the length of
@@ -177,8 +198,8 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 		data["realizingRatio"] =
 			set["data"]["realizingBasisP"] / set["data"]["unrealizedBasisP"];
 
-		console.log("dataChart")
-		console.log(data)
+		// console.log("dataChart")
+		// console.log(data)
 		return data;
 	}
 };

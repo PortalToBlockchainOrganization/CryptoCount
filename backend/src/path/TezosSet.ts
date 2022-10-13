@@ -535,7 +535,7 @@ export default class TezosSet {
         this.initSave(object)
         this.saveRealization()
         this.aggregates()
-        await this.pointOfSaleCosts()
+        // await this.pointOfSaleCosts()
 
     }
 

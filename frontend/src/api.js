@@ -215,7 +215,8 @@ export function noAuthGetRealizingSet(setId, quantity) {
 
 export function saveRealize(setId, confirm_quantity) {
 	return post("/tezos/Save", {
-		setId: setId,
+		objectId: setId,
+		quantity: confirm_quantity,
 	});
 }
 

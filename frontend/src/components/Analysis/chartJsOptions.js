@@ -1,5 +1,7 @@
 import { isWhiteSpaceLike } from "typescript";
 import { fiatLabels } from "./fiatLabels";
+import { getData } from "./ChartData";
+
 export const chartOptions = (set) => {
 	const Title = (()=> {
 		//img.concat
@@ -12,6 +14,15 @@ export const chartOptions = (set) => {
 		var first4 = set?.data?.walletAddress
 		return first4
 	})
+
+	//get the basis costs array
+	let basisCosts = []
+	set?.data?.unrealizedNativeRewards.forEach(element => {
+		basisCosts.push(element.basisCost)
+	});
+
+	console.log(basisCosts)
+
 	return {
 		responsive: true,
 		scales: {
@@ -29,7 +40,6 @@ export const chartOptions = (set) => {
 						size: 15,
 					},
 					color: "white"
-
 				},
 				ticks: {
 					precision: 0,
@@ -79,6 +89,13 @@ export const chartOptions = (set) => {
 				}
 				
 			},
+			tooltips: {
+				callbacks: {
+					beforeTitle: function(context){
+						return "before"
+					}
+				},
+			}, 
 		},
 	};
 };
