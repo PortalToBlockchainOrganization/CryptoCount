@@ -99,7 +99,7 @@ h4{
 	justify-content: center;
 	border-radius: 5px;
 	height: 15vw;
-	margin-top: 15px;
+	margin-top: 65px;
 	margin-left: 50px;
 	margin-right: 50px;
 }
@@ -333,14 +333,14 @@ p {
 	.name-one-liner {
 		margin-left: 25px;
 		margin-bottom: 40px;
-		margin-top: 40px;
+		margin-top: 20px;
 	}
 }
 
 #dark .name-one-liner{
 	color: white;
 	margin-bottom: 40px;
-	margin-top: 40px;
+	margin-top: 0px;
 }
 
 .button-continue:disabled {

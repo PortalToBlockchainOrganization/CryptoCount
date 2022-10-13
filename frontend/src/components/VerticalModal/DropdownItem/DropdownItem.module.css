@@ -1,6 +1,7 @@
 .Item {
 	display: flex;
 	align-items: center;
+	/* background-color: rgb(208, 229, 194); */
 }
 
 .Flag {

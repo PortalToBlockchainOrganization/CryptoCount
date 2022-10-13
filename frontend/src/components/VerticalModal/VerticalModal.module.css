@@ -13,11 +13,16 @@
 .body {
 	justify-content: center;
 	align-items: center;
+	background-color: rgb(208, 229, 194);
 }
 .formRow {
 	justify-content: center;
 }
 
+.head{
+	background-color: rgb(208, 229, 194);
+
+}
 .btn {
 	/* margin: 0px 5px; */
 }

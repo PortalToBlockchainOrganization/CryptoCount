@@ -91,7 +91,7 @@ const Analysis = (props) => {
 		request to get Realized
 		*/
 		e.preventDefault();
-		//console.log("asdf")
+		console.log("asdf")
 
 		if (set["data"]["objectId"] !== undefined && quantityRealize !== 0) {
 			if (!signedIn()) {
@@ -171,10 +171,10 @@ const Analysis = (props) => {
 
 	const handleDownload = (e) => {
 			e.preventDefault();
-
+		console.log('asdf')
 		var doc = new jsPDF()
-
-		var myImage = require('./sixtyFourBitIMG')
+		console.log('l;jh')
+		var myImage = require('./sixtyFourBitIMG').image
 		doc.setFontSize(18);
 		doc.addImage(myImage, 'JPEG', 20, 25, 31, 23, 'PTBO Logo');
 		doc.text("TEZOS NATIVE BLOCK REWARD INCOME", 54, 35)
@@ -184,21 +184,24 @@ const Analysis = (props) => {
 		doc.text("Portal To Blockchain Organization (PTBO)", 55, 45)
 		//doc.addImage(tezLogo, 'JPEG', 20, 25, 23, 23, 'Tezos Logo');
         doc.text("HOST BLOCKCHAIN: TEZOS " , 25, 60)
-        doc.text("TEZOS DELEGATOR ADDRESS: " + set["data"]["address"], 25, 67)
+        doc.text("TEZOS DELEGATOR ADDRESS: " + set["data"]["walletAddress"], 25, 67)
         doc.text("FIAT: " + set["data"]["fiat"], 25, 74)
-        var qRewSold = set["data"]["realizingRewardAgg"].toFixed(2)
-        doc.text("PERIOD START: " + set["data"]["realizingRewards"][0]["date"], 25, 88);
-        var last = set["data"]["realizingRewards"].length
-        doc.text("PERIOD END: " + set["data"]["realizingRewards"][last - 1]["date"], 25, 95);
+        var qRewSold = set["data"]["aggregateRealizedNativeRewards100p"].toFixed(2)
+        doc.text("PERIOD START: " + set["data"]["realizingNativeRewards"][0]["date"], 25, 88);
+        var last = set["data"]["realizingNativeRewards"].length
+        doc.text("PERIOD END: " + set["data"]["realizingNativeRewards"][last - 1]["date"], 25, 95);
         doc.text("QUANTITY OF REWARDS SOLD: " + numberWithCommas(qRewSold) + " XTZ", 25, 109)
-        doc.text("AVERAGE BASIS COST: " + set["data"]["basisPrice"].toFixed(2) + " " + set["data"]["fiat"], 25, 116)
-        doc.text("TRUE REWARD INCOME: "+ numberWithCommas(currentSet["incomeToReport"].toFixed(2)) + " " + set["data"]["fiat"], 25, 123)
-        //var doc = [props][pdfDocument]
-        //doc.setFontSize(12)
-        doc.text("CALCULATED ON BEHALF OF", 25, 137)
+        doc.text("AVERAGE BASIS COST: " + set["data"]["weightedAverageTotalDomainInvestmentCost"].toFixed(2) + " " + set["data"]["fiat"], 25, 116)
+        doc.text("FMV REWARD INCOME: "+ numberWithCommas(set["data"]["aggregateRealizedNativeFMVReward100p"].toFixed(2)) + " " + set["data"]["fiat"], 25, 123)
+		doc.text("Supply Depletion REWARD INCOME: "+ numberWithCommas(set["data"]["aggregateRealizedNativeSupplyDepletion100p"].toFixed(2)) + " " + set["data"]["fiat"], 25, 130)
+        doc.text("Market Dilution REWARD INCOME: "+ numberWithCommas(set["data"]["aggregateRealizedNativeMarketDilution100p"].toFixed(2)) + " " + set["data"]["fiat"], 25, 137)
 
-        doc.text("NAME: " + set["firstName"] + ' ' + set["lastName"], 25, 144)
-        doc.text("EMAIL: " + set["email"], 25, 151)
+		//var doc = [props][pdfDocument]
+        //doc.setFontSize(12)
+        // doc.text("CALCULATED ON BEHALF OF", 25, 137)
+
+        // doc.text("NAME: " + set["firstName"] + ' ' + set["lastName"], 25, 144)
+        // doc.text("EMAIL: " + set["email"], 25, 151)
 
 		doc.save("TezosRewardIncomeStatement.pdf");
 	};
@@ -652,7 +655,7 @@ const Analysis = (props) => {
 							<div className={classes.the}>Assets' Basis Costs:</div>
 <div  className={classes.setTogglesX}>
 							<div  className={classes.wordGood}>
-								Average Basis Investment Cost: <div className={classes.diffs} style={{ fontSize: "1em",
+								Average Basis Investment Cost: <div className={classes.numberAlive} style={{ fontSize: "1em",
 								}}>
 								{(Math.round((set["data"]["weightedAverageTotalDomainInvestmentCost"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{' '}{(set["data"]["fiat"])}
 									</div>
@@ -697,7 +700,7 @@ const Analysis = (props) => {
 						<div className={classes.the}>MORE:</div>
 
 							<div  className={classes.setToggles2}>
-							<div className={classes.the}><button className={classes.lastButtons}>Download Statement</button><button className={classes.lastButtons} onClick={handleSave}>Save</button> 
+							<div className={classes.the}><button className={classes.lastButtons} onClick={handleDownload}>Download Statement</button><button className={classes.lastButtons} onClick={handleSave}>Save</button> 
 							
 							</div>
 
