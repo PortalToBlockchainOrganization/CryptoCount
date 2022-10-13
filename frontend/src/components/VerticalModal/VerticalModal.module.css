@@ -8,6 +8,7 @@
 
 .Button {
 	margin: 0 5px;
+	
 }
 
 .body {
@@ -15,8 +16,13 @@
 	align-items: center;
 	background-color: rgb(208, 229, 194);
 }
+
+.back{
+	background-color: #ddceaa;
+}
 .formRow {
 	justify-content: center;
+	background-color: rgb(208, 229, 194);
 }
 
 .head{

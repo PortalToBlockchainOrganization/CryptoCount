@@ -4,6 +4,14 @@
 	/* background-color: rgb(208, 229, 194); */
 }
 
+.back{
+	background-color: rgb(208, 229, 194);
+	margin-top: -10px;
+	margin-bottom: -10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
 .Flag {
 	width: 20%;
 	height: 20%;
