@@ -25,6 +25,20 @@
 	margin: 10px 10px 10px 20px;
   }
 
+  .words2{
+	font-family: "Blanka-Regular";
+	font-size: 1.5em;
+	color: rgb(235, 228, 228);
+	margin: 10px 10px 10px 20px;
+  }
+
+  .words3{
+	font-family: "Blanka-Regular";
+	font-size: 1.5em;
+	color: rgb(17, 15, 15);
+	margin: 10px 10px 10px 20px;
+	border-radius: 5px;
+  }
 	.the{
 	font-family: "Blanka-Regular";
 	font-size: 1.5em;
@@ -94,6 +108,7 @@
     padding: 0.375rem 0.75rem;
     line-height: 1.5;
 	background-color: rgb(22, 190, 118);
+	font-family: 'Blanka-Regular';
     border-radius: 0.25rem;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
