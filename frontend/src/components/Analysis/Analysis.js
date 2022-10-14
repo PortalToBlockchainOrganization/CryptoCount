@@ -8,7 +8,7 @@ import classes from "./Analysis.module.css";
 import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";
 import jsPDF from "jspdf";
 import TextTransition, { presets } from "react-text-transition";
-
+import CopyToClipboard from "react-copy-to-clipboard"
 /**
  * Component for the Analysis page. Renders a chart displaying realized,
  * unrealized, and realizing sets. Allows user to query for sets, realize,
@@ -710,7 +710,7 @@ const Analysis = (props) => {
 							<div  className={classes.setToggles2}>
 							<div className={classes.words}>
 							
-							SetId: <href className={classes.numberAlive2}>{(set["data"]["objectId"])}</href>Copy</div>
+							SetId: <href className={classes.numberAlive2} id="setId">{(set["data"]["objectId"])}</href>Copy</div>
 
 							</div></>
 				) : null}

@@ -105,6 +105,7 @@ const VerticalModal = (props) => {
 								let path = require(`../../Assets/Roles/${consensusRole}.png`);
 								return (
 									<Dropdownconsensus
+										class = {classes.back}
 										key={index}
 										consensusRole={consensusRole}
 										path={path.default}
@@ -131,6 +132,7 @@ const VerticalModal = (props) => {
 								let path = require(`../../Assets/Flags/${currency}.PNG`);
 								return (
 									<DropdownItem
+										class = {classes.back}
 										key={index}
 										currency={currency}
 										path={path.default}

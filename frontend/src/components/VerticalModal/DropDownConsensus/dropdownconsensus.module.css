@@ -7,11 +7,16 @@
 }
 
 .back{
-	background-color: rgb(208, 229, 194);
-	margin-top: -10px;
-	margin-bottom: -1\0px;
-	padding-top: 35px;
-	padding-bottom: 35px;
+	background-color: rgb(208, 229, 194) !important;
+	margin-top: -10px !important;
+	margin-bottom: -10px !important;
+	padding-top: 35px !important;
+	font-size: 1em !important;
+	padding-bottom: 35px !important;
+	/* margin-left: 10px;
+	margin-right: 10px;
+	padding-left: 10px;
+	padding-right: 10px; */
 }
 
 .Flag {

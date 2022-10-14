@@ -17,12 +17,17 @@
 	background-color: rgb(208, 229, 194);
 }
 
-.back{
-	background-color: #ddceaa;
-}
+
 .formRow {
 	justify-content: center;
 	background-color: rgb(208, 229, 194);
+}
+.back{
+	background-color: rgb(208, 229, 194);
+	margin-top: -10px;
+	margin-bottom: -10px;
+	padding-top: 35px;
+	padding-bottom: 35px;
 }
 
 .head{

@@ -43414,11 +43414,11 @@
     "nextTimeStamp": "",
     "totalOperations": [],
     "noRewards": false,
-    "TezosPriceOnDateObjectGenerated": 1.4,
-    "pointOfSaleAggValue": 117.59999999999997,
-    "netDiffFMV": -168.15489911207942,
-    "netDiffDilution": 82.84081570290465,
-    "netDiffSupplyDepletion": -100.87002174781063,
+    "TezosPriceOnDateObjectGenerated": 1.39,
+    "pointOfSaleAggValue": 116.75999999999998,
+    "netDiffFMV": -168.9948991120794,
+    "netDiffDilution": 82.00081570290467,
+    "netDiffSupplyDepletion": -101.71002174781061,
     "investmentBasisCostArray": [
         {
             "cost": 4.219648940300373,
