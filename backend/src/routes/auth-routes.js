@@ -92,6 +92,165 @@ router.post("/login", async (req, res) => {
   });
 
 
+router.post('/register', async (req, res)=>{
+    console.log('in register')
+    console.log(req.body.email)
+    //var vld = req.validator; // Shorthands
+    var body = req.body;
+    //var admin = req.session && req.session.isAdmin();
+
+    // if (admin && !body.password) body.password = "*"; // Blocking password
+    body.whenRegistered = new Date();
+
+
+    //check for dup email 
+
+    const user = await User.findOne({ email: body.email })
+
+    console.log(" "+ user)
+    console.log(body.password)
+
+    if (!user) {
+        console.log('making nee uwser')
+        const salt = await bcrypt.genSalt(10); 
+        const hashedPW = await bcrypt.hash(body.password, salt);
+        const {
+            firstName,
+            lastName,
+            email,
+            password,
+            termsAccepted,
+            role,
+        } = body;
+
+        var user1 = new User({
+            firstName,
+            lastName,
+            email,
+            password,
+            role,
+        });
+    
+        user1.password = hashedPW;
+
+        user1.save()
+
+        res.send(user1)
+
+    }
+})
+
+
+
+
+
+//     //then
+//      bcrypt.genSalt(10, cb); 
+//      //then //salt
+//      bcrypt.hash(body.password, salt, cb);
+//      //then //hasehd password
+//      const {
+//         firstName,
+//         lastName,
+//         email,
+//         password,
+//         termsAccepted,
+//         role,
+//     } = body;
+
+//     user = new User({
+//         firstName,
+//         lastName,
+//         email,
+//         password,
+//         role,
+//     });
+
+//     user.password = hashedpass;
+
+//     user.save(function (err, doc) {
+//         if (err) cb(err);
+//         cb(null, doc);
+//     });
+
+
+//     async.waterfall(
+//         [
+//             function (cb) {
+//                 // Check properties and search for Email duplicates
+//                 if (
+//                     vld.hasFields(
+//                         body,
+//                         ["email", "password", "lastName", "role"],
+//                         cb
+//                     ) &&
+//                     vld.valueCheck(body, cb) &&
+//                     vld
+//                         .chain(body.termsAccepted || admin, Tags.noTerms, null)
+//                         .chain(
+//                             body.role === 0 || admin,
+//                             Tags.forbiddenRole,
+//                             null
+//                         )
+//                 ) {
+//                     User.find({ email: body.email }, function (err, docs) {
+//                         console.log(cb);
+//                         if (err) cb(err);
+//                         cb(null, docs);
+//                     });
+//                 }
+//             },
+//             function (existingPrss, cb) {
+//                 // If no duplicates, encrypt password
+//                 // then add user
+//                 console.log(cb);
+//                 if (vld.check(!existingPrss.length, Tags.dupEmail, null, cb)) {
+//                     body.termsAccepted = body.termsAccepted && new Date();
+//                     body.termsAccepted = body.termsAccepted || null;
+//                     bcrypt.genSalt(10, cb); // generate salt for our hash
+//                 }
+//             },
+//             function (salt, cb) {
+//                 bcrypt.hash(body.password, salt, cb); // hash our password (encrypt)
+//             },
+//             function (hashedpass, cb) {
+//                 const {
+//                     firstName,
+//                     lastName,
+//                     email,
+//                     password,
+//                     termsAccepted,
+//                     role,
+//                 } = body;
+
+//                 user = new User({
+//                     firstName,
+//                     lastName,
+//                     email,
+//                     password,
+//                     role,
+//                 });
+
+//                 user.password = hashedpass;
+
+//                 user.save(function (err, doc) {
+//                     if (err) cb(err);
+//                     cb(null, doc);
+//                 });
+//             },
+//             function (result, cb) {
+//                 // Return location of inserted Person
+//                 console.log(result);
+//                 res.location(router.baseURL + "/" + result._id).end();
+//             },
+//         ],
+//         function (err) {
+//             if (err) console.log(err);
+//         }
+//     );
+
+// })
+
 
 // router.post('/', function(req, res) {
 

@@ -116,7 +116,7 @@ export function signOut() {
  * @returns {Promise resolving to new user}
  */
 export function register(user) {
-	return post("/auth/login", user);
+	return post("/auth/register", user);
 }
 
 export function deleteSet(id) {

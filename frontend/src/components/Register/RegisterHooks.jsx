@@ -54,7 +54,7 @@ const RegisterHooks = (props) => {
 	};
 
 	let toggleTerms = (e) => {
-		setTerms(!termsAccepted);
+		setTerms(termsAccepted);
 	};
 
 	// let toggleTerms = (e) => {
