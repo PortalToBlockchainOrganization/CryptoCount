@@ -408,9 +408,9 @@ const Landing = (props) => {
 				</div> */}
 			
 
-				<div className="name-one-liner">
+				<div className="name-one-liner2">
 					<h2 className="logo-tagline3">
-						Browser extension (Beta). 
+						BROWSER EXTENSION 
 					</h2>
 				</div>
 				<a
@@ -454,9 +454,9 @@ const Landing = (props) => {
 				</a>
 				{/* <div className='slideWrap'> */}
 				
-					<div className="name-one-liner">
-						<h2 className="logo-tagline3">
-							Interested in staking on Tezos? See your expected return below. 
+					<div className="name-one-liner2">
+						<h2 className="logo-tagline4">
+							Interested in staking on Tezos? See your expected return below 
 						</h2>
 					</div>
 					
@@ -557,26 +557,26 @@ const Landing = (props) => {
 					<img src="./logo.png" alt="chrome-web-store" />
 				</a>
 			</div>
-			<div>
+			<div >
 			<div className="bb2">
-					<h2 className="logo-tagline2">
-						Find A Baker Below To Begin Staking Tez.
+					<h2 className="logo-tagline5">
+						Find the best baker here:
 					</h2>
 				</div>
-				<a  href="https://baking-bad.org"><img className="bb" src={BakingBad} alt="BB"></img></a>
+				<button className="bb3"  href="https://baking-bad.org"><img className="bb" src={BakingBad} alt="BB"></img></button>
 			</div>
-			
+			<div className="powered">POWERED BY</div>
 			<div className="poweredBy">
-				Powered by
+				
 				<a href="https://tezos.com/" target="_blank" rel="noreferrer">
-					<img className="t-logo" src={tezos} alt="Tezos" />
+					<img className="t-logo2" src={tezos} alt="Tezos" />
 				</a>
 				<a
 					href="https://baking-bad.org"
 					target="_blank"
 					rel="noreferrer"
 				>
-					<img className="t-logo" src={tzkt} alt="tzkt" />
+					<img className="t-logo2" src={tzkt} alt="tzkt" />
 				</a>
 				<a
 					href="https://tezos.foundation/"

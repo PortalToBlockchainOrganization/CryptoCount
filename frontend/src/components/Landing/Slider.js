@@ -89,7 +89,7 @@ export default class Slider extends React.Component{
     render(){
         return(
             <Styles color={this.props.color }>
-                <div className='value4'>Tez Investment Quantity</div>
+                <div className='value4'>Investment USD To TEZ</div>
                  <div className='value4'>${(this.state.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
                  <br></br>
                  <div >

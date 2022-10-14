@@ -183,7 +183,7 @@ const Analysis = (props) => {
 		doc.setFontSize(10)
 		doc.text("Portal To Blockchain Organization (PTBO)", 55, 45)
 		//doc.addImage(tezLogo, 'JPEG', 20, 25, 23, 23, 'Tezos Logo');
-        doc.text("Protocol Blockchain: TEZOS " , 25, 60)
+        doc.text("PoS Protocol Blockchain: TEZOS " , 25, 60)
         doc.text("Tezos Delegator Address: " + set["data"]["walletAddress"], 25, 67)
         doc.text("Fiat: " + set["data"]["fiat"], 25, 74)
         var qRewSold = (Math.round((set["data"]["aggregateRealizedNativeReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -192,9 +192,9 @@ const Analysis = (props) => {
         doc.text("Period End: " + set["data"]["realizingNativeRewards"][last - 1]["date"], 25, 95);
         doc.text("Quantity Of Rewards Sold: " + qRewSold + " XTZ", 25, 109)
         doc.text("Average Asset Basis Cost: " + set["data"]["weightedAverageTotalDomainInvestmentCost"].toFixed(2) + " " + set["data"]["fiat"], 25, 116)
-        doc.text("Fair Market Value Reward Income: "+ (Math.round((set["data"]["aggregateRealizedNativeFMVReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (set["data"]["fiat"]), 25, 123)
-		doc.text("Supply Depletion Reward Income: "+ (Math.round((set["data"]["aggregateRealizedNativeSupplyDepletion100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+(set["data"]["fiat"]), 25, 130)
-        doc.text("Market Dilution Reward Income: "+ (Math.round((set["data"]["aggregateRealizedNativeMarketDilution100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (set["data"]["fiat"]), 25, 137)
+        doc.text("Fair Market Value Native Reward Income: "+ (Math.round((set["data"]["aggregateRealizedNativeFMVReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (set["data"]["fiat"]), 25, 123)
+		doc.text("Supply Depletion Native Reward Income: "+ (Math.round((set["data"]["aggregateRealizedNativeSupplyDepletion100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+(set["data"]["fiat"]), 25, 130)
+        doc.text("Market Dilution Native Reward Income: "+ (Math.round((set["data"]["aggregateRealizedNativeMarketDilution100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (set["data"]["fiat"]), 25, 137)
 
 		//var doc = [props][pdfDocument]
         //doc.setFontSize(12)
@@ -697,7 +697,7 @@ const Analysis = (props) => {
 							</div> */}
 
 						</div>
-						<div className={classes.the}>MORE:</div>
+						<div className={classes.the}>MORE ACTIONS:</div>
 
 							<div  className={classes.setToggles2}>
 							<div className={classes.the}><button className={classes.lastButtons} onClick={handleDownload}>Download Statement</button><button className={classes.lastButtons} onClick={handleSave}>Save</button> 
@@ -705,7 +705,7 @@ const Analysis = (props) => {
 							</div>
 
 							</div>
-							<div className={classes.the}>RETURN:</div>
+							<div className={classes.the}>RETURN WITH ID:</div>
 
 							<div  className={classes.setToggles2}>
 							<div className={classes.words}>SetId: </div>

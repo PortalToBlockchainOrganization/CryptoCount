@@ -234,7 +234,7 @@ p {
 
 .logo-tagline3 {
 	font-size: 1.5em;
-	font-family: "Louis George Café", sans-serif;
+	font-family: 'Blanka-Regular';
 	font-weight: 700;
 	color: #2e2e2e;
 	margin-top: 20px;
@@ -242,9 +242,29 @@ p {
 	margin-bottom: 15px;
 }
 
+.logo-tagline4 {
+	font-size: 2.5em;
+	font-family: 'Blanka-Regular';
+	font-weight: 700;
+	color: white;
+	margin-top: 90px;
+	flex-direction: column;
+	margin-bottom: 15px;
+}
+
+.logo-tagline5 {
+	font-size: 2.5em;
+	font-family: 'Blanka-Regular';
+	font-weight: 700;
+	color: white;
+	margin-top: 90px;
+	flex-direction: column;
+	margin-bottom: 45px;
+}
+
 #dark .logo-tagline3 {
 	font-size: 1.5em;
-	font-family: "Louis George Café", sans-serif;
+	font-family: 'Blanka-Regular';
 	font-weight: 700;
 	color: white;
 	flex-direction: column;
@@ -343,19 +363,35 @@ p {
 	margin-top: 0px;
 }
 
+.name-one-liner2{
+	color: white;
+	margin-bottom: 10px;
+	margin-top: 0px;
+}
+
 .button-continue:disabled {
 	cursor: not-allowed;
 }
 
 .t-logo {
 	margin: 10px;
-	width: 40px;
+	width: 100px;
 	border-radius: 5px;
+	height: 80px;
+}
+
+.t-logo2 {
+	margin: 10px;
+	width: 100px;
+	border-radius: 5px;
+	height: 100px;
 }
 
 .tFoundation {
 	margin: 10px;
 	width: 60px;
+	height: 70px;
+	width: 150px;
 }
 
 .poweredBy {
@@ -363,17 +399,23 @@ p {
 	justify-content: center;
 	align-items: center;
 	margin: 20px;
+	height: 20vh;
+	margin-top:50px;
 	padding: 20px;
 	width: 100vw;
-	opacity: 0.75;
+	opacity: 1;
 }
 
 .bb{
 	display: flex;
 	justify-content: center;
 	margin: auto;
-	width: 70vw;
+	width: 60vw;
+	margin-left: 30px;
+	padding-left: 30px;
+	height: 30vh;
 	border-radius: 20px;
+	
 }
 .bb2{
 	display: flex;
@@ -381,6 +423,16 @@ p {
 	margin: auto;
 	width: 70vw;
 	border-radius: 30%;
+	border-color: white;
+}
+
+.bb3{
+	display: flex;
+	justify-content: center;
+	margin: auto;
+	width: 70vw;
+	border-radius: 10px;
+	border-color: white;
 }
 
 .tutorial {
@@ -503,4 +555,13 @@ p {
 	.animation {
 		width: 30%;
 	}
+}
+
+.powered{
+	font-family: 'Blanka-Regular';
+	color: white;
+	font-size: 1.5em;
+	margin-top: 90px;
+	margin-bottom: -30px;
+
 }
