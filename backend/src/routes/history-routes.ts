@@ -12,6 +12,7 @@ import {UmbrellaModel} from "../documentInterfaces/umbrella/umbrella.model"
 
 router.get("/", async function (req, res) {
 	var user_id = "60df960c5562110dc0753d3d"
+    //get the user id out of the session cookie
     //req.session.prsId;
 	
     console.log("getting all user sets");
