@@ -48,8 +48,9 @@ const router = require('express').Router()
   })
 
 
-
+  //not configured for grandfather realize
   router.post('/Retrieve/', async (req, res)=>{
+    
 
     console.log(req.body.setId)
     var date = new Date();

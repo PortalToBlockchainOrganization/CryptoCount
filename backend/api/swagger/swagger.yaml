@@ -3,7 +3,7 @@ info:
   version: 0.2.2
   title: CryptoCount API
 
-host: localhost:7000
+host: localhost:8000
 
 basePath: /
 
