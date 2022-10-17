@@ -226,8 +226,10 @@ export function getSet(setId) {
 	});
 }
 
-export function getSets() {
-	return get("/history/");
+export function getSets(user_id) {
+	return post("/history/",{
+		user_id: user_id
+	})
 }
 
 export function forgotPassword(emailObj) {

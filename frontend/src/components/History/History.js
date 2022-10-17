@@ -18,10 +18,13 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 		temp.push(data);
 		setHistory(temp);
 	};
-
+	console.log("user")
+	console.log(user)
+	const user_id = user._id
+	console.log("user_id" + user_id)
 	const getTableData = useCallback(() => {
 		if (realizedHistory?.history?.length !== 0 && history?.length === 0) {
-			getHistory(pushToHistory);
+			getHistory(user_id, pushToHistory);
 		} else {
 			let temp = realizedHistory?.history;
 			setHistory(temp);

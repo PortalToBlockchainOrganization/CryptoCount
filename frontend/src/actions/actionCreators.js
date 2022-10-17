@@ -342,11 +342,11 @@ export function getHistoryStarted() {
 	return { type: "CREATE_HISTORY_STARTED", payload: { isLoading: true } };
 }
 
-export function getHistory(cb) {
+export function getHistory(user_id, cb) {
 	return (dispatch) => {
 		dispatch(getHistoryStarted());
 		let history = [];
-		api.getSets().then((res) => {
+		api.getSets(user_id).then((res) => {
 			res.json().then((res) => {
 				history = res.map((set) => {
 					if (
