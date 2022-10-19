@@ -6,6 +6,8 @@ import transformToRealizing from "../documentInterfaces/stateModels/realizing"
 import transformToSave from "../documentInterfaces/stateModels/saved"
 import populateUmbrella from "../documentInterfaces/umbrella/umbrella.statics"
 import { writeFile } from "fs";
+const User = require('../models/user-model')
+
 
 
 const testObjectRealize = require("../testObjectRealize.js")
@@ -37,6 +39,12 @@ const router = require('express').Router()
             setId = room.id
             console.log(room.id);
             model.objectId = setId
+            //if signed in, put entities together
+            if (req.body.user_id){
+              console.log('hi')
+
+            }
+
             //control the model up 
             unrealizedModel = transformToUnrealized(model)
             res.status(200).send(unrealizedModel)
@@ -59,13 +67,38 @@ const router = require('express').Router()
     //let ts = query object from db by id
     let obj: any = {}
   
-    UmbrellaModel.findById(req.body.setId, function (err: any, docs: any) {
+    UmbrellaModel.findById(req.body.setId, async function (err: any, docs: any) {
       if (err){
           console.log(err);
       }else{
         console.log("what ")
         obj = docs
         console.log(docs.walletAddress)
+
+        //add to user if havent already and is signed in 
+        if (req.body.user_id){
+          console.log('hi')
+          //get the user
+        await User.find({ _id: req.body.user_id }).then(async (user: { setIds: any[]; }[])=>{
+            console.log(user[0].setIds.includes(req.body.setId))
+          //check if the set id already exists in setIds array
+          if(user[0].setIds.includes(req.body.setId)){
+            console.log("already tied to entity")
+          }else{
+            console.log('tying to entity')
+            console.log(user[0].setIds)
+            user[0].setIds.push(req.body.setId)
+            console.log(user)
+
+          }
+          console.log(user)
+          var user_id= req.body.user_id
+
+          await User.updateOne({ _id: user_id }, { $set: user[0] }).clone()
+          console.log("updated?")
+          })
+        }
+       
 
         //check if last updated within last two days
         if(!(new Date(obj.lastUpdated) < new Date(date.setDate(date.getDate() - 2)))){

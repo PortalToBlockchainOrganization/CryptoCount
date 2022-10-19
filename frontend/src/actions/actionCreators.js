@@ -321,7 +321,7 @@ export function getSet(params) {
 	return (dispatch) => {
 		dispatch(getUnrealizedSetStarted());
 		console.log('dispatch')
-		api.getSet(params.setId)
+		api.getSet(params.setId, params.user_id)
 			.then((res) => {
 				res.json().then((res) => {
 					console.log(res);

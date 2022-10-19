@@ -157,6 +157,7 @@ export function generatePost(params) {
 			"fiat": params["fiat"],
 			"address": params["address"],
 			"consensusRole": params["consensusRole"],
+			"user_id": params["user_id"]
 		},
 	);
 }
@@ -170,6 +171,7 @@ export function unrealizedSet(params) {
 			"fiat": params["fiat"],
 			"address": params["address"],
 			"consensusRole": params["consensusRole"],
+			"user_id": params["user_id"]
 			
 		
 	});
@@ -183,6 +185,7 @@ export function getUnrealizedSet(params) {
 			"fiat": params["fiat"],
 			"address": params["address"],
 			"consensusRole": params["consensusRole"],
+			"user_id": params["user_id"]
 			
 		
 	});
@@ -195,6 +198,7 @@ export function noAuthUnrealizedSet(params) {
 			fiat: params["fiat"],
 			address: params["address"],
 			consensusRole: params["consensusRole"],	
+			user_id: params["user_id"]
 	});
 }
 
@@ -220,9 +224,10 @@ export function saveRealize(setId, confirm_quantity) {
 	});
 }
 
-export function getSet(setId) {
+export function getSet(setId, user_id) {
 	return post("/tezos/Retrieve", {
-		setId: setId
+		setId: setId,
+		user_id: user_id,
 	});
 }
 

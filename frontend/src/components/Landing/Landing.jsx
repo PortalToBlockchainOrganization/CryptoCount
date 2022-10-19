@@ -39,7 +39,7 @@ const Landing = (props) => {
 	const [state, setState] = React.useState({ x: 10, y: 10 });
 	const {
 		set,
-		
+		user,
 	
 		getSet,
    
@@ -101,6 +101,8 @@ const Landing = (props) => {
 		setShowModal(true);
 	};
 
+	console.log('user')
+	console.log(user)
 
 	useEffect(()=>{
 
@@ -152,7 +154,9 @@ const Landing = (props) => {
 	};
 
 	const handleSetIdChange = (e) => {
-		setSetId({setObjectId: e.target.value})
+		setSetId({
+			setObjectId: e.target.value,
+		})
 	}
 
 	const handleEmailChange = (e) => {
@@ -186,13 +190,17 @@ const Landing = (props) => {
 			basisDate: basisDate["basisDate"],
 			fiat: fiat,
 			consensusRole: consensusRole,
+			user_id: user._id
 		};
+		console.log(params)
 
 		props.setParams({
 			fiat: params["fiat"],
 			address: params["address"],
 			consensusRole: params["consensusRole"],
+			user_id: params["user_id"]
 		});
+		console.log(props)
 		console.log(Object.keys(props.user).length > 0);
 		if (Object.keys(props.user).length > 0) {
 			console.log("AUTO");
@@ -201,6 +209,7 @@ const Landing = (props) => {
 					fiat: params["fiat"],
 					address: params["address"],
 					consensusRole: params["consensusRole"],
+					user_id: params["user_id"]
 				},
 				() => {
 					props.history.push("/analysis");
@@ -212,6 +221,7 @@ const Landing = (props) => {
 					fiat: params["fiat"],
 					address: params["address"],
 					consensusRole: params["consensusRole"],
+					user_id: params["user_id"]
 				},
 				() => {
 					props.history.push("/analysis");
@@ -240,6 +250,7 @@ const Landing = (props) => {
 		props.getSet(
 			{
 				setId: setId["setObjectId"],
+				user_id: user._id
 			},
 			// () => {
 			// 	props.history.push("/analysis");
