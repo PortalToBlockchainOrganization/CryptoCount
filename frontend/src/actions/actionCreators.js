@@ -317,11 +317,11 @@ export function saveRealizing(setId, quantity) {
 	};
 }
 
-export function getSet(params) {
+export function getSet(setId, user_id) {
 	return (dispatch) => {
 		dispatch(getUnrealizedSetStarted());
 		console.log('dispatch')
-		api.getSet(params.setId, params.user_id)
+		api.getSet(setId, user_id)
 			.then((res) => {
 				res.json().then((res) => {
 					console.log(res);

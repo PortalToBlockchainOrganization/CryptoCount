@@ -40,7 +40,7 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 	React.useEffect(() => {
 		const handleView = (id, address, fiat, date) => {
 			console.log(id);
-			getSet(id);
+			getSet(id, user_id);
 			setParams({ address: address, fiat, basisDate: date });
 			browserHistory.push("/analysis");
         };
