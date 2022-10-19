@@ -92,7 +92,7 @@ const Analysis = (props) => {
 		*/
 		e.preventDefault();
 		console.log("asdf")
-
+		console.log(set["data"]["objectId"])
 		if (set["data"]["objectId"] !== undefined && quantityRealize !== 0) {
 			if (!signedIn()) {
 				console.log("NOAUTH TRIGGERED");

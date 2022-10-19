@@ -1081,12 +1081,13 @@ export default class TezosSet {
         let lastSupply: CurrencySupplyAndDate = filteredSupplyByDay[0];  
         nativeSupplyDepletionByDay = filteredSupplyByDay.slice(1).map(supply => {
             let ratio: number = lastSupply.totalSupply/supply.totalSupply;
-            if (lastSupply.dateString === supply.dateString){
-                return
-            }
+            // if (lastSupply.dateString === supply.dateString){
+            //     return
+            // }
             lastSupply = supply;
             return {date: supply.dateString, amount: (1 - ratio) * mappedBV[supply.dateString]}
         });
+        console.log(nativeSupplyDepletionByDay)
 
 
         let mappedFMV: Map<number, RewardsByDay> = new Map();

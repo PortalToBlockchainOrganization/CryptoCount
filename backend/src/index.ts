@@ -61,18 +61,9 @@ import umbrella from "./documentInterfaces/umbrella/umbrella.schema";
  *  App Configuration
  */
 
-var whitelist = ["http://localhost:3000", "http://localhost:8080"]
 
  app.use(helmet());
-const options: cors.CorsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  },credentials: true,methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",};
-
+const options: cors.CorsOptions = {origin: "http://localhost:3000",credentials: true,methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",};
 app.use(cors(options));;
 
 
@@ -102,7 +93,7 @@ app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes);
 
 app.use('/Tezos', tezosRoutes);
-app.use('/history', historyRoutes);
+app.use('/history', historyRoutes)
 
 // app.get('/cors', (req, res) => {
 //   res.set('Access-Control-Allow-Origin', 'http://localhost:3000');

@@ -310,7 +310,7 @@ export function saveRealizing(setId, quantity) {
 			res.json().then((res) => {
 				return dispatch({
 					type: "SAVE_REALIZE",
-					payload: { data: res, isLoading: false },
+					payload: res,
 				});
 			});
 		});
