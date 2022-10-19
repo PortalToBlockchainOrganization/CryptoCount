@@ -32,6 +32,7 @@ router.post("/", async function (req, res) {
         else{
             if(docs == null){
                 //grandfather objects
+                console.log('here')
                 RealizeHistObj.find({ userid: user_id }, function (err, doc) {
                             if (err) {
                                 console.log(err)
@@ -44,7 +45,7 @@ router.post("/", async function (req, res) {
                 res.status(200).json(docs)
             }
         }
-    })
+    }).clone()
     
     // try{
     //     RealizeHistObj.find({ userid: user_id }, function (err, doc) {

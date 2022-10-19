@@ -348,17 +348,22 @@ export function getHistory(user_id, cb) {
 		let history = [];
 		api.getSets(user_id).then((res) => {
 			res.json().then((res) => {
+				console.log("herewerare1")
+
 				history = res.map((set) => {
+					console.log("herewerare2")
+					console.log(set)
 					if (
-						(set?.unrealizedRewards?.length > 0 ||
-							set?.realizedRewards?.length) &&
-						set?.address &&
+						(set?.unrealizedNativeRewards?.length > 0 ||
+							set?.realizedNativeRewards?.length) &&
+						set?.walletAddress &&
 						set?.fiat
 					) {
+						console.log('hereweare')
 						let tempParams = {
-							createdAt: set["createdAt"],
+							lastUpdated: set["lastUpdated"],
 							id: set["_id"],
-							address: set["address"],
+							address: set["walletAddress"],
 							fiat: set["fiat"],
 							basisDate: set["basisDate"]
 								? set["basisDate"]

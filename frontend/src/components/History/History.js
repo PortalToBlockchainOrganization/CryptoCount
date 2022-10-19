@@ -57,13 +57,15 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
         getTableData();
         console.log(history, "This is History")
 		let temp = history?.map((obj, objIdx) => {
+			console.log('back in compenet')
+			console.log(obj)
 			return (
 			// <div className={classes.wrap}>
 
-				
+			
 				<tr  key={objIdx}>
 					<td><img className="logo1" width="40" height="50" src={Image} alt="logo" /></td>
-					<td>{obj.createdAt.split("T")[0]}</td>
+					<td>{obj.lastUpdated.split("T")[0]}</td>
 					<td>{obj.address}</td>
 					<td>{obj.fiat}</td>
 					<td>{obj.basisDate.substring(0, 10)}</td>
@@ -159,7 +161,7 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 					<thead >
 						<tr>
 							<th >Blockchain</th>
-							<th >Created At</th>
+							<th >Last Updated</th>
 							<th >Address</th>
 							<th >Fiat</th>
 							<th>Basis</th>
