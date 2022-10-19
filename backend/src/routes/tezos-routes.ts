@@ -35,13 +35,31 @@ const router = require('express').Router()
           var setId: any
           //how do i get the same instance ?
           let model =  new UmbrellaModel(ts)
-          model.save(function(_err,room) {
+          model.save(async function(_err,room) {
             setId = room.id
             console.log(room.id);
             model.objectId = setId
+            
             //if signed in, put entities together
             if (req.body.user_id){
               console.log('hi')
+              await User.find({ _id: req.body.user_id }).then(async (user: { setIds: any[]; }[])=>{
+                
+              //check if the set id already exists in setIds array
+              
+              console.log('tying to entity')
+              var id = model._id.toString()
+              console.log(id)
+              console.log(user[0].setIds)
+              user[0].setIds.push(id)
+              console.log(user)
+    
+              var user_id= req.body.user_id
+
+    
+              await User.updateOne({ _id: user_id }, { $set: user[0] }).clone()
+              console.log("updated?")
+              })
 
             }
 
