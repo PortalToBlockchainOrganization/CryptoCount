@@ -78,16 +78,23 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
-									to="/about"
-								>
-									About
-								</NavLink>
-								<NavLink
-									className={classes.NavLink}
-									activeClassName={classes.NavActive}
 									to="/regulatory"
 								>
 									Regulation Tracker
+								</NavLink>
+								<a
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									href="https://portaltoblockchain.org"
+								>
+									API
+								</a>
+								<NavLink
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									to="/about"
+								>
+									About
 								</NavLink>
 								{/* <NavLink
 									className={classes.NavLink}
@@ -96,13 +103,7 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								>
 									Blog
 								</NavLink> */}
-								<a
-									className={classes.NavLink}
-									activeClassName={classes.NavActive}
-									href="https://portaltoblockchain.org"
-								>
-									API
-								</a>
+						
 								{/* <NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
@@ -142,13 +143,6 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
-									to="/about"
-								>
-									About
-								</NavLink>
-								<NavLink
-									className={classes.NavLink}
-									activeClassName={classes.NavActive}
 									to="/regulatory"
 								>
 									Regulation Tracker
@@ -170,9 +164,9 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
-									to="/signin"
+									to="/about"
 								>
-									Sign In
+									About
 								</NavLink>
 								<NavLink
 									className={classes.NavLink}
@@ -181,6 +175,14 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								>
 									Privacy
 								</NavLink>
+								<NavLink
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									to="/signin"
+								>
+									Sign In
+								</NavLink>
+							
 								{/* <div className="switch">
 								<ReactSwitch onChange={toggleTheme} checked={theme==="dark"}/>
 								</div> */}
@@ -215,7 +217,7 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								<div className={classes.Log}>
 									
 									<Menu
-										label={`${user.email}`}
+										label={`${user._id}`}
 									>
 										{/* <NavLink
 											to="change-password"
