@@ -123,6 +123,7 @@ const Analysis = (props) => {
 	};
 
 	
+	const [isCopied, setIsCopied] = useState(false);
 
 	
 	
@@ -581,6 +582,24 @@ const Analysis = (props) => {
 							
 					
 				)}
+				{set["data"]["aggregateRealizedNativeReward100p"] < 1 ?(
+					<div>
+						<div className={classes.the}>RETURN WITH ID:</div>
+
+						<div  className={classes.setToggles2}>
+						<div className={classes.words}>SetId: </div>
+						<href className={classes.numberAlive2} id="setId">{(set["data"]["objectId"])}</href>
+						<CopyToClipboard text={(set["data"]["objectId"])}
+						onCopy={() => setIsCopied({isCopied: true})}>
+							<button className={classes.words3}><span>{isCopied ? 'Copied' : 'Copy'}</span>
+							</button>
+						</CopyToClipboard>
+
+
+						</div>
+					</div>
+					
+				): null}
 			
 				
 {console.log(currentSet)}
@@ -710,8 +729,9 @@ const Analysis = (props) => {
 							<div  className={classes.setToggles2}>
 							<div className={classes.words}>SetId: </div>
 							<href className={classes.numberAlive2} id="setId">{(set["data"]["objectId"])}</href>
-							<CopyToClipboard text={(set["data"]["objectId"])}>
-								<button className={classes.words3}>Copy</button>
+							<CopyToClipboard text={(set["data"]["objectId"])}
+							onCopy={() => setIsCopied({isCopied: true})}>					
+								<button className={classes.words3}><span>{isCopied ? 'Copied' : 'Copy'}</span></button>
 							</CopyToClipboard>
 							
 
