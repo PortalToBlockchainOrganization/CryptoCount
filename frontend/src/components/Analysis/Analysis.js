@@ -40,7 +40,13 @@ const Analysis = (props) => {
 	const [showModal, setShowModal] = useState(true);
 	const [active, setActive] = useState("unrealizedBasisRewards");
 
+	console.log('seteth00')
+
+	console.log(set)
+
 	const [index, setIndex] = React.useState(0);
+		// current set data
+	const [currentSet, setCurrentSet] = useState();
 
 	React.useEffect(() => {
 	  const intervalId = setInterval(() =>
@@ -57,10 +63,15 @@ const Analysis = (props) => {
 		
 		}, [])
 
+	// rerender the chart
+	useEffect(() => {
+		setCurrentSet(getData(null, set, params, getUnrealizedSet));
+	}, [set, params, getUnrealizedSet]);
+
 	const updateChart = (setToRender) => {
 		// update chart based on button press
 		console.log('updatechart data vals')
-		console.log(getData(setToRender, set, params, getUnrealizedSet))
+		console.log(set)
 		setCurrentSet(getData(setToRender, set, params, getUnrealizedSet));
 		setActive(setToRender);
 		
@@ -122,8 +133,7 @@ const Analysis = (props) => {
 			saveRealizing(
 				set["data"]["objectId"], 
 				set["data"]["aggregateRealizedNativeReward100p"],
-				updateChart
-				);
+				)
 			// props.getHistory();
 			
 		}
@@ -215,14 +225,12 @@ const Analysis = (props) => {
 	};
 
 	// current set data
-	const [currentSet, setCurrentSet] = useState();
+	//const [currentSet, setCurrentSet] = useState();
 	console.log('seteth')
+
 	console.log(set)
 
-	// rerender the chart
-	useEffect(() => {
-		setCurrentSet(getData(null, set, params, getUnrealizedSet));
-	}, [set, params, getUnrealizedSet]);
+
 
 	// chart js options
 	const options = chartOptions(set, params.consensusRole);

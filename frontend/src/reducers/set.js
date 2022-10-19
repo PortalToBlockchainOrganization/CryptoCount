@@ -15,6 +15,7 @@ function set(state = {}, action) {
 			let tempState = { ...state };
 			tempState["isLoading"] = true;
 			return tempState;
+		
 		case "ADD_REALIZING_SET":
 			// TYPO IN RESPONSE PLS FIX
 			let tempSet = state;

@@ -305,7 +305,7 @@ export function startSaveRealizing() {
 
 export function saveRealizing(setId, quantity, cb) {
 	return (dispatch) => {
-		dispatch(startSaveRealizing);
+		dispatch(getRealizingSetStart);
 		api.saveRealize(setId, quantity).then((res) => {
 			res.json().then((res) => {
 				dispatch({
