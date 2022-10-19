@@ -33,8 +33,11 @@ const router = require('express').Router()
           console.log("JSON saved to " + "test.json");
           //put ts in db by id
           var setId: any
-          //how do i get the same instance ?
+          //how do i get the same instance ?          
           let model =  new UmbrellaModel(ts)
+          //add user id to umbrella
+          model.user_id = req.body.user_id
+
           model.save(async function(_err,room) {
             setId = room.id
             console.log(room.id);
@@ -115,6 +118,12 @@ const router = require('express').Router()
           await User.updateOne({ _id: user_id }, { $set: user[0] }).clone()
           console.log("updated?")
           })
+
+          //update umbrella with user id
+          docs.user_id = req.body.user_id
+          await UmbrellaModel.findOneAndUpdate({_id: docs._id}, {$set: docs}).clone()
+
+
         }
        
 

@@ -22,9 +22,10 @@ router.post("/", async function (req, res) {
     
     console.log(UmbrellaModel)
     
-    await UmbrellaModel.findById({_id: user_id}, function (err: any, docs: any) {
+    //we want to get every user_id
+    await UmbrellaModel.find({user_id: user_id}, function (err: any, docs: any) {
         console.log("result")
-        console.log(docs)
+        console.log(docs.length)
         if (err){
             console.log(err);
         }
