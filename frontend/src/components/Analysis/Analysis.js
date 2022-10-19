@@ -59,6 +59,8 @@ const Analysis = (props) => {
 
 	const updateChart = (setToRender) => {
 		// update chart based on button press
+		console.log('updatechart data vals')
+		console.log(getData(setToRender, set, params, getUnrealizedSet))
 		setCurrentSet(getData(setToRender, set, params, getUnrealizedSet));
 		setActive(setToRender);
 		
@@ -117,8 +119,13 @@ const Analysis = (props) => {
 		e.preventDefault();
 		if (set["data"]["objectId"] !== undefined) {
 			console.log("saving")
-			saveRealizing(set["data"]["objectId"], set["data"]["aggregateRealizedNativeReward100p"]);
+			saveRealizing(
+				set["data"]["objectId"], 
+				set["data"]["aggregateRealizedNativeReward100p"],
+				updateChart
+				);
 			// props.getHistory();
+			
 		}
 	};
 
@@ -209,6 +216,8 @@ const Analysis = (props) => {
 
 	// current set data
 	const [currentSet, setCurrentSet] = useState();
+	console.log('seteth')
+	console.log(set)
 
 	// rerender the chart
 	useEffect(() => {

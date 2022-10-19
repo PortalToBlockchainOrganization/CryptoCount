@@ -5,6 +5,8 @@ import { isWhiteSpaceLike } from "typescript";
 export const getData = (setToRender, set, params, getUnrealizedSet) => {
 	//set to render is unrealizedNativeFMVRewards or others
 
+	console.log("setDatabeforegetting it in char")
+	console.log(set)
 
 	//add a dataset[i].label for basis cost 
 	//add dataset[i].data[i] for basis cost
