@@ -21,27 +21,30 @@ router.post("/", async function (req, res) {
     var user_id = req.body.user_id
     
     console.log(UmbrellaModel)
-    try{
-        UmbrellaModel.findById({_id: user_id}, function (err: any, docs: any) {
-            if (err){
-                console.log(err);
+    
+    await UmbrellaModel.findById({_id: user_id}, function (err: any, docs: any) {
+        console.log("result")
+        console.log(docs)
+        if (err){
+            console.log(err);
+        }
+        else{
+            if(docs == null){
+                //grandfather objects
+                RealizeHistObj.find({ userid: user_id }, function (err, doc) {
+                            if (err) {
+                                console.log(err)
+                            }else{
+                                res.status(200).json(doc)
+                            }
+                        })
+            }else{
+                
+                res.status(200).json(docs)
             }
-            else{
-                if(docs == null){
-                    //grandfather objects
-                    RealizeHistObj.find({ userid: user_id }, function (err, doc) {
-                                if (err) {
-                                    console.log(err)
-                                }else{
-                                    res.status(200).json(doc)
-                                }
-                            })
-                }else{
-                    res.status(200).json(docs)
-                }
-            }
-        })
-    }catch(e){console.log(e)}
+        }
+    })
+    
     // try{
     //     RealizeHistObj.find({ userid: user_id }, function (err, doc) {
     //         if (err) {
