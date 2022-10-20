@@ -49699,315 +49699,9 @@
     ],
     "unrealizedNativeRewards": [
         {
-            "date": "2021-11-30",
-            "rewardAmount": 6497.36334099811,
-            "cycle": 426
-        },
-        {
-            "date": "2021-12-03",
-            "rewardAmount": 7814.582715,
-            "cycle": 427,
-            "basisCost": 68.54520030762417
-        },
-        {
-            "date": "2021-12-06",
-            "rewardAmount": 7814.503609,
-            "cycle": 428,
-            "basisCost": 67.99838754139353
-        },
-        {
-            "date": "2021-12-09",
-            "rewardAmount": 7889.478436,
-            "cycle": 429,
-            "basisCost": 67.99838754139353
-        },
-        {
-            "date": "2021-12-12",
-            "rewardAmount": 7890.468185,
-            "cycle": 430,
-            "basisCost": 67.99838754139353
-        },
-        {
-            "date": "2021-12-15",
-            "rewardAmount": 7871.770316,
-            "cycle": 431,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-18",
-            "rewardAmount": 7900.676503,
-            "cycle": 432,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-21",
-            "rewardAmount": 7851.796315,
-            "cycle": 433,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-24",
-            "rewardAmount": 7913.593097,
-            "cycle": 434,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-27",
-            "rewardAmount": 7861.640031,
-            "cycle": 435,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-30",
-            "rewardAmount": 7905.20774,
-            "cycle": 436,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2022-01-02",
-            "rewardAmount": 8200.728506,
-            "cycle": 437,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2022-01-05",
-            "rewardAmount": 8210.259783,
-            "cycle": 438,
-            "basisCost": 63.81839525617147
-        },
-        {
-            "date": "2022-01-08",
-            "rewardAmount": 7519.47858,
-            "cycle": 439,
-            "basisCost": 63.81839525617147
-        },
-        {
-            "date": "2022-01-11",
-            "rewardAmount": 7459.869124,
-            "cycle": 440,
-            "basisCost": 63.81839525617147
-        },
-        {
-            "date": "2022-01-14",
-            "rewardAmount": 7703.90584,
-            "cycle": 441,
-            "basisCost": 63.81839525617147
-        },
-        {
-            "date": "2022-01-16",
-            "rewardAmount": 7585.780808,
-            "cycle": 442,
-            "basisCost": 63.81839525617147
-        },
-        {
-            "date": "2022-01-19",
-            "rewardAmount": 7494.062154,
-            "cycle": 443,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-01-22",
-            "rewardAmount": 7804.16598,
-            "cycle": 444,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-01-25",
-            "rewardAmount": 7817.395447,
-            "cycle": 445,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-01-28",
-            "rewardAmount": 7893.489179,
-            "cycle": 446,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-01-31",
-            "rewardAmount": 7935.75499,
-            "cycle": 447,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-02-03",
-            "rewardAmount": 8009.062167,
-            "cycle": 448,
-            "basisCost": 60.93052075977302
-        },
-        {
-            "date": "2022-02-06",
-            "rewardAmount": 8037.499573,
-            "cycle": 449,
-            "basisCost": 60.93052075977302
-        },
-        {
-            "date": "2022-02-09",
-            "rewardAmount": 7615.59841,
-            "cycle": 450,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-12",
-            "rewardAmount": 7580.468502,
-            "cycle": 451,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-15",
-            "rewardAmount": 7627.734095,
-            "cycle": 452,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-18",
-            "rewardAmount": 7708.879928,
-            "cycle": 453,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-20",
-            "rewardAmount": 7731.562325,
-            "cycle": 454,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-23",
-            "rewardAmount": 7743.254898,
-            "cycle": 455,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-26",
-            "rewardAmount": 7754.556958,
-            "cycle": 456,
-            "basisCost": 56.80154747063573
-        },
-        {
-            "date": "2022-03-01",
-            "rewardAmount": 7721.66632,
-            "cycle": 457,
-            "basisCost": 56.80154747063573
-        },
-        {
-            "date": "2022-03-04",
-            "rewardAmount": 7849.817273,
-            "cycle": 458,
-            "basisCost": 56.80154747063573
-        },
-        {
-            "date": "2022-03-07",
-            "rewardAmount": 7770.077643,
-            "cycle": 459,
-            "basisCost": 56.80154747063573
-        },
-        {
-            "date": "2022-03-10",
-            "rewardAmount": 7771.588254,
-            "cycle": 460,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-13",
-            "rewardAmount": 7758.957478,
-            "cycle": 461,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-16",
-            "rewardAmount": 7814.947509,
-            "cycle": 462,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-19",
-            "rewardAmount": 7791.822281,
-            "cycle": 463,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-22",
-            "rewardAmount": 7774.217927,
-            "cycle": 464,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-25",
-            "rewardAmount": 7725.858566,
-            "cycle": 465,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-28",
-            "rewardAmount": 7760.676502,
-            "cycle": 466,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-31",
-            "rewardAmount": 7675.64902,
-            "cycle": 467,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-04-03",
-            "rewardAmount": 0,
-            "cycle": 468,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-04-06",
-            "rewardAmount": 7950.542453,
-            "cycle": 469,
-            "basisCost": 52.35591353161053
-        },
-        {
-            "date": "2022-04-09",
-            "rewardAmount": 0,
-            "cycle": 470,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-12",
-            "rewardAmount": 7950.542453,
-            "cycle": 471,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-15",
-            "rewardAmount": 7950.542453,
-            "cycle": 472,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-18",
-            "rewardAmount": 7950.542453,
-            "cycle": 473,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-21",
-            "rewardAmount": 7940.771513,
-            "cycle": 474,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-24",
-            "rewardAmount": 7946.376947,
-            "cycle": 475,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-27",
-            "rewardAmount": 7947.491177,
-            "cycle": 476,
-            "basisCost": 48.74523559110352
-        },
-        {
             "date": "2022-04-30",
-            "rewardAmount": 7967.510176,
-            "cycle": 477,
-            "basisCost": 48.74523559110352
+            "rewardAmount": 1476.1859329981562,
+            "cycle": 477
         },
         {
             "date": "2022-05-02",
@@ -50366,315 +50060,9 @@
     ],
     "unrealizedNativeFMVRewards": [
         {
-            "date": "2021-11-30",
-            "rewardAmount": 992518.6841518558,
-            "cycle": 426
-        },
-        {
-            "date": "2021-12-03",
-            "rewardAmount": 1084844.5548806016,
-            "cycle": 427,
-            "basisCost": 68.54520030762417
-        },
-        {
-            "date": "2021-12-06",
-            "rewardAmount": 824448.114341783,
-            "cycle": 428,
-            "basisCost": 67.99838754139353
-        },
-        {
-            "date": "2021-12-09",
-            "rewardAmount": 1224922.0394002816,
-            "cycle": 429,
-            "basisCost": 67.99838754139353
-        },
-        {
-            "date": "2021-12-12",
-            "rewardAmount": 962902.5316302009,
-            "cycle": 430,
-            "basisCost": 67.99838754139353
-        },
-        {
-            "date": "2021-12-15",
-            "rewardAmount": 957502.1537091396,
-            "cycle": 431,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-18",
-            "rewardAmount": 899349.9905610267,
-            "cycle": 432,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-21",
-            "rewardAmount": 880804.1374247323,
-            "cycle": 433,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-24",
-            "rewardAmount": 1025917.2637219966,
-            "cycle": 434,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-27",
-            "rewardAmount": 1040710.0800300374,
-            "cycle": 435,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-30",
-            "rewardAmount": 933744.5666478908,
-            "cycle": 436,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2022-01-02",
-            "rewardAmount": 1059791.3949029082,
-            "cycle": 437,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2022-01-05",
-            "rewardAmount": 1132561.9717080395,
-            "cycle": 438,
-            "basisCost": 63.81839525617147
-        },
-        {
-            "date": "2022-01-08",
-            "rewardAmount": 882151.6812618296,
-            "cycle": 439,
-            "basisCost": 63.81839525617147
-        },
-        {
-            "date": "2022-01-11",
-            "rewardAmount": 827495.0430789838,
-            "cycle": 440,
-            "basisCost": 63.81839525617147
-        },
-        {
-            "date": "2022-01-14",
-            "rewardAmount": 886948.0846161363,
-            "cycle": 441,
-            "basisCost": 63.81839525617147
-        },
-        {
-            "date": "2022-01-16",
-            "rewardAmount": 902550.5034803755,
-            "cycle": 442,
-            "basisCost": 63.81839525617147
-        },
-        {
-            "date": "2022-01-19",
-            "rewardAmount": 878158.74469403,
-            "cycle": 443,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-01-22",
-            "rewardAmount": 737203.3899543391,
-            "cycle": 444,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-01-25",
-            "rewardAmount": 662114.9128422012,
-            "cycle": 445,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-01-28",
-            "rewardAmount": 668252.2413423848,
-            "cycle": 446,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-01-31",
-            "rewardAmount": 746777.2001996201,
-            "cycle": 447,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-02-03",
-            "rewardAmount": 853510.6015233939,
-            "cycle": 448,
-            "basisCost": 60.93052075977302
-        },
-        {
-            "date": "2022-02-06",
-            "rewardAmount": 892280.4829854694,
-            "cycle": 449,
-            "basisCost": 60.93052075977302
-        },
-        {
-            "date": "2022-02-09",
-            "rewardAmount": 940363.9797274835,
-            "cycle": 450,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-12",
-            "rewardAmount": 907226.8156845786,
-            "cycle": 451,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-15",
-            "rewardAmount": 860286.9629466237,
-            "cycle": 452,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-18",
-            "rewardAmount": 806214.2829903304,
-            "cycle": 453,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-20",
-            "rewardAmount": 791798.4812688837,
-            "cycle": 454,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-23",
-            "rewardAmount": 688104.3292269139,
-            "cycle": 455,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-26",
-            "rewardAmount": 745982.1601738011,
-            "cycle": 456,
-            "basisCost": 56.80154747063573
-        },
-        {
-            "date": "2022-03-01",
-            "rewardAmount": 819427.7475840427,
-            "cycle": 457,
-            "basisCost": 56.80154747063573
-        },
-        {
-            "date": "2022-03-04",
-            "rewardAmount": 802776.0915514581,
-            "cycle": 458,
-            "basisCost": 56.80154747063573
-        },
-        {
-            "date": "2022-03-07",
-            "rewardAmount": 698397.7860785804,
-            "cycle": 459,
-            "basisCost": 56.80154747063573
-        },
-        {
-            "date": "2022-03-10",
-            "rewardAmount": 743800.9561329248,
-            "cycle": 460,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-13",
-            "rewardAmount": 691180.4187041731,
-            "cycle": 461,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-16",
-            "rewardAmount": 682289.7049183726,
-            "cycle": 462,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-19",
-            "rewardAmount": 726979.0839951758,
-            "cycle": 463,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-22",
-            "rewardAmount": 741804.6794505034,
-            "cycle": 464,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-25",
-            "rewardAmount": 798983.8010897803,
-            "cycle": 465,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-28",
-            "rewardAmount": 882968.3466068488,
-            "cycle": 466,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-31",
-            "rewardAmount": 871043.173524741,
-            "cycle": 467,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-04-03",
-            "rewardAmount": 0,
-            "cycle": 468,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-04-06",
-            "rewardAmount": 860635.0782533049,
-            "cycle": 469,
-            "basisCost": 52.35591353161053
-        },
-        {
-            "date": "2022-04-09",
-            "rewardAmount": 0,
-            "cycle": 470,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-12",
-            "rewardAmount": 692341.9206943145,
-            "cycle": 471,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-15",
-            "rewardAmount": 727711.368022953,
-            "cycle": 472,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-18",
-            "rewardAmount": 731231.0575159268,
-            "cycle": 473,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-21",
-            "rewardAmount": 735249.1799925731,
-            "cycle": 474,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-24",
-            "rewardAmount": 705879.8917824555,
-            "cycle": 475,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-27",
-            "rewardAmount": 670894.4411609009,
-            "cycle": 476,
-            "basisCost": 48.74523559110352
-        },
-        {
             "date": "2022-04-30",
-            "rewardAmount": 647673.860097488,
-            "cycle": 477,
-            "basisCost": 48.74523559110352
+            "rewardAmount": 119998.2203131017,
+            "cycle": 477
         },
         {
             "date": "2022-05-02",
@@ -51033,315 +50421,9 @@
     ],
     "unrealizedNativeMarketDilutionRewards": [
         {
-            "date": "2021-11-30",
+            "date": "2022-04-30",
             "rewardAmount": null,
-            "cycle": 426
-        },
-        {
-            "date": "2021-12-04",
-            "rewardAmount": 1084689.4936977616,
-            "cycle": 427,
-            "basisCost": 68.54520030762417
-        },
-        {
-            "date": "2021-12-07",
-            "rewardAmount": 796968.9644246853,
-            "cycle": 428,
-            "basisCost": 67.99838754139353
-        },
-        {
-            "date": "2021-12-10",
-            "rewardAmount": 1214126.8221913304,
-            "cycle": 429,
-            "basisCost": 67.99838754139353
-        },
-        {
-            "date": "2021-12-13",
-            "rewardAmount": 958245.4714233326,
-            "cycle": 430,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-16",
-            "rewardAmount": 939792.7747755644,
-            "cycle": 431,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-19",
-            "rewardAmount": 891554.9339774001,
-            "cycle": 432,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-22",
-            "rewardAmount": 880804.1374247323,
-            "cycle": 433,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-25",
-            "rewardAmount": 1019298.6591970839,
-            "cycle": 434,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-28",
-            "rewardAmount": 1027369.1238186775,
-            "cycle": 435,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-31",
-            "rewardAmount": 899216.9529617856,
-            "cycle": 436,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2022-01-03",
-            "rewardAmount": 1053285.7396421053,
-            "cycle": 437,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2022-01-06",
-            "rewardAmount": 1127571.6489230818,
-            "cycle": 438,
-            "basisCost": 63.81839525617147
-        },
-        {
-            "date": "2022-01-09",
-            "rewardAmount": 872967.5730539059,
-            "cycle": 439,
-            "basisCost": 63.81839525617147
-        },
-        {
-            "date": "2022-01-12",
-            "rewardAmount": 819852.7306181684,
-            "cycle": 440,
-            "basisCost": 63.81839525617147
-        },
-        {
-            "date": "2022-01-15",
-            "rewardAmount": 883012.0072550196,
-            "cycle": 441,
-            "basisCost": 63.81839525617147
-        },
-        {
-            "date": "2022-01-17",
-            "rewardAmount": 896750.1557229792,
-            "cycle": 442,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-01-20",
-            "rewardAmount": 867154.3120068638,
-            "cycle": 443,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-01-23",
-            "rewardAmount": 734084.168372193,
-            "cycle": 444,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-01-26",
-            "rewardAmount": 650151.5011922872,
-            "cycle": 445,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-01-29",
-            "rewardAmount": 658077.0629619124,
-            "cycle": 446,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-02-01",
-            "rewardAmount": 739782.5807883305,
-            "cycle": 447,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-02-04",
-            "rewardAmount": 836356.808886349,
-            "cycle": 448,
-            "basisCost": 60.93052075977302
-        },
-        {
-            "date": "2022-02-07",
-            "rewardAmount": 880766.9026925305,
-            "cycle": 449,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-10",
-            "rewardAmount": 940363.9797274835,
-            "cycle": 450,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-13",
-            "rewardAmount": 898876.1684031463,
-            "cycle": 451,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-16",
-            "rewardAmount": 851078.4367479356,
-            "cycle": 452,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-19",
-            "rewardAmount": 804809.5249114314,
-            "cycle": 453,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-21",
-            "rewardAmount": 772506.4775744065,
-            "cycle": 454,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-24",
-            "rewardAmount": 670770.0368174873,
-            "cycle": 455,
-            "basisCost": 56.80154747063573
-        },
-        {
-            "date": "2022-02-27",
-            "rewardAmount": 740056.6330943649,
-            "cycle": 456,
-            "basisCost": 56.80154747063573
-        },
-        {
-            "date": "2022-03-02",
-            "rewardAmount": 815653.8590717363,
-            "cycle": 457,
-            "basisCost": 56.80154747063573
-        },
-        {
-            "date": "2022-03-05",
-            "rewardAmount": 802776.0915514581,
-            "cycle": 458,
-            "basisCost": 56.80154747063573
-        },
-        {
-            "date": "2022-03-08",
-            "rewardAmount": 695918.4868371156,
-            "cycle": 459,
-            "basisCost": 56.80154747063573
-        },
-        {
-            "date": "2022-03-11",
-            "rewardAmount": 738504.8440716318,
-            "cycle": 460,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-14",
-            "rewardAmount": 691180.4187041731,
-            "cycle": 461,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-17",
-            "rewardAmount": 659028.8728255728,
-            "cycle": 462,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-20",
-            "rewardAmount": 721632.4938479703,
-            "cycle": 463,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-23",
-            "rewardAmount": 739848.9319373474,
-            "cycle": 464,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-26",
-            "rewardAmount": 795094.0103576629,
-            "cycle": 465,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-29",
-            "rewardAmount": 881007.1043153598,
-            "cycle": 466,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-04-01",
-            "rewardAmount": 863813.0896922484,
-            "cycle": 467,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-04-04",
-            "rewardAmount": 0,
-            "cycle": 468,
-            "basisCost": 52.35591353161053
-        },
-        {
-            "date": "2022-04-07",
-            "rewardAmount": 858897.1612640036,
-            "cycle": 469,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-10",
-            "rewardAmount": 0,
-            "cycle": 470,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-13",
-            "rewardAmount": 690295.4684746981,
-            "cycle": 471,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-16",
-            "rewardAmount": 721308.9595121174,
-            "cycle": 472,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-19",
-            "rewardAmount": 730083.1038493236,
-            "cycle": 473,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-22",
-            "rewardAmount": 733334.3430679473,
-            "cycle": 474,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-25",
-            "rewardAmount": 701113.6129146318,
-            "cycle": 475,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-28",
-            "rewardAmount": 669536.4801181646,
-            "cycle": 476,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-05-01",
-            "rewardAmount": 643518.3669474296,
-            "cycle": 477,
-            "basisCost": 47.289467813518556
+            "cycle": 477
         },
         {
             "date": "2022-05-03",
@@ -51694,315 +50776,9 @@
     ],
     "unrealizedNativeSupplyDepletionRewards": [
         {
-            "date": "2021-11-30",
+            "date": "2022-04-30",
             "rewardAmount": null,
-            "cycle": 426
-        },
-        {
-            "date": "2021-12-01",
-            "rewardAmount": 1180458.5314252402,
-            "cycle": 426,
-            "basisCost": 68.54520030762417
-        },
-        {
-            "date": "2021-12-04",
-            "rewardAmount": 1084289.4129049282,
-            "cycle": 427,
-            "basisCost": 68.54520030762417
-        },
-        {
-            "date": "2021-12-07",
-            "rewardAmount": 823795.914564736,
-            "cycle": 428,
-            "basisCost": 67.99838754139353
-        },
-        {
-            "date": "2021-12-10",
-            "rewardAmount": 1224259.3655663275,
-            "cycle": 429,
-            "basisCost": 67.99838754139353
-        },
-        {
-            "date": "2021-12-13",
-            "rewardAmount": 962234.8010852275,
-            "cycle": 430,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-16",
-            "rewardAmount": 956837.3342379495,
-            "cycle": 431,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-19",
-            "rewardAmount": 898685.4058935699,
-            "cycle": 432,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-22",
-            "rewardAmount": 880145.5880783199,
-            "cycle": 433,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-25",
-            "rewardAmount": 1025253.3838716765,
-            "cycle": 434,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-28",
-            "rewardAmount": 1040051.3941814183,
-            "cycle": 435,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2021-12-31",
-            "rewardAmount": 933080.8155110739,
-            "cycle": 436,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2022-01-03",
-            "rewardAmount": 1059147.2805970039,
-            "cycle": 437,
-            "basisCost": 67.99918962933698
-        },
-        {
-            "date": "2022-01-06",
-            "rewardAmount": 1131938.782054651,
-            "cycle": 438,
-            "basisCost": 63.81839525617147
-        },
-        {
-            "date": "2022-01-09",
-            "rewardAmount": 881538.6761789005,
-            "cycle": 439,
-            "basisCost": 63.81839525617147
-        },
-        {
-            "date": "2022-01-12",
-            "rewardAmount": 826863.3200185463,
-            "cycle": 440,
-            "basisCost": 63.81839525617147
-        },
-        {
-            "date": "2022-01-15",
-            "rewardAmount": 886519.3331236797,
-            "cycle": 441,
-            "basisCost": 63.81839525617147
-        },
-        {
-            "date": "2022-01-17",
-            "rewardAmount": 901946.887014961,
-            "cycle": 442,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-01-20",
-            "rewardAmount": 877570.4653825463,
-            "cycle": 443,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-01-23",
-            "rewardAmount": 736595.0538090756,
-            "cycle": 444,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-01-26",
-            "rewardAmount": 661513.9027889579,
-            "cycle": 445,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-01-29",
-            "rewardAmount": 667635.8980933446,
-            "cycle": 446,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-02-01",
-            "rewardAmount": 746169.7740099899,
-            "cycle": 447,
-            "basisCost": 60.98767431894329
-        },
-        {
-            "date": "2022-02-04",
-            "rewardAmount": 852910.5977396793,
-            "cycle": 448,
-            "basisCost": 60.93052075977302
-        },
-        {
-            "date": "2022-02-07",
-            "rewardAmount": 891719.2954906587,
-            "cycle": 449,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-10",
-            "rewardAmount": 939796.9803796307,
-            "cycle": 450,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-13",
-            "rewardAmount": 906656.6203758328,
-            "cycle": 451,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-16",
-            "rewardAmount": 859716.9053056344,
-            "cycle": 452,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-19",
-            "rewardAmount": 805829.4728716594,
-            "cycle": 453,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-21",
-            "rewardAmount": 791221.4336250244,
-            "cycle": 454,
-            "basisCost": 57.61129799131258
-        },
-        {
-            "date": "2022-02-24",
-            "rewardAmount": 687553.0326400795,
-            "cycle": 455,
-            "basisCost": 56.80154747063573
-        },
-        {
-            "date": "2022-02-27",
-            "rewardAmount": 745427.0446821674,
-            "cycle": 456,
-            "basisCost": 56.80154747063573
-        },
-        {
-            "date": "2022-03-02",
-            "rewardAmount": 818873.9629108652,
-            "cycle": 457,
-            "basisCost": 56.80154747063573
-        },
-        {
-            "date": "2022-03-05",
-            "rewardAmount": 802227.3587550457,
-            "cycle": 458,
-            "basisCost": 56.80154747063573
-        },
-        {
-            "date": "2022-03-08",
-            "rewardAmount": 697903.0477869137,
-            "cycle": 459,
-            "basisCost": 56.80154747063573
-        },
-        {
-            "date": "2022-03-11",
-            "rewardAmount": 743323.9536755624,
-            "cycle": 460,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-14",
-            "rewardAmount": 690697.7573555143,
-            "cycle": 461,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-17",
-            "rewardAmount": 681786.6275677448,
-            "cycle": 462,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-20",
-            "rewardAmount": 726489.0743973437,
-            "cycle": 463,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-23",
-            "rewardAmount": 741309.473786489,
-            "cycle": 464,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-26",
-            "rewardAmount": 798492.333984186,
-            "cycle": 465,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-03-29",
-            "rewardAmount": 882500.1961225505,
-            "cycle": 466,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-04-01",
-            "rewardAmount": 870791.7484795107,
-            "cycle": 467,
-            "basisCost": 54.32595320019426
-        },
-        {
-            "date": "2022-04-04",
-            "rewardAmount": 0,
-            "cycle": 468,
-            "basisCost": 52.35591353161053
-        },
-        {
-            "date": "2022-04-07",
-            "rewardAmount": 860214.8272548824,
-            "cycle": 469,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-10",
-            "rewardAmount": 0,
-            "cycle": 470,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-13",
-            "rewardAmount": 691894.9550853583,
-            "cycle": 471,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-16",
-            "rewardAmount": 727261.8490423375,
-            "cycle": 472,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-19",
-            "rewardAmount": 730812.436357306,
-            "cycle": 473,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-22",
-            "rewardAmount": 734796.9360260762,
-            "cycle": 474,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-25",
-            "rewardAmount": 705423.7357954225,
-            "cycle": 475,
-            "basisCost": 48.74523559110352
-        },
-        {
-            "date": "2022-04-28",
-            "rewardAmount": 670439.411431569,
-            "cycle": 476,
-            "basisCost": 48.74523559110352
+            "cycle": 477
         },
         {
             "date": "2022-05-01",
@@ -52363,10 +51139,10 @@
     "realizingNativeFMVRewards": [],
     "realizingNativeMarketDilutionRewards": [],
     "realizingNativeSupplyDepletionRewards": [],
-    "aggregateUnrealizedNativeReward25p": 221821.89587974956,
-    "aggregateUnrealizedNativeReward50p": 443643.7917594991,
-    "aggregateUnrealizedNativeReward75p": 665465.6876392487,
-    "aggregateUnrealizedNativeReward100p": 887287.5835189982,
+    "aggregateUnrealizedNativeReward25p": 124774.89587974949,
+    "aggregateUnrealizedNativeReward50p": 249549.79175949897,
+    "aggregateUnrealizedNativeReward75p": 374324.68763924844,
+    "aggregateUnrealizedNativeReward100p": 499099.58351899794,
     "aggregateRealizedNativeReward100p": 0,
     "aggregateRealizedNativeReward50p": 0,
     "aggregateRealizedNativeFMVReward100p": 0,
@@ -54758,986 +53534,1183 @@
     "realizedNativeMarketDilutionRewards": [
         {
             "date": "2020-05-06",
+            "rewardAmount": null,
             "cycle": 229,
             "basisCost": 38.01724442300917
         },
         {
             "date": "2020-05-09",
+            "rewardAmount": null,
             "cycle": 230,
             "basisCost": 38.064979822432456
         },
         {
             "date": "2020-05-12",
+            "rewardAmount": null,
             "cycle": 231,
             "basisCost": 38.107916817977916
         },
         {
             "date": "2020-05-15",
+            "rewardAmount": null,
             "cycle": 232,
             "basisCost": 38.15254945322906
         },
         {
             "date": "2020-05-18",
+            "rewardAmount": null,
             "cycle": 233,
             "basisCost": 38.16620375889504
         },
         {
             "date": "2020-05-20",
+            "rewardAmount": null,
             "cycle": 234,
             "basisCost": 44.145499325547796
         },
         {
             "date": "2020-05-23",
+            "rewardAmount": null,
             "cycle": 235,
             "basisCost": 44.15666815032007
         },
         {
             "date": "2020-05-26",
+            "rewardAmount": null,
             "cycle": 236,
             "basisCost": 44.165750329730656
         },
         {
             "date": "2020-05-29",
+            "rewardAmount": null,
             "cycle": 237,
             "basisCost": 71.74451987236996
         },
         {
             "date": "2020-06-01",
+            "rewardAmount": null,
             "cycle": 238,
             "basisCost": 71.7446340033685
         },
         {
             "date": "2020-06-04",
+            "rewardAmount": null,
             "cycle": 239,
             "basisCost": 76.42571170251775
         },
         {
             "date": "2020-06-06",
+            "rewardAmount": null,
             "cycle": 240,
             "basisCost": 76.42575226783934
         },
         {
             "date": "2020-06-09",
+            "rewardAmount": null,
             "cycle": 241,
             "basisCost": 76.42575355567243
         },
         {
             "date": "2020-06-12",
+            "rewardAmount": null,
             "cycle": 242,
             "basisCost": 76.440497608549
         },
         {
             "date": "2020-06-15",
+            "rewardAmount": null,
             "cycle": 243,
             "basisCost": 76.31804441679866
         },
         {
             "date": "2020-06-18",
+            "rewardAmount": null,
             "cycle": 244,
             "basisCost": 76.25636904507171
         },
         {
             "date": "2020-06-21",
+            "rewardAmount": null,
             "cycle": 245,
             "basisCost": 76.24353058951685
         },
         {
             "date": "2020-06-24",
+            "rewardAmount": null,
             "cycle": 246,
             "basisCost": 76.1080769995971
         },
         {
             "date": "2020-06-27",
+            "rewardAmount": null,
             "cycle": 247,
             "basisCost": 75.63587082356027
         },
         {
             "date": "2020-06-29",
+            "rewardAmount": null,
             "cycle": 248,
             "basisCost": 74.5403451381086
         },
         {
             "date": "2020-07-02",
+            "rewardAmount": null,
             "cycle": 249,
             "basisCost": 73.8362606197674
         },
         {
             "date": "2020-07-05",
+            "rewardAmount": null,
             "cycle": 250,
             "basisCost": 73.0794514855509
         },
         {
             "date": "2020-07-08",
+            "rewardAmount": null,
             "cycle": 251,
             "basisCost": 73.07826106526305
         },
         {
             "date": "2020-07-11",
+            "rewardAmount": null,
             "cycle": 252,
             "basisCost": 72.62214129241882
         },
         {
             "date": "2020-07-14",
+            "rewardAmount": null,
             "cycle": 253,
             "basisCost": 72.62213008438026
         },
         {
             "date": "2020-07-17",
+            "rewardAmount": null,
             "cycle": 254,
             "basisCost": 72.96882420611765
         },
         {
             "date": "2020-07-19",
+            "rewardAmount": null,
             "cycle": 255,
             "basisCost": 73.40566339931854
         },
         {
             "date": "2020-07-22",
+            "rewardAmount": null,
             "cycle": 256,
             "basisCost": 73.40645698648684
         },
         {
             "date": "2020-07-25",
+            "rewardAmount": null,
             "cycle": 257,
             "basisCost": 73.71966109295124
         },
         {
             "date": "2020-07-28",
+            "rewardAmount": null,
             "cycle": 258,
             "basisCost": 73.72181333882178
         },
         {
             "date": "2020-07-31",
+            "rewardAmount": null,
             "cycle": 259,
             "basisCost": 73.72327875281769
         },
         {
             "date": "2020-08-03",
+            "rewardAmount": null,
             "cycle": 260,
             "basisCost": 73.72460500669573
         },
         {
             "date": "2020-08-06",
+            "rewardAmount": null,
             "cycle": 261,
             "basisCost": 74.06064263426785
         },
         {
             "date": "2020-08-08",
+            "rewardAmount": null,
             "cycle": 262,
             "basisCost": 74.06447140802075
         },
         {
             "date": "2020-08-11",
+            "rewardAmount": null,
             "cycle": 263,
             "basisCost": 74.07195224134439
         },
         {
             "date": "2020-08-14",
+            "rewardAmount": null,
             "cycle": 264,
             "basisCost": 74.81220228361235
         },
         {
             "date": "2020-08-17",
+            "rewardAmount": null,
             "cycle": 265,
             "basisCost": 74.82046431052065
         },
         {
             "date": "2020-08-20",
+            "rewardAmount": null,
             "cycle": 266,
             "basisCost": 74.82781978158854
         },
         {
             "date": "2020-08-23",
+            "rewardAmount": null,
             "cycle": 267,
             "basisCost": 74.83433634574232
         },
         {
             "date": "2020-08-26",
+            "rewardAmount": null,
             "cycle": 268,
             "basisCost": 74.84413452592221
         },
         {
             "date": "2020-08-28",
+            "rewardAmount": null,
             "cycle": 269,
             "basisCost": 74.84731987508204
         },
         {
             "date": "2020-08-31",
+            "rewardAmount": null,
             "cycle": 270,
             "basisCost": 74.85089301001146
         },
         {
             "date": "2020-09-03",
+            "rewardAmount": null,
             "cycle": 271,
             "basisCost": 74.85462539905619
         },
         {
             "date": "2020-09-06",
+            "rewardAmount": null,
             "cycle": 272,
             "basisCost": 74.85486276659653
         },
         {
             "date": "2020-09-09",
+            "rewardAmount": null,
             "cycle": 273,
             "basisCost": 74.8541023727708
         },
         {
             "date": "2020-09-12",
+            "rewardAmount": null,
             "cycle": 274,
             "basisCost": 74.8533351301687
         },
         {
             "date": "2020-09-15",
+            "rewardAmount": null,
             "cycle": 275,
             "basisCost": 74.85299754040844
         },
         {
             "date": "2020-09-18",
+            "rewardAmount": null,
             "cycle": 276,
             "basisCost": 74.85235667968364
         },
         {
             "date": "2020-09-21",
+            "rewardAmount": null,
             "cycle": 277,
             "basisCost": 74.85115210932629
         },
         {
             "date": "2020-09-23",
+            "rewardAmount": null,
             "cycle": 278,
             "basisCost": 74.84855706607803
         },
         {
             "date": "2020-09-26",
+            "rewardAmount": null,
             "cycle": 279,
             "basisCost": 74.84630023993753
         },
         {
             "date": "2020-09-29",
+            "rewardAmount": null,
             "cycle": 280,
             "basisCost": 73.30404373020086
         },
         {
             "date": "2020-10-02",
+            "rewardAmount": null,
             "cycle": 281,
             "basisCost": 73.30262458073244
         },
         {
             "date": "2020-10-05",
+            "rewardAmount": null,
             "cycle": 282,
             "basisCost": 73.85206939419626
         },
         {
             "date": "2020-10-08",
+            "rewardAmount": null,
             "cycle": 283,
             "basisCost": 73.85035839455573
         },
         {
             "date": "2020-10-11",
+            "rewardAmount": null,
             "cycle": 284,
             "basisCost": 73.84866979627164
         },
         {
             "date": "2020-10-13",
+            "rewardAmount": null,
             "cycle": 285,
             "basisCost": 73.84718275709122
         },
         {
             "date": "2020-10-16",
+            "rewardAmount": null,
             "cycle": 286,
             "basisCost": 73.84654022576295
         },
         {
             "date": "2020-10-19",
+            "rewardAmount": null,
             "cycle": 287,
             "basisCost": 73.84534626385349
         },
         {
             "date": "2020-10-22",
+            "rewardAmount": null,
             "cycle": 288,
             "basisCost": 73.84443455778451
         },
         {
             "date": "2020-10-25",
+            "rewardAmount": null,
             "cycle": 289,
             "basisCost": 73.84286351302961
         },
         {
             "date": "2020-10-28",
+            "rewardAmount": null,
             "cycle": 290,
             "basisCost": 73.84178756604018
         },
         {
             "date": "2020-10-31",
+            "rewardAmount": null,
             "cycle": 291,
             "basisCost": 73.84024693906765
         },
         {
             "date": "2020-11-02",
+            "rewardAmount": null,
             "cycle": 292,
             "basisCost": 73.83828807591759
         },
         {
             "date": "2020-11-05",
+            "rewardAmount": null,
             "cycle": 293,
             "basisCost": 73.83601104493107
         },
         {
             "date": "2020-11-08",
+            "rewardAmount": null,
             "cycle": 294,
             "basisCost": 73.8342669790005
         },
         {
             "date": "2020-11-11",
+            "rewardAmount": null,
             "cycle": 295,
             "basisCost": 73.83232780941029
         },
         {
             "date": "2020-11-14",
+            "rewardAmount": null,
             "cycle": 296,
             "basisCost": 73.83020983981197
         },
         {
             "date": "2020-11-17",
+            "rewardAmount": null,
             "cycle": 297,
             "basisCost": 73.82854023370531
         },
         {
             "date": "2020-11-20",
+            "rewardAmount": null,
             "cycle": 298,
             "basisCost": 75.29327034226844
         },
         {
             "date": "2020-11-23",
+            "rewardAmount": null,
             "cycle": 299,
             "basisCost": 75.29072113369809
         },
         {
             "date": "2020-11-26",
+            "rewardAmount": null,
             "cycle": 300,
             "basisCost": 75.27227167373923
         },
         {
             "date": "2020-11-28",
+            "rewardAmount": null,
             "cycle": 301,
             "basisCost": 75.27062311662642
         },
         {
             "date": "2020-12-01",
+            "rewardAmount": null,
             "cycle": 302,
             "basisCost": 75.26942146063645
         },
         {
             "date": "2020-12-04",
+            "rewardAmount": null,
             "cycle": 303,
             "basisCost": 75.35177602139524
         },
         {
             "date": "2020-12-07",
+            "rewardAmount": null,
             "cycle": 304,
             "basisCost": 75.35021505898882
         },
         {
             "date": "2020-12-10",
+            "rewardAmount": null,
             "cycle": 305,
             "basisCost": 75.34878173224489
         },
         {
             "date": "2020-12-13",
+            "rewardAmount": null,
             "cycle": 306,
             "basisCost": 75.34618949184187
         },
         {
             "date": "2020-12-16",
+            "rewardAmount": null,
             "cycle": 307,
             "basisCost": 75.60924303720218
         },
         {
             "date": "2020-12-18",
+            "rewardAmount": null,
             "cycle": 308,
             "basisCost": 75.6078527098215
         },
         {
             "date": "2020-12-21",
+            "rewardAmount": null,
             "cycle": 309,
             "basisCost": 75.60634131145585
         },
         {
             "date": "2020-12-24",
+            "rewardAmount": null,
             "cycle": 310,
             "basisCost": 75.33947578706311
         },
         {
             "date": "2020-12-27",
+            "rewardAmount": null,
             "cycle": 311,
             "basisCost": 75.09722532631956
         },
         {
             "date": "2020-12-30",
+            "rewardAmount": null,
             "cycle": 312,
             "basisCost": 74.92701319975204
         },
         {
             "date": "2021-01-02",
+            "rewardAmount": null,
             "cycle": 313,
             "basisCost": 74.92385401207348
         },
         {
             "date": "2021-01-05",
+            "rewardAmount": null,
             "cycle": 314,
             "basisCost": 75.0216137387879
         },
         {
             "date": "2021-01-08",
+            "rewardAmount": null,
             "cycle": 315,
             "basisCost": 74.94342441358232
         },
         {
             "date": "2021-01-11",
+            "rewardAmount": null,
             "cycle": 316,
             "basisCost": 74.97595085830707
         },
         {
             "date": "2021-01-14",
+            "rewardAmount": null,
             "cycle": 317,
             "basisCost": 74.49001797095396
         },
         {
             "date": "2021-01-17",
+            "rewardAmount": null,
             "cycle": 318,
             "basisCost": 76.60814811180067
         },
         {
             "date": "2021-01-20",
+            "rewardAmount": null,
             "cycle": 319,
             "basisCost": 76.28083035611616
         },
         {
             "date": "2021-01-23",
+            "rewardAmount": null,
             "cycle": 320,
             "basisCost": 76.28110238925595
         },
         {
             "date": "2021-01-26",
+            "rewardAmount": null,
             "cycle": 321,
             "basisCost": 76.28129625654404
         },
         {
             "date": "2021-01-29",
+            "rewardAmount": null,
             "cycle": 322,
             "basisCost": 76.2812962725164
         },
         {
             "date": "2021-02-01",
+            "rewardAmount": null,
             "cycle": 323,
             "basisCost": 76.28135753654499
         },
         {
             "date": "2021-02-04",
+            "rewardAmount": null,
             "cycle": 324,
             "basisCost": 76.26657357426262
         },
         {
             "date": "2021-02-07",
+            "rewardAmount": null,
             "cycle": 325,
             "basisCost": 76.26657357426262
         },
         {
             "date": "2021-02-09",
+            "rewardAmount": null,
             "cycle": 326,
             "basisCost": 76.26657357426262
         },
         {
             "date": "2021-02-12",
+            "rewardAmount": null,
             "cycle": 327,
             "basisCost": 76.26657357426262
         },
         {
             "date": "2021-02-15",
+            "rewardAmount": null,
             "cycle": 328,
             "basisCost": 76.26657357426262
         },
         {
             "date": "2021-02-18",
+            "rewardAmount": null,
             "cycle": 329,
             "basisCost": 76.26657357426262
         },
         {
             "date": "2021-02-21",
+            "rewardAmount": null,
             "cycle": 330,
             "basisCost": 76.26657357426262
         },
         {
             "date": "2021-02-24",
+            "rewardAmount": null,
             "cycle": 331,
             "basisCost": 76.26657357426262
         },
         {
             "date": "2021-02-27",
+            "rewardAmount": null,
             "cycle": 332,
             "basisCost": 76.26657357426262
         },
         {
             "date": "2021-03-02",
+            "rewardAmount": null,
             "cycle": 333,
             "basisCost": 76.26657357426262
         },
         {
             "date": "2021-03-04",
+            "rewardAmount": null,
             "cycle": 334,
             "basisCost": 76.26746497275289
         },
         {
             "date": "2021-03-07",
+            "rewardAmount": null,
             "cycle": 335,
             "basisCost": 76.26746497275289
         },
         {
             "date": "2021-03-10",
+            "rewardAmount": null,
             "cycle": 336,
             "basisCost": 76.26749321786927
         },
         {
             "date": "2021-03-13",
+            "rewardAmount": null,
             "cycle": 337,
             "basisCost": 76.26749321786927
         },
         {
             "date": "2021-03-16",
+            "rewardAmount": null,
             "cycle": 338,
             "basisCost": 76.26749321786927
         },
         {
             "date": "2021-03-19",
+            "rewardAmount": null,
             "cycle": 339,
             "basisCost": 76.26749321786927
         },
         {
             "date": "2021-03-22",
+            "rewardAmount": null,
             "cycle": 340,
             "basisCost": 76.26749321786927
         },
         {
             "date": "2021-03-25",
+            "rewardAmount": null,
             "cycle": 341,
             "basisCost": 76.26749321786927
         },
         {
             "date": "2021-03-27",
+            "rewardAmount": null,
             "cycle": 342,
             "basisCost": 76.26749321786927
         },
         {
             "date": "2021-03-30",
+            "rewardAmount": null,
             "cycle": 343,
             "basisCost": 76.26749321786927
         },
         {
             "date": "2021-04-02",
+            "rewardAmount": null,
             "cycle": 344,
             "basisCost": 76.26749321786927
         },
         {
             "date": "2021-04-05",
+            "rewardAmount": null,
             "cycle": 345,
             "basisCost": 76.26749321786927
         },
         {
             "date": "2021-04-08",
+            "rewardAmount": null,
             "cycle": 346,
             "basisCost": 80.63509572395643
         },
         {
             "date": "2021-04-11",
+            "rewardAmount": null,
             "cycle": 347,
             "basisCost": 80.63509572395643
         },
         {
             "date": "2021-04-14",
+            "rewardAmount": null,
             "cycle": 348,
             "basisCost": 80.63509572395643
         },
         {
             "date": "2021-04-17",
+            "rewardAmount": null,
             "cycle": 349,
             "basisCost": 80.63509572395643
         },
         {
             "date": "2021-04-19",
+            "rewardAmount": null,
             "cycle": 350,
             "basisCost": 80.63509572395643
         },
         {
             "date": "2021-04-22",
+            "rewardAmount": null,
             "cycle": 351,
             "basisCost": 80.63543264849609
         },
         {
             "date": "2021-04-25",
+            "rewardAmount": null,
             "cycle": 352,
             "basisCost": 80.63543264849609
         },
         {
             "date": "2021-04-28",
+            "rewardAmount": null,
             "cycle": 353,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-01",
+            "rewardAmount": null,
             "cycle": 354,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-04",
+            "rewardAmount": null,
             "cycle": 355,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-07",
+            "rewardAmount": null,
             "cycle": 356,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-10",
+            "rewardAmount": null,
             "cycle": 357,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-12",
+            "rewardAmount": null,
             "cycle": 358,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-15",
+            "rewardAmount": null,
             "cycle": 359,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-18",
+            "rewardAmount": null,
             "cycle": 360,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-21",
+            "rewardAmount": null,
             "cycle": 361,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-24",
+            "rewardAmount": null,
             "cycle": 362,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-27",
+            "rewardAmount": null,
             "cycle": 363,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-30",
+            "rewardAmount": null,
             "cycle": 364,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-06-02",
+            "rewardAmount": null,
             "cycle": 365,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-06-05",
+            "rewardAmount": null,
             "cycle": 366,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-06-08",
+            "rewardAmount": null,
             "cycle": 367,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-06-10",
+            "rewardAmount": null,
             "cycle": 368,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-06-13",
+            "rewardAmount": null,
             "cycle": 369,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-06-16",
+            "rewardAmount": null,
             "cycle": 370,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-06-19",
+            "rewardAmount": null,
             "cycle": 371,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-06-22",
+            "rewardAmount": null,
             "cycle": 372,
             "basisCost": 82.48916087034927
         },
         {
             "date": "2021-06-25",
+            "rewardAmount": null,
             "cycle": 373,
             "basisCost": 82.48916087034927
         },
         {
             "date": "2021-06-28",
+            "rewardAmount": null,
             "cycle": 374,
             "basisCost": 82.48916087034927
         },
         {
             "date": "2021-07-01",
+            "rewardAmount": null,
             "cycle": 375,
             "basisCost": 82.67607476004201
         },
         {
             "date": "2021-07-04",
+            "rewardAmount": null,
             "cycle": 376,
             "basisCost": 82.67607476004201
         },
         {
             "date": "2021-07-07",
+            "rewardAmount": null,
             "cycle": 377,
             "basisCost": 82.67607476004201
         },
         {
             "date": "2021-07-10",
+            "rewardAmount": null,
             "cycle": 378,
             "basisCost": 82.67607476004201
         },
         {
             "date": "2021-07-13",
+            "rewardAmount": null,
             "cycle": 379,
             "basisCost": 82.67607476004201
         },
         {
             "date": "2021-07-16",
+            "rewardAmount": null,
             "cycle": 380,
             "basisCost": 82.67607476004201
         },
         {
             "date": "2021-07-19",
+            "rewardAmount": null,
             "cycle": 381,
             "basisCost": 82.67607476004201
         },
         {
             "date": "2021-07-21",
+            "rewardAmount": null,
             "cycle": 382,
             "basisCost": 82.67607476004201
         },
         {
             "date": "2021-07-24",
+            "rewardAmount": null,
             "cycle": 383,
             "basisCost": 82.67607476004201
         },
         {
             "date": "2021-07-27",
+            "rewardAmount": null,
             "cycle": 384,
             "basisCost": 82.73882332979665
         },
         {
             "date": "2021-07-30",
+            "rewardAmount": null,
             "cycle": 385,
             "basisCost": 82.8093189235688
         },
         {
             "date": "2021-08-02",
+            "rewardAmount": null,
             "cycle": 386,
             "basisCost": 82.80931483075469
         },
         {
             "date": "2021-08-05",
+            "rewardAmount": null,
             "cycle": 387,
             "basisCost": 82.82160405359593
         },
         {
             "date": "2021-08-09",
+            "rewardAmount": null,
             "cycle": 388,
             "basisCost": 82.82160405359593
         },
         {
             "date": "2021-08-12",
+            "rewardAmount": null,
             "cycle": 389,
             "basisCost": 82.82160405359593
         },
         {
             "date": "2021-08-15",
+            "rewardAmount": null,
             "cycle": 390,
             "basisCost": 82.82160405359593
         },
         {
             "date": "2021-08-18",
+            "rewardAmount": null,
             "cycle": 391,
             "basisCost": 82.82160405359593
         },
         {
             "date": "2021-08-21",
+            "rewardAmount": null,
             "cycle": 392,
             "basisCost": 82.82160405359593
         },
         {
             "date": "2021-08-24",
+            "rewardAmount": null,
             "cycle": 393,
             "basisCost": 82.56767377965174
         },
         {
             "date": "2021-08-27",
+            "rewardAmount": null,
             "cycle": 394,
             "basisCost": 82.56767377965174
         },
         {
             "date": "2021-08-30",
+            "rewardAmount": null,
             "cycle": 395,
             "basisCost": 82.56767377965174
         },
         {
             "date": "2021-09-02",
+            "rewardAmount": null,
             "cycle": 396,
             "basisCost": 82.56767377965174
         },
         {
             "date": "2021-09-05",
+            "rewardAmount": null,
             "cycle": 397,
             "basisCost": 82.56767377965174
         },
         {
             "date": "2021-09-08",
+            "rewardAmount": null,
             "cycle": 398,
             "basisCost": 80.9266510565175
         },
         {
             "date": "2021-09-11",
+            "rewardAmount": null,
             "cycle": 399,
             "basisCost": 80.9266510565175
         },
         {
             "date": "2021-09-14",
+            "rewardAmount": null,
             "cycle": 400,
             "basisCost": 80.68704283641156
         },
         {
             "date": "2021-09-17",
+            "rewardAmount": null,
             "cycle": 401,
             "basisCost": 79.08051661620507
         },
         {
             "date": "2021-09-20",
+            "rewardAmount": null,
             "cycle": 402,
             "basisCost": 79.08051661620507
         },
         {
             "date": "2021-09-23",
+            "rewardAmount": null,
             "cycle": 403,
             "basisCost": 79.08051661620507
         },
         {
             "date": "2021-09-26",
+            "rewardAmount": null,
             "cycle": 404,
             "basisCost": 77.76314559590205
         },
         {
             "date": "2021-09-29",
+            "rewardAmount": null,
             "cycle": 405,
             "basisCost": 77.76314559590205
         },
         {
             "date": "2021-10-02",
+            "rewardAmount": null,
             "cycle": 406,
             "basisCost": 77.76314559590205
         },
         {
             "date": "2021-10-05",
+            "rewardAmount": null,
             "cycle": 407,
             "basisCost": 71.61285469152958
         },
         {
             "date": "2021-10-08",
+            "rewardAmount": null,
             "cycle": 408,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-10-11",
+            "rewardAmount": null,
             "cycle": 409,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-10-14",
+            "rewardAmount": null,
             "cycle": 410,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-10-16",
+            "rewardAmount": null,
             "cycle": 411,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-10-19",
+            "rewardAmount": null,
             "cycle": 412,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-10-22",
+            "rewardAmount": null,
             "cycle": 413,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-10-25",
+            "rewardAmount": null,
             "cycle": 414,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-10-28",
+            "rewardAmount": null,
             "cycle": 415,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-10-31",
+            "rewardAmount": null,
             "cycle": 416,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-11-03",
+            "rewardAmount": null,
             "cycle": 417,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-11-06",
+            "rewardAmount": null,
             "cycle": 418,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-11-09",
+            "rewardAmount": null,
             "cycle": 419,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-11-12",
+            "rewardAmount": null,
             "cycle": 420,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-11-15",
+            "rewardAmount": null,
             "cycle": 421,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-11-18",
+            "rewardAmount": null,
             "cycle": 422,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-11-21",
+            "rewardAmount": null,
             "cycle": 423,
             "basisCost": 68.54520030762417
         },
         {
             "date": "2021-11-24",
+            "rewardAmount": null,
             "cycle": 424,
             "basisCost": 68.54520030762417
         },
         {
             "date": "2021-11-27",
+            "rewardAmount": null,
             "cycle": 425,
             "basisCost": 68.54520030762417
         },
@@ -55757,981 +54730,1177 @@
         },
         {
             "date": "2020-05-09",
+            "rewardAmount": null,
             "cycle": 230,
             "basisCost": 38.064979822432456
         },
         {
             "date": "2020-05-12",
+            "rewardAmount": null,
             "cycle": 231,
             "basisCost": 38.107916817977916
         },
         {
             "date": "2020-05-15",
+            "rewardAmount": null,
             "cycle": 232,
             "basisCost": 38.15254945322906
         },
         {
             "date": "2020-05-18",
+            "rewardAmount": null,
             "cycle": 233,
             "basisCost": 38.16620375889504
         },
         {
             "date": "2020-05-20",
+            "rewardAmount": null,
             "cycle": 234,
             "basisCost": 44.145499325547796
         },
         {
             "date": "2020-05-23",
+            "rewardAmount": null,
             "cycle": 235,
             "basisCost": 44.15666815032007
         },
         {
             "date": "2020-05-26",
+            "rewardAmount": null,
             "cycle": 236,
             "basisCost": 44.165750329730656
         },
         {
             "date": "2020-05-29",
+            "rewardAmount": null,
             "cycle": 237,
             "basisCost": 71.74451987236996
         },
         {
             "date": "2020-06-01",
+            "rewardAmount": null,
             "cycle": 238,
             "basisCost": 71.7446340033685
         },
         {
             "date": "2020-06-04",
+            "rewardAmount": null,
             "cycle": 239,
             "basisCost": 76.42571170251775
         },
         {
             "date": "2020-06-06",
+            "rewardAmount": null,
             "cycle": 240,
             "basisCost": 76.42575226783934
         },
         {
             "date": "2020-06-09",
+            "rewardAmount": null,
             "cycle": 241,
             "basisCost": 76.42575355567243
         },
         {
             "date": "2020-06-12",
+            "rewardAmount": null,
             "cycle": 242,
             "basisCost": 76.440497608549
         },
         {
             "date": "2020-06-15",
+            "rewardAmount": null,
             "cycle": 243,
             "basisCost": 76.31804441679866
         },
         {
             "date": "2020-06-18",
+            "rewardAmount": null,
             "cycle": 244,
             "basisCost": 76.25636904507171
         },
         {
             "date": "2020-06-21",
+            "rewardAmount": null,
             "cycle": 245,
             "basisCost": 76.24353058951685
         },
         {
             "date": "2020-06-24",
+            "rewardAmount": null,
             "cycle": 246,
             "basisCost": 76.1080769995971
         },
         {
             "date": "2020-06-27",
+            "rewardAmount": null,
             "cycle": 247,
             "basisCost": 75.63587082356027
         },
         {
             "date": "2020-06-29",
+            "rewardAmount": null,
             "cycle": 248,
             "basisCost": 74.5403451381086
         },
         {
             "date": "2020-07-02",
+            "rewardAmount": null,
             "cycle": 249,
             "basisCost": 73.8362606197674
         },
         {
             "date": "2020-07-05",
+            "rewardAmount": null,
             "cycle": 250,
             "basisCost": 73.0794514855509
         },
         {
             "date": "2020-07-08",
+            "rewardAmount": null,
             "cycle": 251,
             "basisCost": 73.07826106526305
         },
         {
             "date": "2020-07-11",
+            "rewardAmount": null,
             "cycle": 252,
             "basisCost": 72.62214129241882
         },
         {
             "date": "2020-07-14",
+            "rewardAmount": null,
             "cycle": 253,
             "basisCost": 72.62213008438026
         },
         {
             "date": "2020-07-17",
+            "rewardAmount": null,
             "cycle": 254,
             "basisCost": 72.96882420611765
         },
         {
             "date": "2020-07-19",
+            "rewardAmount": null,
             "cycle": 255,
             "basisCost": 73.40566339931854
         },
         {
             "date": "2020-07-22",
+            "rewardAmount": null,
             "cycle": 256,
             "basisCost": 73.40645698648684
         },
         {
             "date": "2020-07-25",
+            "rewardAmount": null,
             "cycle": 257,
             "basisCost": 73.71966109295124
         },
         {
             "date": "2020-07-28",
+            "rewardAmount": null,
             "cycle": 258,
             "basisCost": 73.72181333882178
         },
         {
             "date": "2020-07-31",
+            "rewardAmount": null,
             "cycle": 259,
             "basisCost": 73.72327875281769
         },
         {
             "date": "2020-08-03",
+            "rewardAmount": null,
             "cycle": 260,
             "basisCost": 73.72460500669573
         },
         {
             "date": "2020-08-06",
+            "rewardAmount": null,
             "cycle": 261,
             "basisCost": 74.06064263426785
         },
         {
             "date": "2020-08-08",
+            "rewardAmount": null,
             "cycle": 262,
             "basisCost": 74.06447140802075
         },
         {
             "date": "2020-08-11",
+            "rewardAmount": null,
             "cycle": 263,
             "basisCost": 74.07195224134439
         },
         {
             "date": "2020-08-14",
+            "rewardAmount": null,
             "cycle": 264,
             "basisCost": 74.81220228361235
         },
         {
             "date": "2020-08-17",
+            "rewardAmount": null,
             "cycle": 265,
             "basisCost": 74.82046431052065
         },
         {
             "date": "2020-08-20",
+            "rewardAmount": null,
             "cycle": 266,
             "basisCost": 74.82781978158854
         },
         {
             "date": "2020-08-23",
+            "rewardAmount": null,
             "cycle": 267,
             "basisCost": 74.83433634574232
         },
         {
             "date": "2020-08-26",
+            "rewardAmount": null,
             "cycle": 268,
             "basisCost": 74.84413452592221
         },
         {
             "date": "2020-08-28",
+            "rewardAmount": null,
             "cycle": 269,
             "basisCost": 74.84731987508204
         },
         {
             "date": "2020-08-31",
+            "rewardAmount": null,
             "cycle": 270,
             "basisCost": 74.85089301001146
         },
         {
             "date": "2020-09-03",
+            "rewardAmount": null,
             "cycle": 271,
             "basisCost": 74.85462539905619
         },
         {
             "date": "2020-09-06",
+            "rewardAmount": null,
             "cycle": 272,
             "basisCost": 74.85486276659653
         },
         {
             "date": "2020-09-09",
+            "rewardAmount": null,
             "cycle": 273,
             "basisCost": 74.8541023727708
         },
         {
             "date": "2020-09-12",
+            "rewardAmount": null,
             "cycle": 274,
             "basisCost": 74.8533351301687
         },
         {
             "date": "2020-09-15",
+            "rewardAmount": null,
             "cycle": 275,
             "basisCost": 74.85299754040844
         },
         {
             "date": "2020-09-18",
+            "rewardAmount": null,
             "cycle": 276,
             "basisCost": 74.85235667968364
         },
         {
             "date": "2020-09-21",
+            "rewardAmount": null,
             "cycle": 277,
             "basisCost": 74.85115210932629
         },
         {
             "date": "2020-09-23",
+            "rewardAmount": null,
             "cycle": 278,
             "basisCost": 74.84855706607803
         },
         {
             "date": "2020-09-26",
+            "rewardAmount": null,
             "cycle": 279,
             "basisCost": 74.84630023993753
         },
         {
             "date": "2020-09-29",
+            "rewardAmount": null,
             "cycle": 280,
             "basisCost": 73.30404373020086
         },
         {
             "date": "2020-10-02",
+            "rewardAmount": null,
             "cycle": 281,
             "basisCost": 73.30262458073244
         },
         {
             "date": "2020-10-05",
+            "rewardAmount": null,
             "cycle": 282,
             "basisCost": 73.85206939419626
         },
         {
             "date": "2020-10-08",
+            "rewardAmount": null,
             "cycle": 283,
             "basisCost": 73.85035839455573
         },
         {
             "date": "2020-10-11",
+            "rewardAmount": null,
             "cycle": 284,
             "basisCost": 73.84866979627164
         },
         {
             "date": "2020-10-13",
+            "rewardAmount": null,
             "cycle": 285,
             "basisCost": 73.84718275709122
         },
         {
             "date": "2020-10-16",
+            "rewardAmount": null,
             "cycle": 286,
             "basisCost": 73.84654022576295
         },
         {
             "date": "2020-10-19",
+            "rewardAmount": null,
             "cycle": 287,
             "basisCost": 73.84534626385349
         },
         {
             "date": "2020-10-22",
+            "rewardAmount": null,
             "cycle": 288,
             "basisCost": 73.84443455778451
         },
         {
             "date": "2020-10-25",
+            "rewardAmount": null,
             "cycle": 289,
             "basisCost": 73.84286351302961
         },
         {
             "date": "2020-10-28",
+            "rewardAmount": null,
             "cycle": 290,
             "basisCost": 73.84178756604018
         },
         {
             "date": "2020-10-31",
+            "rewardAmount": null,
             "cycle": 291,
             "basisCost": 73.84024693906765
         },
         {
             "date": "2020-11-02",
+            "rewardAmount": null,
             "cycle": 292,
             "basisCost": 73.83828807591759
         },
         {
             "date": "2020-11-05",
+            "rewardAmount": null,
             "cycle": 293,
             "basisCost": 73.83601104493107
         },
         {
             "date": "2020-11-08",
+            "rewardAmount": null,
             "cycle": 294,
             "basisCost": 73.8342669790005
         },
         {
             "date": "2020-11-11",
+            "rewardAmount": null,
             "cycle": 295,
             "basisCost": 73.83232780941029
         },
         {
             "date": "2020-11-14",
+            "rewardAmount": null,
             "cycle": 296,
             "basisCost": 73.83020983981197
         },
         {
             "date": "2020-11-17",
+            "rewardAmount": null,
             "cycle": 297,
             "basisCost": 73.82854023370531
         },
         {
             "date": "2020-11-20",
+            "rewardAmount": null,
             "cycle": 298,
             "basisCost": 75.29327034226844
         },
         {
             "date": "2020-11-23",
+            "rewardAmount": null,
             "cycle": 299,
             "basisCost": 75.29072113369809
         },
         {
             "date": "2020-11-26",
+            "rewardAmount": null,
             "cycle": 300,
             "basisCost": 75.27227167373923
         },
         {
             "date": "2020-11-28",
+            "rewardAmount": null,
             "cycle": 301,
             "basisCost": 75.27062311662642
         },
         {
             "date": "2020-12-01",
+            "rewardAmount": null,
             "cycle": 302,
             "basisCost": 75.26942146063645
         },
         {
             "date": "2020-12-04",
+            "rewardAmount": null,
             "cycle": 303,
             "basisCost": 75.35177602139524
         },
         {
             "date": "2020-12-07",
+            "rewardAmount": null,
             "cycle": 304,
             "basisCost": 75.35021505898882
         },
         {
             "date": "2020-12-10",
+            "rewardAmount": null,
             "cycle": 305,
             "basisCost": 75.34878173224489
         },
         {
             "date": "2020-12-13",
+            "rewardAmount": null,
             "cycle": 306,
             "basisCost": 75.34618949184187
         },
         {
             "date": "2020-12-16",
+            "rewardAmount": null,
             "cycle": 307,
             "basisCost": 75.60924303720218
         },
         {
             "date": "2020-12-18",
+            "rewardAmount": null,
             "cycle": 308,
             "basisCost": 75.6078527098215
         },
         {
             "date": "2020-12-21",
+            "rewardAmount": null,
             "cycle": 309,
             "basisCost": 75.60634131145585
         },
         {
             "date": "2020-12-24",
+            "rewardAmount": null,
             "cycle": 310,
             "basisCost": 75.33947578706311
         },
         {
             "date": "2020-12-27",
+            "rewardAmount": null,
             "cycle": 311,
             "basisCost": 75.09722532631956
         },
         {
             "date": "2020-12-30",
+            "rewardAmount": null,
             "cycle": 312,
             "basisCost": 74.92701319975204
         },
         {
             "date": "2021-01-02",
+            "rewardAmount": null,
             "cycle": 313,
             "basisCost": 74.92385401207348
         },
         {
             "date": "2021-01-05",
+            "rewardAmount": null,
             "cycle": 314,
             "basisCost": 75.0216137387879
         },
         {
             "date": "2021-01-08",
+            "rewardAmount": null,
             "cycle": 315,
             "basisCost": 74.94342441358232
         },
         {
             "date": "2021-01-11",
+            "rewardAmount": null,
             "cycle": 316,
             "basisCost": 74.97595085830707
         },
         {
             "date": "2021-01-14",
+            "rewardAmount": null,
             "cycle": 317,
             "basisCost": 74.49001797095396
         },
         {
             "date": "2021-01-17",
+            "rewardAmount": null,
             "cycle": 318,
             "basisCost": 76.60814811180067
         },
         {
             "date": "2021-01-20",
+            "rewardAmount": null,
             "cycle": 319,
             "basisCost": 76.28083035611616
         },
         {
             "date": "2021-01-23",
+            "rewardAmount": null,
             "cycle": 320,
             "basisCost": 76.28110238925595
         },
         {
             "date": "2021-01-26",
+            "rewardAmount": null,
             "cycle": 321,
             "basisCost": 76.28129625654404
         },
         {
             "date": "2021-01-29",
+            "rewardAmount": null,
             "cycle": 322,
             "basisCost": 76.2812962725164
         },
         {
             "date": "2021-02-01",
+            "rewardAmount": null,
             "cycle": 323,
             "basisCost": 76.28135753654499
         },
         {
             "date": "2021-02-04",
+            "rewardAmount": null,
             "cycle": 324,
             "basisCost": 76.26657357426262
         },
         {
             "date": "2021-02-07",
+            "rewardAmount": null,
             "cycle": 325,
             "basisCost": 76.26657357426262
         },
         {
             "date": "2021-02-09",
+            "rewardAmount": null,
             "cycle": 326,
             "basisCost": 76.26657357426262
         },
         {
             "date": "2021-02-12",
+            "rewardAmount": null,
             "cycle": 327,
             "basisCost": 76.26657357426262
         },
         {
             "date": "2021-02-15",
+            "rewardAmount": null,
             "cycle": 328,
             "basisCost": 76.26657357426262
         },
         {
             "date": "2021-02-18",
+            "rewardAmount": null,
             "cycle": 329,
             "basisCost": 76.26657357426262
         },
         {
             "date": "2021-02-21",
+            "rewardAmount": null,
             "cycle": 330,
             "basisCost": 76.26657357426262
         },
         {
             "date": "2021-02-24",
+            "rewardAmount": null,
             "cycle": 331,
             "basisCost": 76.26657357426262
         },
         {
             "date": "2021-02-27",
+            "rewardAmount": null,
             "cycle": 332,
             "basisCost": 76.26657357426262
         },
         {
             "date": "2021-03-02",
+            "rewardAmount": null,
             "cycle": 333,
             "basisCost": 76.26657357426262
         },
         {
             "date": "2021-03-04",
+            "rewardAmount": null,
             "cycle": 334,
             "basisCost": 76.26746497275289
         },
         {
             "date": "2021-03-07",
+            "rewardAmount": null,
             "cycle": 335,
             "basisCost": 76.26746497275289
         },
         {
             "date": "2021-03-10",
+            "rewardAmount": null,
             "cycle": 336,
             "basisCost": 76.26749321786927
         },
         {
             "date": "2021-03-13",
+            "rewardAmount": null,
             "cycle": 337,
             "basisCost": 76.26749321786927
         },
         {
             "date": "2021-03-16",
+            "rewardAmount": null,
             "cycle": 338,
             "basisCost": 76.26749321786927
         },
         {
             "date": "2021-03-19",
+            "rewardAmount": null,
             "cycle": 339,
             "basisCost": 76.26749321786927
         },
         {
             "date": "2021-03-22",
+            "rewardAmount": null,
             "cycle": 340,
             "basisCost": 76.26749321786927
         },
         {
             "date": "2021-03-25",
+            "rewardAmount": null,
             "cycle": 341,
             "basisCost": 76.26749321786927
         },
         {
             "date": "2021-03-27",
+            "rewardAmount": null,
             "cycle": 342,
             "basisCost": 76.26749321786927
         },
         {
             "date": "2021-03-30",
+            "rewardAmount": null,
             "cycle": 343,
             "basisCost": 76.26749321786927
         },
         {
             "date": "2021-04-02",
+            "rewardAmount": null,
             "cycle": 344,
             "basisCost": 76.26749321786927
         },
         {
             "date": "2021-04-05",
+            "rewardAmount": null,
             "cycle": 345,
             "basisCost": 76.26749321786927
         },
         {
             "date": "2021-04-08",
+            "rewardAmount": null,
             "cycle": 346,
             "basisCost": 80.63509572395643
         },
         {
             "date": "2021-04-11",
+            "rewardAmount": null,
             "cycle": 347,
             "basisCost": 80.63509572395643
         },
         {
             "date": "2021-04-14",
+            "rewardAmount": null,
             "cycle": 348,
             "basisCost": 80.63509572395643
         },
         {
             "date": "2021-04-17",
+            "rewardAmount": null,
             "cycle": 349,
             "basisCost": 80.63509572395643
         },
         {
             "date": "2021-04-19",
+            "rewardAmount": null,
             "cycle": 350,
             "basisCost": 80.63509572395643
         },
         {
             "date": "2021-04-22",
+            "rewardAmount": null,
             "cycle": 351,
             "basisCost": 80.63543264849609
         },
         {
             "date": "2021-04-25",
+            "rewardAmount": null,
             "cycle": 352,
             "basisCost": 80.63543264849609
         },
         {
             "date": "2021-04-28",
+            "rewardAmount": null,
             "cycle": 353,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-01",
+            "rewardAmount": null,
             "cycle": 354,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-04",
+            "rewardAmount": null,
             "cycle": 355,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-07",
+            "rewardAmount": null,
             "cycle": 356,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-10",
+            "rewardAmount": null,
             "cycle": 357,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-12",
+            "rewardAmount": null,
             "cycle": 358,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-15",
+            "rewardAmount": null,
             "cycle": 359,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-18",
+            "rewardAmount": null,
             "cycle": 360,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-21",
+            "rewardAmount": null,
             "cycle": 361,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-24",
+            "rewardAmount": null,
             "cycle": 362,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-27",
+            "rewardAmount": null,
             "cycle": 363,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-05-30",
+            "rewardAmount": null,
             "cycle": 364,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-06-02",
+            "rewardAmount": null,
             "cycle": 365,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-06-05",
+            "rewardAmount": null,
             "cycle": 366,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-06-08",
+            "rewardAmount": null,
             "cycle": 367,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-06-10",
+            "rewardAmount": null,
             "cycle": 368,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-06-13",
+            "rewardAmount": null,
             "cycle": 369,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-06-16",
+            "rewardAmount": null,
             "cycle": 370,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-06-19",
+            "rewardAmount": null,
             "cycle": 371,
             "basisCost": 82.48916734813223
         },
         {
             "date": "2021-06-22",
+            "rewardAmount": null,
             "cycle": 372,
             "basisCost": 82.48916087034927
         },
         {
             "date": "2021-06-25",
+            "rewardAmount": null,
             "cycle": 373,
             "basisCost": 82.48916087034927
         },
         {
             "date": "2021-06-28",
+            "rewardAmount": null,
             "cycle": 374,
             "basisCost": 82.48916087034927
         },
         {
             "date": "2021-07-01",
+            "rewardAmount": null,
             "cycle": 375,
             "basisCost": 82.67607476004201
         },
         {
             "date": "2021-07-04",
+            "rewardAmount": null,
             "cycle": 376,
             "basisCost": 82.67607476004201
         },
         {
             "date": "2021-07-07",
+            "rewardAmount": null,
             "cycle": 377,
             "basisCost": 82.67607476004201
         },
         {
             "date": "2021-07-10",
+            "rewardAmount": null,
             "cycle": 378,
             "basisCost": 82.67607476004201
         },
         {
             "date": "2021-07-13",
+            "rewardAmount": null,
             "cycle": 379,
             "basisCost": 82.67607476004201
         },
         {
             "date": "2021-07-16",
+            "rewardAmount": null,
             "cycle": 380,
             "basisCost": 82.67607476004201
         },
         {
             "date": "2021-07-19",
+            "rewardAmount": null,
             "cycle": 381,
             "basisCost": 82.67607476004201
         },
         {
             "date": "2021-07-21",
+            "rewardAmount": null,
             "cycle": 382,
             "basisCost": 82.67607476004201
         },
         {
             "date": "2021-07-24",
+            "rewardAmount": null,
             "cycle": 383,
             "basisCost": 82.67607476004201
         },
         {
             "date": "2021-07-27",
+            "rewardAmount": null,
             "cycle": 384,
             "basisCost": 82.73882332979665
         },
         {
             "date": "2021-07-30",
+            "rewardAmount": null,
             "cycle": 385,
             "basisCost": 82.8093189235688
         },
         {
             "date": "2021-08-02",
+            "rewardAmount": null,
             "cycle": 386,
             "basisCost": 82.80931483075469
         },
         {
             "date": "2021-08-05",
+            "rewardAmount": null,
             "cycle": 387,
             "basisCost": 82.82160405359593
         },
         {
             "date": "2021-08-09",
+            "rewardAmount": null,
             "cycle": 388,
             "basisCost": 82.82160405359593
         },
         {
             "date": "2021-08-12",
+            "rewardAmount": null,
             "cycle": 389,
             "basisCost": 82.82160405359593
         },
         {
             "date": "2021-08-15",
+            "rewardAmount": null,
             "cycle": 390,
             "basisCost": 82.82160405359593
         },
         {
             "date": "2021-08-18",
+            "rewardAmount": null,
             "cycle": 391,
             "basisCost": 82.82160405359593
         },
         {
             "date": "2021-08-21",
+            "rewardAmount": null,
             "cycle": 392,
             "basisCost": 82.82160405359593
         },
         {
             "date": "2021-08-24",
+            "rewardAmount": null,
             "cycle": 393,
             "basisCost": 82.56767377965174
         },
         {
             "date": "2021-08-27",
+            "rewardAmount": null,
             "cycle": 394,
             "basisCost": 82.56767377965174
         },
         {
             "date": "2021-08-30",
+            "rewardAmount": null,
             "cycle": 395,
             "basisCost": 82.56767377965174
         },
         {
             "date": "2021-09-02",
+            "rewardAmount": null,
             "cycle": 396,
             "basisCost": 82.56767377965174
         },
         {
             "date": "2021-09-05",
+            "rewardAmount": null,
             "cycle": 397,
             "basisCost": 82.56767377965174
         },
         {
             "date": "2021-09-08",
+            "rewardAmount": null,
             "cycle": 398,
             "basisCost": 80.9266510565175
         },
         {
             "date": "2021-09-11",
+            "rewardAmount": null,
             "cycle": 399,
             "basisCost": 80.9266510565175
         },
         {
             "date": "2021-09-14",
+            "rewardAmount": null,
             "cycle": 400,
             "basisCost": 80.68704283641156
         },
         {
             "date": "2021-09-17",
+            "rewardAmount": null,
             "cycle": 401,
             "basisCost": 79.08051661620507
         },
         {
             "date": "2021-09-20",
+            "rewardAmount": null,
             "cycle": 402,
             "basisCost": 79.08051661620507
         },
         {
             "date": "2021-09-23",
+            "rewardAmount": null,
             "cycle": 403,
             "basisCost": 79.08051661620507
         },
         {
             "date": "2021-09-26",
+            "rewardAmount": null,
             "cycle": 404,
             "basisCost": 77.76314559590205
         },
         {
             "date": "2021-09-29",
+            "rewardAmount": null,
             "cycle": 405,
             "basisCost": 77.76314559590205
         },
         {
             "date": "2021-10-02",
+            "rewardAmount": null,
             "cycle": 406,
             "basisCost": 77.76314559590205
         },
         {
             "date": "2021-10-05",
+            "rewardAmount": null,
             "cycle": 407,
             "basisCost": 71.61285469152958
         },
         {
             "date": "2021-10-08",
+            "rewardAmount": null,
             "cycle": 408,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-10-11",
+            "rewardAmount": null,
             "cycle": 409,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-10-14",
+            "rewardAmount": null,
             "cycle": 410,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-10-16",
+            "rewardAmount": null,
             "cycle": 411,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-10-19",
+            "rewardAmount": null,
             "cycle": 412,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-10-22",
+            "rewardAmount": null,
             "cycle": 413,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-10-25",
+            "rewardAmount": null,
             "cycle": 414,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-10-28",
+            "rewardAmount": null,
             "cycle": 415,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-10-31",
+            "rewardAmount": null,
             "cycle": 416,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-11-03",
+            "rewardAmount": null,
             "cycle": 417,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-11-06",
+            "rewardAmount": null,
             "cycle": 418,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-11-09",
+            "rewardAmount": null,
             "cycle": 419,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-11-12",
+            "rewardAmount": null,
             "cycle": 420,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-11-15",
+            "rewardAmount": null,
             "cycle": 421,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-11-18",
+            "rewardAmount": null,
             "cycle": 422,
             "basisCost": 71.61305914610757
         },
         {
             "date": "2021-11-21",
+            "rewardAmount": null,
             "cycle": 423,
             "basisCost": 68.54520030762417
         },
         {
             "date": "2021-11-24",
+            "rewardAmount": null,
             "cycle": 424,
             "basisCost": 68.54520030762417
         },
         {
             "date": "2021-11-27",
+            "rewardAmount": null,
             "cycle": 425,
             "basisCost": 68.54520030762417
         },
@@ -58319,7 +57488,7 @@
         ]
     ],
     "noRewards": false,
-    "TezosPriceOnDateObjectGenerated": 48.71,
+    "TezosPriceOnDateObjectGenerated": 48.52,
     "pointOfSaleAggValue": 0,
     "netDiffFMV": 0,
     "netDiffDilution": 0,
@@ -59999,6 +59168,6 @@
             "scaledBookValue": 998566.0843999991
         }
     ],
-    "realizingDomainStartDate": "2020-05-06",
-    "realizingDomainEndDate": "2021-11-30"
+    "realizingDomainStartDate": "2022-02-20",
+    "realizingDomainEndDate": "2022-04-30"
 }

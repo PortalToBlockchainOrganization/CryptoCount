@@ -127,7 +127,7 @@ const Analysis = (props) => {
 
 	const handleSave = (e) => {
         console.log("saving");
-		e.preventDefault();
+		// e.preventDefault();
 		if (set["data"]["objectId"] !== undefined) {
 			console.log("saving")
 			saveRealizing(
@@ -161,9 +161,12 @@ const Analysis = (props) => {
 			set["data"]["aggregateUnrealizedNativeReward100p"].toFixed(0);
 	};
 
+	//make update after save
 	const handle25 = (e /** DOM event, click */) => {
 		// prevent page from refreshing
 		e.preventDefault();
+		if(set["data"][""])
+		console.log('popo')
 
 		// quantityRealize is Ref
 		quantityRealize.current.value =
