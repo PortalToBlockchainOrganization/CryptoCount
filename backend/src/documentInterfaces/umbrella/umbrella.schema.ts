@@ -3,7 +3,7 @@ import mongoose, {Document, Schema, Model, Types, model} from 'mongoose';
 //const mongoose = require('mongoose')
 import umbrellaInterface from './umbrella.types'
 
-import { Schema } from "mongoose";
+//import { Schema } from "mongoose";
 import { findOneOrCreate, findByAge } from "./umbrella.statics";
 import { setLastUpdated, sameLastName } from "./umbrella.methods";
 const UmbrellaSchema = new Schema({

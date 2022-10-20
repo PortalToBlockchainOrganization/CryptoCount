@@ -17,7 +17,7 @@ import CopyToClipboard from "react-copy-to-clipboard"
  * @returns
  */
 
-const loadingTexts = ["Reading or updating your data from the Tezos blockchain.", "Assessing your assets", "Generating aggregated assessment."]
+const loadingTexts = ["Reading your data from the Tezos blockchain. Delegator addresses can take up to 2 minutes to compile.", "Assessing your assets", "Generating aggregated assessment."]
 
 
 
@@ -133,7 +133,9 @@ const Analysis = (props) => {
 			saveRealizing(
 				set["data"]["objectId"], 
 				set["data"]["aggregateRealizedNativeReward100p"],
+				updateChart
 				)
+
 			// props.getHistory();
 			
 		}

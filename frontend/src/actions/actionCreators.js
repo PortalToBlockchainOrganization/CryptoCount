@@ -309,7 +309,7 @@ export function saveRealizing(setId, quantity, cb) {
 		api.saveRealize(setId, quantity).then((res) => {
 			res.json().then((res) => {
 				dispatch({
-					type: "SAVE_REALIZE",
+					type: "ADD_SAVE_REALIZE",
 					payload: res,
 				});
 				if (cb) {

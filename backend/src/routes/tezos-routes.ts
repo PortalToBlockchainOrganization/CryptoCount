@@ -37,39 +37,42 @@ const router = require('express').Router()
           let model =  new UmbrellaModel(ts)
           //add user id to umbrella
           model.user_id = req.body.user_id
+          console.log('umrbella model')
+          console.log(model.user_id)
 
-          model.save(async function(_err,room) {
-            setId = room.id
-            console.log(room.id);
-            model.objectId = setId
-            
-            //if signed in, put entities together
-            if (req.body.user_id){
-              console.log('hi')
-              await User.find({ _id: req.body.user_id }).then(async (user: { setIds: any[]; }[])=>{
-                
-              //check if the set id already exists in setIds array
+          await model.save() 
+          
+          console.log(model)
+          setId = model.id
+          model.objectId = setId
+          
+          //if signed in, put entities together
+          if (req.body.user_id){
+            console.log('hi')
+            await User.find({ _id: req.body.user_id }).then(async (user: { setIds: any[]; }[])=>{
               
-              console.log('tying to entity')
-              var id = model._id.toString()
-              console.log(id)
-              console.log(user[0].setIds)
-              user[0].setIds.push(id)
-              console.log(user)
-    
-              var user_id= req.body.user_id
+            //check if the set id already exists in setIds array
+            
+            console.log('tying to entity')
+            var id = model._id.toString()
+            console.log(id)
+            console.log(user[0].setIds)
+            user[0].setIds.push(id)
+            console.log(user)
+  
+            var user_id= req.body.user_id
 
-    
-              await User.updateOne({ _id: user_id }, { $set: user[0] }).clone()
-              console.log("updated?")
-              })
+  
+            await User.updateOne({ _id: user_id }, { $set: user[0] }).clone()
+            console.log("updated?")
+            })
 
-            }
+          }
 
-            //control the model up 
-            unrealizedModel = transformToUnrealized(model)
-            res.status(200).send(unrealizedModel)
-         });
+          //control the model up 
+          unrealizedModel = transformToUnrealized(model)
+          res.status(200).send(unrealizedModel)
+         
         }
     })});
     // var test = require("../../test.js")
@@ -81,14 +84,14 @@ const router = require('express').Router()
   router.post('/Retrieve/', async (req, res)=>{
     
 
-    console.log(req.body.setId)
+    console.log(req.body.setId.setId)
     var date = new Date();
  
 
     //let ts = query object from db by id
     let obj: any = {}
   
-    UmbrellaModel.findById(req.body.setId, async function (err: any, docs: any) {
+    UmbrellaModel.findById(req.body.setId.setId, async function (err: any, docs: any) {
       if (err){
           console.log(err);
       }else{

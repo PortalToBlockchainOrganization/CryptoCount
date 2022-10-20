@@ -27,6 +27,14 @@ function set(state = {}, action) {
 				action.payload["realizingNativeSupplyDepletionRewards"];
 			tempSet["data"]["realizingNativeMarketDilutionRewards"] =
 				action.payload["realizingNativeMarketDilutionRewards"];
+			tempSet["data"]["realizedNativeRewards"] =
+				action.payload["realizedNativeRewards"];
+			tempSet["data"]["realizedNativeFMVRewards"] =
+				action.payload["realizedNativeFMVRewards"];
+			tempSet["data"]["realizedNativeSupplyDepletionRewards"] =
+				action.payload["realizedNativeSupplyDepletionRewards"];
+			tempSet["data"]["realizedNativeMarketDilutionRewards"] =
+				action.payload["realiziedNativeMarketDilutionRewards"];
 			tempSet["data"]["aggregateRealizedNativeReward100p"] =
 				action.payload["aggregateRealizedNativeReward100p"];
 			tempSet["data"]["aggregateRealizedNativeFMVReward100p"] =
@@ -56,8 +64,52 @@ function set(state = {}, action) {
             tempSet["lastName"] = action.payload["lastName"]
 			
 			return tempSet;
-		case "SAVE_REALIZE":
-			return action.payload;
+		case "ADD_SAVE_REALIZE":
+			let tempSet2 = state;
+			tempSet2["data"]["realizedNativeRewards"] =
+				action.payload["realizedNativeRewards"];
+			tempSet2["data"]["realizedNativeFMVRewards"] =
+				action.payload["realizedNativeFMVRewards"];
+			tempSet2["data"]["realizedNativeSupplyDepletionRewards"] =
+				action.payload["realizedNativeSupplyDepletionRewards"];
+			tempSet2["data"]["realizedNativeMarketDilutionRewards"] =
+				action.payload["realiziedNativeMarketDilutionRewards"];
+			tempSet2["data"]["realizingNativeRewards"] =
+				action.payload["realizingNativeRewards"];
+			tempSet2["data"]["realizingNativeFMVRewards"] =
+				action.payload["realizingNativeFMVRewards"];
+			tempSet2["data"]["realizingNativeSupplyDepletionRewards"] =
+				action.payload["realizingNativeSupplyDepletionRewards"];
+			tempSet2["data"]["realizingNativeMarketDilutionRewards"] =
+				action.payload["realizingNativeMarketDilutionRewards"];
+			// tempSet2["data"]["aggregateRealizedNativeReward100p"] =
+			// 	action.payload["aggregateRealizedNativeReward100p"];
+			// tempSet2["data"]["aggregateRealizedNativeFMVReward100p"] =
+			// 	action.payload["aggregateRealizedNativeFMVReward100p"];
+			// tempSet2["data"]["aggregateRealizedNativeSupplyDepletion100p"] =
+			// 	action.payload["aggregateRealizedNativeSupplyDepletion100p"];
+			// tempSet2["data"]["aggregateRealizedNativeMarketDilution100p"] =
+			// 	action.payload["aggregateRealizedNativeMarketDilution100p"];
+			tempSet2["data"]["pointOfSaleAggValue"] =
+				action.payload["pointOfSaleAggValue"];
+			tempSet2["data"]["TezosPriceOnDateObjectGenerated"] =
+				action.payload["TezosPriceOnDateObjectGenerated"];
+				tempSet2["data"]["fiat"] =
+				action.payload["publicfiat"];
+			tempSet2["data"]["netDiffFMV"] =
+				action.payload["netDiffFMV"];
+			tempSet2["data"]["netDiffDilution"] =
+				action.payload["netDiffDilution"];
+			tempSet2["data"]["netDiffSupplyDepletion"] =
+				action.payload["netDiffSupplyDepletion"];
+			// tempSet2["data"]["realizingDomainStartDate"] = action.payload["realizingDomainStartDate"]
+			// tempSet2["data"]["realizingDomainEndDate"] = action.payload["realizingDomainEndDate"]
+			tempSet2["objectId"] = action.payload["_id"];
+            tempSet2["isLoading"] = false;
+            tempSet2["email"] = action.payload["email"]
+            tempSet2["firstName"] = action.payload["firstName"]
+            tempSet2["lastName"] = action.payload["lastName"]
+			return tempSet2;
 		case "DELETE_SET":
 			return null;
 		case "DUPLICATE":

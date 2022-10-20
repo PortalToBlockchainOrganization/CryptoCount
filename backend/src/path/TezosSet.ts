@@ -246,6 +246,7 @@ export default class TezosSet {
             await Promise.all([this.getBakerRewardsAndTransactions(), this.getPricesAndMarketCap()])
             //make returenve baker rewards output equal to the pre unrealized data arrays
             //this.getBalances()
+            
         }
         else{
             //delegator route
@@ -828,6 +829,10 @@ export default class TezosSet {
         agg += element.cost
     });
     this.weightedAverageTotalDomainInvestmentCost =  agg / basisArray.length
+
+    if(Number.isNaN(this.weightedAverageTotalDomainInvestmentCost)){
+        this.weightedAverageTotalDomainInvestmentCost = 0
+    }
     
     }
 
