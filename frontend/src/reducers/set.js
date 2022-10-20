@@ -19,6 +19,14 @@ function set(state = {}, action) {
 		case "ADD_REALIZING_SET":
 			// TYPO IN RESPONSE PLS FIX
 			let tempSet = state;
+			// tempSet["data"]["unrealizedNativeRewards"] = 
+			// 	action.payload["unrealizedNativeRewards"];
+			// tempSet["data"]["unrealizedNativeFMVRewards"] = 
+			// 	action.payload["unrealizedNativeFMVRewards"];
+			// tempSet["data"]["unrealizedNativeSupplyDepletionRewards"] = 
+			// 	action.payload["unrealizedNativeSupplyDepletionRewards"];
+			// tempSet["data"]["unrealizedNativeMarketDilutionRewards"] = 
+			// 	action.payload["unrealizedNativeMarketDilutionRewards"];
 			tempSet["data"]["realizingNativeRewards"] =
 				action.payload["realizingNativeRewards"];
 			tempSet["data"]["realizingNativeFMVRewards"] =
@@ -66,6 +74,14 @@ function set(state = {}, action) {
 			return tempSet;
 		case "ADD_SAVE_REALIZE":
 			let tempSet2 = state;
+			tempSet2["data"]["unrealizedNativeRewards"] = 
+				action.payload["unrealizedNativeRewards"];
+			tempSet2["data"]["unrealizedNativeFMVRewards"] = 
+				action.payload["unrealizedNativeFMVRewards"];
+			tempSet2["data"]["unrealizedNativeSupplyDepletionRewards"] = 
+				action.payload["unrealizedNativeSupplyDepletionRewards"];
+			tempSet2["data"]["unrealizedNativeMarketDilutionRewards"] = 
+				action.payload["unrealizedNativeMarketDilutionRewards"];
 			tempSet2["data"]["realizedNativeRewards"] =
 				action.payload["realizedNativeRewards"];
 			tempSet2["data"]["realizedNativeFMVRewards"] =
