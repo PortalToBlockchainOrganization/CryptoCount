@@ -17,7 +17,7 @@ import CopyToClipboard from "react-copy-to-clipboard"
  * @returns
  */
 
-const loadingTexts = ["Reading your data from the Tezos blockchain. Delegator addresses can take up to 2 minutes to compile.", "Assessing your assets", "Generating aggregated assessment."]
+const loadingTexts = ["Reading your data from the Tezos blockchain. Delegator addresses can take up to 3 minutes to compile.", "Running multiple assessments for your assets", "Generating aggregated interface."]
 
 
 
@@ -40,9 +40,7 @@ const Analysis = (props) => {
 	const [showModal, setShowModal] = useState(true);
 	const [active, setActive] = useState("unrealizedBasisRewards");
 
-	console.log('seteth00')
 
-	console.log(set)
 
 	const [index, setIndex] = React.useState(0);
 		// current set data
@@ -51,7 +49,7 @@ const Analysis = (props) => {
 	React.useEffect(() => {
 	  const intervalId = setInterval(() =>
 		setIndex(index => index + 1),
-		100000 // every 3 seconds
+		50000 // every 3 seconds
 	  );
 	  return () => clearTimeout(intervalId);
 	}, []);
@@ -67,6 +65,8 @@ const Analysis = (props) => {
 	useEffect(() => {
 		setCurrentSet(getData(null, set, params, getUnrealizedSet));
 	}, [set, params, getUnrealizedSet]);
+
+
 
 	const updateChart = (setToRender) => {
 		// update chart based on button press
@@ -104,8 +104,7 @@ const Analysis = (props) => {
 		request to get Realized
 		*/
 		e.preventDefault();
-		console.log("asdf")
-		console.log(set["data"]["objectId"])
+	
 		if (set["data"]["objectId"] !== undefined && quantityRealize !== 0) {
 			if (!signedIn()) {
 				console.log("NOAUTH TRIGGERED");
@@ -129,11 +128,10 @@ const Analysis = (props) => {
         console.log("saving");
 		// e.preventDefault();
 		if (set["data"]["objectId"] !== undefined) {
-			console.log("saving")
 			saveRealizing(
 				set["data"]["objectId"], 
 				set["data"]["aggregateRealizedNativeReward100p"],
-				updateChart
+				updateChart,
 				)
 
 			// props.getHistory();
@@ -146,19 +144,56 @@ const Analysis = (props) => {
 
 	
 	
+	// const [quantity100Value, setQuantity100Value] = React.useState()
+	var quantity100Value = 0
+	//var quantity100value = 0
+	// const quantity100value = React.useRef(null);
+	// const quantity75value = React.useRef(null);
+	// const quantity50value = React.useRef(null);
+	// const quantity25value = React.useRef(null);
+	// React.useEffect(() => { 
+	// 	quantity100value.current = set["data"]["aggregateUnrealizedNativeReward100p"].toFixed(0)
+	// 	quantity75value.current = set["data"]["aggregateUnrealizedNativeReward75p"].toFixed(0)
+	// 	quantity50value.current = set["data"]["aggregateUnrealizedNativeRewardp"].toFixed(0)
+	// 	quantity25value.current = set["data"]["aggregateUnrealizedNativeReward100p"].toFixed(0)
 
+	// });
+	// eslint-disable-next-line no-const-assign
+	//setQuantity100Value(set["data"]["aggregateUnrealizedNativeReward100p"].toFixed(0))
 
+	var s = 0
+	var quantity100 = 0
+	const updateFIFO = function() {
+		// quantity100Value = set["data"]["aggregateUnrealizedNativeReward100p"].toFixed(0)
+		// console.log('set quantity')
+		// console.log(quantity100Value)
+		//handle100()
+	
+		s = 1
+		quantity100 = set["data"]["aggregateUnrealizedNativeReward100p"].toFixed(0);
+	
+	}
 
+	
 	//set["data"]["TezosPriceOnDateObjectGenerated"]
 	// console.log(priceToday)
 	// click handler
-	const handle100 = (e /** DOM event, click */) => {
+	const handle100 = ( e/** DOM event, click */ ) => {
 		// prevent page from refreshing
 		e.preventDefault();
-
+		// console.log(s)
+		if(s > 0){
+			//console.log('changy')
+			quantityRealize.current.value = quantity100
+		}else{
+			//console.log('chaing 100000')
+			quantityRealize.current.value = set["data"]["aggregateUnrealizedNativeReward100p"].toFixed(0);
+		}
+		
+		//console.log(quantity100value)
+		//setQuantity100Value(set["data"]["aggregateUnrealizedNativeReward100p"].toFixed(0))
 		// quantityRealize is Ref
-		quantityRealize.current.value =
-			set["data"]["aggregateUnrealizedNativeReward100p"].toFixed(0);
+		
 	};
 
 	//make update after save
@@ -231,9 +266,7 @@ const Analysis = (props) => {
 
 	// current set data
 	//const [currentSet, setCurrentSet] = useState();
-	console.log('seteth')
-
-	console.log(set)
+	
 
 
 

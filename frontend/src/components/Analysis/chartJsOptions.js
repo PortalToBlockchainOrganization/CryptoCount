@@ -21,7 +21,7 @@ export const chartOptions = (set) => {
 		basisCosts.push(element.basisCost)
 	});
 
-	console.log(basisCosts)
+	//console.log(basisCosts)
 
 	return {
 		responsive: true,

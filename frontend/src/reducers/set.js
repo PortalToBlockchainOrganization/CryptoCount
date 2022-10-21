@@ -74,6 +74,14 @@ function set(state = {}, action) {
 			return tempSet;
 		case "ADD_SAVE_REALIZE":
 			let tempSet2 = state;
+			tempSet2["data"]["aggregateUnrealizedNativeReward25p"]= 
+				action.payload["aggregateUnrealizedNativeReward25p"]
+			tempSet2["data"]["aggregateUnrealizedNativeReward50p"]= 
+				action.payload["aggregateUnrealizedNativeReward50p"]
+			tempSet2["data"]["aggregateUnrealizedNativeReward75p"]= 
+				action.payload["aggregateUnrealizedNativeReward75p"]
+			tempSet2["data"]["aggregateUnrealizedNativeReward100p"]= 
+				action.payload["aggregateUnrealizedNativeReward100p"]
 			tempSet2["data"]["unrealizedNativeRewards"] = 
 				action.payload["unrealizedNativeRewards"];
 			tempSet2["data"]["unrealizedNativeFMVRewards"] = 
