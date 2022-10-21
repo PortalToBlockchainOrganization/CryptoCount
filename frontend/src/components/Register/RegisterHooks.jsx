@@ -128,18 +128,17 @@ const RegisterHooks = (props) => {
 					help="Repeat your password"
 				/>
 
-				<Form.Check
-					id="termsAccepted"
-					value={termsAccepted}
-					onChange={(e) => toggleTerms(e)}
-					label={
+		
+				
+					
+				
 						<div>
-							Do you accept CryptoCount's {" "}
-							<Link to="/privacy">terms and conditions</Link>?
+							By selecting "Submit" you agree to the
+							<Link to="/privacy"> terms and conditions</Link>.
 							                 
 						</div>
-					}
-				/>
+					
+			
 				{password !== password2 ? (
 					<Alert className="mt-4" variant="warning">
 						Passwords don't match

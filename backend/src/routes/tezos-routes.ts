@@ -84,19 +84,20 @@ const router = require('express').Router()
   router.post('/Retrieve/', async (req, res)=>{
     
 
-    console.log(req.body.setId.setId)
+    console.log(req.body.setId)
     var date = new Date();
  
 
     //let ts = query object from db by id
     let obj: any = {}
   
-    UmbrellaModel.findById(req.body.setId.setId, async function (err: any, docs: any) {
+    UmbrellaModel.findById(req.body.setId, async function (err: any, docs: any) {
       if (err){
           console.log(err);
       }else{
         console.log("what ")
         obj = docs
+        //console.log(docs)
         console.log(docs.walletAddress)
 
         //add to user if havent already and is signed in 
@@ -135,7 +136,7 @@ const router = require('express').Router()
           //return database version of set
 
           console.log('doesnt need update')
-          var setId = docs.id
+          var setId = req.body.setId
           obj.objectId = setId
 
           res.status(200).send(obj)

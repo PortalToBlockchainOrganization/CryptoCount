@@ -245,17 +245,15 @@ const Landing = (props) => {
 		// if (props.set["data"] !== undefined) {
 		// 	props.resetSet();
 		// }
+		console.log('query')
 		console.log(setId["setObjectId"])
+		console.log(user._id)
 		
-		props.getSet(
-			{
-				setId: setId["setObjectId"],
-				user_id: user._id
-			},
+		getSet(setId["setObjectId"],user._id);
 			// () => {
 			// 	props.history.push("/analysis");
 			// }
-		);
+		
 		props.history.push("/analysis");
 		setShowModal(false);
 		e.preventDefault();
