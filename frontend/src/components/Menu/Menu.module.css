@@ -26,7 +26,6 @@
 	justify-content: center;
 	align-items: center;
 	text-align: center;
-	margin-left: 5px;
 	padding: 5px 10px 5px 10px;
 	border: 2px solid rgb(235, 235, 235);
 	border-radius: 5px;
@@ -34,5 +33,5 @@
 
 .MenuButton:hover {
 	cursor: pointer;
-	background-color: rgb(235, 235, 235);
+	background-color: rgb(93, 72, 72);
 }

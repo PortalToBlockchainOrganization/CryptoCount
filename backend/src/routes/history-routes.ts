@@ -1,7 +1,8 @@
 const router = require('express').Router()
 const RealizeHistObj = require("../models/realizeObject")
 import {UmbrellaModel} from "../documentInterfaces/umbrella/umbrella.model"
-
+const User = require('../models/user-model')
+ 
 
 
 // router.get('/', (req,res)=>{
@@ -78,5 +79,12 @@ router.post("/", async function (req, res) {
 		// 	if (err) console.log(err);
 		// }
 }); 
+
+
+// router.del("/delete", async function (req, res){
+//     console.log(req.body.setId)
+//     //delete id from models
+//     //await User.deleteOne({_id:req.body.setId});
+// })
 
 module.exports = router
