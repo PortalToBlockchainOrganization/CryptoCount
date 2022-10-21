@@ -42,7 +42,7 @@ const router = require('express').Router()
 
           await model.save() 
           
-          console.log(model)
+          //console.log(model)
           setId = model.id
           model.objectId = setId
           
