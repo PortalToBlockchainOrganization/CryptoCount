@@ -650,6 +650,7 @@ export default class TezosSet {
                 let newValue2: number = this.unrealizedNativeRewards[i].rewardAmount - quantity
                 let value1 = unrealizedNativeFMVRewardsMap[this.unrealizedNativeRewards[i].date]
                 let value2 = this.unrealizedNativeRewards[i].rewardAmount
+                //add check if value 2 (native reward q) is 0 and make it
                 let value3 =  unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date]
                 let value4 = unrealizedNativeSupplyDepletionRewardsMap[this.unrealizedNativeRewards[i].date]
                 let [value5, value6, value7] = [value1/value2, value3/value2, value4/value2]
