@@ -228,7 +228,7 @@ const router = require('express').Router()
                 realizingModel = transformToRealizing(ts)
             
               res.status(200).send(realizingModel)
-              console.log(ts)
+             // console.log(ts)
 
                 //res.status(200).send(ts)
               }
