@@ -1037,8 +1037,7 @@ export default class TezosSet {
     nativeMarketDilutionByDay.unshift({date: filteredMarketByDay[0].date,amount: 0})
     
     let nativeFilteredMarketDilutionByDay: Array<DilutionByDay>
-    console.log("nativeMarketDilutionBYDay")
-    console.log(nativeMarketDilutionByDay)
+    
 
     console.log(nativeMarketDilutionByDay[0].date)
     //console.log(nativeMarketDilutionByDay[nativeMarketDilutionByDay.length-1].amount)
@@ -1085,7 +1084,8 @@ export default class TezosSet {
     let aggDilutionAmount: number = nativeFilteredMarketDilutionByDay[0].amount;
     let endDate: string = nativeFilteredMarketDilutionByDay[nativeFilteredMarketDilutionByDay.length - 1].date
 
-
+    console.log("nativefilterMarketDilutionBYDay")
+    console.log(nativeFilteredMarketDilutionByDay)
     nativeFilteredMarketDilutionByDay.forEach(nativeFilteredMarketDilutionByDay => {
         if(this.cyclesMappedToDays.get(nativeFilteredMarketDilutionByDay.date)!==currentDilutionCycle){
             //date mod back one here
@@ -1105,6 +1105,9 @@ export default class TezosSet {
     
             let dateCorrespondingToRewards = (year+ '-' + month + '-'+dt);
            // currentDate = dateCorrespondingToRewards
+            if(aggDilutionAmount === null || aggDilutionAmount === undefined || isNaN(aggDilutionAmount)){
+                aggDilutionAmount=0
+            }
             nativeMarketDilutionRewards.push({date: currentDate, 
                 rewardAmount: mappedFMV[currentDilutionCycle] - aggDilutionAmount, 
                 cycle: currentDilutionCycle})
@@ -1132,15 +1135,25 @@ export default class TezosSet {
     
             let dateCorrespondingToRewards = (year+ '-' + month + '-'+dt);
             //currentDate = dateCorrespondingToRewards
+            if(aggDilutionAmount === null || aggDilutionAmount === undefined || isNaN(aggDilutionAmount)){
+                aggDilutionAmount=0
+            }
             nativeMarketDilutionRewards.push({date: currentDate, 
                 rewardAmount: mappedFMV[currentDilutionCycle] - aggDilutionAmount, 
                 cycle: currentDilutionCycle})
         }
         else{
-            aggDilutionAmount+=nativeFilteredMarketDilutionByDay.amount;
-        }
+            if(aggDilutionAmount === null || aggDilutionAmount === undefined || isNaN(aggDilutionAmount)){
+                aggDilutionAmount = 0
+            }
+            else{
+                aggDilutionAmount+=nativeFilteredMarketDilutionByDay.amount;
 
+            }
+        }
     })
+    console.log('brokenValu')
+    console.log(mappedFMV[418])
     
     
 

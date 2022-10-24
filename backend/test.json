@@ -24909,7 +24909,7 @@
         },
         {
             "date": "2021-11-07",
-            "rewardAmount": null,
+            "rewardAmount": 15.558452816789849,
             "cycle": 418
         },
         {
@@ -52075,7 +52075,7 @@
         },
         {
             "date": "2021-11-07",
-            "rewardAmount": null,
+            "rewardAmount": 15.558452816789849,
             "cycle": 418,
             "basisCost": 3.4450136634707405
         },
@@ -52978,8 +52978,8 @@
     "aggregateRealizedNativeReward50p": 97.50000000000001,
     "aggregateRealizedNativeFMVReward100p": 870.2519280327757,
     "aggregateRealizedNativeFMVReward50p": 435.12596401638785,
-    "aggregateRealizedNativeMarketDilution100p": null,
-    "aggregateRealizedNativeMarketDilution50p": null,
+    "aggregateRealizedNativeMarketDilution100p": 111.36880843324396,
+    "aggregateRealizedNativeMarketDilution50p": 55.68440421662198,
     "aggregateRealizedNativeSupplyDepletion100p": 687.6138669801429,
     "aggregateRealizedNativeSupplyDepletion50p": 343.80693349007146,
     "realizedNativeRewards": [],
@@ -52990,11 +52990,11 @@
     "nextTimeStamp": "",
     "totalOperations": [],
     "noRewards": false,
-    "TezosPriceOnDateObjectGenerated": 1.36,
-    "pointOfSaleAggValue": 265.20000000000005,
-    "netDiffFMV": -605.0519280327757,
-    "netDiffDilution": null,
-    "netDiffSupplyDepletion": -422.41386698014287,
+    "TezosPriceOnDateObjectGenerated": 1.37,
+    "pointOfSaleAggValue": 267.15000000000003,
+    "netDiffFMV": -603.1019280327757,
+    "netDiffDilution": 155.7811915667561,
+    "netDiffSupplyDepletion": -420.4638669801429,
     "investmentBasisCostArray": [
         {
             "cost": 3.8625231718869983,
