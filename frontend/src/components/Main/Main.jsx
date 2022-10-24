@@ -62,7 +62,7 @@ const Main = (props) => {
 
 	const { user, realizedHistory, getHistory, resetSet } = props;
 
-	if (props?.params?.fiat || Object.keys(props?.set) > 0) {
+	if (props?.set?.data) {
 		if (!canAccessAnalysis) {
 			setCanAccessAnalysis(true);
 		}

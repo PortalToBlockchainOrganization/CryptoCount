@@ -502,19 +502,19 @@ export default class TezosSet {
         this.nativeRewardsFMVByCycle.forEach((value)=> { this.unrealizedNativeFMVRewards.push({date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: 0}) })
         this.nativeMarketDilutionRewards.forEach((value)=> {this.unrealizedNativeMarketDilutionRewards.push( {date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: 0})})
         this.nativeSupplyDepletionRewards.forEach((value)=> {this.unrealizedNativeSupplyDepletionRewards.push( {date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: 0})})
-        console.log('before ordering and basis')
+        //console.log('before ordering and basis')
 
-        console.log(this.unrealizedNativeRewards[0])
-        console.log(this.unrealizedNativeFMVRewards[0])
-        console.log(this.unrealizedNativeMarketDilutionRewards[0])
-        console.log(this.unrealizedNativeSupplyDepletionRewards[0])
+        // console.log(this.unrealizedNativeRewards[0])
+        // console.log(this.unrealizedNativeFMVRewards[0])
+        // console.log(this.unrealizedNativeMarketDilutionRewards[0])
+        // console.log(this.unrealizedNativeSupplyDepletionRewards[0])
 
         this.orderAccountingSets()
-        console.log('after ordering')
-        console.log(this.unrealizedNativeRewards[7])
-        console.log(this.unrealizedNativeFMVRewards)
-        console.log(this.unrealizedNativeMarketDilutionRewards[7])
-        console.log(this.unrealizedNativeSupplyDepletionRewards[7])
+        //console.log('after ordering')
+        // console.log(this.unrealizedNativeRewards[7])
+        // console.log(this.unrealizedNativeFMVRewards)
+        // console.log(this.unrealizedNativeMarketDilutionRewards[7])
+        // console.log(this.unrealizedNativeSupplyDepletionRewards[7])
 
         await this.basisInvestmentCosts()
         await this.basisInvestmentCostsToNativeRewards()
@@ -529,11 +529,11 @@ export default class TezosSet {
         this.orderAccountingSets()
         
         //filter the unrealized arrays to put in chronolgoical order
-        console.log('after ordering and basis')
-        console.log(this.unrealizedNativeRewards[0])
-        console.log(this.unrealizedNativeFMVRewards[0])
-        console.log(this.unrealizedNativeMarketDilutionRewards[0])
-        console.log(this.unrealizedNativeSupplyDepletionRewards[0])
+        // console.log('after ordering and basis')
+        // console.log(this.unrealizedNativeRewards[0])
+        // console.log(this.unrealizedNativeFMVRewards[0])
+        // console.log(this.unrealizedNativeMarketDilutionRewards[0])
+        // console.log(this.unrealizedNativeSupplyDepletionRewards[0])
         //set mod -behaviors
         //this.realizeReward()
         this.aggregates()
@@ -556,6 +556,7 @@ export default class TezosSet {
         await this.pointOfSaleCosts()
 
         console.log("here4")
+
 
     }
 
@@ -686,10 +687,19 @@ export default class TezosSet {
                 value3 =  unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date]
                 value4 = unrealizedNativeSupplyDepletionRewardsMap[this.unrealizedNativeRewards[i].date]
                 value5 = value1/value2 // yields price on day
-                console.log("value5")
-                console.log(value5)
+                
                 value6 = value3/value2
+                console.log("value6")
+                console.log(value6)
                 value7 =  value4/value2
+                console.log("value7")
+                console.log(value7)
+                // if(isNaN(value6)) {
+                //     value6 =0 
+                // }
+                // if(isNaN(value7)){
+                //     value7 = 0
+                // }
                 this.realizingNativeRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1, cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost})
                 this.realizingNativeFMVRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value5, cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost})
                 this.realizingNativeMarketDilutionRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: newValue1 * value6, cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost})
@@ -946,9 +956,9 @@ export default class TezosSet {
     async pointOfSaleCosts(): Promise<void>{
         //add todays price to this 
         await this.retrieveTezosPriceToday()
-        console.log(this.TezosPriceOnDateObjectGenerated)
         this.pointOfSaleAggValue = this.TezosPriceOnDateObjectGenerated * this.aggregateRealizedNativeReward100p
         //add realized native rewards agg by todays price to this 
+
         this.netDiffFMV = this.pointOfSaleAggValue - this.aggregateRealizedNativeFMVReward100p //positive is good negative is bad
         this.netDiffDilution = this.pointOfSaleAggValue - this.aggregateRealizedNativeMarketDilution100p
         this.netDiffSupplyDepletion = this.pointOfSaleAggValue - this.aggregateRealizedNativeSupplyDepletion100p
@@ -968,7 +978,7 @@ export default class TezosSet {
             //console.log(this.pricesAndMarketCapsByDay)
             //get the object type
             //conditional patch for missing early launch of tezos prices
-            if(new Date(reward.date) < new Date("2018-07-03")){
+            if(new Date(reward.date) < new Date("2018-07-04")){
                 return {date: reward.date, rewardAmount: reward.rewardAmount, cycle:reward.cycle}
             }
             else{
@@ -995,6 +1005,13 @@ export default class TezosSet {
             }
         }
     })
+    //console.log('mappedBV')
+    
+    if(new Date(this.firstRewardDate) <= new Date("2018-07-04")){
+        this.firstRewardDate = "2018-07-04"
+    }
+    console.log(this.firstRewardDate)
+    //console.log(scaledBVByDomain)
 
     let nativeMarketDilutionByDay: Array<DilutionByDay>
     let filteredMarketByDay: Array<DilutionByDay> = this.marketByDay.filter(markets => {
@@ -1003,7 +1020,7 @@ export default class TezosSet {
         // }
         return markets.date >= this.firstRewardDate
     }); 
-    console.log(filteredMarketByDay)
+    //console.log(filteredMarketByDay)
 
     let filtereredPriceByDay: Array<DilutionByDay> = this.priceByDay.filter(prices => {
         return prices.date >= this.firstRewardDate
@@ -1063,47 +1080,54 @@ export default class TezosSet {
         mappedFMV[fmvReward.cycle] = fmvReward.rewardAmount;
     });
 
+
     let mappedCyclesToFirstCycleDate: Map<number, string> = new Map();
     this.cyclesMappedToDays.forEach((key,value) => {
         mappedCyclesToFirstCycleDate[value] = key;
     })
-    console.log(mappedCyclesToFirstCycleDate['2018-07-04'])
+
 
     //first element of market rewards is different than native rewards
-
     let nativeMarketDilutionRewards: Array<RewardsByDay> = [];
+
     //say if native reward[0].date < market dilution by day, do that one
     let currentDate: string = nativeFilteredMarketDilutionByDay[0].date;
     let currentDilutionCycle: number = mappedCyclesToFirstCycleDate[currentDate];
+
+    //check if fmv first date is less than market dilution first date
     if(new Date(this.nativeRewardsFMVByCycle[0].date) < new Date(nativeFilteredMarketDilutionByDay[0].date)){
         console.log('reassingin fist date')
-        currentDate = this.nativeRewardsFMVByCycle[0].date
-        currentDilutionCycle = mappedCyclesToFirstCycleDate['2018-07-04'];
+        currentDate = this.nativeRewardsFMVByCycle[1].date
+        currentDilutionCycle = mappedCyclesToFirstCycleDate['2018-07-05'];
     }
     
     let aggDilutionAmount: number = nativeFilteredMarketDilutionByDay[0].amount;
     let endDate: string = nativeFilteredMarketDilutionByDay[nativeFilteredMarketDilutionByDay.length - 1].date
 
-    console.log("nativefilterMarketDilutionBYDay")
-    console.log(nativeFilteredMarketDilutionByDay)
+    console.log(nativeFilteredMarketDilutionByDay[0].date)
+    //console.log(nativeFilteredMarketDilutionByDay)
+    console.log(this.cyclesMappedToDays.get("2018-07-18"))
+    //for each dilution date, if the cycle of that date is not the current dilution cycle, do this then set it to current diltuion cycle
     nativeFilteredMarketDilutionByDay.forEach(nativeFilteredMarketDilutionByDay => {
         if(this.cyclesMappedToDays.get(nativeFilteredMarketDilutionByDay.date)!==currentDilutionCycle){
-            //date mod back one here
-            let date: any
-            date = new Date(currentDate)
-            date.setDate(date.getDate() )
-            let year = date.getFullYear();
-            let month = date.getMonth();
-            let dt = date.getDate();
+            //date is one in front of desired date for foundation baker
+
+            // //date mod back one here
+            // let date: any
+            // date = new Date(currentDate)
+            // date.setDate(date.getDate() )
+            // let year = date.getFullYear();
+            // let month = date.getMonth();
+            // let dt = date.getDate();
     
-            if (dt < 10) {
-                dt = '0' + dt;
-            }
-            if (month < 10) {
-                month = '0' + month;
-            }
+            // if (dt < 10) {
+            //     dt = '0' + dt;
+            // }
+            // if (month < 10) {
+            //     month = '0' + month;
+            // }
     
-            let dateCorrespondingToRewards = (year+ '-' + month + '-'+dt);
+            // let dateCorrespondingToRewards = (year+ '-' + month + '-'+dt);
            // currentDate = dateCorrespondingToRewards
             if(aggDilutionAmount === null || aggDilutionAmount === undefined || isNaN(aggDilutionAmount)){
                 aggDilutionAmount=0
@@ -1116,24 +1140,25 @@ export default class TezosSet {
             currentDilutionCycle = mappedCyclesToFirstCycleDate[currentDate];
             aggDilutionAmount = nativeFilteredMarketDilutionByDay.amount;
         }
+        //if we've reached the end
         else if(nativeFilteredMarketDilutionByDay.date===endDate){
             aggDilutionAmount+=nativeFilteredMarketDilutionByDay.amount;
             //date mod back one here
-            let date: any
-            date = new Date(currentDate)
-            date.setDate(date.getDate())
-            let year = date.getFullYear();
-            let month = date.getMonth();
-            let dt = date.getDate();
+            // let date: any
+            // date = new Date(currentDate)
+            // date.setDate(date.getDate())
+            // let year = date.getFullYear();
+            // let month = date.getMonth();
+            // let dt = date.getDate();
     
-            if (dt < 10) {
-                dt = '0' + dt;
-            }
-            if (month < 10) {
-                month = '0' + month;
-            }
+            // if (dt < 10) {
+            //     dt = '0' + dt;
+            // }
+            // if (month < 10) {
+            //     month = '0' + month;
+            // }
     
-            let dateCorrespondingToRewards = (year+ '-' + month + '-'+dt);
+            // let dateCorrespondingToRewards = (year+ '-' + month + '-'+dt);
             //currentDate = dateCorrespondingToRewards
             if(aggDilutionAmount === null || aggDilutionAmount === undefined || isNaN(aggDilutionAmount)){
                 aggDilutionAmount=0
@@ -1142,6 +1167,7 @@ export default class TezosSet {
                 rewardAmount: mappedFMV[currentDilutionCycle] - aggDilutionAmount, 
                 cycle: currentDilutionCycle})
         }
+        //otherwise just add the dilution values
         else{
             if(aggDilutionAmount === null || aggDilutionAmount === undefined || isNaN(aggDilutionAmount)){
                 aggDilutionAmount = 0
@@ -1152,8 +1178,7 @@ export default class TezosSet {
             }
         }
     })
-    console.log('brokenValu')
-    console.log(mappedFMV[418])
+
     
     
 
@@ -1221,7 +1246,7 @@ export default class TezosSet {
         console.log("nativeSupplyDepletionByDay")
 
         writeFile("supplyDepletionDaily.json", JSON.stringify(nativeSupplyDepletionByDay, null, 4), async function(err) {console.log('the')})
-        console.log(nativeSupplyDepletionByDay)
+        //console.log(nativeSupplyDepletionByDay)
 
 
         let mappedFMV: Map<number, RewardsByDay> = new Map();
@@ -1700,7 +1725,7 @@ export default class TezosSet {
                 //    }
                    
                 if(operation.endorsementRewards !== undefined){
-                    let cycle: number = (operation.cycle)
+                    let cycle: number = (operation.cycle + 1) //add plus one because the reward came in the next cycle not the one the operatoin took place in
                     let amount: number = operation.endorsementRewards / 1000000
                     if(amount !== undefined) {
                         if(rewards[cycle] !== undefined){
@@ -1714,7 +1739,7 @@ export default class TezosSet {
                      }
 
                     else if(operation.blockRewards !== undefined){
-                        let cycle: number = (operation.cycle)
+                        let cycle: number = (operation.cycle + 1)
                         let amount: number = operation.blockRewards / 1000000
                         if(amount !== undefined) {
                             if(rewards[cycle] !== undefined){
@@ -1869,7 +1894,7 @@ export default class TezosSet {
                 for (let i=0; i< this.cyclesByDay.length; i++){
                     if (this.cyclesByDay[i].cycleNumber !== prevVal.cycleNumber){
                         if(rewards[this.cyclesByDay[i].cycleNumber] !== undefined){
-                            this.rewardsByCycle.push({date: this.formatDate(this.cyclesByDay[i].dateString), rewardAmount: rewards[this.cyclesByDay[i].cycleNumber], cycle: this.cyclesByDay[i].cycleNumber})
+                            this.rewardsByCycle.push({date: this.formatDate(this.cyclesByDay[i].dateString), rewardAmount: rewards[this.cyclesByDay[i].cycleNumber], cycle: this.cyclesByDay[i].cycleNumber -1})
                             prevVal = this.cyclesByDay[i] 
                         }
                        
@@ -1903,9 +1928,8 @@ export default class TezosSet {
 
     filterPayoutsBaker(): void { //depreication threaten , are rewards by day necaarry if by cycle is done? prob not
 
-        //this converts the rewaard by day map to reward by day and reward by cycle
-
         
+        //this converts the rewaard by day map to reward by day and reward by cycle
         let currentItem = this.rewardsByDay[0]
         // this.rewardsByCycle = this.rewardsByDay.forEach((value) => {
         //     if(value.cycle == currentItem.cycle) {
@@ -1913,8 +1937,6 @@ export default class TezosSet {
         //     }
 
         // })
-
-
 
         for (const reward of this.rewardsByDay.slice().reverse()){
             if (reward.cycle == currentItem.cycle){
