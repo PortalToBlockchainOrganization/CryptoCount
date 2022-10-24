@@ -48197,7 +48197,7 @@
     "unrealizedNativeRewards": [
         {
             "date": "2022-02-19",
-            "rewardAmount": 1.7015489999999072,
+            "rewardAmount": 1.7015489999998503,
             "cycle": 453
         },
         {
@@ -48708,7 +48708,7 @@
     "unrealizedNativeFMVRewards": [
         {
             "date": "2022-02-19",
-            "rewardAmount": 5.700624034897203,
+            "rewardAmount": 5.700624034897013,
             "cycle": 453
         },
         {
@@ -49219,7 +49219,7 @@
     "unrealizedNativeMarketDilutionRewards": [
         {
             "date": "2022-02-19",
-            "rewardAmount": 2.3942406234451563,
+            "rewardAmount": 2.3942406234450764,
             "cycle": 453
         },
         {
@@ -49736,7 +49736,7 @@
     "unrealizedNativeSupplyDepletionRewards": [
         {
             "date": "2022-02-19",
-            "rewardAmount": 4.702992068509549,
+            "rewardAmount": 4.702992068509392,
             "cycle": 453
         },
         {
@@ -50250,7 +50250,23 @@
             "basisCost": 7.883327651431798
         }
     ],
-    "realizingNativeRewards": [
+    "realizingNativeRewards": [],
+    "realizingNativeFMVRewards": [],
+    "realizingNativeMarketDilutionRewards": [],
+    "realizingNativeSupplyDepletionRewards": [],
+    "aggregateUnrealizedNativeReward25p": 48.79603999999997,
+    "aggregateUnrealizedNativeReward50p": 97.59207999999994,
+    "aggregateUnrealizedNativeReward75p": 146.3881199999999,
+    "aggregateUnrealizedNativeReward100p": 195.18415999999988,
+    "aggregateRealizedNativeReward100p": 0,
+    "aggregateRealizedNativeReward50p": 0,
+    "aggregateRealizedNativeFMVReward100p": 0,
+    "aggregateRealizedNativeFMVReward50p": 0,
+    "aggregateRealizedNativeMarketDilution100p": 0,
+    "aggregateRealizedNativeMarketDilution50p": 0,
+    "aggregateRealizedNativeSupplyDepletion100p": 0,
+    "aggregateRealizedNativeSupplyDepletion50p": 0,
+    "realizedNativeRewards": [
         {
             "date": "2021-03-23",
             "rewardAmount": 0.520149,
@@ -50925,12 +50941,12 @@
         },
         {
             "date": "2022-02-19",
-            "rewardAmount": 0.8221710000000928,
+            "rewardAmount": 0.8221710000001496,
             "cycle": 453,
             "basisCost": 3.4450136634707405
         }
     ],
-    "realizingNativeFMVRewards": [
+    "realizedNativeFMVRewards": [
         {
             "date": "2021-03-23",
             "rewardAmount": 1.9598016050742402,
@@ -51605,12 +51621,12 @@
         },
         {
             "date": "2022-02-19",
-            "rewardAmount": 2.754482981916038,
+            "rewardAmount": 2.7544829819162286,
             "cycle": 453,
             "basisCost": 3.4450136634707405
         }
     ],
-    "realizingNativeMarketDilutionRewards": [
+    "realizedNativeMarketDilutionRewards": [
         {
             "date": "2021-03-23",
             "rewardAmount": 0,
@@ -52285,12 +52301,12 @@
         },
         {
             "date": "2022-02-19",
-            "rewardAmount": 1.1568724777357908,
+            "rewardAmount": 1.156872477735871,
             "cycle": 453,
             "basisCost": 3.4450136634707405
         }
     ],
-    "realizingNativeSupplyDepletionRewards": [
+    "realizedNativeSupplyDepletionRewards": [
         {
             "date": "2021-03-23",
             "rewardAmount": 1.664866421031961,
@@ -52965,36 +52981,20 @@
         },
         {
             "date": "2022-02-19",
-            "rewardAmount": 2.272437462546898,
+            "rewardAmount": 2.2724374625470554,
             "cycle": 453,
             "basisCost": 3.4450136634707405
         }
     ],
-    "aggregateUnrealizedNativeReward25p": 48.796039999999984,
-    "aggregateUnrealizedNativeReward50p": 97.59207999999997,
-    "aggregateUnrealizedNativeReward75p": 146.38811999999996,
-    "aggregateUnrealizedNativeReward100p": 195.18415999999993,
-    "aggregateRealizedNativeReward100p": 195.00000000000003,
-    "aggregateRealizedNativeReward50p": 97.50000000000001,
-    "aggregateRealizedNativeFMVReward100p": 870.2519280327757,
-    "aggregateRealizedNativeFMVReward50p": 435.12596401638785,
-    "aggregateRealizedNativeMarketDilution100p": 111.36880843324396,
-    "aggregateRealizedNativeMarketDilution50p": 55.68440421662198,
-    "aggregateRealizedNativeSupplyDepletion100p": 687.6138669801429,
-    "aggregateRealizedNativeSupplyDepletion50p": 343.80693349007146,
-    "realizedNativeRewards": [],
-    "realizedNativeFMVRewards": [],
-    "realizedNativeMarketDilutionRewards": [],
-    "realizedNativeSupplyDepletionRewards": [],
     "weightedAverageTotalDomainInvestmentCost": 0,
     "nextTimeStamp": "",
     "totalOperations": [],
     "noRewards": false,
-    "TezosPriceOnDateObjectGenerated": 1.37,
-    "pointOfSaleAggValue": 267.15000000000003,
-    "netDiffFMV": -603.1019280327757,
-    "netDiffDilution": 155.7811915667561,
-    "netDiffSupplyDepletion": -420.4638669801429,
+    "TezosPriceOnDateObjectGenerated": 1.36,
+    "pointOfSaleAggValue": 0,
+    "netDiffFMV": 0,
+    "netDiffDilution": 0,
+    "netDiffSupplyDepletion": 0,
     "investmentBasisCostArray": [
         {
             "cost": 3.8625231718869983,

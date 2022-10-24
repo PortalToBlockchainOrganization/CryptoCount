@@ -42,7 +42,7 @@ function set(state = {}, action) {
 			tempSet["data"]["realizedNativeSupplyDepletionRewards"] =
 				action.payload["realizedNativeSupplyDepletionRewards"];
 			tempSet["data"]["realizedNativeMarketDilutionRewards"] =
-				action.payload["realiziedNativeMarketDilutionRewards"];
+				action.payload["realizedNativeMarketDilutionRewards"];
 			tempSet["data"]["aggregateRealizedNativeReward100p"] =
 				action.payload["aggregateRealizedNativeReward100p"];
 			tempSet["data"]["aggregateRealizedNativeFMVReward100p"] =
@@ -97,7 +97,7 @@ function set(state = {}, action) {
 			tempSet2["data"]["realizedNativeSupplyDepletionRewards"] =
 				action.payload["realizedNativeSupplyDepletionRewards"];
 			tempSet2["data"]["realizedNativeMarketDilutionRewards"] =
-				action.payload["realiziedNativeMarketDilutionRewards"];
+				action.payload["realizedNativeMarketDilutionRewards"];
 			tempSet2["data"]["realizingNativeRewards"] =
 				action.payload["realizingNativeRewards"];
 			tempSet2["data"]["realizingNativeFMVRewards"] =

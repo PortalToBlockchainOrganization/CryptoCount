@@ -43,6 +43,7 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 
 		/* reward key for the quantity within the list of objects for 
 			each set */
+			
 		let rewardKey = null;
 		if (setToRender === "unrealizedNativeFMVRewards") {
 			rewardKey = "rewardAmount";
@@ -102,7 +103,8 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 
 		let currentRealizingSet = mapping[setToRender];
 		let currentRealizedSet = realMapping[setToRender];
-
+		console.log('currRealize et')
+		console.log(currentRealizedSet) 
 		// get all dates, all dates are accounted for in realized and unrealized sets
 		//useing the map becuase of 3 sets
 		//populate data.labels of chart
@@ -112,6 +114,7 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 			// console.log(setToRender)
 			// console.log(currentRealizedSet)
 			// console.log(set?.data[currentRealizedSet])
+
 			set?.data[currentRealizedSet].map(({ date }) => {
 				return data.labels.push(
 					new moment(date).format("MMM DD, YYYY")
@@ -129,6 +132,7 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 		//the key for whatever set being displayed, and the current realized set also like that
 		// console.log(set?.data?.realizedNativeRewards)
 		//reward key is always rewardAmount
+		//unrealizedNativeMarketDilutionRewards
 		if (set?.data?.realizedNativeRewards) {
 			// console.log(set?.data[currentRealizedSet])
 			realizedRewards = set.data[currentRealizedSet].map((element) => {
