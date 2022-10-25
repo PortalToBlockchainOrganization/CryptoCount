@@ -336,12 +336,12 @@ const Landing = (props) => {
 						<Form.Group controlId="formBasicEmail">
 						
 							<h4 class="thickerplz">
-								Paste Your Tezos Address
+								Paste Your Tezos Staking Address
 							</h4>
 							<Form.Control
 								type="text"
 								class="placeholdbetter"
-								placeholder="Tz... Delegator Or Baker Address"
+								placeholder="Tz or KT... Delegator Or Baker Address"
 								onChange={handleDelegationChange}
 							/>
 						</Form.Group>

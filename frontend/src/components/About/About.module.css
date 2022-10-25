@@ -5,6 +5,11 @@
 	padding: 20px 80px 80px 80px;
 }
 
+@font-face {
+	font-family: 'Blanka-Regular';
+	src: url('../Analysis/Blanka-Regular.ttf');
+  }
+
 #dark .APIWrapper {
 	justify-content: center;
 	margin-top: 100px;
@@ -41,7 +46,10 @@
 	margin: 10px 0 0;
 }
 
+
+
 .Header {
+	font-family: 'Blanka-Regular';
 	color: var(--dark-gray);
 	display: flex;
 	flex-direction: column;

@@ -5,6 +5,15 @@
 	padding: 20px 40px 0px 80px;
     width: 100%;
 }
+@font-face {
+	font-family: 'Blanka-Regular';
+	src: url('../Analysis/Blanka-Regular.ttf');
+  }
+
+.words{
+	font-family: 'Blanka-Regular';
+	font-size: 3em;
+}
 
 .API {
     width: 100%;

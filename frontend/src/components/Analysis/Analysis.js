@@ -324,7 +324,7 @@ const Analysis = (props) => {
 					<Bar data={currentSet} options={options} className={classes.canvas} />
 					<div
 						className={classes.help}
-						tooltip-data="This chart shows your block rewards"
+						tooltip-data="Native block rewards by value in fiat currency."
 					>
 						<HelpOutlineRoundedIcon className={classes.helpIcon} />
 					</div>
@@ -435,7 +435,7 @@ const Analysis = (props) => {
 								<div className={classes.the}>Accounting Set Selection</div>
 								<div
 									className={classes.help}
-									tooltip-data="Select the accounting set you want to report. "
+									tooltip-data="View one of three accounting sets"
 								>
 									<HelpOutlineRoundedIcon
 										className={classes.helpIcon}
@@ -463,7 +463,7 @@ const Analysis = (props) => {
 
 								<div
 									className={classes.help}
-									tooltip-data="Rewards times the price of Tezos on the day it was received, no depletion."
+									tooltip-data="Rewards by the price of Tezos in fiat on the day received."
 								>
 									<HelpOutlineRoundedIcon
 										className={classes.helpIcon}
@@ -491,7 +491,7 @@ const Analysis = (props) => {
 								</Button>
 								<div
 									className={classes.help}
-									tooltip-data="Fair market value rewards with depletion by supply additions added to the entries."
+									tooltip-data="Rewards by the price of Tezos in fiat on the day recieved with depletion by supply growth added."
 								>
 									<HelpOutlineRoundedIcon
 										className={classes.helpIcon}
@@ -514,7 +514,7 @@ const Analysis = (props) => {
 								</Button>
 								<div
 									className={classes.help}
-									tooltip-data="Fair market value rewards with market value depletion added to the entries."
+									tooltip-data="Rewards by the price of Tezos in fiat on the day recieved with dilution by market growth added."
 								>
 									<HelpOutlineRoundedIcon
 										className={classes.helpIcon}
@@ -665,18 +665,30 @@ const Analysis = (props) => {
 				{set["data"]["aggregateRealizedNativeReward100p"] > 1 ? (
 					<><div className={classes.space}>
 						<div className={classes.the}>Income Station</div>
-						<div
-							className={classes.help}
-							tooltip-data="Generate your assessment. "
-						>
-							<HelpOutlineRoundedIcon
-								className={classes.helpIcon} />
-						</div>
+						
+							<div
+								className={classes.help}
+								tooltip-data="A full breakdown of your realization."
+								>
+								<HelpOutlineRoundedIcon
+									className={classes.helpIcon} />
+								</div>
+					
 
 
 					</div>
 					<div className={classes.setToggles3}>
-					<div className={classes.the}>Point Of Sale Highlights</div>
+						<div className={classes.dipo}>
+						<div className={classes.the}>Point Of Sale Highlights</div>
+						<div
+							className={classes.help}
+							tooltip-data="The price of Tezos today, the value of your realization today, and the quantity of your realization."
+							>
+							<HelpOutlineRoundedIcon
+								className={classes.helpIcon} />
+						</div>
+						</div>
+					
 						<div  className={classes.setTogglesX}>
 							<div className={classes.wordGood}>Tez Price Today: </div>  <href className={classes.numberAlive}>{(set["data"]["TezosPriceOnDateObjectGenerated"])} {(set["data"]["fiat"])}</href>
 							<div className={classes.wordGood}>Point of Sale Aggregate Value: </div> <href className={classes.numberAlive}>{(Math.round((set["data"]["pointOfSaleAggValue"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{' '}{(set["data"]["fiat"])}</href>
@@ -684,8 +696,17 @@ const Analysis = (props) => {
 
 
 							</div>
-
-							<div className={classes.the}>Incomes:</div>
+							<div className={classes.dipo}>
+								<div className={classes.the}>Incomes:</div>
+								<div
+								className={classes.help}
+								tooltip-data="The incomes generated from the three accounting sets."
+								>
+								<HelpOutlineRoundedIcon
+									className={classes.helpIcon} />
+								</div>
+							</div>
+							
 							<div  className={classes.setTogglesX}>
 							<div className={classes.wordGood}>
 								Fair Market Value (FMV):</div><div className={classes.numberAlive}>
@@ -701,7 +722,17 @@ const Analysis = (props) => {
 							</div>
 
 							</div>
+							<div className={classes.dipo}>
 							<div className={classes.the}>Profit/Loss:</div>
+							<div
+								className={classes.help}
+								tooltip-data="The profit/loss margin between the point of sale value and the reportable incomes."
+								>
+								<HelpOutlineRoundedIcon
+									className={classes.helpIcon} />
+								</div>
+							</div>
+							
 
 							<div  className={classes.setTogglesX}>
 							<div  className={classes.wordGood}>
@@ -725,8 +756,17 @@ const Analysis = (props) => {
 							</div>
 
 							</div>
-
+							<div className={classes.dipo}>
 							<div className={classes.the}>Assets' Basis Costs:</div>
+							<div
+								className={classes.help}
+								tooltip-data="The assets being realized average investment cost."
+								>
+								<HelpOutlineRoundedIcon
+									className={classes.helpIcon} />
+								</div>
+							</div>
+							
 <div  className={classes.setTogglesX}>
 							<div  className={classes.wordGood}>
 								Average Basis Investment Cost: <div className={classes.numberAlive} style={{ fontSize: "1em",
@@ -739,9 +779,17 @@ const Analysis = (props) => {
 							</div>
 
 
-
+							<div className={classes.dipo}>
 							<div className={classes.the}>Asset Aggregation Period:</div>
-
+							<div
+								className={classes.help}
+								tooltip-data="The date domain (inclusive) of your realizing assets"
+								>
+								<HelpOutlineRoundedIcon
+									className={classes.helpIcon} />
+								</div>
+							</div>
+							
 							<div  className={classes.setTogglesX}>
 							<div className={classes.words2}>
 								 {(set["data"]["realizingDomainStartDate"])}
@@ -771,15 +819,36 @@ const Analysis = (props) => {
 							</div> */}
 
 						</div>
-						<div className={classes.the}>MORE ACTIONS:</div>
+						{set["data"]["realizingNativeRewards"].length > 1 ?(
+							<div>
+								<div className={classes.the}>MORE ACTIONS:</div>
+								
+								<div
+									className={classes.help}
+									tooltip-data="Download a pdf statement with your full income breakdown and/or save the realization to the database."
+									>
+									<HelpOutlineRoundedIcon
+										className={classes.helpIcon} />
+									</div>
 
-							<div  className={classes.setToggles2}>
-							<div className={classes.the}><button className={classes.lastButtons} onClick={handleDownload}>Download Statement</button><button className={classes.lastButtons} onClick={handleSave}>Save</button> 
+								<div  className={classes.setToggles2}>
+								<div className={classes.the}><button className={classes.lastButtons} onClick={handleDownload}>Download Statement</button><button className={classes.lastButtons} onClick={handleSave}>Save</button> 
+								
+								</div>
+
+								</div>
+							</div>
 							
-							</div>
-
-							</div>
+						): null}
 							<div className={classes.the}>RETURN WITH ID:</div>
+							
+							<div
+								className={classes.help}
+								tooltip-data="Copy the set ID to return to this set without making an account."
+								>
+								<HelpOutlineRoundedIcon
+									className={classes.helpIcon} />
+								</div>
 
 							<div  className={classes.setToggles2}>
 							<div className={classes.words}>SetId: </div>

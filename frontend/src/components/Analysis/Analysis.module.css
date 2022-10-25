@@ -18,6 +18,12 @@
 	src: url('./Blanka-Regular.ttf');
   }
 
+  .dipo{
+	display: flex;
+	align-items: baseline;
+  }
+
+
   .words{
 	font-family: "Blanka-Regular";
 	font-size: 1.5em;
@@ -367,10 +373,13 @@
 
 .helpIcon {
 	font-size: 28px !important;
-	margin-left: 10px;
+	margin-left: 30px;
 	padding: 5px;
+	color:rgb(22, 190, 118);
 	display: flex;
 	transition: all 0.1s ease-in-out;
+	font-family: "Louis George Café", sans-serif;
+	opacity: .5;
 }
 
 .helpIcon:hover {
@@ -390,6 +399,7 @@
 	color: #fff;
 	text-align: center;
 	visibility: hidden;
+	font-family: "Louis George Café", sans-serif;
 	opacity: 0;
 	font-size: 12px;
 }

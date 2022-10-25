@@ -6,7 +6,7 @@ const Regulatory = () => {
 	return (
         <div>
           		<div className={classes.APIWrapper}>
-                    <h2>Welcome to CryptoCount's regulatory tracking service. View your country's block reward tax law summary with linked sources.</h2>
+                  <div className={classes.words}>Welcome to regulatory tracking with CryptoCount!</div><br></br><br></br><br></br><h2> View a summary of your country's block reward tax law.</h2>
                     <br></br>
                     <a href="#Disclaimer">Disclaimer</a>
                    <br></br><br></br>
