@@ -1185,9 +1185,20 @@ export default class TezosSet {
             if(aggDilutionAmount === null || aggDilutionAmount === undefined || isNaN(aggDilutionAmount)){
                 aggDilutionAmount=0
             }
-            nativeMarketDilutionRewards.push({date: currentDate, 
-                rewardAmount: mappedFMV[currentDilutionCycle] - aggDilutionAmount, 
-                cycle: currentDilutionCycle})
+        
+            if( mappedFMV[currentDilutionCycle] === null || mappedFMV[currentDilutionCycle] === undefined){
+                console.log('made it to error handle')
+                nativeMarketDilutionRewards.push({date: currentDate, 
+                    rewardAmount: 0, 
+                    cycle: currentDilutionCycle})
+    
+            }
+            else{
+                nativeMarketDilutionRewards.push({date: currentDate, 
+                    rewardAmount: mappedFMV[currentDilutionCycle] - aggDilutionAmount, 
+                    cycle: currentDilutionCycle})
+            }
+           
 
             currentDate = nativeFilteredMarketDilutionByDay.date;
             currentDilutionCycle = mappedCyclesToFirstCycleDate[currentDate];
@@ -1216,9 +1227,19 @@ export default class TezosSet {
             if(aggDilutionAmount === null || aggDilutionAmount === undefined || isNaN(aggDilutionAmount)){
                 aggDilutionAmount=0
             }
-            nativeMarketDilutionRewards.push({date: currentDate, 
-                rewardAmount: mappedFMV[currentDilutionCycle] - aggDilutionAmount, 
-                cycle: currentDilutionCycle})
+          
+            if( mappedFMV[currentDilutionCycle] === null || mappedFMV[currentDilutionCycle] === undefined){
+                console.log('error')
+                nativeMarketDilutionRewards.push({date: currentDate, 
+                    rewardAmount: 0, 
+                    cycle: currentDilutionCycle})
+    
+            }
+            else{
+                nativeMarketDilutionRewards.push({date: currentDate, 
+                    rewardAmount: mappedFMV[currentDilutionCycle] - aggDilutionAmount, 
+                    cycle: currentDilutionCycle})
+            }
         }
         //otherwise just add the dilution values
         else{
