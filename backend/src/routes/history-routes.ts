@@ -81,10 +81,17 @@ router.post("/", async function (req, res) {
 }); 
 
 
-// router.del("/delete", async function (req, res){
-//     console.log(req.body.setId)
-//     //delete id from models
-//     //await User.deleteOne({_id:req.body.setId});
-// })
+router.post("/delete/", async function (req, res){
+    console.log(req.body.setId)
+    console.log('in delete')
+    var setId = req.body.setId
+    var user_id = req.body.user_id
+    //get umbrella object
+    //remove set id from user object
+    //delete id from models
+    await UmbrellaModel.deleteOne({_id: setId});
+    console.log('deleted')
+    res.status(200).json()
+});
 
 module.exports = router

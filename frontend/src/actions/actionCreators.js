@@ -87,6 +87,7 @@ export function register(data, cb) {
 export function deleteSet(set, cb) {
 	return (dispatch, prevState) => {
 		console.log(set);
+		console.log('deleteset')
 		api.deleteSet(set)
 			.then(() => {
 				if (cb) {

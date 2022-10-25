@@ -49,9 +49,10 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 			let temp = history.filter(obj => obj.id !== id);
 			console.log("HISTORY W/ REMOVED: ", temp);
 			// updating component state
-			setHistory(temp);
+			
             console.log(id)
             deleteSet(id);
+			setHistory(temp);
         }
 
         getTableData();

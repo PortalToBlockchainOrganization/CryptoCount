@@ -1182,6 +1182,7 @@ export default class TezosSet {
     
             // let dateCorrespondingToRewards = (year+ '-' + month + '-'+dt);
            // currentDate = dateCorrespondingToRewards
+           console.log('made it to todays patch')
             if(aggDilutionAmount === null || aggDilutionAmount === undefined || isNaN(aggDilutionAmount)){
                 aggDilutionAmount=0
             }

@@ -120,7 +120,11 @@ export function register(user) {
 }
 
 export function deleteSet(id) {
-	return del(`/${id}`, {});
+	console.log('deleteing api')
+	console.log(id)
+	return post("/history/delete/", {
+		setId: id
+	});
 }
 
 // export function generatePost(params) {
