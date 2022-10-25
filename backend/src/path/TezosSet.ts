@@ -934,8 +934,9 @@ export default class TezosSet {
         agg += element.cost
     });
     this.weightedAverageTotalDomainInvestmentCost =  agg / basisArray.length
+    console.log(this.weightedAverageTotalDomainInvestmentCost)
 
-    if(Number.isNaN(this.weightedAverageTotalDomainInvestmentCost)){
+    if(Number.isNaN(this.weightedAverageTotalDomainInvestmentCost) || this.weightedAverageTotalDomainInvestmentCost === null || this.weightedAverageTotalDomainInvestmentCost === undefined || this.weightedAverageTotalDomainInvestmentCost === Infinity){
         this.weightedAverageTotalDomainInvestmentCost = 0
     }
     

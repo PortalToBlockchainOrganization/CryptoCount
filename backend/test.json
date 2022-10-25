@@ -9053,6 +9053,10 @@
         {
             "date": "2022-10-23",
             "amount": 1209917760.8538575
+        },
+        {
+            "date": "2022-10-24",
+            "amount": 1240305863.5858774
         }
     ],
     "priceByDay": [
@@ -15351,6 +15355,10 @@
         {
             "date": "2022-10-23",
             "amount": 1.3453744032115456
+        },
+        {
+            "date": "2022-10-24",
+            "amount": 1.3704041431572191
         }
     ],
     "cyclesByDay": [
@@ -25925,6 +25933,10 @@
             "date": "2022-10-22",
             "rewardAmount": 198.77601675226242,
             "cycle": 537
+        },
+        {
+            "date": "2022-10-23",
+            "rewardAmount": null
         }
     ],
     "supplyByDay": [
@@ -41662,6 +41674,11 @@
             "_id": "6355df49c66256163a9b84e9",
             "dateString": "2022-10-23",
             "totalSupply": 935003937329886
+        },
+        {
+            "_id": "635730d5c66256163a9b84eb",
+            "dateString": "2022-10-24",
+            "totalSupply": 935065920609656
         }
     ],
     "rawWalletTransactions": [
@@ -51492,6 +51509,10 @@
             "date": "2022-10-22",
             "rewardAmount": 4478.809992960218,
             "cycle": 537
+        },
+        {
+            "date": "2022-10-23",
+            "rewardAmount": 0
         }
     ],
     "unrealizedNativeRewards": [
@@ -61794,7 +61815,7 @@
     "realizedNativeFMVRewards": [],
     "realizedNativeMarketDilutionRewards": [],
     "realizedNativeSupplyDepletionRewards": [],
-    "weightedAverageTotalDomainInvestmentCost": null,
+    "weightedAverageTotalDomainInvestmentCost": 0,
     "nextTimeStamp": "",
     "totalOperations": [
         [
