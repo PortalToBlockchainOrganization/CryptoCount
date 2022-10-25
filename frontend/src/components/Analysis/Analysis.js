@@ -17,7 +17,7 @@ import CopyToClipboard from "react-copy-to-clipboard"
  * @returns
  */
 
-const loadingTexts = ["Reading your data from the Tezos blockchain. Delegator addresses can take up to 3 minutes to compile.", "Running multiple assessments for your assets", "Generating aggregated interface."]
+const loadingTexts = ["Reading your data from the Tezos blockchain. Delegator data will load in about 10 seconds.", "Running multiple assessments for your assets", "Generating aggregated interface."]
 
 
 

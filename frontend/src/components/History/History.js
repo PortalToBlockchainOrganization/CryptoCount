@@ -120,12 +120,12 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 		return (
 			<div className={classes.EmptyWrapper}>
 				<div className={classes.Empty}>
-					You don't have any accounting sets yet.
+					Loading your sets. 
 					<div>
 						<br />
 					</div>
 					<div>
-						Go to the{" "}
+						Paste your address in the{" "}
 						<span
 							className={classes.HomePageLink}
 							onClick={() => browserHistory.push("/")}
@@ -133,7 +133,7 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 							{" "}
 							enter page
 						</span>{" "}
-						to generate them.
+						to generate.
 					</div>
 				</div>
 			</div>
