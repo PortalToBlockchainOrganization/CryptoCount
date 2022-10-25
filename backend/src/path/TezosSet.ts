@@ -684,16 +684,43 @@ export default class TezosSet {
                 let value5: number = 0
                 let value6: number = 0
                 let value7: number = 0
-                value3 =  unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date]
-                value4 = unrealizedNativeSupplyDepletionRewardsMap[this.unrealizedNativeRewards[i].date]
+                //add date if the baker off by one to cycles error is detected
+                if(unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date]===undefined){
+                    console.log('inpatch')
+                    let date = this.unrealizedNativeMarketDilutionRewards[i].date
+                    // let newDate: any
+                    // let date = new Date(this.unrealizedNativeMarketDilutionRewards[i].date)
+                    // date.setDate(date.getDate() + 1);
+                    // let year = date.getFullYear();
+                    // let month = date.getMonth();
+                    // let dt2: any
+                    // dt2 = date.getDate();
+                    // let month1: any
+                    // if (dt2 < 10) {
+                    //     dt2 = '0' + dt2;
+                    // }
+                    // if (month < 10) {
+                    //     month1 = '0' + month;
+                    // }
+            
+                    // newDate = (year+ '-' + month1 + '-' + dt2);
+                    //console.log(newDate)
+                    value3=  unrealizedNativeMarketDilutionRewardsMap[date]
+                    value4 = unrealizedNativeSupplyDepletionRewardsMap[date]
+                }else{
+                    value3 =  unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date]
+                    value4 = unrealizedNativeSupplyDepletionRewardsMap[this.unrealizedNativeRewards[i].date]
+                }
                 value5 = value1/value2 // yields price on day
-                
                 value6 = value3/value2
-                console.log("value6")
-                console.log(value6)
+                // console.log("value")
+                // console.log(value3)
                 value7 =  value4/value2
-                console.log("value7")
-                console.log(value7)
+                //console.log("value4")
+                // console.log(value4)
+                // console.log('value6'+" "+ value6)
+                // console.log("newVal1"+ ' '+ newValue1)
+                // console.log('literally it' + newValue1 * value6)
                 // if(isNaN(value6)) {
                 //     value6 =0 
                 // }
@@ -721,8 +748,33 @@ export default class TezosSet {
                 //the market and supply depletion dates r off by one fucking this up
                 this.realizingNativeRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost})
                 this.realizingNativeFMVRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeFMVRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost})
-                this.realizingNativeMarketDilutionRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost})
-                this.realizingNativeSupplyDepletionRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeSupplyDepletionRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost})
+                console.log(unrealizedNativeMarketDilutionRewardsMap["2018-"])
+                //patch for baker being off by one date
+                if(unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date]===undefined){
+                    console.log('inpatch')
+                    let date = this.unrealizedNativeMarketDilutionRewards[i].date
+                    // let date = new Date(this.unrealizedNativeMarketDilutionRewards[i].date)
+                    // date.setDate(date.getDate() + 1);
+                    // let year = date.getFullYear();
+                    // let month = date.getMonth();
+                    // let dt2: any
+                    // dt2 = date.getDate();
+                    // let month1: any
+                    // if (dt2 < 10) {
+                    //     dt2 = '0' + dt2;
+                    // }
+                    // if (month < 10) {
+                    //     month1 = '0' + month;
+                    // }
+                    // var newDate = (year+ '-' + month1 + '-' + dt2);
+                   
+                    console.log(unrealizedNativeMarketDilutionRewardsMap[date])
+                    this.realizingNativeMarketDilutionRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeMarketDilutionRewardsMap[date], cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost})
+                    this.realizingNativeSupplyDepletionRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeSupplyDepletionRewardsMap[date], cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost})
+                }else{
+                    this.realizingNativeMarketDilutionRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost})
+                    this.realizingNativeSupplyDepletionRewards.push({date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeSupplyDepletionRewardsMap[this.unrealizedNativeRewards[i].date], cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost})
+                }
                 //splicelist.push(index)
                 quantity = quantity - unrealizedNativeRewardsMap[this.unrealizedNativeRewards[i].date]
                 if(quantity <0){
@@ -1369,7 +1421,7 @@ export default class TezosSet {
     async retrieveTezosPriceToday(): Promise<void>{
         let tezosTodayUrl: string = `https://api.coingecko.com/api/v3/simple/price?ids=Tezos&vs_currencies=${this.fiat}`
         await axios.get(tezosTodayUrl).then((response)=>{
-            console.log(response)
+            //console.log(response)
             let value  = response.data.tezos
             let lowercase = this.fiat.toLowerCase()
             this.TezosPriceOnDateObjectGenerated = value[lowercase]
@@ -1894,7 +1946,7 @@ export default class TezosSet {
                 for (let i=0; i< this.cyclesByDay.length; i++){
                     if (this.cyclesByDay[i].cycleNumber !== prevVal.cycleNumber){
                         if(rewards[this.cyclesByDay[i].cycleNumber] !== undefined){
-                            this.rewardsByCycle.push({date: this.formatDate(this.cyclesByDay[i].dateString), rewardAmount: rewards[this.cyclesByDay[i].cycleNumber], cycle: this.cyclesByDay[i].cycleNumber -1})
+                            this.rewardsByCycle.push({date: this.formatDate(this.cyclesByDay[i].dateString), rewardAmount: rewards[this.cyclesByDay[i].cycleNumber], cycle: this.cyclesByDay[i].cycleNumber })
                             prevVal = this.cyclesByDay[i] 
                         }
                        
