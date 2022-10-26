@@ -204,9 +204,19 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 		data["realizingRatio"] =
 			set["data"]["realizingBasisP"] / set["data"]["unrealizedBasisP"];
 
-		console.log("dataChart")
-		// console.log(data.datasets)
-	
+		//console.log("dataChart")
+		// if(data.datasets[1].data[1]){
+		// 	console.log('no')
+		// }
+		data.datasets.forEach((data)=>{
+			data.data.map((element)=>{
+				console.log(element)
+				if(element < .01)
+				{return "N/A"}
+					
+			})
+		})
+		console.log(data.datasets)
 		// data.datasets.data.map((data)=>{
 		// 	if(data === 0 )
 			

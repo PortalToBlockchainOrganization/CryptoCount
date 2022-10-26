@@ -33,7 +33,7 @@ export const chartOptions = (set) => {
 
 
 
-	console.log(basisCosts)
+	//console.log(basisCosts)
 
 	return {
 		responsive: true,
@@ -103,12 +103,25 @@ export const chartOptions = (set) => {
 				
 			},
 			tooltip: {
+				// filter: function (tooltipItem, data) {
+				// 	//var label = data.datasets[].data[tooltipItem[0].dataIndex];
+				// 	console.log(tooltipItem, data);
+				// 	// if (label === "0") {
+				// 	//   return false;
+				// 	// } else {
+				// 	//   return true;
+				// 	// }
+				// },
+				filter: tooltipItem => tooltipItem.dataset.data[tooltipItem.dataIndex] > 0,
 				callbacks: {
 				//   label: (ttItem) => (`${ttItem.dataset.label}: ${ttItem.dataset.data[ttItem.dataIndex].basisCost}`)
 					beforeBody: function(tooltipItems){
+						console.log(tooltipItems)
+						
 						return "Reward Basis Cost: " + basisCosts[tooltipItems[0].dataIndex].toFixed(2);
-					}
-				}
+					},
+				},
+			
 			},
 		},
 	};
