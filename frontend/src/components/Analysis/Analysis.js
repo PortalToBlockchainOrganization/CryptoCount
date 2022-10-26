@@ -432,7 +432,7 @@ const Analysis = (props) => {
 
 					<div>
 							<div className={classes.space}>
-								<div className={classes.the}>Accounting Set Selection</div>
+								<div className={classes.the}>View Accounting Set</div>
 								<div
 									className={classes.help}
 									tooltip-data="View one of three accounting sets"

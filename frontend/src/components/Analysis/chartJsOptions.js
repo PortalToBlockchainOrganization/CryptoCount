@@ -117,8 +117,17 @@ export const chartOptions = (set) => {
 				//   label: (ttItem) => (`${ttItem.dataset.label}: ${ttItem.dataset.data[ttItem.dataIndex].basisCost}`)
 					beforeBody: function(tooltipItems){
 						console.log(tooltipItems)
+						try{
+							var it =  basisCosts[tooltipItems[0].dataIndex].toFixed(2);
+						}catch(e){
+							console.log(e)
+						}
 						
-						return "Reward Basis Cost: " + basisCosts[tooltipItems[0].dataIndex].toFixed(2);
+						var string = "Reward Basis Cost: "
+						if(it!==undefined){
+							string = "Reward Basis Cost: " + it
+						}
+						return string
 					},
 				},
 			

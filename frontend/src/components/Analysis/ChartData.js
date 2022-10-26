@@ -208,14 +208,14 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 		// if(data.datasets[1].data[1]){
 		// 	console.log('no')
 		// }
-		data.datasets.forEach((data)=>{
-			data.data.map((element)=>{
-				console.log(element)
-				if(element < .01)
-				{return "N/A"}
+		// data.datasets.forEach((data)=>{
+		// 	data.data.map((element)=>{
+		// 		console.log(element)
+		// 		if(element < .00001)
+		// 		{return "N/A"}
 					
-			})
-		})
+		// 	})
+		// })
 		console.log(data.datasets)
 		// data.datasets.data.map((data)=>{
 		// 	if(data === 0 )
