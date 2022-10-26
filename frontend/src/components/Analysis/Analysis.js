@@ -640,6 +640,13 @@ const Analysis = (props) => {
 				{set["data"]["aggregateRealizedNativeReward100p"] < 1 ?(
 					<div>
 						<div className={classes.the}>RETURN WITH ID:</div>
+						<div
+								className={classes.help}
+								tooltip-data="Copy the set ID to return to this set without making an account."
+								>
+								<HelpOutlineRoundedIcon
+									className={classes.helpIcon} />
+								</div>
 
 						<div  className={classes.setToggles2}>
 						<div className={classes.words}>SetId: </div>
@@ -769,7 +776,7 @@ const Analysis = (props) => {
 							
 <div  className={classes.setTogglesX}>
 							<div  className={classes.wordGood}>
-								Average Basis Investment Cost: <div className={classes.numberAlive} style={{ fontSize: "1em",
+								Avg Asset Basis Investment Cost (Unrealized And Realizing): <div className={classes.numberAlive} style={{ fontSize: "1em",
 								}}>
 								{(Math.round((set["data"]["weightedAverageTotalDomainInvestmentCost"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{' '}{(set["data"]["fiat"])}
 									</div>

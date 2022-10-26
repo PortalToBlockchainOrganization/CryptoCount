@@ -17,9 +17,21 @@ export const chartOptions = (set) => {
 
 	//get the basis costs array
 	let basisCosts = []
-	set?.data?.unrealizedNativeRewards.forEach(element => {
-		basisCosts.push(element.basisCost)
-	});
+	if(set?.data?.realizedNativeRewards){
+		set?.data?.unrealizedNativeRewards.forEach(element => {
+			basisCosts.push(element.basisCost)
+		});
+		set?.data?.realizedNativeRewards.forEach(element => {
+			basisCosts.push(element.basisCost)
+		});
+	}
+	else{
+		set?.data?.unrealizedNativeRewards.forEach(element => {
+			basisCosts.push(element.basisCost)
+		});
+	}
+
+
 
 	console.log(basisCosts)
 
@@ -94,7 +106,7 @@ export const chartOptions = (set) => {
 				callbacks: {
 				//   label: (ttItem) => (`${ttItem.dataset.label}: ${ttItem.dataset.data[ttItem.dataIndex].basisCost}`)
 					beforeBody: function(tooltipItems){
-						return "Reward Basis Cost: " + basisCosts[tooltipItems[0].dataIndex].toFixed(2);;
+						return "Reward Basis Cost: " + basisCosts[tooltipItems[0].dataIndex].toFixed(2);
 					}
 				}
 			},
