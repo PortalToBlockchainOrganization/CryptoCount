@@ -917,9 +917,10 @@ export default class TezosSet {
     let basisArray:any = []
     let scaledValsWithPrice: any = 0
     let scaledVals: any = 0
+    console.log(ratioBank)
     ratioBank.forEach(value => {
-        scaledValsWithPrice += value.difference * value.price
-        scaledVals += value.difference
+        scaledValsWithPrice = value.difference * value.price
+        scaledVals = value.difference
         //agg up to this change
         let basisCost = scaledValsWithPrice/scaledVals
         basisArray.push({cost: basisCost, date: value.date})
@@ -933,6 +934,7 @@ export default class TezosSet {
     basisArray.forEach((element: { cost: number; }) => {
         agg += element.cost
     });
+    console.log(basisArray)
     this.weightedAverageTotalDomainInvestmentCost =  agg / basisArray.length
     console.log(this.weightedAverageTotalDomainInvestmentCost)
 
@@ -1398,7 +1400,7 @@ export default class TezosSet {
             groupedTransactions[transaction.date] = {date: transaction.date, amount: transaction.date in groupedTransactions ? groupedTransactions[transaction.date].amount + transaction.amount : transaction.amount}
         })
         let groupedTransactionsArray: Array<TransactionsByDay> = Object.values(groupedTransactions);
-        
+        console.log(groupedTransactionsArray)
         // create array of date ranges inclusive mapped to the scaledbookvalues
         let scaledBVByDomain: Array<BVbyDomain> = []; 
         for(let i: number = 0; i < groupedTransactionsArray.length; i++){

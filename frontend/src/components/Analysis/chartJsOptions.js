@@ -21,7 +21,7 @@ export const chartOptions = (set) => {
 		basisCosts.push(element.basisCost)
 	});
 
-	//console.log(basisCosts)
+	console.log(basisCosts)
 
 	return {
 		responsive: true,
@@ -60,7 +60,8 @@ export const chartOptions = (set) => {
 					font: {
 						size: 16,
 					},
-					color: "white"
+					color: "white",
+					
 				},
 				ticks: {
 					beginAtZero: true,
@@ -89,13 +90,14 @@ export const chartOptions = (set) => {
 				}
 				
 			},
-			tooltips: {
+			tooltip: {
 				callbacks: {
-					beforeTitle: function(context){
-						return "before"
+				//   label: (ttItem) => (`${ttItem.dataset.label}: ${ttItem.dataset.data[ttItem.dataIndex].basisCost}`)
+					beforeBody: function(tooltipItems){
+						return "Reward Basis Cost: " + basisCosts[tooltipItems[0].dataIndex].toFixed(2);;
 					}
-				},
-			}, 
+				}
+			},
 		},
 	};
 };
