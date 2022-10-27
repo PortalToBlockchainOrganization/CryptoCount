@@ -9,6 +9,7 @@ import {
 import VerticalModal from "../VerticalModal/VerticalModal";
 import "./Landing.css";
 import tezos from "../../Assets/Orgs/Tezos.png";
+import BakingBad from "../../Assets/Orgs/BakingBad.png"
 import tzkt from "../../Assets/Orgs/tzkt.png";
 import tezosFoundation from "../../Assets/Orgs/TezosFoundation.png";
 import ptbo from "../../Assets/Orgs/ptbo.png";
@@ -18,10 +19,72 @@ import womenComputer from "../../Assets/womenComputer.json";
 import womenSigning from "../../Assets/womenSigning.json";
 import chrome from "../../Assets/chrome.svg";
 import firefox from "../../Assets/firefox.svg";
+import SliderComponent from "./Slider.js"
 import bb from "../../Assets/bb.png";
+//import { ThemeContext, themes } from '../DarkMode/SizeContainer';
+//import { Slider } from '@mui/material';
+import Slider from 'react-input-slider';
+import { keys } from "@mui/system";
+import { useEffect } from 'react'
+
+
+
+
+//
 
 const Landing = (props) => {
 	// Begin POST data states
+	const [darkMode, setDarkMode] = React.useState(true);
+
+	const [state, setState] = React.useState({ x: 10, y: 10 });
+	const {
+		set,
+		user,
+	
+		getSet,
+   
+	} = props;
+
+
+	<Slider
+		styles={{
+			track: {
+			backgroundColor: 'green'
+			},
+			active: {
+			backgroundColor: 'white'
+			},
+			thumb: {
+			width: 50,
+			height: 5
+			},
+			disabled: {
+			opacity: 1
+			}
+		}}
+		/>
+
+	// const [setId, setSetId] = React.useState({setId: ""})
+	// const handleSet = (e) => {
+	// 	/* if there is set data and quantityRealize is not 0 then allow API
+	// 	request to get Realized
+	// 	*/
+	// 	e.preventDefault();
+	// 	console.log("asdf")
+
+	// 	console.log("Getting set by Id");
+	// 	getSet(
+	// 		set["data"]["objectId"], // from component
+	// 	);
+
+		
+
+	// 	//set to /analysis
+	// };
+
+
+
+
 	const [addrs, setAddrs] = React.useState({ delAddrs: "" });
 	const [basisDate, setBasisDate] = React.useState({ basisDate: "" });
 	const [fiat, setFiat] = React.useState("Select Fiat Currency");
@@ -32,14 +95,69 @@ const Landing = (props) => {
 	const [modalPage, setModalPage] = React.useState(0);
 	const [selectedAnalysisType, setSelectedAnalysisType] = React.useState();
 	const [isLoading, setLoadingState] = React.useState(false);
+	const [setId, setSetId] = React.useState({ setObjectId: "" });
 
 	const handleDelegationSubmit = () => {
 		setShowModal(true);
 	};
 
+	console.log('user')
+	console.log(user)
+
+	useEffect(()=>{
+
+		const urlSearchParams = new URLSearchParams(window.location.search);
+		console.log("running")
+		var intermObject = Object.fromEntries(urlSearchParams.entries())
+		const it = JSON.stringify(intermObject);
+		console.log(it.length)
+		if(it.length>0){
+			console.log('yo')
+		}else{console.log('no')}
+
+		if(it.length > 3){
+			console.log(Object.fromEntries(urlSearchParams.entries())
+			)
+			var isITOBJ = (Object.fromEntries(urlSearchParams.entries()))
+			//var string = JSON.stringify(isITOBJ)
+			console.log(urlSearchParams)
+			//console.log(string)
+			// var parsed = JSON.parse(urlSearchParams)
+			console.log(isITOBJ)
+	
+	
+			//handle dispatch 
+			props.signInWithGoogle(isITOBJ)
+			if(props.user.email !== undefined){
+				props.history.push("/history")
+			}
+		}
+		
+	}, [props])
+
+		
+	//handle session
+	//make it so histories renders
+
+
+	const getSignInOutOfURL = () => {
+
+	}
+
+	const handleSetIdSubmit = () =>{
+		console.log('setid')
+		setShowModal(false);
+	}
+
 	const handleDelegationChange = (e) => {
 		setAddrs({ delAddrs: e.target.value });
 	};
+
+	const handleSetIdChange = (e) => {
+		setSetId({
+			setObjectId: e.target.value,
+		})
+	}
 
 	const handleEmailChange = (e) => {
 		setEmail(e.target.value);
@@ -72,13 +190,17 @@ const Landing = (props) => {
 			basisDate: basisDate["basisDate"],
 			fiat: fiat,
 			consensusRole: consensusRole,
+			user_id: user._id
 		};
+		console.log(params)
 
 		props.setParams({
 			fiat: params["fiat"],
 			address: params["address"],
 			consensusRole: params["consensusRole"],
+			user_id: params["user_id"]
 		});
+		console.log(props)
 		console.log(Object.keys(props.user).length > 0);
 		if (Object.keys(props.user).length > 0) {
 			console.log("AUTO");
@@ -87,6 +209,7 @@ const Landing = (props) => {
 					fiat: params["fiat"],
 					address: params["address"],
 					consensusRole: params["consensusRole"],
+					user_id: params["user_id"]
 				},
 				() => {
 					props.history.push("/analysis");
@@ -98,6 +221,7 @@ const Landing = (props) => {
 					fiat: params["fiat"],
 					address: params["address"],
 					consensusRole: params["consensusRole"],
+					user_id: params["user_id"]
 				},
 				() => {
 					props.history.push("/analysis");
@@ -117,12 +241,55 @@ const Landing = (props) => {
 		e.preventDefault();
 	};
 
+	const setIdQuery = (e) => {
+		// if (props.set["data"] !== undefined) {
+		// 	props.resetSet();
+		// }
+		console.log('query')
+		console.log(setId["setObjectId"])
+		console.log(user._id)
+		
+		getSet(setId["setObjectId"],user._id);
+			// () => {
+			// 	props.history.push("/analysis");
+			// }
+		
+		props.history.push("/analysis");
+		setShowModal(false);
+		e.preventDefault();
+	};
+
+	// const handleConsensusRoleUpdate = (e) => {
+	// 	e = 'boobs'
+	// 	props.setConsensus();
+	// }
+
 	const getCalendar = (e) => {
 		let params = { address: addrs["delAddrs"], fiat: fiat };
 		setLoadingState(true);
 		props.setParams(params);
 		props.getCalendarData(params, setLoadingState);
 	};
+
+	
+
+	// var slider = document.getElementById("myRange")
+	// var output = document.getElementById("value")
+
+	// console.log(slider)
+
+	// output.innerHTML = slider.value
+
+	// slider.oninput = function(){
+	// 	output.innerHTML = this.value * 0.0512
+	// }
+
+	// slider.addEventListener("mousemove", function(){
+	// 	var x = slider.value;
+	// 	var color = 'linear-gradient(90deg, white' + x + '%,black' + x  + '%)'
+	// 	slider.style.background = color;
+
+	// })
 
 	React.useEffect(() => {
 		lottie.loadAnimation({
@@ -145,10 +312,11 @@ const Landing = (props) => {
 	return (
 		<div className="wrapper">
 			<div className="lp-container">
+				
 				<section className="static-wrapper">
 					<div className="logo-container">
 						<a href="https://tezos.com"><img className="logo" src="./Tezos.png" alt="logo" /></a>
-						<h1> X </h1>
+						<div className="X"> X </div>
 						<img className="logo" src="./logo.png" alt="logo" />
 					</div>
 				</section>
@@ -157,9 +325,10 @@ const Landing = (props) => {
 				<div className="name-one-liner">
 					<h1 className="logo-name">CryptoCount</h1>
 				</div>
+				
 				<div className="name-one-liner">
 					<h2 className="logo-tagline">
-						Mockup realizations of your Tezos based assets in 40 fiat currencies. CryptoCount is a read-only tax tool.
+					 On-chain asset assessment tax tool. Mockup realizations of aggregated Tezos based assets in 40 fiat currencies.
 					</h2>
 				</div>
 				<div className="form">
@@ -167,12 +336,12 @@ const Landing = (props) => {
 						<Form.Group controlId="formBasicEmail">
 						
 							<h4 class="thickerplz">
-								Paste Your Tezos Address
+								Paste Your Tezos Staking Address
 							</h4>
 							<Form.Control
 								type="text"
 								class="placeholdbetter"
-								placeholder="Tz... Delegator Or Baker Address"
+								placeholder="Tz or KT... Delegator Or Baker Address"
 								onChange={handleDelegationChange}
 							/>
 						</Form.Group>
@@ -190,24 +359,67 @@ const Landing = (props) => {
 						</Button>
 					</Form>
 				</div>
-				<div className="name-one-liner">
+				<div class="logo-tagline">Or</div>
+				<div className="form">
+					
+					<Form
+					updateConsensus={setConsensus}
+					>
+						<Form.Group controlId="formBasicEmail">
+						
+							<h4 class="thickerplz">
+								Paste Your Set Id
+							</h4>
+							<Form.Control
+								setId={setId}
+								type="text"
+								class="placeholdbetter"
+								placeholder="Set Id"
+								onChange={handleSetIdChange}
+							/>
+						</Form.Group>
+
+						<Button
+							className="button-continue"
+							// disabled={
+							// 	setId["setId"].length > 0 ? "" : "disabled"
+							// }
+							variant="outline-danger"
+							block
+							onClick={setIdQuery}
+						>
+							Continue
+						</Button>
+					</Form>
+				</div>
+				<div>
+				{/* <ThemeContext.Consumer>
+									{({ changeTheme }) => (
+									<Button
+										color="link"
+										onClick={() => {
+										setDarkMode(!darkMode);
+										changeTheme(darkMode ? themes.light : themes.dark);
+										}}
+									>
+										<i className={darkMode ? 'fas fa-sun' : 'fas fa-moon'}></i>
+										<span className="d-lg-none d-md-block">Switch mode</span>
+									</Button>
+									)}
+				</ThemeContext.Consumer> */}
+
+				</div>
+				
+				{/* <div className="name-one-liner">
 					<h2 className="logo-tagline2">
 						Learn more about CryptoCount
 					</h2>
-				</div>
-				<a
-					className="download-link1"
-					href="/Blog"
-					target="_blank"
-					rel="noreferrer"
-				>
-					How To Use
-					<img src="./logo.png" alt="chrome-web-store" />
-				</a>
+				</div> */}
+			
 
-				<div className="name-one-liner">
-					<h2 className="logo-tagline2">
-						Browser extension (Beta). 
+				<div className="name-one-liner2">
+					<h2 className="logo-tagline3">
+						BROWSER EXTENSION 
 					</h2>
 				</div>
 				<a
@@ -219,12 +431,13 @@ const Landing = (props) => {
 					Download for Chrome
 					<img src={chrome} alt="chrome-web-store" />
 				</a>
-				<OverlayTrigger
+		
+				{/* <OverlayTrigger
 					placement="right"
 					overlay={
 						<Popover>
 							<Popover.Title as="h3">
-								In Development
+								In Development 
 							</Popover.Title>
 						</Popover>
 					}
@@ -238,7 +451,7 @@ const Landing = (props) => {
 						Download for FireFox{" "}
 						<img src={firefox} alt="firefox-add-on" />
 					</a>
-				</OverlayTrigger>
+				</OverlayTrigger> */}
 				<a
 					className="download-link"
 					href="https://discord.gg/7rYEu5c32E"
@@ -248,6 +461,16 @@ const Landing = (props) => {
 					Join Our Discord
 					<img className="ptbo-link" src={ptbo} alt="ptbo" />
 				</a>
+				{/* <div className='slideWrap'> */}
+				
+					<div className="name-one-liner2">
+						<h2 className="logo-tagline4">
+							Interested in staking on Tezos? See your expected return below 
+						</h2>
+					</div>
+					
+					<SliderComponent></SliderComponent>
+				{/* </div> */}
 				<VerticalModal
 					basisDate={basisDate}
 					handleDateInput={handleDateInput}
@@ -269,8 +492,8 @@ const Landing = (props) => {
 					setSelectedAnalysisType={setSelectedAnalysisType}
 					getCalendar={getCalendar}
 				/>
-			</div>
-			{!props.signedIn() ? (
+			
+			{/* {!props.signedIn() ? (
 				<div className="tutorial">
 					<div className="p-gif">
 						<div className="animation" id="women-thinking" />
@@ -333,18 +556,36 @@ const Landing = (props) => {
 						</div>
 					</div>
 				</div>
-			) : null}
+			) : null} */}
+			<div>	<a
+					className="download-link1"
+					href="/Blog"
+					target="_blank"
+					rel="noreferrer">
+					How To Use
+					<img src="./logo.png" alt="chrome-web-store" />
+				</a>
+			</div>
+			<div >
+			<div className="bb2">
+					<h2 className="logo-tagline5">
+						Find the best baker here:
+					</h2>
+				</div>
+				<button className="bb3"  href="https://baking-bad.org"><img className="bb" src={BakingBad} alt="BB"></img></button>
+			</div>
+			<div className="powered">POWERED BY</div>
 			<div className="poweredBy">
-				Powered by
+				
 				<a href="https://tezos.com/" target="_blank" rel="noreferrer">
-					<img className="t-logo" src={tezos} alt="Tezos" />
+					<img className="t-logo2" src={tezos} alt="Tezos" />
 				</a>
 				<a
 					href="https://baking-bad.org"
 					target="_blank"
 					rel="noreferrer"
 				>
-					<img className="t-logo" src={tzkt} alt="tzkt" />
+					<img className="t-logo2" src={tzkt} alt="tzkt" />
 				</a>
 				<a
 					href="https://tezos.foundation/"
@@ -366,6 +607,7 @@ const Landing = (props) => {
 				</div>
 			</div>
 		</div>
+	</div>
 	);
 };
 

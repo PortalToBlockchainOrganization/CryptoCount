@@ -12,13 +12,13 @@ const About = () => {
           <br />
 						
 				<br />
-		CryptoCount 0.2 reads and analyzes the Tezos blockchain to help users report fair tax income from personal DeFi activity.				
+		CryptoCount 0.2.2 analyzes the Tezos blockchain, pipelining users' on-chain data to help report fair income tax from personal DeFi activity.				
                 <br />
 				<br />
-		CryptoCount generates read-only tax accounting objects that track your Tezos assets. The object assesses your assets' paralellel fair market value (FMV) performance in a selected fiat currency.  
+		CryptoCount generates tax accounting objects from Tezos assets. CryptoCount assesses assets' fair market value (FMV) performance with optional depreciation accounting sets in a selected fiat currency.  
 		<br />
 				<br />
-				Realize your assets to get FMV aggregated income statements. Save realizations and return to the set later with updated unrealized activities.
+				Mockup realizations of assets to get aggregated income statements. Save realizations and return to the set later with updated unrealized activities.
 				<br />
 				<br />
 				CryptoCount is 100% idempotent (read-only). CryptoCount will never: change the state of your Tezos address's related assets, ask for your private keys, or, any verifiable "KYC" information. 

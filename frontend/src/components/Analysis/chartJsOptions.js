@@ -1,5 +1,8 @@
+import { isWhiteSpaceLike } from "typescript";
 import { fiatLabels } from "./fiatLabels";
-export const chartOptions = (set, consensusRole) => {
+import { getData } from "./ChartData";
+
+export const chartOptions = (set) => {
 	const Title = (()=> {
 		//img.concat
 		// var first4 = set?.data?.address.slice(0,4)
@@ -8,10 +11,32 @@ export const chartOptions = (set, consensusRole) => {
 		// first4.concat(last4)
 		// first4.concat(' ',"Block Reward Entries")
 		// console.log(first4)
-		var first4 = set?.data?.address
+		var first4 = set?.data?.walletAddress
 		return first4
 	})
+
+	//get the basis costs array
+	let basisCosts = []
+	if(set?.data?.realizedNativeRewards){
+		set?.data?.unrealizedNativeRewards.forEach(element => {
+			basisCosts.push(element.basisCost)
+		});
+		set?.data?.realizedNativeRewards.forEach(element => {
+			basisCosts.push(element.basisCost)
+		});
+	}
+	else{
+		set?.data?.unrealizedNativeRewards.forEach(element => {
+			basisCosts.push(element.basisCost)
+		});
+	}
+
+
+
+	//console.log(basisCosts)
+
 	return {
+		responsive: true,
 		scales: {
 			yAxes: {
 				grid: {
@@ -26,6 +51,7 @@ export const chartOptions = (set, consensusRole) => {
 					font: {
 						size: 15,
 					},
+					color: "white"
 				},
 				ticks: {
 					precision: 0,
@@ -44,8 +70,10 @@ export const chartOptions = (set, consensusRole) => {
 					display: true,
 					text: "Date",
 					font: {
-						size: 15,
+						size: 16,
 					},
+					color: "white",
+					
 				},
 				ticks: {
 					beginAtZero: true,
@@ -58,11 +86,51 @@ export const chartOptions = (set, consensusRole) => {
 			},
 			title: {
 				display: true,
-				text: set?.data?.address.slice(0, 9).concat('... ',"Fair Market Value Native Block Reward Entries" + " - " + consensusRole),
+				text: " ".concat(" " + set?.data?.walletAddress + "    ","Native Tez Consensus Block Reward Accounting Entries"),
 				align: "start",
 				font: {
 					size: 15,
 				},
+				color: "white",
+				padding: {
+                    top: 10,
+                    bottom: 30,
+					left: 50
+                },
+				margin:{
+					left: 50
+				}
+				
+			},
+			tooltip: {
+				// filter: function (tooltipItem, data) {
+				// 	//var label = data.datasets[].data[tooltipItem[0].dataIndex];
+				// 	console.log(tooltipItem, data);
+				// 	// if (label === "0") {
+				// 	//   return false;
+				// 	// } else {
+				// 	//   return true;
+				// 	// }
+				// },
+				filter: tooltipItem => tooltipItem.dataset.data[tooltipItem.dataIndex] > 0,
+				callbacks: {
+				//   label: (ttItem) => (`${ttItem.dataset.label}: ${ttItem.dataset.data[ttItem.dataIndex].basisCost}`)
+					beforeBody: function(tooltipItems){
+						console.log(tooltipItems)
+						try{
+							var it =  basisCosts[tooltipItems[0].dataIndex].toFixed(2);
+						}catch(e){
+							console.log(e)
+						}
+						
+						var string = "Reward Basis Cost: "
+						if(it!==undefined){
+							string = "Reward Basis Cost: " + it
+						}
+						return string
+					},
+				},
+			
 			},
 		},
 	};

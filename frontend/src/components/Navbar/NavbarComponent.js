@@ -3,9 +3,17 @@ import { NavLink, Link } from "react-router-dom";
 import { Nav, Navbar } from "react-bootstrap";
 import classes from "./Navbar.module.css";
 import Menu from "../Menu/Menu";
+import ReactSwitch from "react-switch"
+import {createContext} from "react"
+
+
+export const ThemeContext = createContext(null)
+
 
 const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 	let analysisStyle = classes.NavLinkDisabled;
+	console.log("THINGGG")
+	console.log(canAccessAnalysis)
 	if (canAccessAnalysis) {
 		analysisStyle = classes.NavLink;
 	}
@@ -15,6 +23,13 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 			e.preventDefault();
 		}
 	};
+
+
+	const [theme, setTheme] = React.useState('dark');
+	const toggleTheme = ()=>{
+		setTheme((curr)=>(curr === "light" ? "dark" : "light"))
+	}
+
 
 	return (
 		<div>
@@ -43,6 +58,7 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								>
 									Enter
 								</NavLink>
+ 
 								<NavLink
 									className={analysisStyle}
 									activeClassName={classes.NavActive}
@@ -57,14 +73,7 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 									activeClassName={classes.NavActive}
 									to="/history"
 								>
-									Realized History
-								</NavLink>
-								<NavLink
-									className={classes.NavLink}
-									activeClassName={classes.NavActive}
-									to="/about"
-								>
-									About
+									Histories
 								</NavLink>
 								<NavLink
 									className={classes.NavLink}
@@ -73,27 +82,35 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								>
 									Regulation Tracker
 								</NavLink>
-								<NavLink
-									className={classes.NavLink}
-									activeClassName={classes.NavActive}
-									to="/blog"
-								>
-									Blog
-								</NavLink>
 								<a
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
 									href="https://portaltoblockchain.org"
 								>
-									B2B
+									API
 								</a>
 								<NavLink
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									to="/about"
+								>
+									About
+								</NavLink>
+								{/* <NavLink
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									to="/blog"
+								>
+									Blog
+								</NavLink> */}
+						
+								{/* <NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
 									to="/privacy"
 								>
 									Privacy
-								</NavLink>
+								</NavLink> */}
 							</>
 						) : (
 							<Nav className={classes.AccountNav}>
@@ -106,6 +123,45 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 									Enter
 								</NavLink>
 								<NavLink
+									className={analysisStyle}
+									activeClassName={classes.NavActive}
+									onClick={handleClick}
+									tooltip-data="Please enter or select delegation parameters to access."
+									to="/analysis"
+								>
+									Analysis
+								</NavLink>
+								{/* <NavLink
+									className={analysisStyle}
+									activeClassName={classes.NavActive}
+									onClick={toAnalysisIfSetGen}
+									tooltip-data="Please enter or select delegation parameters to access."
+									to="/analysis"
+								>
+									Analysis
+								</NavLink> */}
+								<NavLink
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									to="/regulatory"
+								>
+									Regulation Tracker
+								</NavLink>
+								{/* <NavLink
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									to="/blog"
+								>
+									Blog
+								</NavLink> */}
+								<a
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									href="https://portaltoblockchain.org"
+								>
+									API
+								</a>
+								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
 									to="/about"
@@ -115,24 +171,10 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
-									to="/regulatory"
+									to="/privacy"
 								>
-									Regulation Tracker
+									Privacy
 								</NavLink>
-								<NavLink
-									className={classes.NavLink}
-									activeClassName={classes.NavActive}
-									to="/blog"
-								>
-									Blog
-								</NavLink>
-								<a
-									className={classes.NavLink}
-									activeClassName={classes.NavActive}
-									href="https://portaltoblockchain.org"
-								>
-									B2B
-								</a>
 								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
@@ -140,13 +182,13 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								>
 									Sign In
 								</NavLink>
-								<NavLink
-									className={classes.NavLink}
-									activeClassName={classes.NavActive}
-									to="/privacy"
-								>
-									Privacy
-								</NavLink>
+							
+								{/* <div className="switch">
+								<ReactSwitch onChange={toggleTheme} checked={theme==="dark"}/>
+								</div> */}
+								{/* <div className="switch">
+									<ReactSwitch onChange={toggleTheme} checked={theme==="dark"}/>
+								</div> */}
 							</Nav>
 						)}
 					</Nav>
@@ -167,22 +209,22 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 				className={classes.NameWrapper}
 				style={{ backgroundColor: "transparent" }}
 			>
-				<div className={classes.Beta}>Version<br></br> 0.2.1</div>
+				<div className={classes.Beta}>Version<br></br> 0.2.2</div>
 				{true ? (
 					<Navbar.Text className={classes.Name}>
 						{signedIn() ? (
 							<div className={classes.MenuWrapper}>
 								<div className={classes.Log}>
-									Logged in as:
+									
 									<Menu
-										label={`${user.firstName} ${user.lastName}`}
+										label={`${user._id}`}
 									>
-										<NavLink
+										{/* <NavLink
 											to="change-password"
 											className={classes.Link}
 										>
 											Change Password
-										</NavLink>
+										</NavLink> */}
 									</Menu>
 								</div>
 							</div>
@@ -197,3 +239,23 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 };
 
 export default NavbarComponent;
+
+
+// {signedIn() ? (
+// 	<div className={classes.Log}>
+
+// 	<Menu
+// 		label={`${user.email}`}
+// 	>
+// 		<Link
+// 			onclick={signOut}
+// 			// to="change-password"
+// 			className={classes.Link}
+// 		>
+// 			Log Out
+// 		</Link>
+// 	</Menu>
+// </div>
+// ) : (
+// 	""
+// )}

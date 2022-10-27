@@ -59,7 +59,7 @@ const VerticalModal = (props) => {
 		"ARS",
 	];
 
-	let consensusRole = ["Baker (Beta)", "Delegator"]
+	let consensusRole = ["Baker", "Delegator"]
 
 	currencies.sort();
 
@@ -68,7 +68,7 @@ const VerticalModal = (props) => {
 	};
 
 	const handleConsensusRoleUpdate = (e) => {
-		if(e === "Baker (Beta)"){
+		if(e === "Baker"){
 			e = "Baker"
 		}
 		props.updateConsensus(e);
@@ -105,6 +105,7 @@ const VerticalModal = (props) => {
 								let path = require(`../../Assets/Roles/${consensusRole}.png`);
 								return (
 									<Dropdownconsensus
+										class = {classes.back}
 										key={index}
 										consensusRole={consensusRole}
 										path={path.default}
@@ -131,6 +132,7 @@ const VerticalModal = (props) => {
 								let path = require(`../../Assets/Flags/${currency}.PNG`);
 								return (
 									<DropdownItem
+										class = {classes.back}
 										key={index}
 										currency={currency}
 										path={path.default}
@@ -230,7 +232,7 @@ const VerticalModal = (props) => {
 			aria-labelledby="contained-modal-title-vcenter"
 			centered
 		>
-			<Modal.Header closeButton>
+			<Modal.Header closeButton className={classes.head}>
 				<Modal.Title id="contained-modal-title-vcenter">
 					{modalData[props.modalPage].title}
 				</Modal.Title>
@@ -238,7 +240,7 @@ const VerticalModal = (props) => {
 			<Modal.Body className={classes.body}>
 				{modalData[props.modalPage].input}
 			</Modal.Body>
-			<Modal.Footer>
+			<Modal.Footer className={classes.head}>
 				<Form onSubmit={props.setParams}>
 					<Button
 						className={classes.Button}

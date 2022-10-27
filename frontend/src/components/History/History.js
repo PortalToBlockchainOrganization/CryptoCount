@@ -12,15 +12,19 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 	// history component state
 	const [history, setHistory] = React.useState([]);
 	const [body, setBody] = React.useState([]);
+	
 	const pushToHistory = (data) => {
 		let temp = history;
 		temp.push(data);
 		setHistory(temp);
 	};
-
+	console.log("user")
+	console.log(user)
+	const user_id = user._id
+	console.log("user_id" + user_id)
 	const getTableData = useCallback(() => {
 		if (realizedHistory?.history?.length !== 0 && history?.length === 0) {
-			getHistory(pushToHistory);
+			getHistory(user_id, pushToHistory);
 		} else {
 			let temp = realizedHistory?.history;
 			setHistory(temp);
@@ -36,7 +40,7 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 	React.useEffect(() => {
 		const handleView = (id, address, fiat, date) => {
 			console.log(id);
-			getSet(id);
+			getSet(id, user_id);
 			setParams({ address: address, fiat, basisDate: date });
 			browserHistory.push("/analysis");
         };
@@ -45,22 +49,28 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 			let temp = history.filter(obj => obj.id !== id);
 			console.log("HISTORY W/ REMOVED: ", temp);
 			// updating component state
-			setHistory(temp);
+			
             console.log(id)
             deleteSet(id);
+			setHistory(temp);
         }
 
         getTableData();
         console.log(history, "This is History")
 		let temp = history?.map((obj, objIdx) => {
+			console.log('back in compenet')
+			console.log(obj)
 			return (
-				<tr key={objIdx}>
+			// <div className={classes.wrap}>
+
+			
+				<tr  key={objIdx}>
 					<td><img className="logo1" width="40" height="50" src={Image} alt="logo" /></td>
-					<td>{obj.createdAt.split("T")[0]}</td>
+					<td>{obj.lastUpdated.split("T")[0]}</td>
 					<td>{obj.address}</td>
 					<td>{obj.fiat}</td>
 					<td>{obj.basisDate.substring(0, 10)}</td>
-					<td className={classes.Actions}>
+					<td >
 						<Menu>
 							<div className={classes.Buttons}>
 								<Button
@@ -92,6 +102,7 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 						</Menu>
 					</td>
 				</tr>
+			// </div>
 			);
 		});
 		setBody(temp);
@@ -104,24 +115,25 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 			</div>
 		);
 	}
+	
 	if (realizedHistory?.isLoading === false && (realizedHistory?.history == null || realizedHistory?.history?.length === 0)) {
 		return (
 			<div className={classes.EmptyWrapper}>
 				<div className={classes.Empty}>
-					It looks like you don't have any addresses yet.
+					Loading your sets. 
 					<div>
 						<br />
 					</div>
 					<div>
-						Go to the{" "}
+						Paste your address in the{" "}
 						<span
 							className={classes.HomePageLink}
 							onClick={() => browserHistory.push("/")}
 						>
 							{" "}
-							home page
+							enter page
 						</span>{" "}
-						to get started.
+						to generate.
 					</div>
 				</div>
 			</div>
@@ -147,12 +159,12 @@ const History = ({ user, realizedHistory, getHistory, getSet, setParams, deleteS
 		<div className={classes.Page}>
 			<div className={classes.Wrapper}>
 				<table>
-					<thead>
+					<thead >
 						<tr>
-							<th>Blockchain</th>
-							<th>Created At</th>
-							<th>Address</th>
-							<th>Fiat</th>
+							<th >Blockchain</th>
+							<th >Last Updated</th>
+							<th >Address</th>
+							<th >Fiat</th>
 							<th>Basis</th>
 							<th>Action</th>
 						</tr>

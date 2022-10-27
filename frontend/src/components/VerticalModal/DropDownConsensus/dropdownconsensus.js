@@ -11,7 +11,7 @@ import classes from "./dropdownconsensus.module.css";
  */
 const Dropdownconsensus = (props) => {
 	return (
-		<Dropdown.Item eventKey={props.consensusRole}>
+		<Dropdown.Item eventKey={props.consensusRole} className={classes.back}>
 			<div className={classes.Item}>
 				<img
 					className={classes.Flag}

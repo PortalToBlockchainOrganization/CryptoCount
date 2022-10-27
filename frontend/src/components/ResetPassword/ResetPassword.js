@@ -26,10 +26,10 @@ const ResetPassword = (props) => {
 	return (
 		<section className={classes.SignInWrapper}>
 			<div className={classes.Form}>
-				<h2>Forgot password</h2>
+				<h2 className={classes.the}>Forgot password</h2>
 				<Form>
 					<FormGroup>
-						<Form.Label>Email</Form.Label>
+						<Form.Label className={classes.the}>Email</Form.Label>
 						<FormControl
 							type="email"
 							name="email"

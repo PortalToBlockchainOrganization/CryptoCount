@@ -2,6 +2,9 @@ frontend/node_modules/
 backend/node_modules/
 frontend/build
 frontend/public/manifest-extension.json
+backend/src/config/keys.js
+backend/src/documentInterfaces/database.service.ts
+
 
 # prod resources
 frontend/build/

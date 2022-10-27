@@ -3,9 +3,11 @@ import * as api from "../api";
 export function signIn(credentials, set, cb) {
     if(set === undefined){
         return (dispatch, prevState) => {
+			console.log(credentials)
             api.signIn(credentials, undefined)
                 .then((userinfo) => {
                     console.log(userinfo);
+					console.log(sessionStorage)
                     dispatch({ type: "SIGN_IN", user: userinfo })
                 })
                 .then(() => {
@@ -20,9 +22,14 @@ export function signIn(credentials, set, cb) {
         };
     }
     else{
+		console.log(credentials)
         return (dispatch, prevState) => {
             api.signIn(credentials, set)
-                .then((userinfo) => dispatch({ type: "SIGN_IN", user: userinfo }))
+                .then((userinfo) =>{ 
+					console.log(userinfo); 
+					
+					dispatch({ type: "SIGN_IN", user: userinfo })
+				})
                 .then(() => {
                     if (cb) {
                         cb();
@@ -36,6 +43,20 @@ export function signIn(credentials, set, cb) {
     }
 
 }
+
+export function signInWithGoogle(data, cb){
+	return (dispatch, prevState) => {
+		console.log("dispatch")
+		dispatch({ type: "SIGN_IN", user: data })
+		// dispatch({ type: "SIGN_IN", user: data })
+		// api.googleAuth().then((userInfo)=>{
+		// 	console.log('holy fuck' + userInfo)
+		// 	dispatch({ type: "SIGN_IN", user: userInfo })
+
+		// })
+	}
+}
+
 
 export function signOut(cb) {
 	return (dispatch, prevState) => {
@@ -66,6 +87,7 @@ export function register(data, cb) {
 export function deleteSet(set, cb) {
 	return (dispatch, prevState) => {
 		console.log(set);
+		console.log('deleteset')
 		api.deleteSet(set)
 			.then(() => {
 				if (cb) {
@@ -103,9 +125,9 @@ export function editParams(params, cb) {
 	return { type: "EDIT_PARAMS", payload: params };
 }
 
-export function analPost(params, cb) {
+export function generateAnalysis(params, cb) {
 	return (dispatch) => {
-		api.analPost(params)
+		api.generatePost(params)
 			.then((res) => {
 				if (cb) {
 					cb();
@@ -133,25 +155,31 @@ export function analPost(params, cb) {
 	};
 }
 
-export function getCalendarData(params, cb) {
-	let data;
-	return (dispatch) => {
-		api.getCalendarData(params)
-			.then((res) => res.json())
-			.then((res) => {
-				data = res;
-				if (cb) {
-					cb();
-				}
-				return dispatch({ type: "CREATE_CAL", payload: data });
-			})
-			.catch((error) => console.log(error));
-	};
-}
+// export function getCalendarData(params, cb) {
+// 	let data;
+// 	return (dispatch) => {
+// 		api.getCalendarData(params)
+// 			.then((res) => res.json())
+// 			.then((res) => {
+// 				data = res;
+// 				if (cb) {
+// 					cb();
+// 				}
+// 				return dispatch({ type: "CREATE_CAL", payload: data });
+// 			})
+// 			.catch((error) => console.log(error));
+// 	};
+// }
 
 export function getUnrealizedSetStarted() {
 	return { type: "CREATE_SET_STARTED" };
 }
+
+export function changeMode(){  
+	return {    
+	   type: "CHANGE_MODE"  
+	}
+ }
 
 export function getUnrealizedSet(params) {
 	return (dispatch) => {
@@ -185,7 +213,7 @@ export function resetSet() {
 export function autoUnrealized(params, cb) {
 	return (dispatch) => {
 		dispatch(getUnrealizedSetStarted());
-		api.autoUnrealizedSet(params)
+		api.unrealizedSet(params)
 			.then((res) => {
 				//console.log(res.json());
 				res.json().then((data) => {
@@ -234,6 +262,8 @@ export function getRealizingSetStart() {
 export function getRealizingSet(setId, quantity, cb) {
 	return (dispatch) => {
 		dispatch(getRealizingSetStart());
+		console.log("exporting")
+		console.log(setId, quantity)
 		api.getRealizingSet(setId, quantity).then((res) => {
 			res.json().then((res) => {
 				dispatch({
@@ -274,24 +304,30 @@ export function startSaveRealizing() {
 	return { type: "START_SAVE_REALIZE", payload: { isLoading: true } };
 }
 
-export function saveRealizing(setId) {
+export function saveRealizing(setId, quantity, cb) {
 	return (dispatch) => {
-		dispatch(startSaveRealizing);
-		api.saveRealize(setId).then((res) => {
+		dispatch(getRealizingSetStart);
+		api.saveRealize(setId, quantity).then((res) => {
 			res.json().then((res) => {
-				return dispatch({
-					type: "SAVE_REALIZE",
-					payload: { data: res, isLoading: false },
+				dispatch({
+					type: "ADD_SAVE_REALIZE",
+					payload: res,
 				});
+				if (cb) {
+					console.log("CB");
+					cb();
+				}
+				return
 			});
 		});
 	};
 }
 
-export function getSet(setId) {
+export function getSet(setId, user_id) {
 	return (dispatch) => {
 		dispatch(getUnrealizedSetStarted());
-		api.getSet(setId)
+		console.log('dispatch')
+		api.getSet(setId, user_id)
 			.then((res) => {
 				res.json().then((res) => {
 					console.log(res);
@@ -303,6 +339,7 @@ export function getSet(setId) {
 			})
 			.catch((err) => {
 				console.log(err);
+				dispatch({ type: "BAD_ADDRESS_ERROR", details: err });
 			});
 	};
 }
@@ -311,23 +348,28 @@ export function getHistoryStarted() {
 	return { type: "CREATE_HISTORY_STARTED", payload: { isLoading: true } };
 }
 
-export function getHistory(cb) {
+export function getHistory(user_id, cb) {
 	return (dispatch) => {
 		dispatch(getHistoryStarted());
 		let history = [];
-		api.getSets().then((res) => {
+		api.getSets(user_id).then((res) => {
 			res.json().then((res) => {
+				console.log("herewerare1")
+
 				history = res.map((set) => {
+					console.log("herewerare2")
+					console.log(set)
 					if (
-						(set?.unrealizedRewards?.length > 0 ||
-							set?.realizedRewards?.length) &&
-						set?.address &&
+						(set?.unrealizedNativeRewards?.length > 0 ||
+							set?.realizedNativeRewards?.length) &&
+						set?.walletAddress &&
 						set?.fiat
 					) {
+						console.log('hereweare')
 						let tempParams = {
-							createdAt: set["createdAt"],
+							lastUpdated: set["lastUpdated"],
 							id: set["_id"],
-							address: set["address"],
+							address: set["walletAddress"],
 							fiat: set["fiat"],
 							basisDate: set["basisDate"]
 								? set["basisDate"]
@@ -368,3 +410,4 @@ export function getHistory(cb) {
 		// return Promise.all(promises);
 	};
 }
+

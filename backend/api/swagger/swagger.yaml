@@ -1,0 +1,49 @@
+swagger: "2.0"
+info: 
+  version: 0.2.2
+  title: CryptoCount API
+
+host: localhost:8000
+
+basePath: /
+
+schemes: 
+  - http
+
+consumes:
+  - application/json
+
+produces:
+  - application/json
+
+paths:
+
+  /Generate:
+    post: 
+      description: Generate a CryptoCount accounting object for a given address.
+      summary: Gets accounting set object
+      operationId: GetSet
+      parameters:
+        - in: query
+          name: fiat
+          type: string
+          description: 3 letter Fiat code
+        - in: query
+          name: address
+          type: string
+          description: TZ.. or KT.. address
+        - in: query
+          name: consensusRole
+          type: string
+          description: takes 'Delegator' or 'Baker'
+  
+      responses: 
+        "200":
+          description: Success
+          schema: 
+          #define this with this
+            type: object
+            properties:
+              this:
+                type: object
+

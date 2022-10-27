@@ -13,6 +13,13 @@ import About from "../About/About";
 import Privacy from "../Privacy/Privacy";
 import Regulatory from "../Regulatory/Regulatory.js"
 import Blog from "../Blog/blog.js"
+//import { ThemeContext } from '../../contexts/theme-context';
+import {createContext} from "react"
+//import ReactSwitch from "react-switch"
+
+
+
+
 
 const AnalysisBlock = ({ component: Component, ...rest }) => {
 	const isAuthed = rest.isAuthed();
@@ -43,11 +50,19 @@ const AnalysisBlock = ({ component: Component, ...rest }) => {
 	);
 };
 
+export const ThemeContext = createContext(null)
+
 const Main = (props) => {
+	const [theme, setTheme] = React.useState('dark');
+	const toggleTheme = ()=>{
+		setTheme((curr)=>(curr === "light" ? "dark" : "light"))
+	}
+
 	const [canAccessAnalysis, setCanAccessAnalysis] = React.useState(false);
+
 	const { user, realizedHistory, getHistory, resetSet } = props;
 
-	if (props?.params?.fiat || Object.keys(props?.set) > 0) {
+	if (props?.set?.data) {
 		if (!canAccessAnalysis) {
 			setCanAccessAnalysis(true);
 		}
@@ -72,9 +87,10 @@ const Main = (props) => {
 
 	if (signedIn() === undefined) {
 		return <div></div>;
-	}
+	}	
 	return (
-		<div>
+		<ThemeContext.Provider value={{theme, toggleTheme}}>
+			<div id={theme}>
 			<NavbarComponent
 				signedIn={signedIn}
 				signOut={signOut}
@@ -108,12 +124,14 @@ const Main = (props) => {
 				</Regulatory>
 				<Blog path="/blog" exact strict component={Blog}>
 					Blog
-					</Blog> 
+					</Blog>
+				
 				<Route
 					path="/signin"
 					exact
 					render={() => <SignInHooks {...props} />}
 				/>
+				
 				<ProtectedRoute
 					exact
 					path="/change-password"
@@ -154,11 +172,12 @@ const Main = (props) => {
                         signedIn={signedIn}
 					/>
 				</Route>
+				
 				<Route>
 					<Redirect to="/" />
 				</Route>
 			</Switch>
-
+	
 			{/*Error popup dialog*/}
 			<ErrDialog
 				show={Object.keys(props.Errs).length}
@@ -168,6 +187,10 @@ const Main = (props) => {
 				onClose={() => closeErr(props.Errs)}
 			/>
 		</div>
+
+		</ThemeContext.Provider>
+		
+
 	);
 };
 

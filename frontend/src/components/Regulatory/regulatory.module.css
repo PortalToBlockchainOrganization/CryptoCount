@@ -1,9 +1,18 @@
 .APIWrapper {
 	justify-content: center;
 	margin-top: 100px;
-	color: black;
+	color: white;
 	padding: 20px 40px 0px 80px;
     width: 100%;
+}
+@font-face {
+	font-family: 'Blanka-Regular';
+	src: url('../Analysis/Blanka-Regular.ttf');
+  }
+
+.words{
+	font-family: 'Blanka-Regular';
+	font-size: 3em;
 }
 
 .API {
@@ -12,16 +21,16 @@
 }
 
 h2{
-    color:black;
+    color:white;
 }
 h3{
-    color: black;
+    color: white;
 }
 
 .regWrap{
     margin-top: 100px;
     width: 100%;
-    color:black;
+    color:white;
 }
 
 .code {

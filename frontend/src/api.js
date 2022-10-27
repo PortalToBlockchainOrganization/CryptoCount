@@ -1,6 +1,6 @@
 const baseURL =
 	process.env.NODE_ENV === "development"
-		? "http://localhost:3001/"
+		? "http://localhost:3001"
 		: "https://cryptocount.co/api/";
 const headers = new Headers();
 var sessionId;
@@ -40,9 +40,9 @@ function safeFetch(method, endpoint, body) {
 		body: JSON.stringify(body),
 		...reqConf,
 	})
-		.catch(function (response) {
-			return Promise.reject([{ tag: "UnRespServer" }]);
-		})
+		// .catch(function (response) {
+		// 	return Promise.reject([{ tag: "UnRespServer" }]);
+		// })
 		.then(function (response) {
 			if (response.status === 400) {
 				return response.json().then(function (response) {
@@ -57,6 +57,7 @@ function safeFetch(method, endpoint, body) {
 			else return Promise.resolve(response);
 		});
 }
+
 
 export function post(endpoint, body) {
 	return safeFetch("POST", endpoint, body);
@@ -86,15 +87,19 @@ export function signIn(cred, set) {
     if (set!==undefined){
         cred.set = set
     }
-	return post("Ssns", cred)
+	return post("/auth/login", cred)
 		.then((response) => {
-			let location = response.headers.get("Location").split("/");
-			sessionId = location[location.length - 1];
-			return get("Ssns/" + sessionId);
-		})
-		.then((response) => response.json()) // ..json() returns a Promise!
-		.then((body) => get("Prss/" + body.prsId))
-		.then((userResponse) => userResponse.json())
+			return response.json()})
+			.then((response)=>{
+				// let location = response.headers.get("Location").split("/");
+				sessionId = response.authToken;
+				console.log('woopee')
+				console.log(response)
+				return response
+			})
+		//  .then((response) => response.json()) // ..json() returns a Promise!
+		// .then((body) => get("login/auth" + body.prsId))
+		// .then((userResponse) => userResponse.json())
 		.then((rsp) => rsp);
 }
 
@@ -102,7 +107,7 @@ export function signIn(cred, set) {
  * @returns {Promise} result of the sign out request
  */
 export function signOut() {
-	return del("Ssns/" + sessionId);
+	return del("/auth/logout" + sessionId);
 }
 
 /**
@@ -111,90 +116,141 @@ export function signOut() {
  * @returns {Promise resolving to new user}
  */
 export function register(user) {
-	return post("Prss", user);
+	return post("/auth/register", user);
 }
 
 export function deleteSet(id) {
-	return del(`Anal/${id}`, {});
-}
-
-export function analPost(params) {
-	if (params) {
-		return post("Anal", {
-			address: params["address"],
-			basisDate: params["basisDate"],
-			fiat: params["fiat"],
-		});
-	}
-}
-
-export function getCalendarData(params) {
-	return post("Anal/Cal/", {
-		address: params["address"],
-		fiat: params["fiat"],
+	console.log('deleteing api')
+	console.log(id)
+	return post("/history/delete/", {
+		setId: id
 	});
 }
 
+// export function generatePost(params) {
+// 	if (params) {
+// 		return post("Anal", {
+// 			address: params["address"],
+// 			basisDate: params["basisDate"],
+// 			fiat: params["fiat"],
+// 		});
+// 	}
+// }
+
+// export function getCalendarData(params) {
+// 	return post("Anal/Cal/", {
+// 		address: params["address"],
+// 		fiat: params["fiat"],
+// 	});
+// }
+
+// export function getUnrealizedSet(params) {
+// 	return post("Anal/Unrel", {
+// 		address: params["address"],
+// 		//basisDate: params["basisDate"],
+// 		fiat: params["fiat"],
+// 		histObjId: params["histObjId"],
+// 	});
+// }
+
+export function generatePost(params) {
+	console.log("1")
+
+	return post("/tezos/Generate", 
+		{
+			"fiat": params["fiat"],
+			"address": params["address"],
+			"consensusRole": params["consensusRole"],
+			"user_id": params["user_id"]
+		},
+	);
+}
+
+export function unrealizedSet(params) {
+	console.log("2")
+
+	return post("/tezos/Generate", 	
+	{
+
+			"fiat": params["fiat"],
+			"address": params["address"],
+			"consensusRole": params["consensusRole"],
+			"user_id": params["user_id"]
+			
+		
+	});
+}
+
+//is this for rendering a set after being called from the datbase?
 export function getUnrealizedSet(params) {
-	return post("Anal/Unrel", {
-		address: params["address"],
-		basisDate: params["basisDate"],
-		fiat: params["fiat"],
-		histObjId: params["histObjId"],
-	});
-}
+	console.log("3")
 
-export function autoUnrealizedSet(params) {
-	return post("Anal/Auto", {
-		fiat: params["fiat"],
-		address: params["address"],
-		consensusRole: params["consensusRole"],
+	return post("/tezos/Generate", {
+			"fiat": params["fiat"],
+			"address": params["address"],
+			"consensusRole": params["consensusRole"],
+			"user_id": params["user_id"]
+			
+		
 	});
 }
 
 export function noAuthUnrealizedSet(params) {
-	return post("Anal/Noauth/Auto", {
-		fiat: params["fiat"],
-		address: params["address"],
-		consensusRole: params["consensusRole"],
+	console.log("4" )
+
+	return post("/tezos/Generate", {
+			fiat: params["fiat"],
+			address: params["address"],
+			consensusRole: params["consensusRole"],	
+			user_id: params["user_id"]
 	});
 }
 
 export function getRealizingSet(setId, quantity) {
-	return post("Anal/Realize", {
+	return post("/tezos/Realize", {
 		setId: setId,
-		realizedQuantity: quantity,
+		quantity: quantity,
 	});
 }
 
 export function noAuthGetRealizingSet(setId, quantity) {
 	console.log("API", setId, quantity);
-	return post("Anal/Noauth/Realize", {
+	return post("/tezos/Realize", {
 		setId: setId,
-		realizedQuantity: quantity,
+		quantity: quantity,
 	});
 }
 
 export function saveRealize(setId, confirm_quantity) {
-	return post("Anal/Save", {
-		setId: setId,
+	return post("/tezos/Save", {
+		objectId: setId,
+		quantity: confirm_quantity,
 	});
 }
 
-export function getSet(setId) {
-	return get(`Anal/${setId}`);
+export function getSet(setId, user_id) {
+	return post("/tezos/Retrieve", {
+		setId: setId,
+		user_id: user_id,
+	});
 }
 
-export function getSets() {
-	return get("Anal/");
+export function getSets(user_id) {
+	return post("/history/",{
+		user_id: user_id
+	})
 }
 
 export function forgotPassword(emailObj) {
-	return post("Prss/forgotpw", emailObj);
+	return post("/forgotpw", emailObj);
 }
 
 export function changePassword(userWithNewPassword) {
-	return post("Prss/changepw", userWithNewPassword);
+	return post("/changepw", userWithNewPassword);
+}
+
+export function googleAuth(){
+	return get("/auth/google")
 }
 
 const errMap = {

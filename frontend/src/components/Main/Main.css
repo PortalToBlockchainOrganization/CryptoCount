@@ -6,3 +6,11 @@
 	display: flex !important;
 	flex-direction: row !important;
 }
+
+#light{
+	background-color: antiquewhite;
+}
+
+#dark{
+	background-color: #292626;
+}

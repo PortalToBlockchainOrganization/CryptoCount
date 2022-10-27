@@ -13,6 +13,12 @@
 	height: 100%;
 }
 
+.switch{
+	display: flex;
+	justify-content: center;
+	margin: auto;
+}
+
 
 .NavLink {
 	text-decoration: none;
@@ -91,6 +97,8 @@
 	display: flex;
 	bottom:0;
 	overflow: hidden;
+	margin-top: 50px;
+	z-index: 5000;
 }
 
 .Beta {
@@ -117,6 +125,9 @@
 .Log {
 	display: flex;
 	align-items: center;
+	color: white;
+	/* margin-left: -50px; */
+	background-color: rgb(119, 111, 111);
 }
 
 .MenuWrapper {

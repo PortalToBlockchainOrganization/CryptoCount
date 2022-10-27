@@ -1,4 +1,3 @@
-
 # Backend
 FROM node:16-buster-slim as backend
 ENV NODE_ENV=production
@@ -9,4 +8,5 @@ RUN cd ./backend npm install
 
 EXPOSE 3001
 
-CMD ["node", "./backend/main.js", "-p", "3001"]
+
+CMD ["npm run dev", "./backend/main.js", "-p", "3001"]

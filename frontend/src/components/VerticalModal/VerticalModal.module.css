@@ -8,16 +8,32 @@
 
 .Button {
 	margin: 0 5px;
+	
 }
 
 .body {
 	justify-content: center;
 	align-items: center;
-}
-.formRow {
-	justify-content: center;
+	background-color: rgb(208, 229, 194);
 }
 
+
+.formRow {
+	justify-content: center;
+	background-color: rgb(208, 229, 194);
+}
+.back{
+	background-color: rgb(208, 229, 194);
+	margin-top: -10px;
+	margin-bottom: -10px;
+	padding-top: 35px;
+	padding-bottom: 35px;
+}
+
+.head{
+	background-color: rgb(208, 229, 194);
+
+}
 .btn {
 	/* margin: 0px 5px; */
 }
