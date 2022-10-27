@@ -38,7 +38,7 @@ const Analysis = (props) => {
 	} = props;
 	// const [isLoading, setIsLoading] = useState(set["isLoading"])
 	const [showModal, setShowModal] = useState(true);
-	const [active, setActive] = useState("unrealizedBasisRewards");
+	const [active, setActive] = useState("unrealizedNativeFMVRewards");
 
 
 
@@ -60,6 +60,8 @@ const Analysis = (props) => {
 		setActive("unrealizedNativeFMVRewards")
 		
 		}, [])
+	
+
 
 	// rerender the chart
 	useEffect(() => {
@@ -68,14 +70,24 @@ const Analysis = (props) => {
 
 
 
+
 	const updateChart = (setToRender) => {
 		// update chart based on button press
-		console.log('updatechart data vals')
-		console.log(set)
+		// console.log('updatechart data vals')
+		// console.log(set)
 		setCurrentSet(getData(setToRender, set, params, getUnrealizedSet));
-		setActive(setToRender);
+		setActive(setToRender)
+		console.log('done updating here')
+		console.log(setToRender)
+		// if(!setToRender){
+		// 	setActive("unrealizedNativeFMVRewards")
+		// }
 		
 	};
+	//console.log(setToRender)
+	//setActive("unrealizedNativeFMVRewards")
+	console.log(active)
+	//updateChart("unrealizedNativeFMVRewards")
 
 
 	const numberWithCommas = (x) => {
@@ -112,13 +124,18 @@ const Analysis = (props) => {
 					set["data"]["objectId"],
 					quantityRealize.current.value,
 					updateChart
+					
+					
 				);
 			} else {
                 console.log("NOAUTHSKIPPED")
 				getRealizingSet(
 					set["data"]["objectId"],
 					quantityRealize.current.value,
-					updateChart
+					updateChart,
+					// console.log('ppoooo'),
+					// setActive("unrealizedNativeFMVRewards")
+					
 				);
 			}
 		}
@@ -664,7 +681,7 @@ const Analysis = (props) => {
 				): null}
 			
 				
-{console.log(currentSet)}
+{/* {console.log(currentSet)} */}
 			
 				
 			

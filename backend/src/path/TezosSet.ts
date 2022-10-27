@@ -287,6 +287,8 @@ export default class TezosSet {
     //import the umbrella db and write to the this.(s)
     async initRealizing(object: any): Promise<any> {
         //transform the js object into this
+   
+
         this.walletAddress = object.walletAddress
         this.fiat = object.fiat
         this.consensusRole = object.consensusRole
@@ -346,6 +348,7 @@ export default class TezosSet {
         this.investmentBasisCostArray = object.investmentBasisCostArray
         this.isCustodial = object.isCustodial
         this.investmentsScaledBVByDomain = object.investmentsScaledBVByDomain
+       
 
     }
 
@@ -547,12 +550,32 @@ export default class TezosSet {
     }
 
     async realizeProcess(quantity: number, object: any): Promise<any>{
-        this.initRealizing(object)
-        this.realizeReward(quantity)
-
-        this.aggregates()
-        this.getRealizingAssetDomain()
-
+        //object is mutated after one save and while in the save route
+        this.initRealizing(object).then(x => {writeFile("yurtesticl.json", JSON.stringify(this, null, 4), function(err) {
+            if(err) {
+              console.log(err);
+            } else {
+              console.log("JSON saved to " + "test.json");
+    
+            console.log(ts)
+  
+            }
+        })})
+        .then(()=>{this.realizeReward(quantity)})
+        .then(x => {writeFile("testicl.json", JSON.stringify(this, null, 4), function(err) {
+            if(err) {
+              console.log(err);
+            } else {
+              console.log("JSON saved to " + "test.json");
+    
+            console.log(ts)
+  
+            }
+        })}).then(()=>{
+            this.aggregates()
+        }).then(()=>{
+            this.getRealizingAssetDomain()
+        })
         await this.pointOfSaleCosts()
 
         console.log("here4")
@@ -561,7 +584,24 @@ export default class TezosSet {
     }
 
     async saveProcess(object: any): Promise<any>{
-        this.initSave(object)
+        writeFile("beforeBoob.json", JSON.stringify(object, null, 4), function(err) {
+            if(err) {
+              console.log(err);
+            } else {
+              console.log("JSON saved to " + "test.json");
+    
+            console.log(ts)
+  
+        }})
+        this.initSave(object).then(x => {writeFile("boob.json", JSON.stringify(this, null, 4), function(err) {
+            if(err) {
+              console.log(err);
+            } else {
+              console.log("JSON saved to " + "test.json");
+    
+            console.log(ts)
+  
+            }})})
         this.saveRealization()
         this.aggregates()
         // await this.pointOfSaleCosts()

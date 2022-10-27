@@ -63979,18 +63979,18 @@
             "basisCost": 2.0612241679168655
         }
     ],
-    "aggregateUnrealizedNativeReward25p": 1624.8080612499991,
-    "aggregateUnrealizedNativeReward50p": 3249.6161224999983,
-    "aggregateUnrealizedNativeReward75p": 4874.424183749998,
-    "aggregateUnrealizedNativeReward100p": 6499.2322449999965,
-    "aggregateRealizedNativeReward100p": 6500.000000000002,
-    "aggregateRealizedNativeReward50p": 3250.000000000001,
-    "aggregateRealizedNativeFMVReward100p": 15957.73543790391,
-    "aggregateRealizedNativeFMVReward50p": 7978.867718951955,
-    "aggregateRealizedNativeMarketDilution100p": 2152.2467264402335,
-    "aggregateRealizedNativeMarketDilution50p": 1076.1233632201167,
-    "aggregateRealizedNativeSupplyDepletion100p": 13208.07366953745,
-    "aggregateRealizedNativeSupplyDepletion50p": 6604.036834768725,
+    "aggregateUnrealizedNativeReward25p": 3249.8080612500003,
+    "aggregateUnrealizedNativeReward50p": 6499.6161225000005,
+    "aggregateUnrealizedNativeReward75p": 9749.424183750001,
+    "aggregateUnrealizedNativeReward100p": 12999.232245000001,
+    "aggregateRealizedNativeReward100p": 0,
+    "aggregateRealizedNativeReward50p": 0,
+    "aggregateRealizedNativeFMVReward100p": 0,
+    "aggregateRealizedNativeFMVReward50p": 0,
+    "aggregateRealizedNativeMarketDilution100p": 0,
+    "aggregateRealizedNativeMarketDilution50p": 0,
+    "aggregateRealizedNativeSupplyDepletion100p": 0,
+    "aggregateRealizedNativeSupplyDepletion50p": 0,
     "realizedNativeRewards": [
         {
             "date": "2021-03-22",
@@ -67941,10 +67941,10 @@
     ],
     "noRewards": false,
     "TezosPriceOnDateObjectGenerated": 1.43,
-    "pointOfSaleAggValue": 9295.000000000002,
-    "netDiffFMV": -6662.735437903908,
-    "netDiffDilution": 7142.753273559769,
-    "netDiffSupplyDepletion": -3913.073669537449,
+    "pointOfSaleAggValue": 18588.57,
+    "netDiffFMV": -36610.69399029168,
+    "netDiffDilution": 10584.555670039485,
+    "netDiffSupplyDepletion": -26680.023903607682,
     "investmentBasisCostArray": [
         {
             "cost": 4.133252100206081,
@@ -68323,7 +68323,5 @@
             "endDate": "2022-10-26",
             "scaledBookValue": 223566.87007900001
         }
-    ],
-    "realizingDomainStartDate": "2022-03-10",
-    "realizingDomainEndDate": "2022-06-27"
+    ]
 }

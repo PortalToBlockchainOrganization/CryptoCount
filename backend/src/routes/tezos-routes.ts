@@ -257,21 +257,23 @@ const router = require('express').Router()
       }
       else{
         //var realizingModel: any = {}
+        //this is deleting the realizing set from the set 
         ts.realizeProcess(req.body.quantity, docs).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
           if(err) {
             console.log(err);
           } else {
             console.log("JSON saved to " + "test.json");
   
-          console.log(ts)
+          //console.log(ts)
 
           }
-        })});
-          ts.saveProcess(ts).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
+        })}).then(()=>{
+          //something is broken here
+          ts.saveProcess(ts).then(x => {writeFile("testy.json", JSON.stringify(ts, null, 4), function(err) {
             if(err) {
               console.log(err);
             } else {
-              console.log("JSON saved to " + "test.json");
+              console.log("JSON saved to " + "testy.json");
               savedModel = transformToSave(ts)
               res.status(200).send(savedModel)
               
@@ -285,6 +287,8 @@ const router = require('express').Router()
                     })
             }
         })});
+        })
+       
     }
   })
   //find user by id 
