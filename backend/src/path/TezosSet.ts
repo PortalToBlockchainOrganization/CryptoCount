@@ -354,6 +354,15 @@ export default class TezosSet {
 
     //init function for save state
     async initSave(object: any): Promise<any>{
+        writeFile("bbbeBoob.json", JSON.stringify(object, null, 4), function(err) {
+            if(err) {
+              console.log(err);
+            } else {
+              console.log("JSON saved to " + "test.json");
+    
+            console.log(ts)
+  
+        }})
         this.walletAddress = object.walletAddress
         this.fiat = object.fiat
         this.consensusRole = object.consensusRole
@@ -413,6 +422,16 @@ export default class TezosSet {
         this.investmentBasisCostArray = object.investmentBasisCostArray
         this.isCustodial = object.isCustodial
         this.investmentsScaledBVByDomain = object.investmentsScaledBVByDomain
+
+        writeFile("abbeBoob.json", JSON.stringify(object, null, 4), function(err) {
+            if(err) {
+              console.log(err);
+            } else {
+              console.log("JSON saved to " + "test.json");
+    
+            console.log(ts)
+  
+        }})
 
     }
 
@@ -584,7 +603,9 @@ export default class TezosSet {
     }
 
     async saveProcess(object: any): Promise<any>{
-        writeFile("beforeBoob.json", JSON.stringify(object, null, 4), function(err) {
+   
+        this.initSave(object)
+        writeFile("boob.json", JSON.stringify(this, null, 4), function(err) {
             if(err) {
               console.log(err);
             } else {
@@ -593,15 +614,6 @@ export default class TezosSet {
             console.log(ts)
   
         }})
-        this.initSave(object).then(x => {writeFile("boob.json", JSON.stringify(this, null, 4), function(err) {
-            if(err) {
-              console.log(err);
-            } else {
-              console.log("JSON saved to " + "test.json");
-    
-            console.log(ts)
-  
-            }})})
         this.saveRealization()
         this.aggregates()
         // await this.pointOfSaleCosts()
@@ -898,10 +910,10 @@ export default class TezosSet {
 
     //make so they append to the old realized values
     if(this.realizedNativeRewards.length > 0){
-        this.realizedNativeRewards.concat(this.realizingNativeRewards.map(value => value)) 
-        this.realizedNativeFMVRewards.concat(this.realizingNativeFMVRewards.map(value => value))
-        this.realizedNativeMarketDilutionRewards.concat(this.realizingNativeMarketDilutionRewards.map(value=>value))
-        this.realizedNativeSupplyDepletionRewards.concat(this.realizingNativeSupplyDepletionRewards.map(value => value))
+        this.realizedNativeRewards = this.realizedNativeRewards.concat(this.realizingNativeRewards) 
+        this.realizedNativeFMVRewards = this.realizedNativeFMVRewards.concat(this.realizingNativeFMVRewards)
+        this.realizedNativeMarketDilutionRewards = this.realizedNativeMarketDilutionRewards.concat(this.realizingNativeMarketDilutionRewards)
+        this.realizedNativeSupplyDepletionRewards = this.realizedNativeSupplyDepletionRewards.concat(this.realizingNativeSupplyDepletionRewards)
     }
     else{
         this.realizedNativeRewards = this.realizingNativeRewards.map(value => value)
