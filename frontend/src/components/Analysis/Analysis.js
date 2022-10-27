@@ -68,7 +68,19 @@ const Analysis = (props) => {
 		setCurrentSet(getData(null, set, params, getUnrealizedSet));
 	}, [set, params, getUnrealizedSet]);
 
-
+	const updateChart1 = (setToRender) => {
+		// update chart based on button press
+		// console.log('updatechart data vals')
+		// console.log(set)
+		setCurrentSet(getData(setToRender, set, params, getUnrealizedSet));
+		//setActive(setToRender)
+		console.log('done updating here')
+		console.log(setToRender)
+		// if(!setToRender){
+		// 	setActive("unrealizedNativeFMVRewards")
+		// }
+		
+	};
 
 
 	const updateChart = (setToRender) => {
@@ -123,7 +135,7 @@ const Analysis = (props) => {
 				noAuthRealizingSet(
 					set["data"]["objectId"],
 					quantityRealize.current.value,
-					updateChart
+					updateChart1
 					
 					
 				);
@@ -132,7 +144,7 @@ const Analysis = (props) => {
 				getRealizingSet(
 					set["data"]["objectId"],
 					quantityRealize.current.value,
-					updateChart,
+					updateChart1,
 					// console.log('ppoooo'),
 					// setActive("unrealizedNativeFMVRewards")
 					
@@ -148,7 +160,7 @@ const Analysis = (props) => {
 			saveRealizing(
 				set["data"]["objectId"], 
 				set["data"]["aggregateRealizedNativeReward100p"],
-				updateChart,
+				updateChart1,
 				)
 
 			// props.getHistory();
