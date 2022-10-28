@@ -1,4 +1,5 @@
 FROM node:16-buster-slim AS frontend
+#ENV NODE_ENV=production
 WORKDIR /frontend
 COPY package.json ./
 COPY package-lock.json ./

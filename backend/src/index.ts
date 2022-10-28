@@ -64,7 +64,12 @@ import umbrella from "./documentInterfaces/umbrella/umbrella.schema";
 //console.log(process.env)
 
  app.use(helmet());
-const options: cors.CorsOptions = {origin: "http://localhost:3000",credentials: true,methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",};
+const options: cors.CorsOptions = {
+  origin:
+			process.env.DEV_ENV === "LOCAL"
+				? "http://localhost:3001"
+				: "https://cryptocount.co",
+        credentials: true,methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",};
 app.use(cors(options));;
 
 
