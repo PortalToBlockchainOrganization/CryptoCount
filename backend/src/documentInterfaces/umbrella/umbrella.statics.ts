@@ -1,5 +1,5 @@
 import umbrella from "./umbrella.types"
-import Umbrella from "./umbrella.schema"
+var Umbrella = require("./umbrella.schema")
 // const db = require('mongoose')
 import { IUmbrellaDocument, IUmbrellaModel } from "./umbrella.types";
 export async function findOneOrCreate(this: any, 

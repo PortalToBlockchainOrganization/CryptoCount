@@ -12,7 +12,7 @@ import { setLastUpdated } from "./umbrella.methods";
 const UmbrellaSchema = new Schema({
     objectId: String,
     user_id: String,
-     fiat: String,
+    fiat: String,
     walletAddress: String,
     firstRewardDate: String,
     priceByDay: Array<PriceByDay>,
@@ -74,14 +74,8 @@ const UmbrellaSchema = new Schema({
     investmentBasisCostArray: Array,
     realizingDomainStartDate: String,
     realizingDomainEndDate:String,
-  dateOfEntry: {
-    type: Date,
-    default: new Date()
-  },
-  lastUpdated: {
-    type: Date,
-    default: new Date()
-  }
+    dateOfEntry: {type: Date,default: new Date()},
+    lastUpdated: {type: Date,default: new Date()}
 });
 UmbrellaSchema.statics.findOneOrCreate = findOneOrCreate;
 UmbrellaSchema.statics.findByAge = findByAge;

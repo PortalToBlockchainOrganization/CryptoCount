@@ -888,7 +888,7 @@ class TezosSet {
     }
     calculateNativeMarketDilutionRewards(scaledBVByDomain) {
         return __awaiter(this, void 0, void 0, function* () {
-            let mappedBV = new Map();
+            let mappedBV = {};
             scaledBVByDomain.forEach(bvDomain => {
                 // iterate over the date range (inclusive)
                 let startDate = new Date(bvDomain.startDate);

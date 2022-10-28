@@ -69,14 +69,8 @@ const UmbrellaSchema = new mongoose_1.Schema({
     investmentBasisCostArray: Array,
     realizingDomainStartDate: String,
     realizingDomainEndDate: String,
-    dateOfEntry: {
-        type: Date,
-        default: new Date()
-    },
-    lastUpdated: {
-        type: Date,
-        default: new Date()
-    }
+    dateOfEntry: { type: Date, default: new Date() },
+    lastUpdated: { type: Date, default: new Date() }
 });
 UmbrellaSchema.statics.findOneOrCreate = umbrella_statics_1.findOneOrCreate;
 UmbrellaSchema.statics.findByAge = umbrella_statics_1.findByAge;

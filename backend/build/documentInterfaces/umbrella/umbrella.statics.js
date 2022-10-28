@@ -8,12 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findByAge = exports.findOneOrCreate = void 0;
-const umbrella_schema_1 = __importDefault(require("./umbrella.schema"));
+var Umbrella = require("./umbrella.schema");
 function findOneOrCreate(setId) {
     return __awaiter(this, void 0, void 0, function* () {
         const record = yield this.findOne({ setId });
@@ -40,7 +37,7 @@ exports.findByAge = findByAge;
 function transform(ts) {
     var object = {};
     //class ts to umbrella class
-    new umbrella_schema_1.default({
+    new Umbrella({
         objectId: ts.objectId,
         user_id: ts.user_id,
         fiat: ts.fiat,

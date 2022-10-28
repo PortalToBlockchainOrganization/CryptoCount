@@ -7890,6 +7890,11 @@
             "date": "2022-10-26",
             "price": 1.3885647424841063,
             "marketCap": 1258061370.1137378
+        },
+        "2022-10-27": {
+            "date": "2022-10-27",
+            "price": 1.434434046174803,
+            "marketCap": 1297454846.3933153
         }
     },
     "rewardsByDay": [
@@ -20729,6 +20734,10 @@
         {
             "date": "2022-10-26",
             "amount": 1258061370.1137378
+        },
+        {
+            "date": "2022-10-27",
+            "amount": 1297454846.3933153
         }
     ],
     "priceByDay": [
@@ -27039,6 +27048,10 @@
         {
             "date": "2022-10-26",
             "amount": 1.3885647424841063
+        },
+        {
+            "date": "2022-10-27",
+            "amount": 1.434434046174803
         }
     ],
     "cyclesByDay": [
@@ -35938,6 +35951,10 @@
             "date": "2022-10-25",
             "rewardAmount": 142.64134080846543,
             "cycle": 538
+        },
+        {
+            "date": "2022-10-26",
+            "rewardAmount": 0
         }
     ],
     "supplyByDay": [
@@ -51690,6 +51707,11 @@
             "_id": "6359d3ebc66256163a9b84f2",
             "dateString": "2022-10-26",
             "totalSupply": 935352167463408
+        },
+        {
+            "_id": "635b2577c66256163a9b84f4",
+            "dateString": "2022-10-27",
+            "totalSupply": 935414476411811
         }
     ],
     "rawWalletTransactions": [
@@ -68533,6 +68555,10 @@
             "date": "2022-10-25",
             "rewardAmount": 225.84243161255597,
             "cycle": 538
+        },
+        {
+            "date": "2022-10-26",
+            "rewardAmount": 0
         }
     ],
     "unrealizedNativeRewards": [
@@ -73191,7 +73217,7 @@
             {
                 "cycle": 539,
                 "endorsementRewards": 0,
-                "blockRewards": 158189498
+                "blockRewards": 177965864
             },
             {
                 "cycle": 538,
@@ -74367,7 +74393,7 @@
             "date": "2022-10-04"
         }
     ],
-    "lastUpdated": "2022-10-27T22:56:34.517Z",
+    "lastUpdated": "2022-10-28T00:43:57.691Z",
     "realizingDomainStartDate": "",
     "realizingDomainEndDate": "",
     "isCustodial": false,
@@ -74579,7 +74605,7 @@
         },
         {
             "startDate": "2022-10-04",
-            "endDate": "2022-10-26",
+            "endDate": "2022-10-27",
             "scaledBookValue": 223566.87007900001
         }
     ]
