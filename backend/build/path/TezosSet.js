@@ -1170,8 +1170,9 @@ class TezosSet {
         //  - startDate is the day of the current transaction
         //  - endDate is the day before the next transaction 
         // group by date
-        let groupedTransactions = new Map();
-        this.unaccountedNetTransactions.forEach(transaction => {
+        //let groupedTransactions: Map<string, TransactionsByDay> = new Map<string, TransactionsByDay>();
+        let groupedTransactions = {};
+        this.unaccountedNetTransactions.forEach((transaction) => {
             groupedTransactions[transaction.date] = { date: transaction.date, amount: transaction.date in groupedTransactions ? groupedTransactions[transaction.date].amount + transaction.amount : transaction.amount };
         });
         let groupedTransactionsArray = Object.values(groupedTransactions);

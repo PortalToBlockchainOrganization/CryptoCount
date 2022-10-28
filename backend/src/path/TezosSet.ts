@@ -2169,25 +2169,25 @@ export default class TezosSet {
     orderAccountingSets(): void{
          //valuea -valueb gives a LIFO behavior
         //valueb - valuea gives FIFO behavior
-        this.unrealizedNativeRewards.sort((a,b)=>{
+        this.unrealizedNativeRewards.sort((a: any,b: any)=>{
             let valuea: number = new Date(b.date).getTime()
             let valueb: number = new Date(a.date).getTime()
             let value: number =  valueb - valuea
             return value
         })
-        this.unrealizedNativeFMVRewards.sort((a,b)=>{
+        this.unrealizedNativeFMVRewards.sort((a: any,b: any)=>{
             let valuea: number = new Date(b.date).getTime()
             let valueb: number = new Date(a.date).getTime()
             let value: number = valueb - valuea
             return value
         })
-        this.unrealizedNativeMarketDilutionRewards.sort((a,b)=>{
+        this.unrealizedNativeMarketDilutionRewards.sort((a: any,b: any)=>{
             let valuea: number = new Date(b.date).getTime()
             let valueb: number = new Date(a.date).getTime()
             let value: number = valueb - valuea
             return value
         })
-        this.unrealizedNativeSupplyDepletionRewards.sort((a,b)=>{
+        this.unrealizedNativeSupplyDepletionRewards.sort((a: any,b: any)=>{
             let valuea: number = new Date(b.date).getTime()
             let valueb: number = new Date(a.date).getTime()
             let value: number =  valueb - valuea
