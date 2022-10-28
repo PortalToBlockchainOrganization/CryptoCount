@@ -1099,7 +1099,7 @@ export default class TezosSet {
 
    async calculateNativeMarketDilutionRewards(scaledBVByDomain:Array<BVbyDomain>): Promise<void> {
 
-    let mappedBV: Map<string, number> = new Map(); 
+    let mappedBV= {} as {[key:string]:number};
 
     scaledBVByDomain.forEach(bvDomain => {
     // iterate over the date range (inclusive)
