@@ -1455,8 +1455,9 @@ export default class TezosSet {
 
 
         // group by date
-        let groupedTransactions: Map<string, TransactionsByDay> = new Map<string, TransactionsByDay>();
-        this.unaccountedNetTransactions.forEach(transaction => {
+        //let groupedTransactions: Map<string, TransactionsByDay> = new Map<string, TransactionsByDay>();
+        let groupedTransactions= {} as {[key:string]:any};
+        this.unaccountedNetTransactions.forEach((transaction: any) => {
             groupedTransactions[transaction.date] = {date: transaction.date, amount: transaction.date in groupedTransactions ? groupedTransactions[transaction.date].amount + transaction.amount : transaction.amount}
         })
         let groupedTransactionsArray: Array<TransactionsByDay> = Object.values(groupedTransactions);
@@ -1470,7 +1471,7 @@ export default class TezosSet {
             let nextDay: Date = new Date(groupedTransactionsArray[i].date);
             nextDay.setDate(nextDay.getDate() + 1);
             
-            let nextDate: Date = undefined;
+            let nextDate: any = undefined;
 
             // if the current transaction is the last one in our array 
             // we'll bound the end with todays date
