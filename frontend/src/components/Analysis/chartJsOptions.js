@@ -86,7 +86,7 @@ export const chartOptions = (set) => {
 			},
 			title: {
 				display: true,
-				text: " ".concat("Native Block Reward Entries", "           ", "Address: " + set?.data?.walletAddress + "           ", "Consensus Role: " + set?.data?.consensusRole + "           ", "Fiat: " + set?.data?.publicfiat),
+				text: " ".concat("Native Block Reward Entries", "           ", "Address: " + set?.data?.walletAddress + "           ", "Consensus Role: " + set?.data?.consensusRole + "           ", "Fiat: " + set?.data?.fiat),
 				align: "start",
 				font: {
 					size: 15,

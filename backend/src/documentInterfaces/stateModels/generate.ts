@@ -36,7 +36,7 @@ interface LabeledValue {
 
   interface generateModel{
     objectId: string,
-    publicfiat: string,
+    fiat: string,
     walletAddress: string,
     bakerCycles: Array<BakerCycle>,
     bakerAddresses: Set<string>,

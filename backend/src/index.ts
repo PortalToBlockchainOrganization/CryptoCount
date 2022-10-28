@@ -2,7 +2,7 @@
  * Required External Modules
  */
 
-
+ 
 
  import * as dotenv from "dotenv";
  import express from "express";
@@ -61,6 +61,7 @@ import umbrella from "./documentInterfaces/umbrella/umbrella.schema";
  *  App Configuration
  */
 
+//console.log(process.env)
 
  app.use(helmet());
 const options: cors.CorsOptions = {origin: "http://localhost:3000",credentials: true,methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",};
@@ -127,10 +128,27 @@ app.use('/history', historyRoutes)
   console.log(`Listening on port ${PORT}`);
 });
 
+// console.log(env)
+// module.exports = {
+    
+//   google: {
+//       clientID: env.process.CLIENTID,
+//       clientSecret: env.CLIENTSECRET
+//   },
+//   session: {
+//       cookieKey: "adsfasdfasdfasdf"
+//   },
+//   mongodb:{
+//       dbURI: env.dbURI
+//   }
 
+// }
 
+// console.log(process.env)
+// let Enviroment = process.env
+// console.log(Enviroment)
 
-
+// export default Enviroment
 
 
 // //calls user object and gets set ids 
