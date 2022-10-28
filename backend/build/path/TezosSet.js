@@ -1382,7 +1382,7 @@ class TezosSet {
                 this.rawWalletTransactions.push(...transactionsResponseArray);
                 transactionsLength = transactionsResponseArray.length;
             }
-            this.rawWalletTransactions.forEach(transaction => {
+            this.rawWalletTransactions.forEach((transaction) => {
                 var _a, _b;
                 if (((_a = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _a === void 0 ? void 0 : _a.alias) === "Melange Payouts")
                     this.isCustodial = true;
@@ -1472,11 +1472,12 @@ class TezosSet {
         });
     }
     getPricesAndMarketCap() {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             let price = `price${this.fiat}`;
             let marketCap = `marketCap${this.fiat}`;
-            let priceAndMarketCapData = (yield database_service_1.collections.priceAndMarketCap.find().sort({ date: 1 }).toArray());
-            priceAndMarketCapData.forEach(priceAndMarketCap => {
+            let priceAndMarketCapData = (yield ((_a = database_service_1.collections.priceAndMarketCap) === null || _a === void 0 ? void 0 : _a.find().sort({ date: 1 }).toArray()));
+            priceAndMarketCapData.forEach((priceAndMarketCap) => {
                 // date reformatting
                 let dateSplit = priceAndMarketCap.date.toString().split("-");
                 dateSplit = [dateSplit[0], dateSplit[1], dateSplit[2]];
@@ -1489,13 +1490,13 @@ class TezosSet {
             //extraction method from element
             //add date reformatting 
             //console.log(this.marketByDay)
-            priceAndMarketCapData.forEach(element => {
+            priceAndMarketCapData.forEach((element) => {
                 let dateSplit = element.date.toString().split("-");
                 dateSplit = [dateSplit[0], dateSplit[1], dateSplit[2]];
                 let correctedDate = dateSplit.join("-");
                 this.marketByDay.push({ date: correctedDate, amount: element[marketCap] });
             });
-            priceAndMarketCapData.forEach(element => {
+            priceAndMarketCapData.forEach((element) => {
                 let dateSplit = element.date.toString().split("-");
                 dateSplit = [dateSplit[0], dateSplit[1], dateSplit[2]];
                 let correctedDate = dateSplit.join("-");
@@ -1506,7 +1507,7 @@ class TezosSet {
     }
     //processing methods
     processIntermediaryTransactions() {
-        let intermediaryTransactions = this.rawWalletTransactions.filter(transaction => {
+        let intermediaryTransactions = this.rawWalletTransactions.filter((transaction) => {
             var _a;
             (((_a = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _a === void 0 ? void 0 : _a.alias) === "Melange Payouts");
         });
@@ -1525,7 +1526,7 @@ class TezosSet {
             // map cycles to reward amounts
             //expand record for every type and re make the record at the end for by day /cycle
             let rewards = {};
-            this.totalOperations.forEach(array => {
+            this.totalOperations.forEach((array) => {
                 array.forEach(operation => {
                     if (operation.cycle === undefined) {
                         console.log("No payout data found in a response");
@@ -1715,7 +1716,7 @@ class TezosSet {
                         }
                     }
                 }
-                this.rewardsByDay = this.rewardsByCycle.map(value => value);
+                this.rewardsByDay = this.rewardsByCycle.map((value) => value);
                 this.noRewards = false;
             }
             //this.rewardsByDay = this.cyclesByDay.filter(cyclesAndDays => )
@@ -1768,10 +1769,10 @@ class TezosSet {
     getNetTransactions() {
         // 4. getNetTransactions: retrieve the transactions that this wallet was a part of that exclude reward transactions
         // + Melange Payouts. add a rewardByDay to the rewardsByDay list   
-        this.unaccountedNetTransactions = this.rawWalletTransactions.filter(transaction => {
+        this.unaccountedNetTransactions = this.rawWalletTransactions.filter((transaction) => {
             var _a, _b;
             return (!(this.bakerAddresses.has((_a = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _a === void 0 ? void 0 : _a.address) || this.bakerAddresses.has((_b = transaction === null || transaction === void 0 ? void 0 : transaction.target) === null || _b === void 0 ? void 0 : _b.address)));
-        }).map(transaction => {
+        }).map((transaction) => {
             var _a, _b;
             let transactionDate = new Date(transaction.timestamp).toISOString().slice(0, 10);
             let adjustedAmount = transaction.amount / REWARDADJUSTMENTDENOMINATOR;

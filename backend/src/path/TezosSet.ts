@@ -1526,10 +1526,10 @@ export default class TezosSet {
         let delegatorRewardsResponse: AxiosResponse = await axios.get(this.delegatorRewardsUrl);
 
         let filteredResponse:Array<{cycle: number, balance: number, baker: {alias: string, address: string}}> =
-        delegatorRewardsResponse.data.map(({cycle, balance, baker}) => ({cycle, balance, baker}));
+            delegatorRewardsResponse.data.map(({cycle, balance, baker}: {cycle: number, balance: number, baker: number}) => ({cycle, balance, baker}));
 
         // map bakers to their start and end cycles
-        let curBaker: BakerCycle = undefined;
+        let curBaker: any = undefined;
         
         for (let cycleData of filteredResponse.reverse()){
             // initial baker
@@ -1593,7 +1593,6 @@ export default class TezosSet {
 
 
 
-        
         let urlr= `https://api.tzkt.io/v1/rewards/bakers/${this.walletAddress}?limit=10000`
         let resp1: AxiosResponse = await axios.get(urlr);
        // this.nextTimeStamp = resp1.data[resp1.data.length - 1].timestamp
@@ -1605,7 +1604,7 @@ export default class TezosSet {
             //     cycle = resp1.data[0].cycle
             // }
             let bak: Array<{cycle: number, endorsementRewards: number, blockRewards: number}> = 
-            resp1.data.map(({cycle, endorsementRewards, blockRewards}) => ({cycle, endorsementRewards, blockRewards}));       
+                resp1.data.map(({cycle, endorsementRewards, blockRewards}: {cycle: number, endorsementRewards: number, blockRewards: number}) => ({cycle, endorsementRewards, blockRewards}));       
             this.totalOperations.push(bak)
           
         }
@@ -1685,11 +1684,11 @@ export default class TezosSet {
         while(transactionsLength===TRANSACTIONURLLIMIT){
             let transactionsResponse: AxiosResponse = await axios.get(this.transactionsUrl);
             let transactionsResponseArray: Array<{target: {address: string}, sender: {address: string, alias: string}, amount: number, timestamp: string}> = 
-                transactionsResponse.data.map(({target, sender, amount, timestamp}) => ({target, sender, amount, timestamp}));
+                transactionsResponse.data.map(({target, sender, amount, timestamp}: {target: {address: string}, sender: {address: string, alias: string}, amount: number, timestamp: string}) => ({target, sender, amount, timestamp}));
             this.rawWalletTransactions.push(...transactionsResponseArray);
             transactionsLength = transactionsResponseArray.length;
         }
-        this.rawWalletTransactions.forEach(transaction => {
+        this.rawWalletTransactions.forEach((transaction: any) => {
             if(transaction?.sender?.alias === "Melange Payouts")
                 this.isCustodial = true;
             else if(transaction?.sender?.alias === "EcoTez Payouts")
@@ -1735,8 +1734,8 @@ export default class TezosSet {
         //offset from index
         let offset = 0;
         let resp_len = 10000;
-        let currentDay: string = null;
-        let latestBalance: number = null;
+        let currentDay: any = null;
+        let latestBalance: any = null;
         while (resp_len === 10000) {
             let url = `https://api.tzkt.io/v1/accounts/${this.walletAddress}/balance_history?offset=${offset}&limit=10000`;
             let response: AxiosResponse = await axios.get(url);
@@ -1784,9 +1783,9 @@ export default class TezosSet {
 
         let price = `price${this.fiat}`;
         let marketCap = `marketCap${this.fiat}`;
-        let priceAndMarketCapData: Array<PriceAndMarketCap>  = (await collections.priceAndMarketCap.find().sort( { date: 1 } ).toArray()) as PriceAndMarketCap[];
+        let priceAndMarketCapData: any  = (await collections.priceAndMarketCap?.find().sort({ date: 1 }).toArray()) as unknown as PriceAndMarketCap[];
         priceAndMarketCapData.forEach(
-            priceAndMarketCap => {
+            (priceAndMarketCap: any) => {
                 // date reformatting
                 let dateSplit: string[] = priceAndMarketCap.date.toString().split("-");
                 dateSplit = [dateSplit[0], dateSplit[1], dateSplit[2]];
@@ -1802,7 +1801,7 @@ export default class TezosSet {
         //add date reformatting 
     
         //console.log(this.marketByDay)
-        priceAndMarketCapData.forEach(element => {
+        priceAndMarketCapData.forEach((element: any) => {
             let dateSplit: string[] = element.date.toString().split("-");
             dateSplit = [dateSplit[0], dateSplit[1], dateSplit[2]];
             let correctedDate: string = dateSplit.join("-");
@@ -1810,7 +1809,7 @@ export default class TezosSet {
         })
 
         
-        priceAndMarketCapData.forEach(element => {
+        priceAndMarketCapData.forEach((element: any) => {
             let dateSplit: string[] = element.date.toString().split("-");
             dateSplit = [dateSplit[0], dateSplit[1], dateSplit[2]];
             let correctedDate: string = dateSplit.join("-");
@@ -1822,7 +1821,7 @@ export default class TezosSet {
 
     //processing methods
     processIntermediaryTransactions(): void {
-        let intermediaryTransactions: Array<{target: {address: string}, sender: {address: string, alias: string}, amount: number, timestamp: string}> = this.rawWalletTransactions.filter(transaction => {
+        let intermediaryTransactions: Array<{target: {address: string}, sender: {address: string, alias: string}, amount: number, timestamp: string}> = this.rawWalletTransactions.filter((transaction: any) => {
             (transaction?.sender?.alias === "Melange Payouts")
     
         });
@@ -1844,7 +1843,7 @@ export default class TezosSet {
          // map cycles to reward amounts
          //expand record for every type and re make the record at the end for by day /cycle
         let rewards: Record<number, number> = {};
-        this.totalOperations.forEach(array => {
+        this.totalOperations.forEach((array: any[]) => {
             array.forEach(operation => {
                 if (operation.cycle === undefined){
                     console.log("No payout data found in a response");
@@ -2041,7 +2040,7 @@ export default class TezosSet {
                        
                 }}
     
-                this.rewardsByDay = this.rewardsByCycle.map(value => value)
+                this.rewardsByDay = this.rewardsByCycle.map((value: any) => value)
                 this.noRewards = false
             }
             
@@ -2111,9 +2110,9 @@ export default class TezosSet {
         // 4. getNetTransactions: retrieve the transactions that this wallet was a part of that exclude reward transactions
         // + Melange Payouts. add a rewardByDay to the rewardsByDay list   
 
-        this.unaccountedNetTransactions = this.rawWalletTransactions.filter(transaction => {
+        this.unaccountedNetTransactions = this.rawWalletTransactions.filter((transaction: any) => {
             return (!(this.bakerAddresses.has(transaction?.sender?.address) || this.bakerAddresses.has(transaction?.target?.address)))
-        }).map(transaction => {
+        }).map((transaction: any) => {
             let transactionDate: string = new Date(transaction.timestamp).toISOString().slice(0,10);
             let adjustedAmount: number = transaction.amount / REWARDADJUSTMENTDENOMINATOR;
             let amount: TransactionsByDay = {date: transactionDate, amount: adjustedAmount};
