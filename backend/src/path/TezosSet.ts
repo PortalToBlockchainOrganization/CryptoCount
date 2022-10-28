@@ -710,10 +710,10 @@ export default class TezosSet {
         //let quantity: number = 30;
 
         //convert the fmv arrays into maps to get the reward value by date
-        let unrealizedNativeRewardsMap = Object.assign({}, ...this.unrealizedNativeRewards.map((x) => ({[x.date]: x.rewardAmount})));
-        let unrealizedNativeFMVRewardsMap = Object.assign({}, ...this.unrealizedNativeFMVRewards.map((x) => ({[x.date]: x.rewardAmount})));
-        let unrealizedNativeMarketDilutionRewardsMap = Object.assign({}, ...this.unrealizedNativeMarketDilutionRewards.map((x) => ({[x.date]: x.rewardAmount})));
-        let unrealizedNativeSupplyDepletionRewardsMap = Object.assign({}, ...this.unrealizedNativeSupplyDepletionRewards.map((x) => ({[x.date]: x.rewardAmount})));
+        let unrealizedNativeRewardsMap = Object.assign({}, ...this.unrealizedNativeRewards.map((x: any) => ({[x.date]: x.rewardAmount})));
+        let unrealizedNativeFMVRewardsMap = Object.assign({}, ...this.unrealizedNativeFMVRewards.map((x: any) => ({[x.date]: x.rewardAmount})));
+        let unrealizedNativeMarketDilutionRewardsMap = Object.assign({}, ...this.unrealizedNativeMarketDilutionRewards.map((x: any) => ({[x.date]: x.rewardAmount})));
+        let unrealizedNativeSupplyDepletionRewardsMap = Object.assign({}, ...this.unrealizedNativeSupplyDepletionRewards.map((x: any) => ({[x.date]: x.rewardAmount})));
 
         // console.log('unrealizedNativeFMVrewardMAp')
         // console.log(unrealizedNativeFMVRewardsMap)
@@ -953,11 +953,11 @@ export default class TezosSet {
     //for a change 
     let lastValue: any = 0
     let ratioBank: any = []
-    let filtereredPriceByDay: Array<DilutionByDay> = this.priceByDay.filter(prices => {
+    let filtereredPriceByDay: Array<DilutionByDay> = this.priceByDay.filter((prices: any) => {
         return prices
     })
     let dictionaryPriceByDay = Object.assign({}, ...filtereredPriceByDay.map((x) => ({[x.date]: x.amount})));
-    this.investmentsScaledBVByDomain.forEach(value => {
+    this.investmentsScaledBVByDomain.forEach((value: any) => {
         if(lastValue!== 0){
             let difference = value.scaledBookValue - lastValue
             let price = dictionaryPriceByDay[value.startDate]
@@ -973,7 +973,7 @@ export default class TezosSet {
     let scaledValsWithPrice: any = 0
     let scaledVals: any = 0
     console.log(ratioBank)
-    ratioBank.forEach(value => {
+    ratioBank.forEach((value: any) => {
         scaledValsWithPrice = value.difference * value.price
         scaledVals = value.difference
         //agg up to this change
@@ -1006,31 +1006,31 @@ export default class TezosSet {
         let basisCost: any = 0;
         let basisDate: any = ""
         let prevTopObj: any = {}
-        let unrealizedNativeMockup = []
-        let unrealizedFMVMockup = []
-        let unrealizedMarketMockup = []
-        let unrealizedSupplyMockup = []
+        let unrealizedNativeMockup: { date: any; rewardAmount: any; cycle: any; basisCost: any; }[] = []
+        let unrealizedFMVMockup: { date: any; rewardAmount: any; cycle: any; basisCost: any; }[] = []
+        let unrealizedMarketMockup: { date: any; rewardAmount: any; cycle: any; basisCost: any; }[] = []
+        let unrealizedSupplyMockup: { date: any; rewardAmount: any; cycle: any; basisCost: any; }[] = []
         //let mockupArray: any = []
         //shit is getting fucked at the end of this iteration at the first values
-        this.investmentBasisCostArray.slice().reverse().forEach(value =>{
+        this.investmentBasisCostArray.slice().reverse().forEach((value: any) =>{
             basisCost = value.cost
             basisDate = value.date
-            this.unrealizedNativeRewards.map((value) => {
+            this.unrealizedNativeRewards.map((value: any) => {
                 if(value.date >= basisDate && value.date < prevTopObj.date){
                     unrealizedNativeMockup.push({date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: basisCost})
                 }
             })
-            this.unrealizedNativeFMVRewards.map((value) => {
+            this.unrealizedNativeFMVRewards.map((value: any) => {
                 if(value.date >= basisDate && value.date < prevTopObj.date){
                     unrealizedFMVMockup.push({date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: basisCost})
                 }
             })
-            this.unrealizedNativeMarketDilutionRewards.map((value) => {
+            this.unrealizedNativeMarketDilutionRewards.map((value: any) => {
                 if(value.date >= basisDate && value.date < prevTopObj.date){
                     unrealizedMarketMockup.push({date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: basisCost})
                 }
             })
-            this.unrealizedNativeSupplyDepletionRewards.map((value) => {
+            this.unrealizedNativeSupplyDepletionRewards.map((value: any) => {
                 if(value.date >= basisDate && value.date < prevTopObj.date){
                     unrealizedSupplyMockup.push({date: value.date, rewardAmount: value.rewardAmount, cycle: value.cycle, basisCost: basisCost})
                 }
@@ -1081,7 +1081,7 @@ export default class TezosSet {
         //console.log(this.pricesAndMarketCapsByDay['2022-09-20'].price)
         //console.log(this.rewardsByCycle)
         //console.log(this.rewardsByCycle)
-        return this.rewardsByCycle.map(reward => {
+        return this.rewardsByCycle.map((reward: any) => {
              
              //console.log(reward.date)
             //console.log(this.pricesAndMarketCapsByDay)
@@ -1123,8 +1123,8 @@ export default class TezosSet {
     console.log(this.firstRewardDate)
     //console.log(scaledBVByDomain)
 
-    let nativeMarketDilutionByDay: Array<DilutionByDay>
-    let filteredMarketByDay: Array<DilutionByDay> = this.marketByDay.filter(markets => {
+    let nativeMarketDilutionByDay: any
+    let filteredMarketByDay: Array<DilutionByDay> = this.marketByDay.filter((markets: any) => {
         // if(new Date(this.firstRewardDate) < new Date("2018-07-03")){
         //     return markets
         // }
@@ -1132,7 +1132,7 @@ export default class TezosSet {
     }); 
     //console.log(filteredMarketByDay)
 
-    let filtereredPriceByDay: Array<DilutionByDay> = this.priceByDay.filter(prices => {
+    let filtereredPriceByDay: Array<DilutionByDay> = this.priceByDay.filter((prices: any) => {
         return prices.date >= this.firstRewardDate
     })
 
@@ -1171,7 +1171,7 @@ export default class TezosSet {
 
 
     //filter for existing dilution 
-    nativeFilteredMarketDilutionByDay = nativeMarketDilutionByDay.map(element => {
+    nativeFilteredMarketDilutionByDay = nativeMarketDilutionByDay.map((element: any) => {
         if(element.amount === null){
             return {date: element.date, amount: 0}
         }
@@ -1185,14 +1185,16 @@ export default class TezosSet {
 
    // writeFile("marketDilutionDailyFilt.json", JSON.stringify(nativeFilteredMarketDilutionByDay, null, 4), async function(err) {console.log('the')})
  
-    let mappedFMV: Map<number, RewardsByDay> = new Map();
-    this.nativeRewardsFMVByCycle.forEach(fmvReward=> {
+    //let mappedFMV: Map<number, RewardsByDay> = new Map();
+    let mappedFMV= {} as {[key:number]:any};
+    this.nativeRewardsFMVByCycle.forEach((fmvReward: any)=> {
         mappedFMV[fmvReward.cycle] = fmvReward.rewardAmount;
     });
 
 
-    let mappedCyclesToFirstCycleDate: Map<number, string> = new Map();
-    this.cyclesMappedToDays.forEach((key,value) => {
+    //let mappedCyclesToFirstCycleDate: Map<number, string> = new Map();
+    let mappedCyclesToFirstCycleDate= {} as {[key:string]:number};
+    this.cyclesMappedToDays.forEach((key: any,value: any) => {
         mappedCyclesToFirstCycleDate[value] = key;
     })
 
@@ -1336,9 +1338,10 @@ export default class TezosSet {
 
     async calculateNativeSupplyDepletionRewards(scaledBVByDomain: Array<BVbyDomain>): Promise<void> {
         // do this in some earlier method
-        this.supplyByDay = (await collections.tezosSupply.find().sort( { dateString: 1 } ).toArray()) as CurrencySupplyAndDate[];
+        this.supplyByDay = (await collections.tezosSupply?.find().sort({ dateString: 1 }).toArray()) as unknown as CurrencySupplyAndDate[];
         // expand date ranges of bvinvestments to a mapping of single dates to bv values
-        let mappedBV: Map<string, number> = new Map(); 
+        //let mappedBV: Map<string, number> = new Map(); 
+        let mappedBV= {} as {[key:string]:number};
         
         scaledBVByDomain.forEach(bvDomain => {
             // iterate over the date range (inclusive)
@@ -1359,7 +1362,7 @@ export default class TezosSet {
         // find the scaledbv that represents the range the date [i] is in and mulitply that scaledbv value to the value above
         // ex: end up with a day associated with that value
         let nativeSupplyDepletionByDay: Array<DepletionByDay> 
-        let filteredSupplyByDay: Array<CurrencySupplyAndDate> = this.supplyByDay.filter(supply => {
+        let filteredSupplyByDay: Array<CurrencySupplyAndDate> = this.supplyByDay.filter((supply: any) => {
             return supply.dateString >= this.firstRewardDate
         }
         ); 
@@ -1381,13 +1384,15 @@ export default class TezosSet {
         //console.log(nativeSupplyDepletionByDay)
 
 
-        let mappedFMV: Map<number, RewardsByDay> = new Map();
-        this.nativeRewardsFMVByCycle.forEach(fmvReward=> {
+        //let mappedFMV: Map<number, RewardsByDay> = new Map();
+        let mappedFMV= {} as {[key:number]:any};
+        this.nativeRewardsFMVByCycle.forEach((fmvReward: any)=> {
             mappedFMV[fmvReward.cycle] = fmvReward.rewardAmount;
         });
 
-        let mappedCyclesToFirstCycleDate: Map<number, string> = new Map();
-        this.cyclesMappedToDays.forEach((key,value) => {
+        //let mappedCyclesToFirstCycleDate: Map<number, string> = new Map();
+        let mappedCyclesToFirstCycleDate= {} as {[key:string]:number};
+        this.cyclesMappedToDays.forEach((key: any,value:any) => {
             mappedCyclesToFirstCycleDate[value] = key;
         })
 
@@ -1621,15 +1626,15 @@ export default class TezosSet {
 
     async retrieveCyclesAndDates(): Promise<void> {
         // 2. retrieveCyclesAndDates: retrieve the cycle data we have in our database and store it // get mapping of cycles to dates
-        this.cyclesByDay = (await collections.cycleAndDate.find().sort( { dateString: 1 } ).toArray()) as CycleAndDate[];
-        this.cyclesByDay.forEach(cycleByDay => (this.cyclesMappedToDays.set(cycleByDay.dateString, cycleByDay.cycleNumber)));
+        this.cyclesByDay = (await collections.cycleAndDate?.find().sort({ dateString: 1 }).toArray()) as unknown as CycleAndDate[];
+        this.cyclesByDay.forEach((cycleByDay: any) => (this.cyclesMappedToDays.set(cycleByDay.dateString, cycleByDay.cycleNumber)));
         return
     }
 
     async retrieveBakersPayouts(): Promise<void> {
         // put together all baker reward request urls and call api to get payoutArrays
         // NOTE: requests are chunked in groups of 16 to prevent rate limiting issues
-        let completeRewardsRequests: Array<string> = this.bakerCycles.map(bakerCycle => {return bakerCycle.rewardsRequests}).flat();
+        let completeRewardsRequests: Array<string> = this.bakerCycles.map((bakerCycle: any) => {return bakerCycle.rewardsRequests}).flat();
         let j, temporary, chunk: number = BAKINGBADBATCHSIZE;
         let responses: Array<AxiosResponse> = [];
 
@@ -1650,7 +1655,7 @@ export default class TezosSet {
                 console.log("No payout data found in a response");
             }
             else{
-                response.data.payouts.forEach(payout => {
+                response.data.payouts.forEach((payout: any) => {
 
                     if(payout.address === this.walletAddress){
 
@@ -1668,7 +1673,7 @@ export default class TezosSet {
                 })
             }
         });
-        this.rewardsByDay = this.cyclesByDay.filter(cycleAndDateDoc => cycleAndDateDoc.cycleNumber in rewards).map(cycleAndDateDoc => {
+        this.rewardsByDay = this.cyclesByDay.filter((cycleAndDateDoc: any) => cycleAndDateDoc.cycleNumber in rewards).map((cycleAndDateDoc: any) => {
             return {date: cycleAndDateDoc.dateString, rewardAmount: rewards[cycleAndDateDoc.cycleNumber], cycle: cycleAndDateDoc.cycleNumber};
         });
         return

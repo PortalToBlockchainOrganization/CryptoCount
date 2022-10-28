@@ -16,8 +16,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //import {AnalysisObject} from "../AnalysisObject";
 const axios_1 = __importDefault(require("axios"));
 const database_service_1 = require("../documentInterfaces/database.service");
-//import cycle from "../../../model/cycle.js";
-const fs_1 = require("fs");
 // tezos specific constants
 const REWARDADJUSTMENTDENOMINATOR = 1000000;
 const BAKINGBADBATCHSIZE = 16;
@@ -205,15 +203,13 @@ class TezosSet {
     //init function for save state
     initSave(object) {
         return __awaiter(this, void 0, void 0, function* () {
-            (0, fs_1.writeFile)("bbbeBoob.json", JSON.stringify(object, null, 4), function (err) {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    console.log("JSON saved to " + "test.json");
-                    console.log(ts);
-                }
-            });
+            // writeFile("bbbeBoob.json", JSON.stringify(object, null, 4), function(err) {
+            //     if(err) {
+            //       console.log(err);
+            //     } else {
+            //       console.log("JSON saved to " + "test.json");
+            //     console.log(ts)
+            // }})
             this.walletAddress = object.walletAddress;
             this.fiat = object.fiat;
             this.consensusRole = object.consensusRole;
@@ -273,15 +269,13 @@ class TezosSet {
             this.investmentBasisCostArray = object.investmentBasisCostArray;
             this.isCustodial = object.isCustodial;
             this.investmentsScaledBVByDomain = object.investmentsScaledBVByDomain;
-            (0, fs_1.writeFile)("abbeBoob.json", JSON.stringify(object, null, 4), function (err) {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    console.log("JSON saved to " + "test.json");
-                    console.log(ts);
-                }
-            });
+            // writeFile("abbeBoob.json", JSON.stringify(object, null, 4), function(err) {
+            //     if(err) {
+            //       console.log(err);
+            //     } else {
+            //       console.log("JSON saved to " + "test.json");
+            //     console.log(ts)
+            // }})
         });
     }
     combineUpdate(object, objectUpdated) {
@@ -404,29 +398,24 @@ class TezosSet {
     realizeProcess(quantity, object) {
         return __awaiter(this, void 0, void 0, function* () {
             //object is mutated after one save and while in the save route
-            this.initRealizing(object).then(x => {
-                (0, fs_1.writeFile)("yurtesticl.json", JSON.stringify(this, null, 4), function (err) {
-                    if (err) {
-                        console.log(err);
-                    }
-                    else {
-                        console.log("JSON saved to " + "test.json");
-                        console.log(ts);
-                    }
-                });
-            })
-                .then(() => { this.realizeReward(quantity); })
-                .then(x => {
-                (0, fs_1.writeFile)("testicl.json", JSON.stringify(this, null, 4), function (err) {
-                    if (err) {
-                        console.log(err);
-                    }
-                    else {
-                        console.log("JSON saved to " + "test.json");
-                        console.log(ts);
-                    }
-                });
-            }).then(() => {
+            this.initRealizing(object); //.then(x => {writeFile("yurtesticl.json", JSON.stringify(this, null, 4), function(err) {
+            //     if(err) {
+            //       console.log(err);
+            //     } else {
+            //       console.log("JSON saved to " + "test.json");
+            //     console.log(ts)
+            //     }
+            // })})
+            this.realizeReward(quantity)
+                // .then(x => {writeFile("testicl.json", JSON.stringify(this, null, 4), function(err) {
+                //     if(err) {
+                //       console.log(err);
+                //     } else {
+                //       console.log("JSON saved to " + "test.json");
+                //     console.log(ts)
+                //     }
+                // })})
+                .then(() => {
                 this.aggregates();
             }).then(() => {
                 this.getRealizingAssetDomain();
@@ -438,15 +427,13 @@ class TezosSet {
     saveProcess(object) {
         return __awaiter(this, void 0, void 0, function* () {
             this.initSave(object);
-            (0, fs_1.writeFile)("boob.json", JSON.stringify(this, null, 4), function (err) {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    console.log("JSON saved to " + "test.json");
-                    console.log(ts);
-                }
-            });
+            // writeFile("boob.json", JSON.stringify(this, null, 4), function(err) {
+            //     if(err) {
+            //       console.log(err);
+            //     } else {
+            //       console.log("JSON saved to " + "test.json");
+            //     console.log(ts)
+            // }})
             this.saveRealization();
             this.aggregates();
             // await this.pointOfSaleCosts()
@@ -754,11 +741,11 @@ class TezosSet {
             //for a change 
             let lastValue = 0;
             let ratioBank = [];
-            let filtereredPriceByDay = this.priceByDay.filter(prices => {
+            let filtereredPriceByDay = this.priceByDay.filter((prices) => {
                 return prices;
             });
             let dictionaryPriceByDay = Object.assign({}, ...filtereredPriceByDay.map((x) => ({ [x.date]: x.amount })));
-            this.investmentsScaledBVByDomain.forEach(value => {
+            this.investmentsScaledBVByDomain.forEach((value) => {
                 if (lastValue !== 0) {
                     let difference = value.scaledBookValue - lastValue;
                     let price = dictionaryPriceByDay[value.startDate];
@@ -774,7 +761,7 @@ class TezosSet {
             let scaledValsWithPrice = 0;
             let scaledVals = 0;
             console.log(ratioBank);
-            ratioBank.forEach(value => {
+            ratioBank.forEach((value) => {
                 scaledValsWithPrice = value.difference * value.price;
                 scaledVals = value.difference;
                 //agg up to this change
@@ -955,9 +942,7 @@ class TezosSet {
                     return element;
                 }
             });
-            (0, fs_1.writeFile)("marketDilutionDailyFilt.json", JSON.stringify(nativeFilteredMarketDilutionByDay, null, 4), function (err) {
-                return __awaiter(this, void 0, void 0, function* () { console.log('the'); });
-            });
+            // writeFile("marketDilutionDailyFilt.json", JSON.stringify(nativeFilteredMarketDilutionByDay, null, 4), async function(err) {console.log('the')})
             let mappedFMV = new Map();
             this.nativeRewardsFMVByCycle.forEach(fmvReward => {
                 mappedFMV[fmvReward.cycle] = fmvReward.rewardAmount;
@@ -1114,9 +1099,7 @@ class TezosSet {
                 return { date: supply.dateString, amount: (1 - ratio) * mappedBV[supply.dateString] };
             });
             console.log("nativeSupplyDepletionByDay");
-            (0, fs_1.writeFile)("supplyDepletionDaily.json", JSON.stringify(nativeSupplyDepletionByDay, null, 4), function (err) {
-                return __awaiter(this, void 0, void 0, function* () { console.log('the'); });
-            });
+            //  writeFile("supplyDepletionDaily.json", JSON.stringify(nativeSupplyDepletionByDay, null, 4), async function(err) {console.log('the')})
             //console.log(nativeSupplyDepletionByDay)
             let mappedFMV = new Map();
             this.nativeRewardsFMVByCycle.forEach(fmvReward => {
@@ -1327,10 +1310,11 @@ class TezosSet {
         });
     }
     retrieveCyclesAndDates() {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             // 2. retrieveCyclesAndDates: retrieve the cycle data we have in our database and store it // get mapping of cycles to dates
-            this.cyclesByDay = (yield database_service_1.collections.cycleAndDate.find().sort({ dateString: 1 }).toArray());
-            this.cyclesByDay.forEach(cycleByDay => (this.cyclesMappedToDays.set(cycleByDay.dateString, cycleByDay.cycleNumber)));
+            this.cyclesByDay = (yield ((_a = database_service_1.collections.cycleAndDate) === null || _a === void 0 ? void 0 : _a.find().sort({ dateString: 1 }).toArray()));
+            this.cyclesByDay.forEach((cycleByDay) => (this.cyclesMappedToDays.set(cycleByDay.dateString, cycleByDay.cycleNumber)));
             return;
         });
     }
@@ -1338,7 +1322,7 @@ class TezosSet {
         return __awaiter(this, void 0, void 0, function* () {
             // put together all baker reward request urls and call api to get payoutArrays
             // NOTE: requests are chunked in groups of 16 to prevent rate limiting issues
-            let completeRewardsRequests = this.bakerCycles.map(bakerCycle => { return bakerCycle.rewardsRequests; }).flat();
+            let completeRewardsRequests = this.bakerCycles.map((bakerCycle) => { return bakerCycle.rewardsRequests; }).flat();
             let j, temporary, chunk = BAKINGBADBATCHSIZE;
             let responses = [];
             //need 400 handling for requests that any request that bounces
@@ -1360,7 +1344,7 @@ class TezosSet {
                     console.log("No payout data found in a response");
                 }
                 else {
-                    response.data.payouts.forEach(payout => {
+                    response.data.payouts.forEach((payout) => {
                         if (payout.address === this.walletAddress) {
                             let amount = payout["amount"];
                             if (amount < UNSCALEDAMOUNTTHRESHOLD && amount > 0) {
@@ -1376,7 +1360,7 @@ class TezosSet {
                     });
                 }
             });
-            this.rewardsByDay = this.cyclesByDay.filter(cycleAndDateDoc => cycleAndDateDoc.cycleNumber in rewards).map(cycleAndDateDoc => {
+            this.rewardsByDay = this.cyclesByDay.filter((cycleAndDateDoc) => cycleAndDateDoc.cycleNumber in rewards).map((cycleAndDateDoc) => {
                 return { date: cycleAndDateDoc.dateString, rewardAmount: rewards[cycleAndDateDoc.cycleNumber], cycle: cycleAndDateDoc.cycleNumber };
             });
             return;
@@ -1420,7 +1404,12 @@ class TezosSet {
                 yield this.retrieveBakersPayouts();
                 this.getNetTransactions();
             }
-            this.firstRewardDate = this.rewardsByDay[0].date;
+            if (this.rewardsByDay.length < 1) {
+                console.log('no rewards');
+            }
+            else {
+                this.firstRewardDate = this.rewardsByDay[0].date;
+            }
             this.filterPayouts();
         });
     }
@@ -1735,8 +1724,10 @@ class TezosSet {
             }
             currentItem = reward;
         }
-        if (this.rewardsByDay[0].date === currentItem.date) {
-            this.rewardsByCycle.push(currentItem);
+        if (this.rewardsByDay.length > 0) {
+            if (this.rewardsByDay[0].date === currentItem.date) {
+                this.rewardsByCycle.push(currentItem);
+            }
         }
         return;
     }
