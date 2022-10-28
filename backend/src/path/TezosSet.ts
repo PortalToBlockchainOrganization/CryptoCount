@@ -356,15 +356,15 @@ export default class TezosSet {
 
     //init function for save state
     async initSave(object: any): Promise<any>{
-        writeFile("bbbeBoob.json", JSON.stringify(object, null, 4), function(err) {
-            if(err) {
-              console.log(err);
-            } else {
-              console.log("JSON saved to " + "test.json");
+        // writeFile("bbbeBoob.json", JSON.stringify(object, null, 4), function(err) {
+        //     if(err) {
+        //       console.log(err);
+        //     } else {
+        //       console.log("JSON saved to " + "test.json");
     
-            console.log(ts)
+        //     console.log(ts)
   
-        }})
+        // }})
         this.walletAddress = object.walletAddress
         this.fiat = object.fiat
         this.consensusRole = object.consensusRole
@@ -425,15 +425,15 @@ export default class TezosSet {
         this.isCustodial = object.isCustodial
         this.investmentsScaledBVByDomain = object.investmentsScaledBVByDomain
 
-        writeFile("abbeBoob.json", JSON.stringify(object, null, 4), function(err) {
-            if(err) {
-              console.log(err);
-            } else {
-              console.log("JSON saved to " + "test.json");
+        // writeFile("abbeBoob.json", JSON.stringify(object, null, 4), function(err) {
+        //     if(err) {
+        //       console.log(err);
+        //     } else {
+        //       console.log("JSON saved to " + "test.json");
     
-            console.log(ts)
+        //     console.log(ts)
   
-        }})
+        // }})
 
     }
 
@@ -572,27 +572,28 @@ export default class TezosSet {
 
     async realizeProcess(quantity: number, object: any): Promise<any>{
         //object is mutated after one save and while in the save route
-        this.initRealizing(object).then(x => {writeFile("yurtesticl.json", JSON.stringify(this, null, 4), function(err) {
-            if(err) {
-              console.log(err);
-            } else {
-              console.log("JSON saved to " + "test.json");
+        this.initRealizing(object) //.then(x => {writeFile("yurtesticl.json", JSON.stringify(this, null, 4), function(err) {
+        //     if(err) {
+        //       console.log(err);
+        //     } else {
+        //       console.log("JSON saved to " + "test.json");
     
-            console.log(ts)
+        //     console.log(ts)
   
-            }
-        })})
-        .then(()=>{this.realizeReward(quantity)})
-        .then(x => {writeFile("testicl.json", JSON.stringify(this, null, 4), function(err) {
-            if(err) {
-              console.log(err);
-            } else {
-              console.log("JSON saved to " + "test.json");
+        //     }
+        // })})
+        this.realizeReward(quantity)
+        // .then(x => {writeFile("testicl.json", JSON.stringify(this, null, 4), function(err) {
+        //     if(err) {
+        //       console.log(err);
+        //     } else {
+        //       console.log("JSON saved to " + "test.json");
     
-            console.log(ts)
+        //     console.log(ts)
   
-            }
-        })}).then(()=>{
+        //     }
+        // })})
+        .then(()=>{
             this.aggregates()
         }).then(()=>{
             this.getRealizingAssetDomain()
@@ -607,15 +608,15 @@ export default class TezosSet {
     async saveProcess(object: any): Promise<any>{
    
         this.initSave(object)
-        writeFile("boob.json", JSON.stringify(this, null, 4), function(err) {
-            if(err) {
-              console.log(err);
-            } else {
-              console.log("JSON saved to " + "test.json");
+        // writeFile("boob.json", JSON.stringify(this, null, 4), function(err) {
+        //     if(err) {
+        //       console.log(err);
+        //     } else {
+        //       console.log("JSON saved to " + "test.json");
     
-            console.log(ts)
+        //     console.log(ts)
   
-        }})
+        // }})
         this.saveRealization()
         this.aggregates()
         // await this.pointOfSaleCosts()
@@ -1182,7 +1183,7 @@ export default class TezosSet {
         }
     })
 
-    writeFile("marketDilutionDailyFilt.json", JSON.stringify(nativeFilteredMarketDilutionByDay, null, 4), async function(err) {console.log('the')})
+   // writeFile("marketDilutionDailyFilt.json", JSON.stringify(nativeFilteredMarketDilutionByDay, null, 4), async function(err) {console.log('the')})
  
     let mappedFMV: Map<number, RewardsByDay> = new Map();
     this.nativeRewardsFMVByCycle.forEach(fmvReward=> {
@@ -1376,7 +1377,7 @@ export default class TezosSet {
         });
         console.log("nativeSupplyDepletionByDay")
 
-        writeFile("supplyDepletionDaily.json", JSON.stringify(nativeSupplyDepletionByDay, null, 4), async function(err) {console.log('the')})
+      //  writeFile("supplyDepletionDaily.json", JSON.stringify(nativeSupplyDepletionByDay, null, 4), async function(err) {console.log('the')})
         //console.log(nativeSupplyDepletionByDay)
 
 
@@ -1708,7 +1709,10 @@ export default class TezosSet {
             await this.retrieveBakersPayouts();
             this.getNetTransactions();
         }
-        this.firstRewardDate = this.rewardsByDay[0].date;
+        if(this.rewardsByDay.length < 1){
+            console.log('no rewards')
+        }
+        else{this.firstRewardDate = this.rewardsByDay[0].date;}
         this.filterPayouts();
 
     }
@@ -2051,9 +2055,12 @@ export default class TezosSet {
             }
             currentItem = reward;
         }
-        if(this.rewardsByDay[0].date===currentItem.date){
-            this.rewardsByCycle.push(currentItem);
+        if(this.rewardsByDay.length > 0){
+            if(this.rewardsByDay[0].date===currentItem.date){
+                this.rewardsByCycle.push(currentItem);
+            }
         }
+       
         return
     };
 

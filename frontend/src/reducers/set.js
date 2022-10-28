@@ -55,7 +55,7 @@ function set(state = {}, action) {
 				action.payload["pointOfSaleAggValue"];
 			tempSet["data"]["TezosPriceOnDateObjectGenerated"] =
 				action.payload["TezosPriceOnDateObjectGenerated"];
-				tempSet["data"]["fiat"] =
+				tempSet["data"]["publicfiat"] =
 				action.payload["publicfiat"];
 			tempSet["data"]["netDiffFMV"] =
 				action.payload["netDiffFMV"];
@@ -118,7 +118,7 @@ function set(state = {}, action) {
 				action.payload["pointOfSaleAggValue"];
 			tempSet2["data"]["TezosPriceOnDateObjectGenerated"] =
 				action.payload["TezosPriceOnDateObjectGenerated"];
-				tempSet2["data"]["fiat"] =
+				tempSet2["data"]["publicfiat"] =
 				action.payload["publicfiat"];
 			tempSet2["data"]["netDiffFMV"] =
 				action.payload["netDiffFMV"];

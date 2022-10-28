@@ -855,7 +855,7 @@ const Analysis = (props) => {
 							</div> */}
 
 						</div>
-						{set["data"]["realizingNativeRewards"].length > 1 ?(
+						{set["data"]["realizingNativeRewards"].length > 0 ?(
 							<div>
 								<div className={classes.the}>MORE ACTIONS:</div>
 								

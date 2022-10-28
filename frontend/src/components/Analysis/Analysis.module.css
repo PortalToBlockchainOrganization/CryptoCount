@@ -379,7 +379,7 @@
 	display: flex;
 	transition: all 0.1s ease-in-out;
 	font-family: "Louis George Café", sans-serif;
-	opacity: .5;
+	opacity: .8;
 }
 
 .helpIcon:hover {

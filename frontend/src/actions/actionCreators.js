@@ -301,12 +301,12 @@ export function noAuthRealizingSet(setId, quantity, cb) {
 }
 
 export function startSaveRealizing() {
-	return { type: "START_SAVE_REALIZE", payload: { isLoading: true } };
+	return { type: "CREATE_REALIZED_SET_STARTED"};
 }
 
 export function saveRealizing(setId, quantity, cb) {
 	return (dispatch) => {
-		dispatch(getRealizingSetStart);
+		dispatch(startSaveRealizing());
 		api.saveRealize(setId, quantity).then((res) => {
 			res.json().then((res) => {
 				dispatch({

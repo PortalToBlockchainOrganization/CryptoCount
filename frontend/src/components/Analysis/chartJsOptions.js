@@ -86,7 +86,7 @@ export const chartOptions = (set) => {
 			},
 			title: {
 				display: true,
-				text: " ".concat(" " + set?.data?.walletAddress + "    ","Native Tez Consensus Block Reward Accounting Entries"),
+				text: " ".concat("Native Block Reward Entries", "           ", "Address: " + set?.data?.walletAddress + "           ", "Consensus Role: " + set?.data?.consensusRole + "           ", "Fiat: " + set?.data?.publicfiat),
 				align: "start",
 				font: {
 					size: 15,
