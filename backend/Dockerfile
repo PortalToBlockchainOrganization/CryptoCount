@@ -6,7 +6,7 @@ RUN mkdir ./backend
 COPY . ./backend
 RUN cd ./backend npm install
 
-EXPOSE 3001
+EXPOSE "3001"
 
 
 #RUN npm run build

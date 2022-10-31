@@ -12,8 +12,8 @@ FROM nginx:alpine
 COPY --from=frontend /frontend/build /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx/nginx.conf /etc/nginx/conf.d
-EXPOSE 80
-EXPOSE 443/tcp
+EXPOSE "80"
+EXPOSE "443/tcp"
 
 # Containers run nginx with global directives and daemon off
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
