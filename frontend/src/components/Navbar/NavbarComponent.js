@@ -3,7 +3,7 @@ import { NavLink, Link } from "react-router-dom";
 import { Nav, Navbar } from "react-bootstrap";
 import classes from "./Navbar.module.css";
 import Menu from "../Menu/Menu";
-import ReactSwitch from "react-switch"
+//import ReactSwitch from "react-switch"
 import {createContext} from "react"
 
 
