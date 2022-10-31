@@ -25,8 +25,8 @@ passport.use(
         //options for google strat
         //calls back to the server
         callbackURL: //process.env.DEV_ENV === "LOCAL"
-                "http://localhost:3001/auth/google/redirect", //?
-               // : "https://cryptocount.co/auth/google/redirect",
+                //"http://localhost:3001/auth/google/redirect", //?
+                "https://cryptocount.co/api/auth/google/redirect",
         clientID: keys.google.clientID,           //keys.google.clientID,
         clientSecret:   keys.google.clientSecret //keys.google.clientSecret
     }, (accessToken, refreshToken, profile, done)=>{

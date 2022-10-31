@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 function transform(umbrella) {
     var generateModel = {
         objectId: umbrella.objectId,
-        publicfiat: umbrella.fiat,
+        fiat: umbrella.fiat,
         walletAddress: umbrella.walletAddress,
         bakerCycles: umbrella.bakerCycles,
         bakerAddresses: umbrella.bakerAddresses,

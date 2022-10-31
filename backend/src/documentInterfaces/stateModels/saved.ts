@@ -74,7 +74,7 @@ interface generateModel{
 export default function transform(umbrella: umbrella){
 
     var generateModel: generateModel = {
-        objectId: umbrella._id,
+        objectId: umbrella.objectId,
          fiat: umbrella.fiat,
          walletAddress: umbrella.walletAddress,
          bakerCycles: umbrella.bakerCycles, 

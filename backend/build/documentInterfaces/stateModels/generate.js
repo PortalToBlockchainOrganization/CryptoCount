@@ -6,7 +6,7 @@ function printLabel(labeledObj) {
 function transform(umbrella) {
     var generateModel = {
         objectId: umbrella.objectId,
-        publicfiat: umbrella.fiat,
+        fiat: umbrella.fiat,
         walletAddress: umbrella.walletAddress,
         bakerCycles: umbrella.bakerCycles,
         bakerAddresses: umbrella.bakerAddresses,

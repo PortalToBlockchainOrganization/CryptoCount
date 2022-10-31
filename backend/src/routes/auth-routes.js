@@ -54,7 +54,8 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res)=>{
     //can we post to the front end?
     //add req user in the query thingy of the localhost:300
     res.redirect(301, //process.env.DEV_ENV === "LOCAL"
-     `http://localhost:3000?${paramsString}`
+    `https://cryptocount.co?${paramsString}` 
+    //  `http://localhost:3000?${paramsString}`
     //:  `https://cryptocount.co?${paramsString}` 
     )
 })

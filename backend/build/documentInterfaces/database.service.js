@@ -34,7 +34,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.connectToDatabase = exports.collections = void 0;
 const mongoDB = __importStar(require("mongodb"));
-const MONGOURI = `mongodb+srv://admin:lelloliar9876@postax.a1vpe.mongodb.net/AnalysisDep?retryWrites=true&w=majority`;
+const keys = require('../keys');
+const MONGOURI = keys.dbURI;
 const server = "127.0.0.1:27017";
 const database = "AnalysisDep";
 const cyclesCollectionString = "cycles2";
