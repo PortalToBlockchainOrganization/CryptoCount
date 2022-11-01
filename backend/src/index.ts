@@ -8,28 +8,28 @@
  import express from "express";
  import cors from "cors";
  import helmet from "helmet";
- import TezosSet from "./path/TezosSet";
-import { writeFile } from "fs";
-import transformToUnrealized from "./documentInterfaces/stateModels/generate"
-import transformToRealizing from "./documentInterfaces/stateModels/realizing"
-import transformToSave from "./documentInterfaces/stateModels/saved"
-import populateUmbrella from "./documentInterfaces/umbrella/umbrella.statics"
-import {UmbrellaModel} from "./documentInterfaces/umbrella/umbrella.model"
-const testObjectRealize = require("./testObjectRealize.js")
-const testObjectSave = require("./testObjectSave.js")
-const testObjectUpdate = require("./testObjectUpdate.js")
+//  import TezosSet from "./path/TezosSet";
+// import { writeFile } from "fs";
+// import transformToUnrealized from "./documentInterfaces/stateModels/generate"
+// import transformToRealizing from "./documentInterfaces/stateModels/realizing"
+// import transformToSave from "./documentInterfaces/stateModels/saved"
+// import populateUmbrella from "./documentInterfaces/umbrella/umbrella.statics"
+// import {UmbrellaModel} from "./documentInterfaces/umbrella/umbrella.model"
+// const testObjectRealize = require("./testObjectRealize.js")
+// const testObjectSave = require("./testObjectSave.js")
+// const testObjectUpdate = require("./testObjectUpdate.js")
 const mongoose = require('mongoose')
 const passport = require('passport')
 //const keys = require('./config/keys')
 const authRoutes = require('./routes/auth-routes')
-const profileRoutes = require('./routes/profile-routes')
-const passportSetup = require('./config/passport-setup')
+//const profileRoutes = require('./routes/profile-routes')
+//const passportSetup = require('./config/passport-setup')
 const cookieSession = require('cookie-session')
 const tezosRoutes = require('./routes/tezos-routes')
-const historyRoutes = require('./routes/history-routes.ts')
-var Validator = require("./routes/Validator.js");
-var { Session, router } = require("./routes/Session.js");
-const { body, validationResult } = require('express-validator');
+const historyRoutes = require('./routes/history-routes')
+// var Validator = require("./routes/Validator.js");
+// var { Session, router } = require("./routes/Session.js");
+// const { body, validationResult } = require('express-validator');
 
 
 
@@ -121,7 +121,7 @@ app.use(passport.session())
 app.use('/auth', authRoutes);
 
 //realized history
-app.use('/profile', profileRoutes);
+//app.use('/profile', profileRoutes);
 
 app.use('/Tezos', tezosRoutes);
 app.use('/history', historyRoutes)

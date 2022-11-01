@@ -10,9 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const router = require('express').Router();
-const RealizeHistObj = require("../models/realizeObject");
+//const RealizeHistObj = require("../models/realizeObject")
 const umbrella_model_1 = require("../documentInterfaces/umbrella/umbrella.model");
-const User = require('../models/user-model');
+//const User = require('../models/user-model')
 // router.get('/', (req,res)=>{
 //     console.log(req.user)
 //     res.render('profile', {user: req.user});
@@ -39,14 +39,13 @@ router.post("/", function (req, res) {
                 if (docs == null) {
                     //grandfather objects
                     console.log('here');
-                    RealizeHistObj.find({ userid: user_id }, function (err, doc) {
-                        if (err) {
-                            console.log(err);
-                        }
-                        else {
-                            res.status(200).json(doc);
-                        }
-                    });
+                    // RealizeHistObj.find({ userid: user_id }, function (err: any, doc: any) {
+                    //             if (err) {
+                    //                 console.log(err)
+                    //             }else{
+                    //                 res.status(200).json(doc)
+                    //             }
+                    //         })
                 }
                 else {
                     res.status(200).json(docs);

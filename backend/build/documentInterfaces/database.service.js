@@ -31,11 +31,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.connectToDatabase = exports.collections = void 0;
 const mongoDB = __importStar(require("mongodb"));
-const keys = require('../keys');
-const MONGOURI = keys.dbURI;
+const keys_1 = __importDefault(require("../keys"));
+const MONGOURI = keys_1.default.mongodb.dbURI;
 const server = "127.0.0.1:27017";
 const database = "AnalysisDep";
 const cyclesCollectionString = "cycles2";

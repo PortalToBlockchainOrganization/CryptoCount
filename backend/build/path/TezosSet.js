@@ -98,8 +98,10 @@ class TezosSet {
             this.lastUpdated = new Date();
             this.realizingDomainStartDate = "";
             this.realizingDomainEndDate = "";
+            console.log('hyp1');
             yield (0, database_service_1.connectToDatabase)();
             // get data from apis + db
+            console.log('hyp2');
             //check for baker consensus Role
             if (this.consensusRole == "Baker") {
                 console.log("Baker processing");

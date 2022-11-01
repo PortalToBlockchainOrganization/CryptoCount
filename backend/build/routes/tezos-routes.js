@@ -19,9 +19,9 @@ const realizing_1 = __importDefault(require("../documentInterfaces/stateModels/r
 const saved_1 = __importDefault(require("../documentInterfaces/stateModels/saved"));
 const fs_1 = require("fs");
 const User = require('../models/user-model');
-const testObjectRealize = require("../testObjectRealize.js");
-const testObjectSave = require("../testObjectSave.js");
-const testObjectUpdate = require("../testObjectUpdate.js");
+// const testObjectRealize = require("../testObjectRealize.js")
+// const testObjectSave = require("../testObjectSave.js")
+// const testObjectUpdate = require("../testObjectUpdate.js")
 const router = require('express').Router();
 //creates db object
 router.post('/Generate/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {

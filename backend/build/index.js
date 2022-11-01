@@ -33,21 +33,25 @@ const dotenv = __importStar(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
-const testObjectRealize = require("./testObjectRealize.js");
-const testObjectSave = require("./testObjectSave.js");
-const testObjectUpdate = require("./testObjectUpdate.js");
+//  import TezosSet from "./path/TezosSet";
+// import { writeFile } from "fs";
+// import transformToUnrealized from "./documentInterfaces/stateModels/generate"
+// import transformToRealizing from "./documentInterfaces/stateModels/realizing"
+// import transformToSave from "./documentInterfaces/stateModels/saved"
+// import populateUmbrella from "./documentInterfaces/umbrella/umbrella.statics"
+// import {UmbrellaModel} from "./documentInterfaces/umbrella/umbrella.model"
+// const testObjectRealize = require("./testObjectRealize.js")
+// const testObjectSave = require("./testObjectSave.js")
+// const testObjectUpdate = require("./testObjectUpdate.js")
 const mongoose = require('mongoose');
 const passport = require('passport');
 //const keys = require('./config/keys')
 const authRoutes = require('./routes/auth-routes');
-const profileRoutes = require('./routes/profile-routes');
-const passportSetup = require('./config/passport-setup');
+//const profileRoutes = require('./routes/profile-routes')
+//const passportSetup = require('./config/passport-setup')
 const cookieSession = require('cookie-session');
 const tezosRoutes = require('./routes/tezos-routes');
-const historyRoutes = require('./routes/history-routes.ts');
-var Validator = require("./routes/Validator.js");
-var { Session, router } = require("./routes/Session.js");
-const { body, validationResult } = require('express-validator');
+const historyRoutes = require('./routes/history-routes');
 dotenv.config();
 /**
  * App Variables
@@ -106,7 +110,7 @@ app.use(passport.session());
 // //setup routes
 app.use('/auth', authRoutes);
 //realized history
-app.use('/profile', profileRoutes);
+//app.use('/profile', profileRoutes);
 app.use('/Tezos', tezosRoutes);
 app.use('/history', historyRoutes);
 // app.get('/cors', (req, res) => {

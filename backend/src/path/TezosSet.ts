@@ -243,9 +243,11 @@ export default class TezosSet {
         this.realizingDomainStartDate = ""
         this.realizingDomainEndDate = ""
             
-
+        console.log('hyp1')
         await connectToDatabase();
         // get data from apis + db
+        console.log('hyp2')
+
 
         //check for baker consensus Role
         if (this.consensusRole == "Baker"){

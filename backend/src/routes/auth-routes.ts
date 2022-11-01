@@ -1,11 +1,11 @@
 const router = require('express').Router();
 const passport = require('passport');
-const User = require('../models/user-model')
+import User from '../models/user-model'
 var async = require('async');
-var Tags = require('./validator.js').Tags;
+//var Tags = require('./validator.js').Tags;
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-var {Session} = require('./session.js');
+//var {Session} = require('./session.js');
 const { body, validationResult } = require('express-validator');
 
 
@@ -18,7 +18,7 @@ const { body, validationResult } = require('express-validator');
 // })
 
 //auth logout
-router.get('/logout', (req, res)=>{
+router.get('/logout', (req:any, res:any)=>{
     //handle with passport
     res.send("loggedout")
 })
@@ -31,7 +31,7 @@ router.get('/google', passport.authenticate('google', {
 
 //callback route for google to rediect to
 //passport attaches user information to req body
-router.get('/google/redirect', passport.authenticate('google'), (req, res)=>{
+router.get('/google/redirect', passport.authenticate('google'), (req:any, res:any)=>{
     //res.send('u r at call back uri' + req.user)
     console.log("wow")
     console.log(req.user)
@@ -60,7 +60,7 @@ router.get('/google/redirect', passport.authenticate('google'), (req, res)=>{
     )
 })
 
-router.post("/login", async (req, res) => {
+router.post("/login", async (req:any, res:any) => {
     console.log("woaj")
 
     try {
@@ -72,7 +72,7 @@ router.post("/login", async (req, res) => {
         if (cmp) {
           //   ..... further code to maintain authentication like jwt or sessions
           //console.log(user)
-          var ssn = new Session(user, res);
+          //var ssn = new Session(user, res);
         //   if(Object.keys(req.body.set) !== 0){
         //   ssn.realizing = req.body.set.data
 
@@ -96,7 +96,7 @@ router.post("/login", async (req, res) => {
   });
 
 
-router.post('/register', async (req, res)=>{
+router.post('/register', async (req:any, res:any)=>{
     console.log('in register')
     console.log(req.body.email)
     //var vld = req.validator; // Shorthands

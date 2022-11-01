@@ -10,9 +10,9 @@ const User = require('../models/user-model')
 
 
 
-const testObjectRealize = require("../testObjectRealize.js")
-const testObjectSave = require("../testObjectSave.js")
-const testObjectUpdate = require("../testObjectUpdate.js")
+// const testObjectRealize = require("../testObjectRealize.js")
+// const testObjectSave = require("../testObjectSave.js")
+// const testObjectUpdate = require("../testObjectUpdate.js")
 
 const router = require('express').Router()
 

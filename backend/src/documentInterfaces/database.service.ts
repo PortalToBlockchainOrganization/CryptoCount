@@ -1,10 +1,10 @@
 import * as mongoDB from "mongodb";
 import { ObjectId } from "mongodb";
 import CycleAndDate from "./CycleAndDate";
-const keys = require('../keys')
+import keys from '../keys'
 
 
-const MONGOURI = keys.dbURI
+const MONGOURI: any = keys.mongodb.dbURI
 const server = "127.0.0.1:27017";
 const database = "AnalysisDep";
 const cyclesCollectionString = "cycles2";
