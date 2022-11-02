@@ -2,16 +2,16 @@ const passport = require('passport')
 const GoogleStrategy = require('passport-google-oauth20')
 const { google } = require('../keys')
 
-const keys = require('../keys')
-const User = require('../models/user-model')
+import keys from '../keys'
+import User from '../models/user-model'
 
-passport.serializeUser((user, done)=>{
+passport.serializeUser((user:any, done:any)=>{
     done(null, user.id)
 })
 
-passport.deserializeUser((id, done)=>{
+passport.deserializeUser((id:any, done:any)=>{
     //find by id
-    User.findById(id).then((user)=>{
+    User.findById(id).then((user:any)=>{
         //console.log("deserial" + user)
         done(null, user)
     })
@@ -29,9 +29,9 @@ passport.use(
                 "https://cryptocount.co/api/auth/google/redirect",
         clientID: keys.google.clientID,           //keys.google.clientID,
         clientSecret:   keys.google.clientSecret //keys.google.clientSecret
-    }, (accessToken, refreshToken, profile, done)=>{
+    }, (accessToken:any, refreshToken:any, profile:any, done:any)=>{
         //check if user already exists
-        User.findOne({googleId: profile.id}).then((currentUser)=>{
+        User.findOne({googleId: profile.id}).then((currentUser:any)=>{
             if(currentUser){
                 //alreadyUser
                 console.log("user is"+currentUser)
@@ -42,7 +42,7 @@ passport.use(
                     username: profile.displayName,
                     googleId: profile.id,
                     email: profile.email
-                   }).save().then((newUser)=>{
+                   }).save().then((newUser:any)=>{
                         console.log('newuser created' + newUser)
                         done(null, newUser)
                    })
