@@ -18,7 +18,7 @@ const generate_1 = __importDefault(require("../documentInterfaces/stateModels/ge
 const realizing_1 = __importDefault(require("../documentInterfaces/stateModels/realizing"));
 const saved_1 = __importDefault(require("../documentInterfaces/stateModels/saved"));
 const fs_1 = require("fs");
-const User = require('../models/user-model');
+const user_model_1 = __importDefault(require("../models/user-model"));
 // const testObjectRealize = require("../testObjectRealize.js")
 // const testObjectSave = require("../testObjectSave.js")
 // const testObjectUpdate = require("../testObjectUpdate.js")
@@ -51,7 +51,7 @@ router.post('/Generate/', (req, res) => __awaiter(void 0, void 0, void 0, functi
                     //if signed in, put entities together
                     if (req.body.user_id) {
                         console.log('hi');
-                        yield User.find({ _id: req.body.user_id }).then((user) => __awaiter(this, void 0, void 0, function* () {
+                        yield user_model_1.default.find({ _id: req.body.user_id }).then((user) => __awaiter(this, void 0, void 0, function* () {
                             //check if the set id already exists in setIds array
                             console.log('tying to entity');
                             var id = model._id.toString();
@@ -60,7 +60,7 @@ router.post('/Generate/', (req, res) => __awaiter(void 0, void 0, void 0, functi
                             user[0].setIds.push(id);
                             console.log(user);
                             var user_id = req.body.user_id;
-                            yield User.updateOne({ _id: user_id }, { $set: user[0] }).clone();
+                            yield user_model_1.default.updateOne({ _id: user_id }, { $set: user[0] }).clone();
                             console.log("updated?");
                         }));
                     }
@@ -94,7 +94,7 @@ router.post('/Retrieve/', (req, res) => __awaiter(void 0, void 0, void 0, functi
                 if (req.body.user_id) {
                     console.log('hi');
                     //get the user
-                    yield User.find({ _id: req.body.user_id }).then((user) => __awaiter(this, void 0, void 0, function* () {
+                    yield user_model_1.default.find({ _id: req.body.user_id }).then((user) => __awaiter(this, void 0, void 0, function* () {
                         console.log(user[0].setIds.includes(req.body.setId));
                         //check if the set id already exists in setIds array
                         if (user[0].setIds.includes(req.body.setId)) {
@@ -108,7 +108,7 @@ router.post('/Retrieve/', (req, res) => __awaiter(void 0, void 0, void 0, functi
                         }
                         console.log(user);
                         var user_id = req.body.user_id;
-                        yield User.updateOne({ _id: user_id }, { $set: user[0] }).clone();
+                        yield user_model_1.default.updateOne({ _id: user_id }, { $set: user[0] }).clone();
                         console.log("updated?");
                     }));
                     //update umbrella with user id

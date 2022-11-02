@@ -6,7 +6,7 @@ import transformToRealizing from "../documentInterfaces/stateModels/realizing"
 import transformToSave from "../documentInterfaces/stateModels/saved"
 import populateUmbrella from "../documentInterfaces/umbrella/umbrella.statics"
 import { writeFile } from "fs";
-const User = require('../models/user-model')
+import User from '../models/user-model'
 
 
 
