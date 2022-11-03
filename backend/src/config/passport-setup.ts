@@ -1,4 +1,4 @@
-const passport = require('passport')
+import passport from 'passport'
 const GoogleStrategy = require('passport-google-oauth20')
 const { google } = require('../keys')
 
