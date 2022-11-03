@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
+require('../config/passport-setup')('passport');
 import User from '../models/user-model'
 var async = require('async');
 //var Tags = require('./validator.js').Tags;

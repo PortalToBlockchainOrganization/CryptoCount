@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const router = require('express').Router();
 const passport = require('passport');
+require('../config/passport-setup')('passport');
 const user_model_1 = __importDefault(require("../models/user-model"));
 var async = require('async');
 //var Tags = require('./validator.js').Tags;
