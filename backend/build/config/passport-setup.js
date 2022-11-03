@@ -3,15 +3,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const passport_1 = __importDefault(require("passport"));
+const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const { google } = require('../keys');
 const keys_1 = __importDefault(require("../keys"));
 const user_model_1 = __importDefault(require("../models/user-model"));
-passport_1.default.serializeUser((user, done) => {
+passport.serializeUser((user, done) => {
     done(null, user.id);
 });
-passport_1.default.deserializeUser((id, done) => {
+passport.deserializeUser((id, done) => {
     //find by id
     user_model_1.default.findById(id).then((user) => {
         //console.log("deserial" + user)
@@ -20,7 +20,7 @@ passport_1.default.deserializeUser((id, done) => {
 });
 console.log('keys');
 console.log(keys_1.default);
-passport_1.default.use(new GoogleStrategy({
+passport.use(new GoogleStrategy({
     //options for google strat
     //calls back to the server
     callbackURL: //process.env.DEV_ENV === "LOCAL"
