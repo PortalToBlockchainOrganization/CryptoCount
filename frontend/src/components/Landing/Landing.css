@@ -35,11 +35,12 @@ h4{
 	color: white;
 }
 .lp-container {
-	margin-top: 46px;
+	margin-top: 162px;
 	margin-bottom: 180px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	text-align: center;
 	align-items: center;
 	height: 100%;
 	max-height: 2000px;
@@ -130,6 +131,8 @@ h4{
 	font-family: "Louis George Café", sans-serif;
 	font-weight: 700;
 	color: #2e2e2e;
+	text-align: center;
+
 }
 
 #dark .logo-tagline {
@@ -234,7 +237,9 @@ p {
 
 .logo-tagline3 {
 	font-size: 1.5em;
-	font-family: 'Blanka-Regular';
+	font-family: "Louis George Café", sans-serif;
+
+	/* font-family: 'Blanka-Regular'; */
 	font-weight: 700;
 	color: #2e2e2e;
 	margin-top: 20px;
@@ -244,17 +249,23 @@ p {
 
 .logo-tagline4 {
 	font-size: 2.5em;
-	font-family: 'Blanka-Regular';
+	/* font-family: 'Blanka-Regular'; */
+	font-family: "Louis George Café", sans-serif;
+
 	font-weight: 700;
+	display: flex;
 	color: white;
 	margin-top: 90px;
 	flex-direction: column;
+	align-items: center !important;
 	margin-bottom: 15px;
+	text-align: center;
 }
 
 .logo-tagline5 {
 	font-size: 2.5em;
-	font-family: 'Blanka-Regular';
+	/* font-family: 'Blanka-Regular'; */
+	font-family: "Louis George Café", sans-serif;
 	font-weight: 700;
 	color: white;
 	margin-top: 90px;
@@ -270,6 +281,8 @@ p {
 	flex-direction: column;
 	margin-top: 50px;
 	margin-bottom: 15px;
+	text-align: center;
+
 }
 
 p {
@@ -367,6 +380,7 @@ p {
 	color: white;
 	margin-bottom: 10px;
 	margin-top: 0px;
+	align-items: center;
 }
 
 .button-continue:disabled {

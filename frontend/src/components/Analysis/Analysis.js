@@ -17,7 +17,7 @@ import CopyToClipboard from "react-copy-to-clipboard"
  * @returns
  */
 
-const loadingTexts = ["Reading or updating your data from the Tezos blockchain. Delegator data will load in about 10 seconds.", "Running multiple assessments for your assets", "Generating aggregated interface."]
+const loadingTexts = ["Reading or updating data from Tezos net. Delegator data will load in about 10 seconds.", "Running multiple assessments for assets", "Generating aggregated interface."]
 
 
 
@@ -348,6 +348,22 @@ const Analysis = (props) => {
 	return set !== null && set?.isLoading === false ? (
 		<div className={classes.AnalysisWrapper}>
 			<div className={classes.thetitle}> <a href="https://tezos.com"><img className={classes.logoAnalysis} src="./Tezos.png" alt="logo" /></a> x CryptoCount </div>
+			<div  className={classes.setTogglesXY}>
+							<div className={classes.wordGood}>
+								Staking Address</div>
+								<div className={classes.numberAlive3}>
+								{(set["data"]["walletAddress"])}</div>
+							
+							<div className= {classes.wordGood}>
+								Consensus Role</div>
+								<div className={classes.numberAlive3}> {(set["data"]["consensusRole"])}
+							</div>
+							<div className={classes.wordGood}>
+								Fiat</div>
+								<div className={classes.numberAlive3}> {(set["data"]["fiat"])}
+							</div>
+
+							</div>
 			<div className={classes.Chart}>
 				<div className={classes.ChartWrapper}>
 					<Bar data={currentSet} options={options} className={classes.canvas} />
@@ -461,7 +477,7 @@ const Analysis = (props) => {
 
 					<div>
 							<div className={classes.space}>
-								<div className={classes.the}>View Accounting Set</div>
+								<div className={classes.the}>Toggle Chart Accounting Set</div>
 								<div
 									className={classes.help}
 									tooltip-data="View one of three accounting sets"
@@ -654,7 +670,7 @@ const Analysis = (props) => {
 					<div className={classes.setToggles2}>	
 
 					<div>	
-						<Button className={classes.the} onClick={handleRealizing} variant="danger">
+						<Button className={classes.the2} onClick={handleRealizing} variant="danger">
 								Generate Income
 							</Button>
 							
@@ -704,7 +720,7 @@ const Analysis = (props) => {
 						
 							<div
 								className={classes.help}
-								tooltip-data="A full breakdown of your realization."
+								tooltip-data="A full breakdown of realization."
 								>
 								<HelpOutlineRoundedIcon
 									className={classes.helpIcon} />
@@ -718,7 +734,7 @@ const Analysis = (props) => {
 						<div className={classes.the}>Point Of Sale Highlights</div>
 						<div
 							className={classes.help}
-							tooltip-data="The price of Tezos today, the value of your realization today, and the quantity of your realization."
+							tooltip-data="Price of Tezos today, value of realization today, and quantity of realization."
 							>
 							<HelpOutlineRoundedIcon
 								className={classes.helpIcon} />
@@ -805,7 +821,7 @@ const Analysis = (props) => {
 							
 <div  className={classes.setTogglesX}>
 							<div  className={classes.wordGood}>
-								Avg Asset Basis Investment Cost (Unrealized And Realizing): <div className={classes.numberAlive} style={{ fontSize: "1em",
+								Avg Basis Investment Cost Per Asset (All Entries): <div className={classes.numberAlive} style={{ fontSize: "1em",
 								}}>
 								{(Math.round((set["data"]["weightedAverageTotalDomainInvestmentCost"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{' '}{(set["data"]["fiat"])}
 									</div>
@@ -819,7 +835,7 @@ const Analysis = (props) => {
 							<div className={classes.the}>Asset Aggregation Period:</div>
 							<div
 								className={classes.help}
-								tooltip-data="The date domain (inclusive) of your realizing assets"
+								tooltip-data="The date domain (inclusive) of realizing assets"
 								>
 								<HelpOutlineRoundedIcon
 									className={classes.helpIcon} />
@@ -861,14 +877,14 @@ const Analysis = (props) => {
 								
 								<div
 									className={classes.help}
-									tooltip-data="Download a pdf statement with your full income breakdown and/or save the realization to the database."
+									tooltip-data="Download a pdf with full income breakdown and/or save the realization to the database."
 									>
 									<HelpOutlineRoundedIcon
 										className={classes.helpIcon} />
 									</div>
 
 								<div  className={classes.setToggles2}>
-								<div className={classes.the}><button className={classes.lastButtons} onClick={handleDownload}>Download Statement</button><button className={classes.lastButtons} onClick={handleSave}>Save</button> 
+								<div className={classes.the2}><button className={classes.lastButtons} onClick={handleDownload}>Download Statement</button><button className={classes.lastButtons} onClick={handleSave}>Save</button> 
 								
 								</div>
 
@@ -911,7 +927,7 @@ const Analysis = (props) => {
 									  ]}
 								<div
 									className={classes.help}
-									tooltip-data="This is the start of your income period"
+									tooltip-data="The start of income period"
 								>
 									<HelpOutlineRoundedIcon
 										className={classes.helpIcon}

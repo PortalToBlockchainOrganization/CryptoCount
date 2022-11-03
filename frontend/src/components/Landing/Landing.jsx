@@ -464,9 +464,9 @@ const Landing = (props) => {
 				{/* <div className='slideWrap'> */}
 				
 					<div className="name-one-liner2">
-						<h2 className="logo-tagline4">
+						<div className="logo-tagline4">
 							Interested in staking on Tezos? See your expected return below 
-						</h2>
+						</div>
 					</div>
 					
 					<SliderComponent></SliderComponent>

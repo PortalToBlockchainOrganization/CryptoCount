@@ -65,21 +65,23 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 				{
 					label: "Realized Rewards",
 					backgroundColor: "rgba(255, 99, 132, 0.9)",
-					borderRadius: 3,
+					borderRadius: .5,
 					barThickness: 4,
 					data: [],
 				},
 				{
 					label: "Realizing Rewards",
+					opactity: 1.5,
 					backgroundColor: "rgba(242, 120, 75, 0.9)",
-					borderRadius: 3,
+					borderRadius: .5,
 					barThickness: 4,
 					data: [],
+					
 				},
 				{
 					label: "Unrealized Rewards",
 					backgroundColor: "rgba(191, 191, 191, 0.9)",
-					borderRadius: 3,
+					borderRadius: .5,
 					barThickness: 4,
 					data: [],
 					color: "white",
@@ -219,7 +221,8 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 		console.log(data.datasets)
 		// data.datasets.data.map((data)=>{
 		// 	if(data === 0 )
-			
+		console.log('chartdaat')
+			console.log(data)
 		// 	return data
 		// })
 		return data;

@@ -37,6 +37,13 @@ export const chartOptions = (set) => {
 
 	return {
 		responsive: true,
+		
+		legend: {
+			labels: {
+				fontColor: "blue",
+				fontSize: 18
+			}
+		},
 		scales: {
 			yAxes: {
 				grid: {
@@ -56,6 +63,9 @@ export const chartOptions = (set) => {
 				ticks: {
 					precision: 0,
 					beginAtZero: true,
+					callback: function (value, index, values) {
+						return value + " " + set?.data?.fiat;
+					}
 				},
 			},
 			xAxes: {
@@ -77,19 +87,22 @@ export const chartOptions = (set) => {
 				},
 				ticks: {
 					beginAtZero: true,
+					
 				},
 			},
 		},
+		
 		plugins: {
 			legend: {
 				display: true,
 			},
 			title: {
 				display: true,
-				text: " ".concat("Native Block Reward Entries", "           ", "Address: " + set?.data?.walletAddress + "           ", "Consensus Role: " + set?.data?.consensusRole + "           ", "Fiat: " + set?.data?.fiat),
-				align: "start",
+				text: " ".concat("Native Block Rewards' Accounting Entries"),
+				align: "center",
 				font: {
-					size: 15,
+					size: 16,
+					
 				},
 				color: "white",
 				padding: {
@@ -118,19 +131,27 @@ export const chartOptions = (set) => {
 					beforeBody: function(tooltipItems){
 						console.log(tooltipItems)
 						try{
-							var it =  basisCosts[tooltipItems[0].dataIndex].toFixed(2);
+							var it =  basisCosts[tooltipItems[0].dataIndex].toFixed(2) + " " + set?.data?.fiat;
 						}catch(e){
 							console.log(e)
 						}
 						
-						var string = "Reward Basis Cost: "
+						var string = "Entry Basis Cost: "
 						if(it!==undefined){
-							string = "Reward Basis Cost: " + it
+							string = "Entry Basis Cost: " + it 
 						}
 						return string
 					},
+					label: function(tooltipItems) { 
+						console.log('fiat labeler')
+						console.log(tooltipItems)
+						//return tooltipItems
+						var value = tooltipItems.formattedValue.concat( ' ' + set?.data?.fiat)
+						var value2 = "Entry Reward Value: "+ value
+						return value2
+					},
 				},
-			
+
 			},
 		},
 	};
