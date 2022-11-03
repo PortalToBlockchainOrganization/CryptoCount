@@ -3,15 +3,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const passport = require('passport');
+const passport_1 = __importDefault(require("passport"));
 const GoogleStrategy = require('passport-google-oauth20');
 const { google } = require('../keys');
 const keys_1 = __importDefault(require("../keys"));
 const user_model_1 = __importDefault(require("../models/user-model"));
-passport.serializeUser((user, done) => {
+passport_1.default.serializeUser((user, done) => {
     done(null, user.id);
 });
-passport.deserializeUser((id, done) => {
+passport_1.default.deserializeUser((id, done) => {
     //find by id
     user_model_1.default.findById(id).then((user) => {
         //console.log("deserial" + user)
@@ -20,12 +20,12 @@ passport.deserializeUser((id, done) => {
 });
 console.log('keys');
 console.log(keys_1.default);
-passport.use(new GoogleStrategy({
+passport_1.default.use(new GoogleStrategy({
     //options for google strat
     //calls back to the server
     callbackURL: //process.env.DEV_ENV === "LOCAL"
     //"http://localhost:3001/auth/google/redirect", //?
-    "https://cryptocount.co/api/auth/google/redirect",
+    "https://cryptocount.co/auth/google/redirect",
     clientID: keys_1.default.google.clientID,
     clientSecret: keys_1.default.google.clientSecret //keys.google.clientSecret
 }, (accessToken, refreshToken, profile, done) => {

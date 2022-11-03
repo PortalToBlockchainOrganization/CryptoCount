@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const router = require('express').Router();
-const passport = require('passport');
+const passport_1 = __importDefault(require("passport"));
 const user_model_1 = __importDefault(require("../models/user-model"));
 var async = require('async');
 //var Tags = require('./validator.js').Tags;
@@ -31,12 +31,12 @@ router.get('/logout', (req, res) => {
     res.send("loggedout");
 });
 //auth with google 
-router.get('/google', passport.authenticate('google', {
+router.get('/google', passport_1.default.authenticate('google', {
     scope: ['profile']
 }));
 //callback route for google to rediect to
 //passport attaches user information to req body
-router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
+router.get('/google/redirect', passport_1.default.authenticate('google'), (req, res) => {
     //res.send('u r at call back uri' + req.user)
     console.log("wow");
     console.log(req.user);
