@@ -85,7 +85,7 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								<a
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
-									href="https://portaltoblockchain.org"
+									href="https://app.swaggerhub.com/apis-docs/PORTALTOBLOCKCHAIN_1/crypto-count_api/0.2.2#/"
 								>
 									API
 								</a>
@@ -157,7 +157,7 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								<a
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
-									href="https://portaltoblockchain.org"
+									href="https://app.swaggerhub.com/apis-docs/PORTALTOBLOCKCHAIN_1/crypto-count_api/0.2.2#/"
 								>
 									API
 								</a>
