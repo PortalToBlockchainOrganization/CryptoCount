@@ -106,11 +106,11 @@ const SignInHooks = (props) => {
 							Sign in
 						</Button>
 						{/* <div className={classes.need}>Or</div> */}
-						<div className={classes.words}>Or</div>
+						{/* <div className={classes.words}>Or</div>
 						<br></br>
 						
 							
-						<a href="https://cryptocount.co/api/auth/google"> <img className={classes.logo} src="./google.png" alt="google"></img></a>
+						<a href="https://cryptocount.co/api/auth/google"> <img className={classes.logo} src="./google.png" alt="google"></img></a> */}
 						</div>
 						
 						<p className="mt-3">
