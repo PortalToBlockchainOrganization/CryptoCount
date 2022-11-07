@@ -29,6 +29,11 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 	const toggleTheme = ()=>{
 		setTheme((curr)=>(curr === "light" ? "dark" : "light"))
 	}
+	
+	const newTab = () => {
+            window.open(
+            "https://app.swaggerhub.com/apis-docs/PORTALTOBLOCKCHAIN_1/crypto-count_api/0.2.2#/", "_blank");
+        }
 
 
 	return (
@@ -85,7 +90,7 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								<a
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
-									href="https://app.swaggerhub.com/apis-docs/PORTALTOBLOCKCHAIN_1/crypto-count_api/0.2.2#/"
+									onClick={newTab}
 								>
 									API
 								</a>
@@ -157,7 +162,7 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								<a
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
-									href="https://app.swaggerhub.com/apis-docs/PORTALTOBLOCKCHAIN_1/crypto-count_api/0.2.2#/"
+									onClick={newTab}
 								>
 									API
 								</a>
