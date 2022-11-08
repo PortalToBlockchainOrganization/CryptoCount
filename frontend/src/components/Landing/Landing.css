@@ -300,12 +300,12 @@ p {
 	padding: 20px 40px;
 	border-style: solid;
 	border-radius: 10px;
-	border-bottom-color: rgb(63, 179, 34);
+	border-bottom-color: rgba(154,216,94,255);
 	border-top-width: 6px;
 	border-right-width: 10px;;
 	border-left-width: 10px;
 	border-bottom-width: 6px;
-	border-top-color: rgb(63, 179, 34);
+	border-top-color: rgba(154,216,94,255);
 	
 	/* rgb(25, 25, 215); */
 
