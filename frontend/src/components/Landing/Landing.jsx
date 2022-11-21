@@ -26,9 +26,9 @@ import bb from "../../Assets/bb.png";
 import Slider from 'react-input-slider';
 import { keys } from "@mui/system";
 import { useEffect } from 'react'
-import Discord from "@material-ui/icons/Group";
-import Twitter from "@material-ui/icons/Twitter";
-import GitHubIcon from "@material-ui/icons/GitHub";
+import Discord from "../../Assets/Discord.png";
+import Twitter from "../../Assets/Twitter.png";
+import GitHubIcon from "../../Assets/GitHub.png";
 
 
 
@@ -466,7 +466,6 @@ const Landing = (props) => {
 					<img className="ptbo-link" src={ptbo} alt="ptbo" />
 				</a>
 				
-				<GitHubIcon />
 				<a
 						href="https://github.com/PortalToBlockchainOrganization"
 						target="_blank"
@@ -474,8 +473,8 @@ const Landing = (props) => {
 						className="download-link"
 				>
 						Github
+					<img className="ptbo-link" src={GitHubIcon} alt="ptbo" />
 				</a>
-				<Discord />
 				<a
 						href="https://discord.gg/a4PhFgBf"
 						target="_blank"
@@ -483,8 +482,8 @@ const Landing = (props) => {
 						className="download-link"
 					>
 						Discord
+					<img className="ptbo-link" src={Discord} alt="ptbo" />
 				</a>
-				<Twitter />
 					<a
 						href="https://twitter.com/CryptoCountApp"
 						target="_blank"
@@ -492,6 +491,7 @@ const Landing = (props) => {
 						className="download-link"
 					>
 						Twitter
+					<img className="ptbo-link" src={Twitter} alt="ptbo" />
 				</a>
 				{/* <div className='slideWrap'> */}
 				
