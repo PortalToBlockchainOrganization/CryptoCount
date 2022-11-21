@@ -466,30 +466,30 @@ const Landing = (props) => {
 					<img className="ptbo-link" src={ptbo} alt="ptbo" />
 				</a>
 				
-				<GitHubIcon className={classes.Icon} />
+				<GitHubIcon />
 				<a
 						href="https://github.com/PortalToBlockchainOrganization"
 						target="_blank"
 						rel="noreferrer"
-						className={classes.ContactLink}
+						className="download-link"
 				>
 						Github
 				</a>
-				<Discord className={classes.Icon} />
+				<Discord />
 				<a
 						href="https://discord.gg/a4PhFgBf"
 						target="_blank"
 						rel="noreferrer"
-						className={classes.ContactLink}
+						className="download-link"
 					>
 						Discord
 				</a>
-				<Twitter className={classes.Icon} />
+				<Twitter />
 					<a
 						href="https://twitter.com/CryptoCountApp"
 						target="_blank"
 						rel="noreferrer"
-						className={classes.ContactLink}
+						className="download-link"
 					>
 						Twitter
 				</a>
