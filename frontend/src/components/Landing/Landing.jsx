@@ -465,7 +465,11 @@ const Landing = (props) => {
 					PTBO TECH
 					<img className="ptbo-link" src={ptbo} alt="ptbo" />
 				</a>
-				
+				<div className="name-one-liner2">
+					<h2 className="logo-tagline3">
+						SOCIAL CHANNELS 
+					</h2>
+				</div>
 				<a
 						href="https://github.com/PortalToBlockchainOrganization"
 						target="_blank"
