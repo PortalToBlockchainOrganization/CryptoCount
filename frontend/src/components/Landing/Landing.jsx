@@ -474,7 +474,7 @@ const Landing = (props) => {
 						href="https://github.com/PortalToBlockchainOrganization"
 						target="_blank"
 						rel="noreferrer"
-						className="download-link"
+						className="download-link1"
 				>
 						Github
 					<img className="ptbo-link" src={GitHubIcon} alt="ptbo" />
