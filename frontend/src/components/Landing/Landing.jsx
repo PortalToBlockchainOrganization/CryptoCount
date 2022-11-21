@@ -26,6 +26,8 @@ import bb from "../../Assets/bb.png";
 import Slider from 'react-input-slider';
 import { keys } from "@mui/system";
 import { useEffect } from 'react'
+import Discord from "@material-ui/icons/Group";
+import Twitter from "@material-ui/icons/Twitter";
 
 
 
@@ -454,12 +456,40 @@ const Landing = (props) => {
 				</OverlayTrigger> */}
 				<a
 					className="download-link"
-					href="https://discord.gg/7rYEu5c32E"
+					href="https://www.portaltoblockchain.org/"
 					target="_blank"
 					rel="noreferrer"
 				>
-					Join Our Discord
+					PTBO TECH
 					<img className="ptbo-link" src={ptbo} alt="ptbo" />
+				</a>
+				
+				<GitHubIcon className={classes.Icon} />
+				<a
+						href="https://github.com/PortalToBlockchainOrganization"
+						target="_blank"
+						rel="noreferrer"
+						className={classes.ContactLink}
+				>
+						Github
+				</a>
+				<Discord className={classes.Icon} />
+				<a
+						href="https://discord.gg/a4PhFgBf"
+						target="_blank"
+						rel="noreferrer"
+						className={classes.ContactLink}
+					>
+						Discord
+				</a>
+				<Twitter className={classes.Icon} />
+					<a
+						href="https://twitter.com/CryptoCountApp"
+						target="_blank"
+						rel="noreferrer"
+						className={classes.ContactLink}
+					>
+						Twitter
 				</a>
 				{/* <div className='slideWrap'> */}
 				
@@ -542,7 +572,10 @@ const Landing = (props) => {
 							<div className="text">
 								<h3>
 									Does your platform host a layered
-									staking operation? Use the PTBO API to generate data and
+									staking operation? Use the 
+									
+									
+									API to generate data and
 									statements for your users.
 								</h3>
 								<br />
