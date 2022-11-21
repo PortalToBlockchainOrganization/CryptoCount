@@ -456,8 +456,13 @@ const Landing = (props) => {
 						<img src={firefox} alt="firefox-add-on" />
 					</a>
 				</OverlayTrigger> */}
+				<div className="name-one-liner2">
+					<h2 className="logo-tagline3">
+						PTBO TECH
+					</h2>
+				</div>
 				<a
-					className="download-link"
+					className="download-link1"
 					href="https://www.portaltoblockchain.org/"
 					target="_blank"
 					rel="noreferrer"
