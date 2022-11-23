@@ -1,16 +1,16 @@
 # CryptoCount
-CryptoCount is a read-only tax tool that tracks and mocks realizations with income metrics for Tezos based asset management.
+CryptoCount 0.2.2 tracks and mocks up realizations of native Tezos DeFi block rewards with income metrics for tax reporting and asset management.
 
 WebApp: https://cryptocount.co
 
-Remote API Documentation: https://portaltoblockchain.org/api || https://github.com/PortalToBlockchainOrganization/CryptoCount_API
+API Documentation: https://portaltoblockchain.org/client 
 
 
-CryptoCount 0.2.2 communicates the project into TypeScript. 
+CryptoCount 0.3.0 adds Capital Gain calculations for transactions, FMV assessments of DeFi/Dapp rewards, and on chain consolidation of tax payments into smart contracts for revenue authority collection.
 
-To follow the latest developments as they happen, please checkout CryptoCountTS.
+To follow the latest developments as they happen, join the Discord linked in the website.
 
-# Run 0.2.1
+# Run 0.2.2
 
 On branch master.
 
