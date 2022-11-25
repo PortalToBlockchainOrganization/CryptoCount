@@ -616,7 +616,7 @@ const Landing = (props) => {
 						Find the best baker here:
 					</h2>
 				</div>
-				<button className="bb3"  onclick="location.href='https://baking-bad.org';" href="https://baking-bad.org"><img className="bb" src={BakingBad} alt="BB"></img></button>
+				<a className="bb3" rel="noreferrer" target="_blank" href="https://baking-bad.org"><img className="bb" src={BakingBad} alt="BB"></img></a>
 			</div>
 			<div className="powered">POWERED BY</div>
 			<div className="poweredBy">
