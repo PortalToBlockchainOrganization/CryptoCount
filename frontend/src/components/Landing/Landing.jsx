@@ -12,6 +12,7 @@ import tezos from "../../Assets/Orgs/Tezos.png";
 import BakingBad from "../../Assets/Orgs/BakingBad.png"
 import tzkt from "../../Assets/Orgs/tzkt.png";
 import tezosFoundation from "../../Assets/Orgs/TezosFoundation.png";
+import coingecko from "../../Assets/Orgs/coingecko.png"
 import ptbo from "../../Assets/Orgs/ptbo.png";
 import lottie from "lottie-web";
 import womenThinking from "../../Assets/womenThinking.json";
@@ -642,13 +643,26 @@ const Landing = (props) => {
 						alt="Tezos Foundation"
 					/>
 				</a>
-				<div
+				<a
 					href="portaltoblockchain.org"
 					target="_blank"
 					rel="noreferrer"
 				>
-					<img className="t-logo" src={ptbo} alt="ptbo" />
-				</div>
+					<img 
+					className="t-logo" 
+					src={ptbo} 
+				alt="ptbo" />
+				</a>
+				<a
+					href="coingecko.com"
+					target="_blank"
+					rel="noreferrer"
+				>
+					<img 
+					className="t-logo" 
+					src={coingecko} 
+				alt="coingecko" />
+				</a>
 			</div>
 		</div>
 	</div>
