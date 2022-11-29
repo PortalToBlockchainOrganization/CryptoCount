@@ -333,7 +333,7 @@ const Landing = (props) => {
 				
 				<div className="name-one-liner">
 					<h2 className="logo-tagline">
-					 On-chain asset assessment tax tool. Mockup realizations of aggregated Tezos based assets in 40 fiat currencies.
+					 Tezos Block Rewards' Fair Market Value Assessment Tool. Mockup sales and get free income statements of Tezos based assets in 40 fiat currencies.
 					</h2>
 				</div>
 				<div className="form">
@@ -459,7 +459,7 @@ const Landing = (props) => {
 				</OverlayTrigger> */}
 				<div className="name-one-liner2">
 					<h2 className="logo-tagline3">
-						PTBO TECH
+						PTBO TECH - HOSTING FREE CRYPTOCOUNT API INTEGRATION
 					</h2>
 				</div>
 				<a
