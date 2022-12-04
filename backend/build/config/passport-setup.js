@@ -25,7 +25,7 @@ passport.use(new GoogleStrategy({
     //calls back to the server
     callbackURL: //process.env.DEV_ENV === "LOCAL"
     //"http://localhost:3001/auth/google/redirect", //?
-    "https://cryptocount.co/api/auth/google/redirect",
+    "https://cryptocount.co/auth/google/redirect",
     clientID: keys_1.default.google.clientID,
     clientSecret: keys_1.default.google.clientSecret //keys.google.clientSecret
 }, (accessToken, refreshToken, profile, done) => {

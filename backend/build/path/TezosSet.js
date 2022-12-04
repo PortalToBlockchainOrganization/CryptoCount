@@ -934,14 +934,19 @@ class TezosSet {
             //console.log(nativeMarketDilutionByDay[nativeMarketDilutionByDay.length-1].amount)
             //filter for existing dilution 
             nativeFilteredMarketDilutionByDay = nativeMarketDilutionByDay.map((element) => {
-                if (element.amount === null) {
-                    return { date: element.date, amount: 0 };
+                try {
+                    if (element.amount === null) {
+                        return { date: element.date, amount: 0 };
+                    }
+                    if (element.amount <= 0) {
+                        return { date: element.date, amount: 0 };
+                    }
+                    else {
+                        return element;
+                    }
                 }
-                if (element.amount <= 0) {
-                    return { date: element.date, amount: 0 };
-                }
-                else {
-                    return element;
+                catch (err) {
+                    console.log(err);
                 }
             });
             // writeFile("marketDilutionDailyFilt.json", JSON.stringify(nativeFilteredMarketDilutionByDay, null, 4), async function(err) {console.log('the')})
@@ -973,83 +978,88 @@ class TezosSet {
             console.log(this.cyclesMappedToDays.get("2018-07-18"));
             //for each dilution date, if the cycle of that date is not the current dilution cycle, do this then set it to current diltuion cycle
             nativeFilteredMarketDilutionByDay.forEach(nativeFilteredMarketDilutionByDay => {
-                if (this.cyclesMappedToDays.get(nativeFilteredMarketDilutionByDay.date) !== currentDilutionCycle) {
-                    //date is one in front of desired date for foundation baker
-                    // //date mod back one here
-                    // let date: any
-                    // date = new Date(currentDate)
-                    // date.setDate(date.getDate() )
-                    // let year = date.getFullYear();
-                    // let month = date.getMonth();
-                    // let dt = date.getDate();
-                    // if (dt < 10) {
-                    //     dt = '0' + dt;
-                    // }
-                    // if (month < 10) {
-                    //     month = '0' + month;
-                    // }
-                    // let dateCorrespondingToRewards = (year+ '-' + month + '-'+dt);
-                    // currentDate = dateCorrespondingToRewards
-                    console.log('made it to todays patch');
-                    if (aggDilutionAmount === null || aggDilutionAmount === undefined || isNaN(aggDilutionAmount)) {
-                        aggDilutionAmount = 0;
+                try {
+                    if (this.cyclesMappedToDays.get(nativeFilteredMarketDilutionByDay.date) !== currentDilutionCycle) {
+                        //date is one in front of desired date for foundation baker
+                        // //date mod back one here
+                        // let date: any
+                        // date = new Date(currentDate)
+                        // date.setDate(date.getDate() )
+                        // let year = date.getFullYear();
+                        // let month = date.getMonth();
+                        // let dt = date.getDate();
+                        // if (dt < 10) {
+                        //     dt = '0' + dt;
+                        // }
+                        // if (month < 10) {
+                        //     month = '0' + month;
+                        // }
+                        // let dateCorrespondingToRewards = (year+ '-' + month + '-'+dt);
+                        // currentDate = dateCorrespondingToRewards
+                        console.log('made it to todays patch');
+                        if (aggDilutionAmount === null || aggDilutionAmount === undefined || isNaN(aggDilutionAmount)) {
+                            aggDilutionAmount = 0;
+                        }
+                        if (mappedFMV[currentDilutionCycle] === null || mappedFMV[currentDilutionCycle] === undefined) {
+                            console.log('made it to error handle');
+                            nativeMarketDilutionRewards.push({ date: currentDate,
+                                rewardAmount: 0,
+                                cycle: currentDilutionCycle });
+                        }
+                        else {
+                            nativeMarketDilutionRewards.push({ date: currentDate,
+                                rewardAmount: mappedFMV[currentDilutionCycle] - aggDilutionAmount,
+                                cycle: currentDilutionCycle });
+                        }
+                        currentDate = nativeFilteredMarketDilutionByDay.date;
+                        currentDilutionCycle = mappedCyclesToFirstCycleDate[currentDate];
+                        aggDilutionAmount = nativeFilteredMarketDilutionByDay.amount;
                     }
-                    if (mappedFMV[currentDilutionCycle] === null || mappedFMV[currentDilutionCycle] === undefined) {
-                        console.log('made it to error handle');
-                        nativeMarketDilutionRewards.push({ date: currentDate,
-                            rewardAmount: 0,
-                            cycle: currentDilutionCycle });
-                    }
-                    else {
-                        nativeMarketDilutionRewards.push({ date: currentDate,
-                            rewardAmount: mappedFMV[currentDilutionCycle] - aggDilutionAmount,
-                            cycle: currentDilutionCycle });
-                    }
-                    currentDate = nativeFilteredMarketDilutionByDay.date;
-                    currentDilutionCycle = mappedCyclesToFirstCycleDate[currentDate];
-                    aggDilutionAmount = nativeFilteredMarketDilutionByDay.amount;
-                }
-                //if we've reached the end
-                else if (nativeFilteredMarketDilutionByDay.date === endDate) {
-                    aggDilutionAmount += nativeFilteredMarketDilutionByDay.amount;
-                    //date mod back one here
-                    // let date: any
-                    // date = new Date(currentDate)
-                    // date.setDate(date.getDate())
-                    // let year = date.getFullYear();
-                    // let month = date.getMonth();
-                    // let dt = date.getDate();
-                    // if (dt < 10) {
-                    //     dt = '0' + dt;
-                    // }
-                    // if (month < 10) {
-                    //     month = '0' + month;
-                    // }
-                    // let dateCorrespondingToRewards = (year+ '-' + month + '-'+dt);
-                    //currentDate = dateCorrespondingToRewards
-                    if (aggDilutionAmount === null || aggDilutionAmount === undefined || isNaN(aggDilutionAmount)) {
-                        aggDilutionAmount = 0;
-                    }
-                    if (mappedFMV[currentDilutionCycle] === null || mappedFMV[currentDilutionCycle] === undefined) {
-                        console.log('error');
-                        nativeMarketDilutionRewards.push({ date: currentDate,
-                            rewardAmount: 0,
-                            cycle: currentDilutionCycle });
-                    }
-                    else {
-                        nativeMarketDilutionRewards.push({ date: currentDate,
-                            rewardAmount: mappedFMV[currentDilutionCycle] - aggDilutionAmount,
-                            cycle: currentDilutionCycle });
-                    }
-                }
-                //otherwise just add the dilution values
-                else {
-                    if (aggDilutionAmount === null || aggDilutionAmount === undefined || isNaN(aggDilutionAmount)) {
-                        aggDilutionAmount = 0;
-                    }
-                    else {
+                    //if we've reached the end
+                    else if (nativeFilteredMarketDilutionByDay.date === endDate) {
                         aggDilutionAmount += nativeFilteredMarketDilutionByDay.amount;
+                        //date mod back one here
+                        // let date: any
+                        // date = new Date(currentDate)
+                        // date.setDate(date.getDate())
+                        // let year = date.getFullYear();
+                        // let month = date.getMonth();
+                        // let dt = date.getDate();
+                        // if (dt < 10) {
+                        //     dt = '0' + dt;
+                        // }
+                        // if (month < 10) {
+                        //     month = '0' + month;
+                        // }
+                        // let dateCorrespondingToRewards = (year+ '-' + month + '-'+dt);
+                        //currentDate = dateCorrespondingToRewards
+                        if (aggDilutionAmount === null || aggDilutionAmount === undefined || isNaN(aggDilutionAmount)) {
+                            aggDilutionAmount = 0;
+                        }
+                        if (mappedFMV[currentDilutionCycle] === null || mappedFMV[currentDilutionCycle] === undefined) {
+                            console.log('error');
+                            nativeMarketDilutionRewards.push({ date: currentDate,
+                                rewardAmount: 0,
+                                cycle: currentDilutionCycle });
+                        }
+                        else {
+                            nativeMarketDilutionRewards.push({ date: currentDate,
+                                rewardAmount: mappedFMV[currentDilutionCycle] - aggDilutionAmount,
+                                cycle: currentDilutionCycle });
+                        }
                     }
+                    //otherwise just add the dilution values
+                    else {
+                        if (aggDilutionAmount === null || aggDilutionAmount === undefined || isNaN(aggDilutionAmount)) {
+                            aggDilutionAmount = 0;
+                        }
+                        else {
+                            aggDilutionAmount += nativeFilteredMarketDilutionByDay.amount;
+                        }
+                    }
+                }
+                catch (err) {
+                    console.log(err);
                 }
             });
             //filter the rewards for positive ones here
