@@ -34,15 +34,15 @@ export const chartOptions = (set) => {
 	let nativeBlockRewards = []
 	if(set?.data?.realizedNativeRewards){
 		set?.data?.unrealizedNativeRewards.forEach(element => {
-			nativeBlockRewards.push(element.amount)
+			nativeBlockRewards.push(element.rewardAmount)
 		});
 		set?.data?.realizedNativeRewards.forEach(element => {
-			nativeBlockRewards.push(element.amount)
+			nativeBlockRewards.push(element.rewardAmount)
 		});
 	}
 	else{
 		set?.data?.unrealizedNativeRewards.forEach(element => {
-			nativeBlockRewards.push(element.amount)
+			nativeBlockRewards.push(element.rewardAmount)
 		});
 	}
 
