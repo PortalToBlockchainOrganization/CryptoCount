@@ -83,14 +83,15 @@ app.use(function (req, res, next) {
 	//	"http://cryptocount.co",
 	//	"https://cryptocount.co",
 	//];
-	const allowedOrigins = [
-		"*",
-	];
+	//const allowedOrigins = [
+	//	"*",
+	//];
 	
-	const origin: any = req.headers.origin;
-	if (allowedOrigins.includes(origin)) {
-		res.setHeader("Access-Control-Allow-Origin", origin);
-	}
+	//const origin: any = req.headers.origin;
+	//if (allowedOrigins.includes(origin)) {
+	//	res.setHeader("Access-Control-Allow-Origin", origin);
+	//}
+	res.setHeader("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "Content-Type, Location");
 	res.header("Access-Control-Expose-Headers", "Content-Type, Location");
 	res.header(
