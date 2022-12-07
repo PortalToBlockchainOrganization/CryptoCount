@@ -31,6 +31,20 @@ export const chartOptions = (set) => {
 		});
 	}
 
+	let nativeBlockRewards = []
+	if(set?.data?.realizedNativeRewards){
+		set?.data?.unrealizedNativeRewards.forEach(element => {
+			nativeBlockRewards.push(element.amount)
+		});
+		set?.data?.realizedNativeRewards.forEach(element => {
+			nativeBlockRewards.push(element.amount)
+		});
+	}
+	else{
+		set?.data?.unrealizedNativeRewards.forEach(element => {
+			nativeBlockRewards.push(element.amount)
+		});
+	}
 
 
 	//console.log(basisCosts)
@@ -139,6 +153,20 @@ export const chartOptions = (set) => {
 						var string = "Entry Basis Cost: "
 						if(it!==undefined){
 							string = "Entry Basis Cost: " + it 
+						}
+						return string
+					},
+					afterBody: function(tooltipItems){
+						console.log(tooltipItems)
+						try{
+							var it =  nativeBlockRewards[tooltipItems[0].dataIndex].toFixed(2) + " XTZ";
+						}catch(e){
+							console.log(e)
+						}
+						
+						var string = "Quantity of Tez: "
+						if(it!==undefined){
+							string = "Quantity of Tez: " + it 
 						}
 						return string
 					},
