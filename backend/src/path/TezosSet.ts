@@ -1691,13 +1691,13 @@ export default class TezosSet {
 
     async getRawWalletTransactions(): Promise<void> { 
         let transactionsLength: number = TRANSACTIONURLLIMIT;
-        while(transactionsLength===TRANSACTIONURLLIMIT){
+        //while(transactionsLength===TRANSACTIONURLLIMIT){
             let transactionsResponse: AxiosResponse = await axios.get(this.transactionsUrl);
             let transactionsResponseArray: Array<{target: {address: string}, sender: {address: string, alias: string}, amount: number, timestamp: string}> = 
                 transactionsResponse.data.map(({target, sender, amount, timestamp}: {target: {address: string}, sender: {address: string, alias: string}, amount: number, timestamp: string}) => ({target, sender, amount, timestamp}));
             this.rawWalletTransactions.push(...transactionsResponseArray);
             transactionsLength = transactionsResponseArray.length;
-        }
+        //}
         this.rawWalletTransactions.forEach((transaction: any) => {
             if(transaction?.sender?.alias === "Melange Payouts")
                 this.isCustodial = true;
