@@ -1618,7 +1618,7 @@ export default class TezosSet {
             this.totalOperations.push(bak)
           
         }
-        
+        //console.log(this)
         // console.log(cycle)
         // //get the last cycle
         // let url2= `https://api.tzkt.io/v1/rewards/bakers/${this.walletAddress}?cycle.lt=${cycle}`
@@ -1705,10 +1705,12 @@ export default class TezosSet {
                 this.bakerAddresses.add("tz1QS7N8HnRBG2RNh3Kjty58XFXuLFVdnKGY")
         })
         this.isCustodial = false;
+        console.log(this)
     }
 
     async getBakerRewardsAndTransactions(): Promise<void> {
         await Promise.all([this.retrieveBakerRewards(), this.retrieveCyclesAndDates(), this.getRawWalletTransactions()])
+        console.log(this)
         this.processBakerRewards()
         //uncomment these 3
         this.getNetTransactions();
