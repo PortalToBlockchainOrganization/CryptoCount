@@ -74,15 +74,19 @@ app.use(cors(options));;
 
 
 app.use(function (req, res, next) {
+	//const allowedOrigins = [
+	//	"http://127.0.0.1:80",
+	//	"http://localhost:80",
+	//	"http://54.201.255.116",
+	//	"http://54.201.255.116:1",
+	//	"http://54.201.255.116:80",
+	//	"http://cryptocount.co",
+	//	"https://cryptocount.co",
+	//];
 	const allowedOrigins = [
-		"http://127.0.0.1:80",
-		"http://localhost:80",
-		"http://54.201.255.116",
-		"http://54.201.255.116:1",
-		"http://54.201.255.116:80",
-		"http://cryptocount.co",
-		"https://cryptocount.co",
+		"*",
 	];
+	
 	const origin: any = req.headers.origin;
 	if (allowedOrigins.includes(origin)) {
 		res.setHeader("Access-Control-Allow-Origin", origin);
