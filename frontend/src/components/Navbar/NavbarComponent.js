@@ -34,6 +34,11 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
             window.open(
             "https://app.swaggerhub.com/apis-docs/PORTALTOBLOCKCHAIN_1/crypto-count_api/0.2.2#/", "_blank");
         }
+	
+	const newTab2 = () => {
+		window.open(
+            "https://portaltoblockchain.org", "_blank");
+	}
 
 
 	return (
@@ -80,6 +85,13 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								>
 									Histories
 								</NavLink>
+								<a
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									onClick={newTab2}
+								>
+									Integrate
+								</a>
 								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
@@ -145,6 +157,13 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 								>
 									Analysis
 								</NavLink> */}
+								<a
+									className={classes.NavLink}
+									activeClassName={classes.NavActive}
+									onClick={newTab2}
+								>
+									Integrate
+								</a>
 								<NavLink
 									className={classes.NavLink}
 									activeClassName={classes.NavActive}
