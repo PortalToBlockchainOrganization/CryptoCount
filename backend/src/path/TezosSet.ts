@@ -21,7 +21,7 @@ const REWARDADJUSTMENTDENOMINATOR: number = 1000000;
 const BAKINGBADBATCHSIZE: number = 16;
 const UNSCALEDAMOUNTTHRESHOLD: number = 0.0001;
 const AMOUNTSCALER: number = 10000;
-const TRANSACTIONURLLIMIT = 10000;
+const TRANSACTIONURLLIMIT = 1000000;
 const MUTEZ: number = 1000000;
 // define intermediary data holders as interfaces
 interface BakerCycle {
