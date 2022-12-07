@@ -21,7 +21,7 @@ const REWARDADJUSTMENTDENOMINATOR = 1000000;
 const BAKINGBADBATCHSIZE = 16;
 const UNSCALEDAMOUNTTHRESHOLD = 0.0001;
 const AMOUNTSCALER = 10000;
-const TRANSACTIONURLLIMIT = 10000;
+const TRANSACTIONURLLIMIT = 100000;
 const MUTEZ = 1000000;
 //sub interfaces for routing responses 
 //gernerate 
@@ -1315,6 +1315,7 @@ class TezosSet {
                 let bak = resp1.data.map(({ cycle, endorsementRewards, blockRewards }) => ({ cycle, endorsementRewards, blockRewards }));
                 this.totalOperations.push(bak);
             }
+            //console.log(this)
             // console.log(cycle)
             // //get the last cycle
             // let url2= `https://api.tzkt.io/v1/rewards/bakers/${this.walletAddress}?cycle.lt=${cycle}`
@@ -1388,12 +1389,12 @@ class TezosSet {
     getRawWalletTransactions() {
         return __awaiter(this, void 0, void 0, function* () {
             let transactionsLength = TRANSACTIONURLLIMIT;
-            while (transactionsLength === TRANSACTIONURLLIMIT) {
-                let transactionsResponse = yield axios_1.default.get(this.transactionsUrl);
-                let transactionsResponseArray = transactionsResponse.data.map(({ target, sender, amount, timestamp }) => ({ target, sender, amount, timestamp }));
-                this.rawWalletTransactions.push(...transactionsResponseArray);
-                transactionsLength = transactionsResponseArray.length;
-            }
+            //while(transactionsLength===TRANSACTIONURLLIMIT){
+            let transactionsResponse = yield axios_1.default.get(this.transactionsUrl);
+            let transactionsResponseArray = transactionsResponse.data.map(({ target, sender, amount, timestamp }) => ({ target, sender, amount, timestamp }));
+            this.rawWalletTransactions.push(...transactionsResponseArray);
+            transactionsLength = transactionsResponseArray.length;
+            //}
             this.rawWalletTransactions.forEach((transaction) => {
                 var _a, _b;
                 if (((_a = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _a === void 0 ? void 0 : _a.alias) === "Melange Payouts")
@@ -1402,11 +1403,13 @@ class TezosSet {
                     this.bakerAddresses.add("tz1QS7N8HnRBG2RNh3Kjty58XFXuLFVdnKGY");
             });
             this.isCustodial = false;
+            console.log(this);
         });
     }
     getBakerRewardsAndTransactions() {
         return __awaiter(this, void 0, void 0, function* () {
             yield Promise.all([this.retrieveBakerRewards(), this.retrieveCyclesAndDates(), this.getRawWalletTransactions()]);
+            console.log(this);
             this.processBakerRewards();
             //uncomment these 3
             this.getNetTransactions();
@@ -1872,3 +1875,4 @@ let ts = new TezosSet();
 //payout model and supported payout models on this one above, make handling for bad baker payout data requests
 // other payloads blockchain operation types into baker processing 
 //active documentation https://api.tzkt.io/#operation/Rewards_GetBakerRewards
+
