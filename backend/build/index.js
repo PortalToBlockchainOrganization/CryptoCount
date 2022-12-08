@@ -73,8 +73,8 @@ const options = {
     //: "https://cryptocount.co",
     credentials: true, methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
 };
-app.use((0, cors_1.default)(options));
-;
+//app.use((0, cors_1.default)(options));
+//;
 app.use(function (req, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Content-Type, Location");
