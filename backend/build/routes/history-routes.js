@@ -13,10 +13,39 @@ const router = require('express').Router();
 //const RealizeHistObj = require("../models/realizeObject")
 const umbrella_model_1 = require("../documentInterfaces/umbrella/umbrella.model");
 //const User = require('../models/user-model')
-// router.get('/', (req,res)=>{
-//     console.log(req.user)
-//     res.render('profile', {user: req.user});
-// });
+//const gapi = require("gapi-script") 
+const { google } = require('googleapis');
+const scopes = 'https://www.googleapis.com/auth/analytics.readonly';
+const jwt = new google.auth.JWT(process.env.CLIENT_EMAIL, null, process.env.PRIVATE_KEY, scopes);
+const view_id = '264029880';
+router.post("/stats", function (req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const response = yield jwt.authorize();
+        const result = yield google.analytics('v3').data.ga.get({
+            'auth': jwt,
+            'ids': 'ga:' + view_id,
+            'start-date': '300daysAgo',
+            'end-date': 'today',
+            'metrics': 'ga:users'
+        });
+        var googleobject = result.data.totalsForAllResults;
+        var users = Object.values(googleobject);
+        var users2 = users.toString();
+        var users3 = parseInt(users2);
+        //var users = 4069
+        var oldRealizes = 917;
+        var length;
+        umbrella_model_1.UmbrellaModel.count().then((count) => {
+            console.log(count);
+            length = count + oldRealizes;
+            var obj = {
+                objects: length,
+                users: users3
+            };
+            res.status(200).json(obj);
+        });
+    });
+});
 router.post("/", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         //var user_id = "60df960c5562110dc0753d3d"
@@ -92,3 +121,4 @@ router.post("/delete/", function (req, res) {
     });
 });
 module.exports = router;
+
