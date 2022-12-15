@@ -181,6 +181,10 @@ export function unrealizedSet(params) {
 	});
 }
 
+export function stats(){
+	return post("/history/stats")
+}
+
 //is this for rendering a set after being called from the datbase?
 export function getUnrealizedSet(params) {
 	console.log("3")
@@ -281,3 +285,4 @@ const errMap = {
 export function errorTranslate(errTag) {
 	return errMap[errTag] || "Unknown Error!";
 }
+
