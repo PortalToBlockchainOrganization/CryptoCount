@@ -1,5 +1,10 @@
-function set(state = {}, action) {
+ffunction set(state = {}, action) {
 	switch (action.type) {
+		case "STATS":
+			let thing = state;
+			thing["users"] = action.payload["users"]
+			thing["objects"] = action.payload["objects"]
+			return thing
 		case "CREATE_SETID":
 			let temp = state;
 			state["_id"] = action.payload["setId"];
@@ -148,3 +153,4 @@ function set(state = {}, action) {
 }
 
 export default set;
+
