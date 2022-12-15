@@ -1,4 +1,4 @@
-ffunction set(state = {}, action) {
+function set(state = {}, action) {
 	switch (action.type) {
 		case "STATS":
 			let thing = state;
@@ -153,4 +153,3 @@ ffunction set(state = {}, action) {
 }
 
 export default set;
-
