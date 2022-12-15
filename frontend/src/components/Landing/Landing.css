@@ -85,7 +85,7 @@ h4{
 	flex-direction: row;
 	align-items: center;
 	margin-bottom: -50px;
-	margin-top: 350px;
+	margin-top: 850px;
 }
 .slideWrap{
 	margin-top: 50px;
@@ -289,6 +289,49 @@ p {
 	font-size: 1em;
 	margin: 0;
 	width: 400px;
+}
+
+.stats{
+	display: flex;
+	border-color: #1b78d6;
+	padding: auto;
+	margin-top: 100px;
+	margin-bottom: 100px;
+	border-radius: 5px;
+	border: #fff;
+	color: black;
+	background-color: rgb(219, 201, 201);
+	border-width: 5px;
+}
+.statsTitle{
+	margin-top: 100px;
+	color: white;
+	font-size: 2.5em;
+	margin-bottom: -70px;
+	font-family: 'Blanka-Regular';
+
+	
+}
+.stats1{
+	margin: auto;
+	padding: auto;
+	font-size: 8em;
+}
+
+.stats3{
+	margin: auto;
+	padding: 30px 30px 30px 30px;
+	font-size: 2em;
+	font-family: 'Blanka-Regular';
+}
+
+.stats2{
+	margin-top: -100px;
+	padding-left: -50px;
+	margin-right: -600px;
+	align-items: flex-start;
+	font-size: 1em;
+	color: white;
 }
 
 .form {
@@ -579,3 +622,4 @@ p {
 	margin-bottom: -30px;
 
 }
+
