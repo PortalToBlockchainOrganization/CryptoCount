@@ -181,6 +181,24 @@ export function changeMode(){
 	}
  }
 
+export function stats(){
+	return (dispatch) => {
+		api.stats()
+		.then((res)=>{
+			res.json()
+			.then((data)=>{
+				return data
+			})
+			.then((data) => {
+				return dispatch({
+					type: "STATS",
+					payload: data,
+				});
+			})
+		})
+	}
+}
+
 export function getUnrealizedSet(params) {
 	return (dispatch) => {
 		dispatch(getUnrealizedSetStarted());
@@ -410,4 +428,5 @@ export function getHistory(user_id, cb) {
 		// return Promise.all(promises);
 	};
 }
+
 
