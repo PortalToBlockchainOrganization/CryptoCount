@@ -45,7 +45,6 @@ const Landing = (props) => {
 	const {
 		set,
 		user,
-	
 		getSet,
    
 	} = props;
@@ -109,6 +108,7 @@ const Landing = (props) => {
 	console.log('user')
 	console.log(user)
 
+
 	useEffect(()=>{
 
 		const urlSearchParams = new URLSearchParams(window.location.search);
@@ -139,6 +139,15 @@ const Landing = (props) => {
 		}
 		
 	}, [props])
+
+
+
+	useEffect(()=>{
+		props.stats()
+		
+	}, [])
+
+	const {stats} = props
 
 		
 	//handle session
@@ -341,7 +350,7 @@ const Landing = (props) => {
 						<Form.Group controlId="formBasicEmail">
 						
 							<h4 class="thickerplz">
-								Paste Your Tezos Staking Address
+								Paste Your Tezos Staking Address To Generate a CryptoCount Object
 							</h4>
 							<Form.Control
 								type="text"
@@ -373,7 +382,7 @@ const Landing = (props) => {
 						<Form.Group controlId="formBasicEmail">
 						
 							<h4 class="thickerplz">
-								Paste Your Set Id
+								Paste Your Set Id To Retrieve A CryptoCount Object
 							</h4>
 							<Form.Control
 								setId={setId}
@@ -420,8 +429,16 @@ const Landing = (props) => {
 						Learn more about CryptoCount
 					</h2>
 				</div> */}
-			
+				<div className="statsTitle">CryptoCount Stats</div>
+				<div className="stats">
+					<div className="stats1">{set["users"]}</div><div className="stats3"> Users </div>
+				
+					<div className="stats1">{set["objects"]}</div><div className="stats3"> Objects</div>
+					</div>
+					<div>
+					<div className="stats2">Powered By Google and PTBO TECH</div>
 
+				</div>
 				<div className="name-one-liner2">
 					<h2 className="logo-tagline3">
 						BROWSER EXTENSION 
@@ -459,7 +476,7 @@ const Landing = (props) => {
 				</OverlayTrigger> */}
 				<div className="name-one-liner2">
 					<h2 className="logo-tagline3">
-						PTBO TECH - HOSTING FREE CRYPTOCOUNT API INTEGRATION
+						CRYPTOCOUNT INTEGRATION
 					</h2>
 				</div>
 				<a
@@ -471,6 +488,7 @@ const Landing = (props) => {
 					PTBO TECH
 					<img className="ptbo-link" src={ptbo} alt="ptbo" />
 				</a>
+				
 				<div className="name-one-liner2">
 					<h2 className="logo-tagline3">
 						SOCIAL CHANNELS 
@@ -670,3 +688,4 @@ const Landing = (props) => {
 };
 
 export default Landing;
+
