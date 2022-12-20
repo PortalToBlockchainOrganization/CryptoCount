@@ -350,12 +350,12 @@ const Landing = (props) => {
 						<Form.Group controlId="formBasicEmail">
 						
 							<h4 class="thickerplz">
-								Paste Your Tezos Staking Address To Generate a CryptoCount Object
+								Paste Your Tezos Address or Domain To Generate a CryptoCount Accounting Object
 							</h4>
 							<Form.Control
 								type="text"
 								class="placeholdbetter"
-								placeholder="Tz or KT... Delegator Or Baker Address"
+								placeholder="Tz.., KT.., or Tezos Domain"
 								onChange={handleDelegationChange}
 							/>
 						</Form.Group>
