@@ -636,15 +636,7 @@ const Landing = (props) => {
 					</div>
 				</div>
 			) : null} */}
-			<div>	<a
-					className="download-link1"
-					href="/Blog"
-					target="_blank"
-					rel="noreferrer">
-					How To Use
-					<img src="./logo.png" alt="chrome-web-store" />
-				</a>
-			</div>
+		
 			<div >
 			<div className="bb2">
 					<h2 className="logo-tagline5">
