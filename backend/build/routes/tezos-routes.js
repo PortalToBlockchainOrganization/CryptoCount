@@ -19,6 +19,7 @@ const realizing_1 = __importDefault(require("../documentInterfaces/stateModels/r
 const saved_1 = __importDefault(require("../documentInterfaces/stateModels/saved"));
 const fs_1 = require("fs");
 const user_model_1 = __importDefault(require("../models/user-model"));
+const axios_1 = __importDefault(require("axios"));
 // const testObjectRealize = require("../testObjectRealize.js")
 // const testObjectSave = require("../testObjectSave.js")
 // const testObjectUpdate = require("../testObjectUpdate.js")
@@ -26,6 +27,15 @@ const router = require('express').Router();
 //creates db object
 router.post('/Generate/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("wtf tezos set" + req.body.fiat);
+    var domainTezResp;
+    try {
+        domainTezResp = yield axios_1.default.get(`https://api.tzkt.io/v1/domains/${req.body.address}`);
+        req.body.address = domainTezResp.data.address.address;
+    }
+    catch (error) {
+        console.error(error);
+    }
+    console.log(req.body.address);
     let ts = new TezosSet_1.default();
     let unrealizedModel = {};
     yield ts.init(req.body.fiat, req.body.address, req.body.consensusRole).then(x => {
@@ -252,3 +262,4 @@ router.post('/Save/', (req, res) => {
     //insert set id
 });
 module.exports = router;
+
