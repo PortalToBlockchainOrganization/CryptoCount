@@ -439,20 +439,7 @@ const Landing = (props) => {
 					<div className="stats2">Powered By Google and PTBO TECH</div>
 
 				</div>
-				<div className="name-one-liner2">
-					<h2 className="logo-tagline3">
-						BROWSER EXTENSION 
-					</h2>
-				</div>
-				<a
-					className="download-link1"
-					href="https://chrome.google.com/webstore/detail/cryptocount/bkcakdddagaipncnpoehneegdlhdlmjf"
-					target="_blank"
-					rel="noreferrer"
-				>
-					Download for Chrome
-					<img src={chrome} alt="chrome-web-store" />
-				</a>
+				
 		
 				{/* <OverlayTrigger
 					placement="right"
@@ -474,6 +461,21 @@ const Landing = (props) => {
 						<img src={firefox} alt="firefox-add-on" />
 					</a>
 				</OverlayTrigger> */}
+				<div className="name-one-liner2">
+					<h2 className="logo-tagline3">
+						HOW TO USE
+					</h2>
+				</div>
+				<a
+				    className="download-link1"
+				    href="/Blog"
+				    target="_blank"
+				    rel="noreferrer">
+				    Tutorial
+				    <img src="./logo.png" alt="chrome-web-store" />
+				</a>
+           			
+				
 				<div className="name-one-liner2">
 					<h2 className="logo-tagline3">
 						CRYPTOCOUNT INTEGRATION
@@ -520,6 +522,20 @@ const Landing = (props) => {
 					>
 						Twitter
 					<img className="ptbo-link" src={Twitter} alt="ptbo" />
+				</a>
+				<div className="name-one-liner2">
+					<h2 className="logo-tagline3">
+						BROWSER EXTENSION 
+					</h2>
+				</div>
+				<a
+					className="download-link1"
+					href="https://chrome.google.com/webstore/detail/cryptocount/bkcakdddagaipncnpoehneegdlhdlmjf"
+					target="_blank"
+					rel="noreferrer"
+				>
+					Download for Chrome
+					<img src={chrome} alt="chrome-web-store" />
 				</a>
 				{/* <div className='slideWrap'> */}
 				
