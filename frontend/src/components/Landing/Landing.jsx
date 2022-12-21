@@ -350,7 +350,7 @@ const Landing = (props) => {
 						<Form.Group controlId="formBasicEmail">
 						
 							<h4 class="thickerplz">
-								Paste Your Tezos Address or Domain To Generate a CryptoCount Accounting Object
+								Paste your Address or Tez Domain to Generate an Accounting Object
 							</h4>
 							<Form.Control
 								type="text"
@@ -382,7 +382,7 @@ const Landing = (props) => {
 						<Form.Group controlId="formBasicEmail">
 						
 							<h4 class="thickerplz">
-								Paste Your Set Id To Retrieve A CryptoCount Object
+								Paste Your Object Set Id To Retrieve It
 							</h4>
 							<Form.Control
 								setId={setId}
