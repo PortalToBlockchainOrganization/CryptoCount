@@ -9,6 +9,8 @@ import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";
 import jsPDF from "jspdf";
 import TextTransition, { presets } from "react-text-transition";
 import CopyToClipboard from "react-copy-to-clipboard"
+import { CSVLink } from "react-csv";
+
 /**
  * Component for the Analysis page. Renders a chart displaying realized,
  * unrealized, and realizing sets. Allows user to query for sets, realize,
@@ -54,7 +56,8 @@ const Analysis = (props) => {
 	  return () => clearTimeout(intervalId);
 	}, []);
 
-	const quantityRealize = React.createRef();
+	const quantityRealize = React.createRef([]);
+	
 
 	useEffect((e)=>{
 		setActive("unrealizedNativeFMVRewards")
@@ -73,6 +76,7 @@ const Analysis = (props) => {
 		// console.log('updatechart data vals')
 		// console.log(set)
 		setCurrentSet(getData(setToRender, set, params, getUnrealizedSet));
+		handleCSVDownload()
 		//setActive(setToRender)
 		console.log('done updating here')
 		console.log(setToRender)
@@ -135,7 +139,7 @@ const Analysis = (props) => {
 				noAuthRealizingSet(
 					set["data"]["objectId"],
 					quantityRealize.current.value,
-					updateChart1
+					updateChart1,
 					
 					
 				);
@@ -225,6 +229,10 @@ const Analysis = (props) => {
 		
 	};
 
+	
+
+	
+
 	//make update after save
 	const handle25 = (e /** DOM event, click */) => {
 		// prevent page from refreshing
@@ -255,6 +263,64 @@ const Analysis = (props) => {
 			set["data"]["aggregateUnrealizedNativeReward75p"].toFixed(0);
 	};
 
+
+	// {[
+	// 	"LPOSBlockchain", "TezosStakingAddress",
+	// 	"Fiat", "PeriodStart", 
+	// 	"PeriodEnd", "QuantityofXTZRewardsSold",  
+	// 	"AverageAssetBasisCost", "FairMarketValueNativeRewardIncome",
+	// 	"SupplyDepletionNativeRewardIncome", "MarketDilutionNativeRewardIncome", 
+	
+	// ]},
+	// [
+	// 	"Tezos", `${set["data"]["walletAddress"]}`, `${set["data"]["fiat"]}`, `${set["data"]["realizingNativeRewards"][0]["date"]}`,
+	// 	`${set["data"]["realizingNativeRewards"][last - 1]["date"]}`, `${(Math.round((set["data"]["aggregateRealizedNativeReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`, 
+	// 	`${set["data"]["weightedAverageTotalDomainInvestmentCost"].toFixed(2)}`, `${(Math.round((set["data"]["aggregateRealizedNativeFMVReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,
+	// 	`${(Math.round((set["data"]["aggregateRealizedNativeSupplyDepletion100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`, `${(Math.round((set["data"]["aggregateRealizedNativeMarketDilution100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+	// ]
+	// var csvData = [{ firstname: "Ahmed", lastname: "Tomi", email: "ah@smthing.co.com" }]
+	// set["csv"] = csvData
+	//var csvHeaders = []
+	const [csvData, setCsvData] = useState([])
+
+	const handleCSVDownload = () => {
+		console.log('in datcsv ')
+		var last = set["data"]["realizingNativeRewards"].length
+
+		var csvDataReal = 
+		[ [ 
+				"LPOSBlockchain", "TezosStakingAddress",
+				"Fiat", "PeriodStart", 
+				"PeriodEnd", "QuantityofXTZRewardsSold",  
+				"AverageAssetBasisCost", "FairMarketValueNativeRewardIncome",
+				"SupplyDepletionNativeRewardIncome", "MarketDilutionNativeRewardIncome", 
+		],
+		[
+			"Tezos", `${set["data"]["walletAddress"]}`, `${set["data"]["fiat"]}`, `${set["data"]["realizingNativeRewards"][0]["date"]}`,
+			`${set["data"]["realizingNativeRewards"][last - 1]["date"]}`, `${(Math.round((set["data"]["aggregateRealizedNativeReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`, 
+			`${set["data"]["weightedAverageTotalDomainInvestmentCost"].toFixed(2)}`, `${(Math.round((set["data"]["aggregateRealizedNativeFMVReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,
+			`${(Math.round((set["data"]["aggregateRealizedNativeSupplyDepletion100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`, `${(Math.round((set["data"]["aggregateRealizedNativeMarketDilution100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+		]]
+		setCsvData(csvDataReal)
+		// 	{userRealize: {blockchain:"Tezos"} , {TezosStakingAddress:`${set["data"]["walletAddress"]}`} },
+
+		// ]
+		// 		Fiat: `${set["data"]["fiat"]}`,PeriodStart: `${set["data"]["realizingNativeRewards"][0]["date"]}`, 
+		// 		PeriodEnd:`${set["data"]["realizingNativeRewards"][last - 1]["date"]}`, QuantityofXTZRewardsSold:`${(Math.round((set["data"]["aggregateRealizedNativeReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,  
+		// 		AverageAssetBasisCost:`${set["data"]["weightedAverageTotalDomainInvestmentCost"].toFixed(2)}`, FairMarketValueNativeRewardIncome:`${(Math.round((set["data"]["aggregateRealizedNativeFMVReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,
+		// 		SupplyDepletionNativeRewardIncome:`${(Math.round((set["data"]["aggregateRealizedNativeSupplyDepletion100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,MarketDilutionNativeRewardIncome:`${(Math.round((set["data"]["aggregateRealizedNativeMarketDilution100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`, 
+			
+		// 	},{}
+		// ]
+		// 	// {LPOSBlockchain: "Tezos", TezosStakingAddress: `${set["data"]["walletAddress"]}`,
+		// 	//  Fiat: `${set["data"]["fiat"]}`, PeriodStart: set["data"]["realizingNativeRewards"][0]["date"], 
+		// 	//  PeriodEnd: set["data"]["realizingNativeRewards"][last - 1]["date"], QuantityofXTZRewardsSold: (Math.round((set["data"]["aggregateRealizedNativeReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), 
+		// 	//  AverageAssetBasisCost: set["data"]["weightedAverageTotalDomainInvestmentCost"].toFixed(2), FairMarketValueNativeRewardIncome: (Math.round((set["data"]["aggregateRealizedNativeFMVReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+		// 	// SupplyDepletionNativeRewardIncome: (Math.round((set["data"]["aggregateRealizedNativeSupplyDepletion100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","), MarketDilutionNativeRewardIncome: (Math.round((set["data"]["aggregateRealizedNativeMarketDilution100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") },
+		// 	// ];
+			console.log(csvData)
+
+	}
 
 	const handleDownload = (e) => {
 			e.preventDefault();
@@ -290,7 +356,7 @@ const Analysis = (props) => {
         // doc.text("NAME: " + set["firstName"] + ' ' + set["lastName"], 25, 144)
         // doc.text("EMAIL: " + set["email"], 25, 151)
 
-		doc.save("TezosRewardIncomeStatement.pdf");
+		doc.save("CryptoCountRealization.pdf");
 	};
 
 	// current set data
@@ -683,8 +749,16 @@ const Analysis = (props) => {
 					
 				)}
 				{set["data"]["aggregateRealizedNativeReward100p"] < 1 ?(
-					<div>
-						<div className={classes.the}>RETURN WITH ID:</div>
+					<div className={classes.sticky}>
+						<div className={classes.the}>MORE ACTIONS:<div className={classes.littlelogo}><img
+							src="/logo.png"
+							width="40"
+							height="40"
+							className="d-inline-block align-top"
+							alt="React Bootstrap logo"
+						/></div></div>
+						
+						
 						<div
 								className={classes.help}
 								tooltip-data="Copy the set ID to return to this set without making an account."
@@ -693,11 +767,10 @@ const Analysis = (props) => {
 									className={classes.helpIcon} />
 								</div>
 
-						<div  className={classes.setToggles2}>
+						<div  className={classes.setToggles13}>
 						<div className={classes.words}>SetId: </div>
 						<href className={classes.numberAlive2} id="setId">{(set["data"]["objectId"])}</href>
-						<CopyToClipboard text={(set["data"]["objectId"])}
-						onCopy={() => setIsCopied({isCopied: true})}>
+						<CopyToClipboard text={(set["data"]["objectId"])} onCopy={() => setIsCopied({isCopied: true})}>
 							<button className={classes.words3}><span>{isCopied ? 'Copied' : 'Copy'}</span>
 							</button>
 						</CopyToClipboard>
@@ -819,7 +892,7 @@ const Analysis = (props) => {
 								</div>
 							</div>
 							
-<div  className={classes.setTogglesX}>
+						<div  className={classes.setTogglesX}>
 							<div  className={classes.wordGood}>
 								Avg Basis Investment Cost Per Asset (All Entries): <div className={classes.numberAlive} style={{ fontSize: "1em",
 								}}>
@@ -872,8 +945,8 @@ const Analysis = (props) => {
 
 						</div>
 						{set["data"]["realizingNativeRewards"].length > 0 ?(
-							<div>
-								<div className={classes.the}>MORE ACTIONS:</div>
+							<div className={classes.sticky2}>
+								{/* <div className={classes.the}>MORE ACTIONS:</div>
 								
 								<div
 									className={classes.help}
@@ -888,11 +961,36 @@ const Analysis = (props) => {
 								
 								</div>
 
-								</div>
+								</div> */}
 							</div>
 							
 						): null}
-							<div className={classes.the}>RETURN WITH ID:</div>
+							<div className={classes.sticky}>
+							<div className={classes.the}>MORE ACTIONS:<div className={classes.littlelogo2}><img
+							src="/logo.png"
+							width="40"
+							height="40"
+							className="d-inline-block align-top"
+							alt="React Bootstrap logo"
+						/></div></div>
+							
+								
+								<div
+									className={classes.help}
+									tooltip-data="Download a pdf with full income breakdown and/or save the realization to the database."
+									>
+									<HelpOutlineRoundedIcon
+										className={classes.helpIcon} />
+									</div>
+
+								<div  className={classes.setToggles12}>
+								<div className={classes.the3}><button className={classes.lastButtons} onClick={handleDownload}>Download PDF</button><CSVLink className={classes.lastButtons}filename={"CryptoCountRealization.csv"} asyncOnClick={true} data={csvData}>Download CSV</CSVLink>;
+<button className={classes.lastButtons} onClick={handleSave}>Save</button> 
+								
+								</div>
+
+								{/* </div> */}
+							{/* <div className={classes.the}>RETURN WITH ID:</div>
 							
 							<div
 								className={classes.help}
@@ -900,18 +998,21 @@ const Analysis = (props) => {
 								>
 								<HelpOutlineRoundedIcon
 									className={classes.helpIcon} />
-								</div>
+								</div> */}
 
-							<div  className={classes.setToggles2}>
-							<div className={classes.words}>SetId: </div>
-							<href className={classes.numberAlive2} id="setId">{(set["data"]["objectId"])}</href>
+							{/* <div  className={classes.setToggles2}> */}
+							<div className={classes.words4}>SetId: </div>
+							<href className={classes.numberAlive3} id="setId">{(set["data"]["objectId"])}</href>
 							<CopyToClipboard text={(set["data"]["objectId"])}
-							onCopy={() => setIsCopied({isCopied: true})}>					
-								<button className={classes.words3}><span>{isCopied ? 'Copied' : 'Copy'}</span></button>
-							</CopyToClipboard>
+							onCopy={() => setIsCopied({isCopied: true})}>
+								<button className={classes.words4}><span>{isCopied ? 'Copied' : 'Copy'}</span>
+								</button>
+						</CopyToClipboard>
 							
 
-							</div></>
+							</div>
+							</div>
+							</>
 				) : null}
 				{currentSet > 0 ? (
 					<div className={classes.setToggles}>
@@ -975,3 +1076,4 @@ const Analysis = (props) => {
 };
 
 export default Analysis;
+
