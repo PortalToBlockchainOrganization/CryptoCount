@@ -95,7 +95,8 @@
 	text-align: right;
 	/*z-index: 100;*/
 	display: flex;
-	bottom:0;
+	pointer-events: none;
+	top:30;
 	overflow: hidden;
 	margin-top: 50px;
 	z-index: 5000;
@@ -114,7 +115,8 @@
 	background-color: none;
 	margin: 10px 5px 0px;
 	margin-right: 2.5em;
-	z-index: 100;
+	z-index: 00;
+	pointer-events: none;
 	justify-content: flex-end;
 }
 
@@ -145,3 +147,5 @@
 	text-decoration: none;
 	color: #97101d;
 }
+
+
