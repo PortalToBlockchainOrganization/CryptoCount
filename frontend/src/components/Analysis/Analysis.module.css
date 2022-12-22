@@ -66,7 +66,7 @@
 
   .words{
 	font-family: "Blanka-Regular";
-	font-size: 1.5em;
+	font-size: 1.1em;
 	color: rgb(17, 15, 15);
 	margin: 10px 10px 10px 20px;
   }
@@ -87,7 +87,7 @@
 
   .words3{
 	font-family: "Blanka-Regular";
-	font-size: 1.5em;
+	font-size: 1.1em;
 	color: rgb(17, 15, 15);
 	margin: 10px 10px 10px 20px;
 	border-radius: 5px;
@@ -153,7 +153,7 @@
 	margin-left: 10px;
 	margin-right: 10px;
 	padding: auto;
-	font-size: 1.2em;
+	font-size: 1.1em;
 	display: inline-block;
     font-weight: 200;
     color: #212529;
@@ -192,7 +192,7 @@
 .numberAlive2{
 	margin-left: 50px;
 	margin-right: 50px;
-	font-size: 1.5rem;
+	font-size: 1.1rem;
 	display: inline-block;
     font-weight: 400;
     color: #212529;
@@ -713,5 +713,4 @@
 	margin-left: 5px;
 	color: gray;
 }
-
 
