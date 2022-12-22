@@ -18,8 +18,8 @@
 
 .wrapper {
 	display: block;
-	height: calc(260vh - 57px);
-	min-height: 900px;
+	height: calc(570vh - 57px);
+	/* min-height: 1500px; */
 	overflow-y: scroll;
 	overflow-x: hidden;
 }
@@ -85,7 +85,7 @@ h4{
 	flex-direction: row;
 	align-items: center;
 	margin-bottom: -50px;
-	margin-top: 965px;
+	margin-top: 820px;
 }
 .slideWrap{
 	margin-top: 50px;
@@ -261,13 +261,52 @@ p {
 	margin-bottom: 15px;
 	text-align: center;
 }
+
+
+.helpIcon {
+	font-size: 28px !important;
+	margin-left: 30px;
+	padding: 5px;
+	color:rgb(22, 190, 118);
+	display: flex;
+	transition: all 0.1s ease-in-out;
+	font-family: "Louis George Café", sans-serif;
+	opacity: .8;
+}
+
+.helpIcon:hover {
+	background: rgb(240, 240, 240);
+	padding: 1px;
+	border-radius: 5px;
+}
+
+.help:before {
+	content: attr(tooltip-data);
+	position: absolute;
+	transform: translate(-40%, -100%);
+	width: 200px;
+	padding: 10px;
+	border-radius: 3px;
+	background-color: rgb(96, 98, 227);
+	color: #fff;
+	text-align: center;
+	visibility: hidden;
+	font-family: "Louis George Café", sans-serif;
+	opacity: 0;
+	font-size: 12px;
+}
+
+.help:hover:before {
+	visibility: visible;
+	opacity: 1;
+}
 .setToggles13 {
-	border: 8px solid rgb(134, 148, 148);
+	border: 8px solid rgb(78, 100, 100);
 	border-radius: 7px;
 	background-color: #F1E1E1;
 	display: flex;
 	flex-direction: row;
-	margin-top:50px;
+	margin-top:80px;
 	justify-content: space-around;
 	align-items: center;
 	/* border: 1px solid rgb(177, 177, 177);
