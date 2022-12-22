@@ -16,6 +16,8 @@ const sliderThumbStyles = (props) => (`
 const Styles = styled.div`
     align-item: center;
     color: white;
+    border-radius: 8px;
+    background-color: rgb(76, 63, 63);
     margin-top:5px;
 
     .value{
@@ -89,7 +91,7 @@ export default class Slider extends React.Component{
     render(){
         return(
             <Styles color={this.props.color }>
-                <div className='value4'>Investment USD To TEZ</div>
+                <div className='value4'>In USD To TEZ</div>
                  <div className='value4'>${(this.state.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
                  <br></br>
                  <div >
@@ -97,7 +99,7 @@ export default class Slider extends React.Component{
                  </div>
                  <br></br>
                  <div className='value4'>Expected Annual Return</div>
-                <div className='value5'>${(Math.round((this.state.value * .0516)*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
+                <div className='value5'>${(Math.round((this.state.value * .0616)*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
 
 
             </Styles>
