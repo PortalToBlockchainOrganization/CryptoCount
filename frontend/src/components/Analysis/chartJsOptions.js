@@ -70,7 +70,7 @@ export const chartOptions = (set) => {
 							? fiatLabels[set?.data?.fiat]
 							: "",
 					font: {
-						size: 15,
+						size: 12,
 					},
 					color: "white"
 				},
@@ -94,7 +94,7 @@ export const chartOptions = (set) => {
 					display: true,
 					text: "Date",
 					font: {
-						size: 16,
+						size: 12,
 					},
 					color: "white",
 					
@@ -115,14 +115,14 @@ export const chartOptions = (set) => {
 				text: " ".concat("Native Block Rewards' Accounting Entries"),
 				align: "center",
 				font: {
-					size: 16,
+					size: 12,
 					
 				},
 				color: "white",
 				padding: {
-                    top: 10,
-                    bottom: 30,
-					left: 50
+                    top: 0,
+                    bottom: 0,
+					left: 0
                 },
 				margin:{
 					left: 50
