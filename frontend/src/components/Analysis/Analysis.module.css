@@ -154,9 +154,9 @@
 }
 
 .numberAlive3{
-	margin-left: 50px;
-	margin-right: 50px;
-	font-size: 1.2rem;
+	margin-left: 1px;
+	margin-right: 1px;
+	font-size: .8rem;
 	display: inline-block;
     font-weight: 400;
     color: #212529;
@@ -195,9 +195,9 @@
 
 
 .numberAlive3{
-	margin-left: 20px;
-	margin-right: 20px;
-	font-size: 1rem;
+	margin-left: 5px;
+	margin-right: 5px;
+	font-size: .8rem;
 	display: inline-block;
     font-weight: 400;
     color: #212529;
@@ -226,12 +226,13 @@
 
 .wordGood{
 	font-family: "Louis George Café", sans-serif;
-	font-size: 1.5em;
+	font-size: 1.2em;
 	display: flex;
 	flex-direction: row;
 	color: white;
 	margin: auto;
-	margin-left: 15px;
+	margin-right: 1px;
+	margin-left: 1px;
 	padding: auto;
 }
 
@@ -268,15 +269,16 @@
 
 .thetitle{
 		font-family: "Blanka-Regular";
-		font-size: 2.0em;
+		font-size: 1.9em;
 		color: white;
 		margin: 70px 20px 0px 20px;
+		margin-bottom: 20px;
 		display: flex;
 }
 .Chart {
 	margin-top: 0px;
 	margin-bottom: 80px;
-	width: 100%;
+	width: 74%;
 	max-width: 1100px;
 	background-color: #2e2e2e;
 	border-radius: 5px;
@@ -349,18 +351,21 @@
 }
 
 .setTogglesXY {
-	border: 8px solid rgb(23, 25, 25);
+	border: 5px solid rgb(23, 25, 25);
 	border-radius: 7px;
 	display: flex;
+	width: 70%;
 	flex-direction: row;
 	justify-content: space-around;
 	background-color: #141414;
 	align-items: center;
 	/* border: 1px solid rgb(177, 177, 177);
 	border-radius: 5px; */
-	padding: 25px;
+	padding: 20px;
 	margin: 20px;
-	margin-top: 80px;
+	margin-left: 400px;
+	margin-right: 400px;
+	margin-top: 50px;
 	margin-bottom: 50px;
 }
 
@@ -406,8 +411,10 @@
 }
 
 .canvas{
-	width:1000px !important;
+	/* width:8000px !important; */
 	height:500px !important;
+	width: 74%;
+
 }
 .setToggles4 {
 	border: 8px solid rgb(21, 23, 23);
@@ -690,4 +697,5 @@
 	margin-left: 5px;
 	color: gray;
 }
+
 
