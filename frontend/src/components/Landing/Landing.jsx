@@ -20,8 +20,10 @@ import womenComputer from "../../Assets/womenComputer.json";
 import womenSigning from "../../Assets/womenSigning.json";
 import chrome from "../../Assets/chrome.svg";
 import firefox from "../../Assets/firefox.svg";
+import CopyToClipboard from "react-copy-to-clipboard"
 import SliderComponent from "./Slider.js"
 import bb from "../../Assets/bb.png";
+import { useState } from "react";
 //import { ThemeContext, themes } from '../DarkMode/SizeContainer';
 //import { Slider } from '@mui/material';
 import Slider from 'react-input-slider';
@@ -140,6 +142,7 @@ const Landing = (props) => {
 		
 	}, [props])
 
+	const [isCopied, setIsCopied] = useState(false);
 
 
 	useEffect(()=>{
@@ -350,7 +353,7 @@ const Landing = (props) => {
 						<Form.Group controlId="formBasicEmail">
 						
 							<h4 class="thickerplz">
-								Paste your Address or Tez Domain to Generate an Accounting Object
+								Paste your Address or Tez Domain to Generate an Accounting Set
 							</h4>
 							<Form.Control
 								type="text"
@@ -382,7 +385,7 @@ const Landing = (props) => {
 						<Form.Group controlId="formBasicEmail">
 						
 							<h4 class="thickerplz">
-								Paste Your Object Set Id To Retrieve It
+								Paste Your Set Id To Retrieve It
 							</h4>
 							<Form.Control
 								setId={setId}
@@ -429,11 +432,19 @@ const Landing = (props) => {
 						Learn more about CryptoCount
 					</h2>
 				</div> */}
-				<div className="statsTitle">CryptoCount Stats</div>
+				<div  className="setToggles13">
+					<div className="words3">Demo CryptoCount </div>
+				<CopyToClipboard text={"63924e57daf4e1c27a7735c5"} onCopy={() => setIsCopied({isCopied: true})}>
+							<button className="words3"><span>{isCopied ? 'Copied' : 'Copy Set ID'}</span>
+							</button>
+						</CopyToClipboard>
+				</div>
+
+				<div className="statsTitle">Stats</div>
 				<div className="stats">
 					<div className="stats1">{set["users"]}</div><div className="stats3"> Users </div>
 				
-					<div className="stats1">{set["objects"]}</div><div className="stats3"> Objects</div>
+					<div className="stats1">{set["objects"]}</div><div className="stats3"> Sets</div>
 					</div>
 					<div>
 					<div className="stats2">Powered By Google and PTBO TECH</div>
@@ -541,7 +552,7 @@ const Landing = (props) => {
 				
 					<div className="name-one-liner2">
 						<div className="logo-tagline4">
-							Interested in staking on Tezos? See your expected return below 
+							See expected Tezos staking return below 
 						</div>
 					</div>
 					
@@ -640,7 +651,7 @@ const Landing = (props) => {
 			<div >
 			<div className="bb2">
 					<h2 className="logo-tagline5">
-						Find the best baker here:
+						Visit BakingBad for the latest status of Tezos Bakers:
 					</h2>
 				</div>
 				<a className="bb3" rel="noreferrer" target="_blank" href="https://baking-bad.org"><img className="bb" src={BakingBad} alt="BB"></img></a>
@@ -696,4 +707,3 @@ const Landing = (props) => {
 };
 
 export default Landing;
-
