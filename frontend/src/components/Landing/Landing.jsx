@@ -19,6 +19,7 @@ import womenThinking from "../../Assets/womenThinking.json";
 import womenComputer from "../../Assets/womenComputer.json";
 import womenSigning from "../../Assets/womenSigning.json";
 import chrome from "../../Assets/chrome.svg";
+import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";
 import firefox from "../../Assets/firefox.svg";
 import CopyToClipboard from "react-copy-to-clipboard"
 import SliderComponent from "./Slider.js"
@@ -354,7 +355,15 @@ const Landing = (props) => {
 						
 							<h4 class="thickerplz">
 								Paste your Address or Tez Domain to Generate an Accounting Set
+								<div
+								className="help"
+								tooltip-data="Copy your Tezos address from your wallet and paste it in the field to view your accounting set"
+								>
+								<HelpOutlineRoundedIcon
+									className="helpIcon" />
+								</div>
 							</h4>
+							
 							<Form.Control
 								type="text"
 								class="placeholdbetter"
@@ -386,6 +395,13 @@ const Landing = (props) => {
 						
 							<h4 class="thickerplz">
 								Paste Your Set Id To Retrieve It
+								<div
+								className="help"
+								tooltip-data="Paste in a set id to retrieve your updated accounting set from a previous CryptoCount session."
+								>
+								<HelpOutlineRoundedIcon
+									className="helpIcon" />
+								</div>
 							</h4>
 							<Form.Control
 								setId={setId}
@@ -434,7 +450,14 @@ const Landing = (props) => {
 				</div> */}
 				<div  className="setToggles13">
 					<div className="words3">Demo CryptoCount </div>
-				<CopyToClipboard text={"63a3cde7c5ee454b16775dcf"} onCopy={() => setIsCopied({isCopied: true})}>
+					<div
+								className="help"
+								tooltip-data="Copy a sample set id and paste it above to demo CryptoCount"
+								>
+								<HelpOutlineRoundedIcon
+									className="helpIcon" />
+								</div>
+				<CopyToClipboard text={"63924e57daf4e1c27a7735c5"} onCopy={() => setIsCopied({isCopied: true})}>
 							<button className="words3"><span>{isCopied ? 'Copied' : 'Copy Set ID'}</span>
 							</button>
 						</CopyToClipboard>
