@@ -750,7 +750,13 @@ const Analysis = (props) => {
 				)}
 				{set["data"]["aggregateRealizedNativeReward100p"] < 1 ?(
 					<div className={classes.sticky}>
-						<div className={classes.the}>MORE ACTIONS:<div className={classes.littlelogo}><img
+						<div className={classes.the}>MORE ACTIONS: <div
+								className={classes.help}
+								tooltip-data="Copy the set ID to return to this set without making an account."
+								>
+								<HelpOutlineRoundedIcon
+									className={classes.helpIcon} />
+								</div><div className={classes.littlelogo}><img
 							src="/logo.png"
 							width="40"
 							height="40"
@@ -759,13 +765,7 @@ const Analysis = (props) => {
 						/></div></div>
 						
 						
-						<div
-								className={classes.help}
-								tooltip-data="Copy the set ID to return to this set without making an account."
-								>
-								<HelpOutlineRoundedIcon
-									className={classes.helpIcon} />
-								</div>
+						
 
 						<div  className={classes.setToggles13}>
 						<div className={classes.words}>SetId: </div>
@@ -966,7 +966,13 @@ const Analysis = (props) => {
 							
 						): null}
 							<div className={classes.sticky}>
-							<div className={classes.the}>MORE ACTIONS:<div className={classes.littlelogo2}><img
+							<div className={classes.the}>MORE ACTIONS: <div
+									className={classes.help}
+									tooltip-data="Download a pdf with full income breakdown and/or save the realization to the database."
+									>
+									<HelpOutlineRoundedIcon
+										className={classes.helpIcon} />
+									</div><div className={classes.littlelogo2}><img
 							src="/logo.png"
 							width="40"
 							height="40"
@@ -975,13 +981,7 @@ const Analysis = (props) => {
 						/></div></div>
 							
 								
-								<div
-									className={classes.help}
-									tooltip-data="Download a pdf with full income breakdown and/or save the realization to the database."
-									>
-									<HelpOutlineRoundedIcon
-										className={classes.helpIcon} />
-									</div>
+								
 
 								<div  className={classes.setToggles12}>
 								<div className={classes.the3}><button className={classes.lastButtons} onClick={handleDownload}>Download PDF</button><CSVLink className={classes.lastButtons}filename={"CryptoCountRealization.csv"} asyncOnClick={true} data={csvData}>Download CSV</CSVLink>;
