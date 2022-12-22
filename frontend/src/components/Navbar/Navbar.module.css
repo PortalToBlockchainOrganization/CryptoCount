@@ -103,9 +103,10 @@
 }
 
 .Beta {
+	font-size: .9em;
 	color: darkgray;
 	justify-content: flex-start;
-	margin: 25px 25px 0px 50px;
+	margin: 20px 20px 0px 40px;
 	width: 10%;
 }
 
@@ -147,5 +148,4 @@
 	text-decoration: none;
 	color: #97101d;
 }
-
 
