@@ -749,7 +749,7 @@ const Analysis = (props) => {
 					
 				)}
 				{set["data"]["aggregateRealizedNativeReward100p"] < 1 ?(
-					<div className={classes.sticky}>
+					<div className={classes.sticky6}>
 						<div className={classes.the}>MORE ACTIONS: <div
 								className={classes.help}
 								tooltip-data="Copy the set ID to return to this set without making an account."
