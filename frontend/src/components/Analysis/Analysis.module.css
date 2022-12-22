@@ -19,9 +19,25 @@
 	/* margin-left: 100px; */
 	right: auto;
 	opacity: 1;
+	align-items: center !important;
 	padding: auto;
 	margin-right: 10px;
-	margin-left: 10px;
+	margin-left: -100px;
+	border-radius: 5px;
+	background-color: #6c5d5d;
+	margin-bottom: 10px;
+}
+
+.sticky6{
+	position: fixed;
+  	bottom: 0;
+	/* margin-left: 100px; */
+	right: auto;
+	opacity: 1;
+	align-items: center !important;
+	padding: auto;
+	margin-right: 10px;
+	margin-left: 100px;
 	border-radius: 5px;
 	background-color: #6c5d5d;
 	margin-bottom: 10px;
@@ -30,7 +46,7 @@
 .sticky2{
 	position: fixed;
   	bottom: 200px;
-	margin-left: 100px;
+	margin-left: 10px;
 	right: auto;
 	opacity: .8;
 	border-radius: 5px;
@@ -544,7 +560,7 @@
 
 .helpIcon:hover {
 	background: rgb(240, 240, 240);
-	padding: 5px;
+	padding: 1px;
 	border-radius: 5px;
 }
 
