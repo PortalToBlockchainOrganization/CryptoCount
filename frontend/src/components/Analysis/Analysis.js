@@ -737,7 +737,7 @@ const Analysis = (props) => {
 
 					<div>	
 						<Button className={classes.the2} onClick={handleRealizing} variant="danger">
-								Generate Income
+								Generate Asset Income
 							</Button>
 							
 					</div>	
