@@ -410,10 +410,10 @@ p {
 	border-style: solid;
 	border-radius: 10px;
 	border-bottom-color: rgba(154,216,94,255);
-	border-top-width: 6px;
+	border-top-width: 4px;
 	border-right-width: 10px;;
 	border-left-width: 10px;
-	border-bottom-width: 6px;
+	border-bottom-width: 4px;
 	border-top-color: rgba(154,216,94,255);
 	
 	/* rgb(25, 25, 215); */
