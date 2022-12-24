@@ -301,7 +301,7 @@ p {
 	opacity: 1;
 }
 .setToggles13 {
-	border: 8px solid rgb(78, 100, 100);
+	border: 4px solid rgb(78, 100, 100);
 	border-radius: 7px;
 	background-color: #F1E1E1;
 	display: flex;
@@ -688,5 +688,4 @@ p {
 	margin-bottom: -30px;
 
 }
-
 
