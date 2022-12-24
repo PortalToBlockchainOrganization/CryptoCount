@@ -457,7 +457,7 @@ const Landing = (props) => {
 								<HelpOutlineRoundedIcon
 									className="helpIcon" />
 								</div>
-				<CopyToClipboard text={"63924e57daf4e1c27a7735c5"} onCopy={() => setIsCopied({isCopied: true})}>
+				<CopyToClipboard text={"63a72b83a595886ae2ebf4eb"} onCopy={() => setIsCopied({isCopied: true})}>
 							<button className="words3"><span>{isCopied ? 'Copied' : 'Copy Set ID'}</span>
 							</button>
 						</CopyToClipboard>
@@ -540,7 +540,7 @@ const Landing = (props) => {
 					<img className="ptbo-link" src={GitHubIcon} alt="ptbo" />
 				</a>
 				<a
-						href="https://discord.gg/a4PhFgBf"
+						href="https://discord.gg/7rYEu5c32E"
 						target="_blank"
 						rel="noreferrer"
 						className="download-link"
