@@ -57,6 +57,7 @@ const Analysis = (props) => {
 	}, []);
 
 	const quantityRealize = React.createRef([]);
+	var quantityRealizeInForm = " XTZ"
 	
 
 	useEffect((e)=>{
@@ -243,6 +244,9 @@ const Analysis = (props) => {
 		// quantityRealize is Ref
 		quantityRealize.current.value =
 			set["data"]["aggregateUnrealizedNativeReward25p"].toFixed(0);
+
+		quantityRealizeInForm = quantityRealize.current.value.toString() + " XTZ"
+		console.log(quantityRealizeInForm)
 	};
 
 	const handle50 = (e /** DOM event, click */) => {
@@ -669,7 +673,7 @@ const Analysis = (props) => {
 							<div className={classes.quantGroup}>
 
 							
-								<div className={classes.words}>Quantity</div>
+								<div className={classes.words}>Reward Quantity</div>
 								<div
 									className={classes.help}
 									tooltip-data="Select up to 100% of native rewards. "
@@ -711,10 +715,11 @@ const Analysis = (props) => {
 						<form className="form-inline cool-form">
 
 						<div className="col-sm-4">
-						<input className={classes.smallerInput} placeholder="XTZ" ref={quantityRealize}/>
+						<input className={classes.smallerInput} placeholder={quantityRealizeInForm} ref={quantityRealize}/>
 						</div>
 						</form>
 						</div>	
+						<div>XTZ</div>
 
 							
 						</div>
@@ -955,12 +960,10 @@ const Analysis = (props) => {
 									<HelpOutlineRoundedIcon
 										className={classes.helpIcon} />
 									</div>
-
 								<div  className={classes.setToggles2}>
 								<div className={classes.the2}><button className={classes.lastButtons} onClick={handleDownload}>Download Statement</button><button className={classes.lastButtons} onClick={handleSave}>Save</button> 
 								
 								</div>
-
 								</div> */}
 							</div>
 							
@@ -1076,4 +1079,3 @@ const Analysis = (props) => {
 };
 
 export default Analysis;
-
