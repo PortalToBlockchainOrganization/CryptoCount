@@ -234,7 +234,8 @@
 .diffs{
 	border: #f1e1e1;
 	border-radius: 5px;
-	font-size: 1.5em;
+	font-family: "Louis George Café", sans-serif;
+	font-size: 1.25em !important;
 	padding-left: 15px;
 	padding-right: 15px;
 	margin: auto;
