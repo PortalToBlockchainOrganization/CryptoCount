@@ -457,7 +457,7 @@ const Landing = (props) => {
 								<HelpOutlineRoundedIcon
 									className="helpIcon" />
 								</div>
-				<CopyToClipboard text={"63a72b83a595886ae2ebf4eb"} onCopy={() => setIsCopied({isCopied: true})}>
+				<CopyToClipboard text={"63924e57daf4e1c27a7735c5"} onCopy={() => setIsCopied({isCopied: true})}>
 							<button className="words3"><span>{isCopied ? 'Copied' : 'Copy Set ID'}</span>
 							</button>
 						</CopyToClipboard>
@@ -540,7 +540,7 @@ const Landing = (props) => {
 					<img className="ptbo-link" src={GitHubIcon} alt="ptbo" />
 				</a>
 				<a
-						href="https://discord.gg/7rYEu5c32E"
+						href="https://discord.gg/a4PhFgBf"
 						target="_blank"
 						rel="noreferrer"
 						className="download-link"
@@ -576,7 +576,15 @@ const Landing = (props) => {
 					<div className="name-one-liner2">
 						<div className="logo-tagline4">
 							See expected Tezos staking return below 
+							<div
+								className="help"
+								tooltip-data="Expected annual return around 6.5%, XTZ price to fiat random variable with expected normal distribution"
+								>
+								<HelpOutlineRoundedIcon
+									className="helpIcon" />
+								</div>
 						</div>
+						
 					</div>
 					
 					<SliderComponent></SliderComponent>
