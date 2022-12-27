@@ -164,7 +164,7 @@ export const chartOptions = (set) => {
 							console.log(e)
 						}
 						
-						var string = "Quantity of Tez: "
+						var string = "Entry Quantity of Tez: "
 						if(it!==undefined){
 							string = "Quantity of Tez: " + it 
 						}
