@@ -234,11 +234,13 @@
 .diffs{
 	border: #f1e1e1;
 	border-radius: 5px;
-	font-size: 1.2em;
+	font-size: 1.5em;
 	padding-left: 15px;
 	padding-right: 15px;
 	margin: auto;
 	padding: auto;
+	margin-left: 10px;
+	margin-right: 5px;
 }
 
 .wordGood{
