@@ -128,6 +128,26 @@ const Analysis = (props) => {
 		setCurrentSet();
 	};
 
+	//undo functionality
+	const setIdQuery = (e) => {
+		// if (props.set["data"] !== undefined) {
+		// 	props.resetSet();
+		// }
+		console.log('query')
+
+		console.log(set["data"]["objectId"])
+		console.log(user._id)
+		
+		getSet(set["data"]["objectId"],user._id);
+			// () => {
+			// 	props.history.push("/analysis");
+			// }
+		
+		// props.history.push("/analysis");
+		// setShowModal(false);
+		e.preventDefault();
+	};
+
 	const handleRealizing = (e) => {
 		/* if there is set data and quantityRealize is not 0 then allow API
 		request to get Realized
@@ -657,7 +677,7 @@ const Analysis = (props) => {
 
 					
 							<div className={classes.space}>
-								<div className={classes.the}>F. I. F. O. Station</div>
+								<div className={classes.the}>F. I. F. O. Native Block Reward Mockup</div>
 								<div
 									className={classes.help}
 									tooltip-data="Enter or select a quantity of native rewards you'd like to sell. "
@@ -740,10 +760,27 @@ const Analysis = (props) => {
 							</div> */}
 					<div className={classes.setToggles2}>	
 
-					<div>	
-						<Button className={classes.the2} onClick={handleRealizing} variant="danger">
-								Generate Asset Income
+					<div className={classes.buttWrap}>	
+						<Button className={classes.the2} onClick={handleRealizing} block variant="success">
+								Generate Asset Realization Income
 							</Button>
+							<Button
+							className={classes.the7}
+							// disabled={
+							// 	setId["setId"].length > 0 ? "" : "disabled"
+							// }
+							variant="danger"
+							block
+							onClick={setIdQuery}
+						>
+							Undo Realization
+						</Button>
+						<div
+						className={classes.help}
+						tooltip-data="Undo will not undo a Saved realization, only assets in the Realizing state (CC 0.2.2 Spec)"
+					>
+						<HelpOutlineRoundedIcon className={classes.helpIcon} />
+					</div>
 							
 					</div>	
 					</div>	
@@ -794,7 +831,7 @@ const Analysis = (props) => {
 
 				{set["data"]["aggregateRealizedNativeReward100p"] > 1 ? (
 					<><div className={classes.space}>
-						<div className={classes.the}>Income Station</div>
+						<div className={classes.the}>Income Metrics</div>
 						
 							<div
 								className={classes.help}
