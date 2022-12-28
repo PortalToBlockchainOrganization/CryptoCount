@@ -1006,7 +1006,7 @@ const Analysis = (props) => {
 							
 						): null}
 							<div className={classes.sticky}>
-							<div className={classes.the}>MORE ACTIONS: <div
+							<div className={classes.the}>REALIZING ASSET ACTIONS: <div
 									className={classes.help}
 									tooltip-data="Download a pdf with full income breakdown and/or save the realization to the database."
 									>
