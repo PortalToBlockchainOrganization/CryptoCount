@@ -670,7 +670,7 @@ class TezosSet {
             try {
                 let mainValue2 = 0;
                 this.realizingNativeFMVRewards.forEach((value) => {
-                    if (value.rewardAmount !== undefined) {
+                    if (value.rewardAmount) {
                         mainValue2 += value.rewardAmount;
                     }
                 });
@@ -678,7 +678,7 @@ class TezosSet {
                 this.aggregateRealizedNativeFMVReward50p = mainValue2 * 0.5;
                 let mainValue3 = 0;
                 this.realizingNativeMarketDilutionRewards.forEach((value) => {
-                    if (value.rewardAmount !== undefined) {
+                    if (value.rewardAmount) {
                         mainValue3 += value.rewardAmount;
                     }
                 });
@@ -686,7 +686,7 @@ class TezosSet {
                 this.aggregateRealizedNativeMarketDilution50p = mainValue3 * 0.5;
                 let mainValue4 = 0;
                 this.realizingNativeSupplyDepletionRewards.forEach((value) => {
-                    if (value.rewardAmount !== undefined) {
+                    if (value.rewardAmount) {
                         mainValue4 += value.rewardAmount;
                     }
                 });
@@ -1875,5 +1875,3 @@ let ts = new TezosSet();
 //payout model and supported payout models on this one above, make handling for bad baker payout data requests
 // other payloads blockchain operation types into baker processing 
 //active documentation https://api.tzkt.io/#operation/Rewards_GetBakerRewards
-
-
