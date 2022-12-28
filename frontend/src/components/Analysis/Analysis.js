@@ -762,7 +762,7 @@ const Analysis = (props) => {
 
 					<div className={classes.buttWrap}>	
 						<Button className={classes.the2} onClick={handleRealizing} block variant="success">
-								Generate Asset Realization Income
+								Generate Asset Income Assessment
 							</Button>
 							<Button
 							className={classes.the7}
