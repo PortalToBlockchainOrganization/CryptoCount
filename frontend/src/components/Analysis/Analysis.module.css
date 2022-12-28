@@ -106,10 +106,24 @@
 
   .the2{
 	font-family: "Blanka-Regular";
-
+	
 	font-size: 1.2em;
 	color: white;
-	margin: 10px 40px 10px 20px;
+	margin-right: 0px;
+
+  }
+
+  .buttWrap{
+	display: flex;
+  }
+
+  .the7{
+	font-family: "Blanka-Regular";
+
+	font-size: 1.0em;
+	color: white;
+	margin-left: 50px;
+	margin-right: 0px;
 
   }
 
@@ -717,4 +731,3 @@
 	margin-left: 5px;
 	color: gray;
 }
-
