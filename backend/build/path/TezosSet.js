@@ -547,7 +547,7 @@ class TezosSet {
                     //add date if the baker off by one to cycles error is detected
                     if (unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date] === undefined) {
                         console.log('inpatch');
-                        let date = this.unrealizedNativeMarketDilutionRewards[i].date;
+                        let date = this.unrealizedNativeMarketDilutionRewards[i - 1].date;
                         // let newDate: any
                         // let date = new Date(this.unrealizedNativeMarketDilutionRewards[i].date)
                         // date.setDate(date.getDate() + 1);
@@ -1875,4 +1875,5 @@ let ts = new TezosSet();
 //payout model and supported payout models on this one above, make handling for bad baker payout data requests
 // other payloads blockchain operation types into baker processing 
 //active documentation https://api.tzkt.io/#operation/Rewards_GetBakerRewards
+
 
