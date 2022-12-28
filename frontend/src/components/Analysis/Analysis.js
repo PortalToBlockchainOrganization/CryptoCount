@@ -1008,7 +1008,7 @@ const Analysis = (props) => {
 							<div className={classes.sticky}>
 							<div className={classes.the}>REALIZING ASSET ACTIONS: <div
 									className={classes.help}
-									tooltip-data="Download a pdf with full income breakdown and/or save the realization to the database."
+									tooltip-data="Download a pdf with the full asset income breakdown and/or save the asset realization to return to it later with updated unrealized entries."
 									>
 									<HelpOutlineRoundedIcon
 										className={classes.helpIcon} />
