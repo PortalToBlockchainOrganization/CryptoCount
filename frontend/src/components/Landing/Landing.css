@@ -238,8 +238,7 @@ p {
 
 .logo-tagline3 {
 	font-size: 1.5em;
-	/*font-family: 'Blanka-Regular';*/
-	font-family: "Louis George Café", sans-serif;
+	font-family: 'Blanka-Regular';
 	font-weight: 700;
 	color: #2e2e2e;
 	margin-top: 20px;
@@ -319,8 +318,7 @@ p {
 	/* margin: 60px 60px 60px 60px; */
 }
 .words3{
-	font-family: "Louis George Café", sans-serif;
-	/*font-family: "Blanka-Regular";*/
+	font-family: "Blanka-Regular";
 	font-size: 1.5em;
 	color: rgb(17, 15, 15);
 	margin: 10px 10px 10px 20px;
@@ -374,8 +372,8 @@ p {
 	color: white;
 	font-size: 2.1em;
 	margin-bottom: -70px;
-	/*font-family: 'Blanka-Regular';*/
-	font-family: "Louis George Café", sans-serif;
+	font-family: 'Blanka-Regular';
+	
 	
 }
 .stats1{
@@ -388,8 +386,8 @@ p {
 	margin: auto;
 	padding: 30px 30px 30px 30px;
 	font-size: 1.5em;
-	/*font-family: 'Blanka-Regular';*/
-	font-family: "Louis George Café", sans-serif;
+	font-family: 'Blanka-Regular';
+	
 }
 
 .stats2{
