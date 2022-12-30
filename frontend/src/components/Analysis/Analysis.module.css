@@ -560,8 +560,8 @@
 }
 
 .buttonAndInfo {
-	/* font-family: 'Blanka-Regular'; */
-	font-family: "Louis George Café", sans-serif;
+	font-family: 'Blanka-Regular'; 
+	/*font-family: "Louis George Café", sans-serif;*/
 	display: flex;
 	flex-direction: row;
 	align-items: center;
