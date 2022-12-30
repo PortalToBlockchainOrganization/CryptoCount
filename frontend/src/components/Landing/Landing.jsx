@@ -463,11 +463,11 @@ const Landing = (props) => {
 						</CopyToClipboard>
 				</div>
 
-				<div className="statsTitle">Stats</div>
+				<div className="statsTitle">STATS</div>
 				<div className="stats">
-					<div className="stats1">{set["users"]}</div><div className="stats3"> Users </div>
+					<div className="stats1">{set["users"]}</div><div className="stats3"> USERS </div>
 				
-					<div className="stats1">{set["objects"]}</div><div className="stats3"> Sets</div>
+					<div className="stats1">{set["objects"]}</div><div className="stats3"> SETS</div>
 					</div>
 					<div>
 					<div className="stats2">Powered By Google and PTBO TECH</div>
