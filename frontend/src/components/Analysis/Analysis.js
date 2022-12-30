@@ -622,7 +622,7 @@ const Analysis = (props) => {
 										updateChart("unrealizedNativeSupplyDepletionRewards")
 									}
 								>
-									Tez Native Supply Depletion
+									XTZ Native Supply Depletion
 								</Button>
 								<div
 									className={classes.help}
@@ -645,7 +645,7 @@ const Analysis = (props) => {
 										updateChart("unrealizedNativeMarketDilutionRewards")
 									}
 								>
-									Tez Market Value Dilution
+									XTZ Market Value Dilution
 								</Button>
 								<div
 									className={classes.help}
