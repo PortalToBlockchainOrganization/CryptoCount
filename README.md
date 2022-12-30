@@ -8,7 +8,7 @@ WebApp: https://cryptocount.co
 
 API Documentation: https://portaltoblockchain.org/client 
 
-CryptoCount 0.3.0 adds Capital Gain calculations for transactions, FMV assessments of DeFi/Dapp rewards, and on chain consolidation of tax payments into smart contracts for revenue authority collection.
+CryptoCount 0.3.0 adds Capital Gain calculations for XTZ and token contract transactions, FMV assessments of DeFi/Dapp rewards, and on chain consolidation of tax payments into smart contracts for revenue authority collection.
 
 To follow the latest developments as they happen, join the Discord linked in the website.
 
