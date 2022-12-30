@@ -593,7 +593,7 @@ const Analysis = (props) => {
 										updateChart("unrealizedNativeFMVRewards");
 									}}
 								>
-									FMV Set
+									XTZ FMV Set
 								</Button>
 
 								<div
