@@ -219,7 +219,8 @@
     padding: 0.375rem 0.75rem;
     line-height: 1.5;
 	background-color: rgb(22, 190, 118);
-	font-family: 'Blanka-Regular';
+	font-family: "Louis George Café", sans-serif;
+	/*font-family: 'Blanka-Regular';*/
     border-radius: 0.25rem;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
@@ -240,7 +241,8 @@
     padding: 0.375rem 0.75rem;
     line-height: 1.5;
 	background-color: rgb(22, 190, 118);
-	font-family: 'Blanka-Regular';
+		font-family: "Louis George Café", sans-serif;
+	/*font-family: 'Blanka-Regular';*/
     border-radius: 0.25rem;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
@@ -558,7 +560,8 @@
 }
 
 .buttonAndInfo {
-	font-family: "Blanka-Regular";
+	/* font-family: 'Blanka-Regular'; */
+	font-family: "Louis George Café", sans-serif;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
