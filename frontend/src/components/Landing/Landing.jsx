@@ -341,7 +341,7 @@ const Landing = (props) => {
 				<br />
 				<br />
 				<div className="name-one-liner">
-					<h1 className="logo-name">CryptoCount</h1>
+					<h1 className="logo-name">CRYPTOCOUNT</h1>
 				</div>
 				
 				<div className="name-one-liner">
