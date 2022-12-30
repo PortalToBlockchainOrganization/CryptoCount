@@ -120,8 +120,9 @@ h4{
 
 #dark .logo-name {
 	font-size: 5em;
-	font-family: "Louis George Café", sans-serif;
-	font-weight: 950;
+	font-family: 'Blanka-Regular';
+	/*font-family: "Louis George Café", sans-serif;*/
+	font-weight: 750;
 	color: white;
 }
 
