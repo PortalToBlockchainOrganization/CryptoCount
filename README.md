@@ -21,7 +21,11 @@ On branch master.
 #Build Database
 cd backend/src
 
-Initialize a local MongoDb collection and paste the URL into db_update.py
+Initialize a local MongoDb collection -> https://www.mongodb.com/basics/create-database
+
+Paste the URL into db_update.py
+
+Install python requirements.txt
 
 nohup python3 db_update.py & disown
 
