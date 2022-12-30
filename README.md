@@ -18,7 +18,7 @@ Checkout CryptoCount.
 
 On branch master.
 
-#Build Database
+# Build Database
 cd backend/src
 
 Initialize a local MongoDb collection -> https://www.mongodb.com/basics/create-database
