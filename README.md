@@ -25,6 +25,8 @@ Initialize a local MongoDb collection -> https://www.mongodb.com/basics/create-d
 
 Paste the URL into db_update.py
 
+Change the final line in db_update.py to your timezone relative to UTC
+
 Install python requirements.txt
 
 nohup python3 db_update.py & disown
