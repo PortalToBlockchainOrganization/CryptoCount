@@ -310,21 +310,38 @@ const Analysis = (props) => {
 	const handleCSVDownload = () => {
 		console.log('in datcsv ')
 		var last = set["data"]["realizingNativeRewards"].length
-
-		var csvDataReal = 
-		[ [ 
-				"LPOSBlockchain", "TezosStakingAddress",
-				"Fiat", "PeriodStart", 
-				"PeriodEnd", "QuantityofXTZRewardsSold",  
-				"AverageAssetBasisCost", "FairMarketValueNativeRewardIncome",
-				"SupplyDepletionNativeRewardIncome", "MarketDilutionNativeRewardIncome", 
-		],
-		[
-			"Tezos", `${set["data"]["walletAddress"]}`, `${set["data"]["fiat"]}`, `${set["data"]["realizingNativeRewards"][0]["date"]}`,
-			`${set["data"]["realizingNativeRewards"][last - 1]["date"]}`, `${(Math.round((set["data"]["aggregateRealizedNativeReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`, 
-			`${set["data"]["weightedAverageTotalDomainInvestmentCost"].toFixed(2)}`, `${(Math.round((set["data"]["aggregateRealizedNativeFMVReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,
-			`${(Math.round((set["data"]["aggregateRealizedNativeSupplyDepletion100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`, `${(Math.round((set["data"]["aggregateRealizedNativeMarketDilution100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
-		]]
+		if(last !== 0){
+			var csvDataReal = 
+			[ [ 
+					"LPOSBlockchain", "TezosStakingAddress",
+					"Fiat", "PeriodStart", 
+					"PeriodEnd", "QuantityofXTZRewardsSold",  
+					"AverageAssetBasisCost", "FairMarketValueNativeRewardIncome",
+					"SupplyDepletionNativeRewardIncome", "MarketDilutionNativeRewardIncome", 
+			],
+			[
+				"Tezos", `${set["data"]["walletAddress"]}`, `${set["data"]["fiat"]}`, `${set["data"]["realizingNativeRewards"][0]["date"]}`,
+				`${set["data"]["realizingNativeRewards"][last - 1]["date"]}`, `${(Math.round((set["data"]["aggregateRealizedNativeReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`, 
+				`${set["data"]["weightedAverageTotalDomainInvestmentCost"].toFixed(2)}`, `${(Math.round((set["data"]["aggregateRealizedNativeFMVReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,
+				`${(Math.round((set["data"]["aggregateRealizedNativeSupplyDepletion100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`, `${(Math.round((set["data"]["aggregateRealizedNativeMarketDilution100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+			]]
+		}
+		else{
+			csvDataReal = 
+			[ [ 
+					"LPOSBlockchain", "TezosStakingAddress",
+					"Fiat", "PeriodStart", 
+					"PeriodEnd", "QuantityofXTZRewardsSold",  
+					"AverageAssetBasisCost", "FairMarketValueNativeRewardIncome",
+					"SupplyDepletionNativeRewardIncome", "MarketDilutionNativeRewardIncome", 
+			],
+			[
+				"Tezos", `${set["data"]["walletAddress"]}`, `${set["data"]["fiat"]}`, `${set["data"]["realizedNativeRewards"][0]["date"]}`,
+				`${set["data"]["realizedNativeRewards"][last - 1]["date"]}`, `${(Math.round((set["data"]["aggregateRealizedNativeReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`, 
+				`${set["data"]["weightedAverageTotalDomainInvestmentCost"].toFixed(2)}`, `${(Math.round((set["data"]["aggregateRealizedNativeFMVReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,
+				`${(Math.round((set["data"]["aggregateRealizedNativeSupplyDepletion100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`, `${(Math.round((set["data"]["aggregateRealizedNativeMarketDilution100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+			]]
+		}
 		setCsvData(csvDataReal)
 		// 	{userRealize: {blockchain:"Tezos"} , {TezosStakingAddress:`${set["data"]["walletAddress"]}`} },
 
