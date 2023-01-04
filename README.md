@@ -2,7 +2,7 @@
 
 Open Source Under MIT License. 
 
-CryptoCount 0.2.2 tracks and mocks up realizations of native Tezos DeFi block rewards with income metrics for tax reporting and asset management.
+CryptoCount 0.2.3.1 tracks and mocks up realizations of native Tezos DeFi block rewards with income metrics for tax reporting and asset management.
 
 WebApp: https://cryptocount.co
 
