@@ -25,6 +25,7 @@ const loadingTexts = ["Reading or updating data from Tezos net. Delegator data w
 
 const Analysis = (props) => {
 	const history = useHistory();
+	console.log(props)
 	const {
 		params,
 		set,
@@ -37,6 +38,7 @@ const Analysis = (props) => {
         saveRealizing,
         user,
 		signedIn,
+		umbrellaHolder,
 	} = props;
 	// const [isLoading, setIsLoading] = useState(set["isLoading"])
 	const [showModal, setShowModal] = useState(true);
@@ -65,7 +67,21 @@ const Analysis = (props) => {
 		
 		}, [])
 	
+	//call use effect to get umbrellaholder
+	// useEffect(()=>{
+	// 	umbrellaHolder(set["data"]["umbrellaHolderId"])
+	// }, [set, umbrellaHolder])
+	const [umbrellaArray, setUmbrellaArray] = useState([])
 
+	const getUmbrellaHolderComponent = ()=>{
+		var umbrellaHolderId = set["data"]["umbrellaHolderId"]
+		umbrellaHolder(umbrellaHolderId)
+	// 	.then((value)=>{
+	// 		setUmbrellaArray(value)
+	// 	})
+	// 	console.log(umbrellaArray)
+	// 
+	}
 
 	// rerender the chart
 	useEffect(() => {
@@ -126,6 +142,29 @@ const Analysis = (props) => {
 		setShowModal(false);
 		getSet(set["dupId"]);
 		setCurrentSet();
+	};
+
+	const [oldSetId, setoldSetId] = useState('');
+
+
+	const oldSetIdQuery = (id) => {
+		// if (props.set["data"] !== undefined) {
+		// 	props.resetSet();
+		// }
+		//e.preventDefault();
+		console.log('query')
+
+		console.log(set["data"]["objectId"])
+		console.log(user._id)
+		
+		getSet(id,user._id);
+			// () => {
+			// 	props.history.push("/analysis");
+			// }
+		
+		// props.history.push("/analysis");
+		// setShowModal(false);
+		//e.preventDefault();
 	};
 
 	//undo functionality
@@ -327,8 +366,9 @@ const Analysis = (props) => {
 			]]
 		}
 		else{
+			last = set["data"]["realizedNativeRewards"].length
 			csvDataReal = 
-			[ [ 
+			[[ 
 					"LPOSBlockchain", "TezosStakingAddress",
 					"Fiat", "PeriodStart", 
 					"PeriodEnd", "QuantityofXTZRewardsSold",  
@@ -578,10 +618,10 @@ const Analysis = (props) => {
 						<Spinner animation="border" variant="danger" />
 					</div>
 				) : (
-				
+					
 					
 					<div>
-
+						
 					<div>
 							<div className={classes.space}>
 								<div className={classes.the}>Toggle Chart Accounting Set</div>
@@ -672,6 +712,22 @@ const Analysis = (props) => {
 										className={classes.helpIcon}
 									/>
 								</div>
+							</div>
+					</div>
+					<div><Button className={classes.buttonAndInfo3} onClick={getUmbrellaHolderComponent}>List Saved States</Button>
+							<div className={classes.buttonAndInfo}>
+								{console.log(set["umbrellaHolder"])}
+								<div>
+									{set["umbrellaHolder"] ? 
+										set["umbrellaHolder"].map((umbrellaId, index) => ( 
+										<div>
+											<li className={classes.listOfIds}>{umbrellaId.id}<Button className={classes.buttonAndInfo2}onClick={()=>{oldSetIdQuery(umbrellaId.id)}}>Retreive State</Button></li>
+											
+										</div>
+									))  : null}
+									
+									
+									</div>
 							</div>
 					</div>
 
