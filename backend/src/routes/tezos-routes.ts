@@ -1,12 +1,14 @@
 import TezosSet from "../path/TezosSet";
 
 import {UmbrellaModel} from "../documentInterfaces/umbrella/umbrella.model"
+import {UmbrellaHolderModel} from "../documentInterfaces/umbrellaHolder/umbrellaHolder.model"
 import transformToUnrealized from "../documentInterfaces/stateModels/generate"
 import transformToRealizing from "../documentInterfaces/stateModels/realizing"
 import transformToSave from "../documentInterfaces/stateModels/saved"
-import populateUmbrella from "../documentInterfaces/umbrella/umbrella.statics"
+//import populateUmbrella from "../documentInterfaces/umbrella/umbrella.statics"
 import { writeFile } from "fs";
 import User from '../models/user-model'
+import axios from "axios";
 
 
 
@@ -21,6 +23,17 @@ const router = require('express').Router()
   router.post('/Generate/', async (req: any, res: any)=>{
 
     console.log("wtf tezos set" + req.body.fiat)
+
+    var domainTezResp;
+
+    try {
+      domainTezResp= await axios.get(`https://api.tzkt.io/v1/domains/${req.body.address}`)
+      req.body.address = domainTezResp.data.address.address
+    } catch (error) {
+      console.error(error)
+    }
+    
+    console.log(req.body.address)
     
     let ts: TezosSet = new TezosSet();
 
@@ -33,18 +46,42 @@ const router = require('express').Router()
           console.log("JSON saved to " + "test.json");
           //put ts in db by id
           var setId: any
-          //how do i get the same instance ?          
-          let model =  new UmbrellaModel(ts)
-          //add user id to umbrella
-          model.user_id = req.body.user_id
-          console.log('umrbella model')
-          console.log(model.user_id)
 
+          //UMBRELLA AND UMBRELLA HOLDER        
+          let model =  new UmbrellaModel(ts)
+          console.log(model._id)
+          var str =  model._id.toString()
+          var array = [{"id": str}]
+          let holder = new UmbrellaHolderModel({umbrellaHolder: array})
+          //new UmrellaHolder(model)
+          //add user id to umbrella AND HOLDER 
+          model.user_id = req.body.user_id
+          console.log('umrbellaholder model')
+          console.log(holder.umbrellaHolder[0].id)
+          model.umbrellaHolderId = holder._id
+
+          console.log(model)
+          //UMBRELLA STATE MANAGEMENT CONSTRUCTION
+          //save the umbrella 
+          console.log(model.umbrellaHolderId)
           await model.save() 
+
+          await holder.save()
+          //pack the umbrella model into the umbrella holder
+          //let holder = new UmbrellaHolder(model)
+
+          //save the umbrella holder 
           
+          //END CONSTRUCTION ZONE
+
+
           //console.log(model)
           setId = model.id
           model.objectId = setId
+
+          //control the model up 
+          unrealizedModel = transformToUnrealized(model, holder._id)
+          res.status(200).send(unrealizedModel)
           
           //if signed in, put entities together
           if (req.body.user_id){
@@ -69,9 +106,7 @@ const router = require('express').Router()
 
           }
 
-          //control the model up 
-          unrealizedModel = transformToUnrealized(model)
-          res.status(200).send(unrealizedModel)
+      
          
         }
     })});
@@ -129,7 +164,10 @@ const router = require('express').Router()
 
 
         }
+
+        //GET UMBRELLA HOLDER WITH docs.umbrellaholderid
        
+        //CHECK IF HOLDER TOO
 
         //check if last updated within last two days
         if(!(new Date(obj.lastUpdated) < new Date(date.setDate(date.getDate() - 2)))){
@@ -164,6 +202,8 @@ const router = require('express').Router()
                      //console.log(result)
                   }
               })
+              //UPDATE UMBRELLA HOLDER 
+
               res.status(200).send(ts2)
 
          
@@ -217,6 +257,8 @@ const router = require('express').Router()
       else{
           //console.log("Result : ", docs);
           console.log(docs.walletAddress)
+          var umbrellaHolderId = docs.umbrellaHolderId
+          console.log(umbrellaHolderId)
          //import db umbrella into class framework
           let realizingModel: any = {}
           //console.log(obj)
@@ -225,7 +267,7 @@ const router = require('express').Router()
                 console.log(err);
               } else {
                 console.log("JSON saved to " + "test.json");
-                realizingModel = transformToRealizing(ts)
+                realizingModel = transformToRealizing(ts, umbrellaHolderId)
             
               res.status(200).send(realizingModel)
              // console.log(ts)
@@ -257,6 +299,8 @@ const router = require('express').Router()
       }
       else{
         //var realizingModel: any = {}
+        var umbrellaHolderId= docs.umbrellaHolderId
+
         //this is deleting the realizing set from the set 
         ts.realizeProcess(req.body.quantity, docs).then(x => {writeFile("test.json", JSON.stringify(ts, null, 4), function(err) {
           if(err) {
@@ -269,22 +313,60 @@ const router = require('express').Router()
           }
         })}).then(()=>{
           //something is broken here
-          ts.saveProcess(ts).then(x => {writeFile("testy.json", JSON.stringify(ts, null, 4), function(err) {
+          ts.saveProcess(ts).then(x => {writeFile("testy.json", JSON.stringify(ts, null, 4), async function(err) {
             if(err) {
               console.log(err);
             } else {
               console.log("JSON saved to " + "testy.json");
-              savedModel = transformToSave(ts)
-              res.status(200).send(savedModel)
               
-              UmbrellaModel.findByIdAndUpdate(req.body.objectId, ts, function(err: any, result: any){
-                        if(err){
-                            //res.send(err)
-                        }
-                        else{
-                            console.log(result)
-                        }
-                    })
+              
+
+              //NEW UMBRELLA AND SAVE 
+              let model =  new UmbrellaModel(ts)
+              var str =  model._id.toString()
+              model.umbrellaHolderId = umbrellaHolderId
+              await model.save()
+              console.log("umbrellaHolderId")
+              console.log(umbrellaHolderId)
+              savedModel = transformToSave(model, umbrellaHolderId)
+              res.status(200).send(savedModel)
+
+              //add the model id to the umbrella holder
+
+              //update holder with new umbrella id 
+              var umbrellaHolder: any
+              UmbrellaHolderModel.findById(umbrellaHolderId, async function(err: any, result: any){
+                if(err){
+                    console.log(err)
+                }
+                else{
+                    console.log(result)
+                    umbrellaHolder = result.umbrellaHolder
+                    console.log('umbrellaHolder')
+                  console.log(result.umbrellaHolder)
+                  var arrayItem = {"id": str}
+                  result.umbrellaHolder.unshift(arrayItem)
+                  await result.save() 
+                  console.log('umbrellaHolder')
+                  console.log(result.umbrellaHolder)
+                }
+            })
+
+              
+              //let holder = new UmbrellaHolderModel({umbrellaHolder: arrayItem})
+
+              //save the model and the holder 
+              //await umbrellaHolder.save() 
+
+              //FIND BY ID AND UPDATE UMBRELLA HOLDER UPSURP ARRAY WITH NEW UMBRELLA ID 
+              // UmbrellaHolderModel.findByIdAndUpdate(umbrellaHolderId, ts, function(err: any, result: any){
+              //           if(err){
+              //               //res.send(err)
+              //           }
+              //           else{
+              //               console.log(result)
+              //           }
+              //       })
             }
         })});
         })
@@ -296,5 +378,26 @@ const router = require('express').Router()
 
 
 })
+
+  router.post('/UmbrellaHolder', (req: any, res: any)=>{
+    
+    UmbrellaHolderModel.findById(req.body.umbrellaHolderId, async function(err: any, result: any){
+      if(err){
+          console.log(err)
+      }
+      else{
+          console.log(result)
+          var umbrellaHolder = result
+          console.log('umbrellaHolder')
+          console.log(result.umbrellaHolder)
+         // var arrayItem = {"id": str}
+          //result.umbrellaHolder.unshift(arrayItem)
+         // await result.save() 
+          console.log('umbrellaHolder')
+          console.log(result.umbrellaHolder)
+          res.status(200).send(umbrellaHolder)
+      }
+    })
+  })
 
   module.exports = router
