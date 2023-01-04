@@ -239,6 +239,14 @@ export function getSet(setId, user_id) {
 	});
 }
 
+export function getUmbrellaHolder(umbrellaHolderId){
+	return post ("/tezos/UmbrellaHolder",{
+		umbrellaHolderId: umbrellaHolderId
+	})
+}
+
+
+
 export function getSets(user_id) {
 	return post("/history/",{
 		user_id: user_id
