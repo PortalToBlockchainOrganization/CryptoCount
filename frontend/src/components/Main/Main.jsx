@@ -170,6 +170,7 @@ const Main = (props) => {
                         noAuthRealizingSet={props.noAuthRealizingSet}
                         user={props.user}
                         signedIn={signedIn}
+						umbrellaHolder={props.umbrellaHolder}
 					/>
 				</Route>
 				
