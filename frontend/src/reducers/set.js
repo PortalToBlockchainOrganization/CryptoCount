@@ -1,5 +1,9 @@
 function set(state = {}, action) {
 	switch (action.type) {
+		case "UMBRELLA_HOLDER":
+			let umbrellaHolder = state;
+			umbrellaHolder["umbrellaHolder"] = action.payload["umbrellaHolder"]
+			return umbrellaHolder
 		case "STATS":
 			let thing = state;
 			thing["users"] = action.payload["users"]
@@ -15,7 +19,7 @@ function set(state = {}, action) {
 				isLoading: true,
 			};
 		case "CREATE_SET_SUCCEEDED":
-			return { isLoading: false, data: action.payload };
+			return { isLoading: false, csv: [],data: action.payload };
 		case "CREATE_REALIZED_SET_STARTED":
 			let tempState = { ...state };
 			tempState["isLoading"] = true;
@@ -32,6 +36,7 @@ function set(state = {}, action) {
 			// 	action.payload["unrealizedNativeSupplyDepletionRewards"];
 			// tempSet["data"]["unrealizedNativeMarketDilutionRewards"] = 
 			// 	action.payload["unrealizedNativeMarketDilutionRewards"];
+			tempSet["data"]["umbrellaHolderId"] = action.payload["umbrellaHolderId"]
 			tempSet["data"]["realizingNativeRewards"] =
 				action.payload["realizingNativeRewards"];
 			tempSet["data"]["realizingNativeFMVRewards"] =
@@ -153,3 +158,4 @@ function set(state = {}, action) {
 }
 
 export default set;
+
