@@ -7,6 +7,8 @@ import PriceAndMarketCap from "../PriceAndMarketCap";
 
 
 export default interface IUmbrella {
+    umbrellaHolderId: string;
+    
     objectId: string;
     user_id: string;
     fiat: string;
