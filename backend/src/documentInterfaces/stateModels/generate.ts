@@ -35,6 +35,7 @@ interface LabeledValue {
   }
 
   interface generateModel{
+    umbrellaHolderId: string,
     objectId: string,
     fiat: string,
     walletAddress: string,
@@ -77,9 +78,10 @@ interface LabeledValue {
   }
 
 
-  export default function transform(umbrella: umbrella){
+  export default function transform(umbrella: umbrella, umbrellaHolderId: string){
  
    var generateModel: generateModel = {
+        umbrellaHolderId: umbrellaHolderId,
         objectId: umbrella.objectId,
         fiat: umbrella.fiat,
         walletAddress: umbrella.walletAddress,
