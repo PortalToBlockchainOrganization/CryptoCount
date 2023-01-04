@@ -98,10 +98,10 @@ class TezosSet {
             this.lastUpdated = new Date();
             this.realizingDomainStartDate = "";
             this.realizingDomainEndDate = "";
-            console.log('hyp1');
+            // console.log('hyp1')
             yield (0, database_service_1.connectToDatabase)();
             // get data from apis + db
-            console.log('hyp2');
+            // console.log('hyp2')
             //check for baker consensus Role
             if (this.consensusRole == "Baker") {
                 console.log("Baker processing");
@@ -127,7 +127,7 @@ class TezosSet {
                 yield this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain);
                 yield this.calculateNativeMarketDilutionRewards(this.investmentsScaledBVByDomain);
                 yield this.analysis();
-                console.log("this");
+                //console.log("this")
                 //console.log(this)
             }
             else {
@@ -423,7 +423,7 @@ class TezosSet {
                 this.getRealizingAssetDomain();
             });
             yield this.pointOfSaleCosts();
-            console.log("here4");
+            // console.log("here4")
         });
     }
     saveProcess(object) {
@@ -444,7 +444,7 @@ class TezosSet {
     updateProcess(object, updatedObject) {
         return __awaiter(this, void 0, void 0, function* () {
             //less sensisitve overwrite
-            console.log("updatedObj");
+            //console.log("updatedObj")
             // console.log(updatedObject)
             this.combineUpdate(object, updatedObject);
             //realized and unrealized preservation
@@ -533,11 +533,11 @@ class TezosSet {
                     let newValue1 = quantity;
                     let newValue2 = this.unrealizedNativeRewards[i].rewardAmount - quantity;
                     let value1 = unrealizedNativeFMVRewardsMap[this.unrealizedNativeRewards[i].date];
-                    console.log("value1");
-                    console.log(value1);
+                    //  console.log("value1")
+                    //  console.log(value1)
                     let value2 = this.unrealizedNativeRewards[i].rewardAmount;
-                    console.log("value2");
-                    console.log(value2);
+                    //   console.log("value2")
+                    //   console.log(value2)
                     //add check if value 2 (native reward q) is 0 and make it
                     let value3 = 0;
                     let value4 = 0;
@@ -546,7 +546,7 @@ class TezosSet {
                     let value7 = 0;
                     //add date if the baker off by one to cycles error is detected
                     if (unrealizedNativeMarketDilutionRewardsMap[this.unrealizedNativeRewards[i].date] === undefined) {
-                        console.log('inpatch');
+                        //     console.log('inpatch')
                         let date = this.unrealizedNativeMarketDilutionRewards[i - 1].date;
                         // let newDate: any
                         // let date = new Date(this.unrealizedNativeMarketDilutionRewards[i].date)
@@ -626,7 +626,7 @@ class TezosSet {
                         //     month1 = '0' + month;
                         // }
                         // var newDate = (year+ '-' + month1 + '-' + dt2);
-                        console.log(unrealizedNativeMarketDilutionRewardsMap[date]);
+                        // console.log(unrealizedNativeMarketDilutionRewardsMap[date])
                         this.realizingNativeMarketDilutionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeMarketDilutionRewardsMap[date], cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost });
                         this.realizingNativeSupplyDepletionRewards.push({ date: this.unrealizedNativeRewards[i].date, rewardAmount: unrealizedNativeSupplyDepletionRewardsMap[date], cycle: this.unrealizedNativeRewards[i].cycle, basisCost: this.unrealizedNativeRewards[i].basisCost });
                     }
@@ -762,7 +762,7 @@ class TezosSet {
             let basisArray = [];
             let scaledValsWithPrice = 0;
             let scaledVals = 0;
-            console.log(ratioBank);
+            // console.log(ratioBank)
             ratioBank.forEach((value) => {
                 scaledValsWithPrice = value.difference * value.price;
                 scaledVals = value.difference;
@@ -777,9 +777,9 @@ class TezosSet {
             basisArray.forEach((element) => {
                 agg += element.cost;
             });
-            console.log(basisArray);
+            // console.log(basisArray)
             this.weightedAverageTotalDomainInvestmentCost = agg / basisArray.length;
-            console.log(this.weightedAverageTotalDomainInvestmentCost);
+            // console.log(this.weightedAverageTotalDomainInvestmentCost)
             if (Number.isNaN(this.weightedAverageTotalDomainInvestmentCost) || this.weightedAverageTotalDomainInvestmentCost === null || this.weightedAverageTotalDomainInvestmentCost === undefined || this.weightedAverageTotalDomainInvestmentCost === Infinity) {
                 this.weightedAverageTotalDomainInvestmentCost = 0;
             }
@@ -787,7 +787,7 @@ class TezosSet {
     }
     basisInvestmentCostsToNativeRewards() {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("start");
+            // console.log("start")
             //console.log(this.unrealizedNativeFMVRewards)
             let basisCost = 0;
             let basisDate = "";
@@ -829,7 +829,7 @@ class TezosSet {
             unrealizedFMVMockup.reverse();
             unrealizedMarketMockup.reverse();
             unrealizedSupplyMockup.reverse();
-            console.log("start");
+            //   console.log("start")
             this.unrealizedNativeRewards = unrealizedNativeMockup;
             this.unrealizedNativeFMVRewards = unrealizedFMVMockup;
             this.unrealizedNativeMarketDilutionRewards = unrealizedMarketMockup;
@@ -895,7 +895,7 @@ class TezosSet {
             if (new Date(this.firstRewardDate) <= new Date("2018-07-04")) {
                 this.firstRewardDate = "2018-07-04";
             }
-            console.log(this.firstRewardDate);
+            //console.log(this.firstRewardDate)
             //console.log(scaledBVByDomain)
             let nativeMarketDilutionByDay;
             let filteredMarketByDay = this.marketByDay.filter((markets) => {
@@ -930,7 +930,7 @@ class TezosSet {
             //this cuts the almost the whole first month out //PATCH 10/22/2022, gets the native market on the same level as FMV 
             nativeMarketDilutionByDay.unshift({ date: filteredMarketByDay[0].date, amount: 0 });
             let nativeFilteredMarketDilutionByDay;
-            console.log(nativeMarketDilutionByDay[0].date);
+            //  console.log(nativeMarketDilutionByDay[0].date)
             //console.log(nativeMarketDilutionByDay[nativeMarketDilutionByDay.length-1].amount)
             //filter for existing dilution 
             nativeFilteredMarketDilutionByDay = nativeMarketDilutionByDay.map((element) => {
@@ -967,15 +967,15 @@ class TezosSet {
             let currentDilutionCycle = mappedCyclesToFirstCycleDate[currentDate];
             //check if fmv first date is less than market dilution first date
             if (new Date(this.nativeRewardsFMVByCycle[0].date) < new Date(nativeFilteredMarketDilutionByDay[0].date)) {
-                console.log('reassingin fist date');
+                //console.log('reassingin fist date')
                 currentDate = this.nativeRewardsFMVByCycle[1].date;
                 currentDilutionCycle = mappedCyclesToFirstCycleDate['2018-07-05'];
             }
             let aggDilutionAmount = nativeFilteredMarketDilutionByDay[0].amount;
             let endDate = nativeFilteredMarketDilutionByDay[nativeFilteredMarketDilutionByDay.length - 1].date;
-            console.log(nativeFilteredMarketDilutionByDay[0].date);
+            //console.log(nativeFilteredMarketDilutionByDay[0].date)
             //console.log(nativeFilteredMarketDilutionByDay)
-            console.log(this.cyclesMappedToDays.get("2018-07-18"));
+            //console.log(this.cyclesMappedToDays.get("2018-07-18"))
             //for each dilution date, if the cycle of that date is not the current dilution cycle, do this then set it to current diltuion cycle
             nativeFilteredMarketDilutionByDay.forEach(nativeFilteredMarketDilutionByDay => {
                 try {
@@ -996,12 +996,12 @@ class TezosSet {
                         // }
                         // let dateCorrespondingToRewards = (year+ '-' + month + '-'+dt);
                         // currentDate = dateCorrespondingToRewards
-                        console.log('made it to todays patch');
+                        // console.log('made it to todays patch')
                         if (aggDilutionAmount === null || aggDilutionAmount === undefined || isNaN(aggDilutionAmount)) {
                             aggDilutionAmount = 0;
                         }
                         if (mappedFMV[currentDilutionCycle] === null || mappedFMV[currentDilutionCycle] === undefined) {
-                            console.log('made it to error handle');
+                            //    console.log('made it to error handle')
                             nativeMarketDilutionRewards.push({ date: currentDate,
                                 rewardAmount: 0,
                                 cycle: currentDilutionCycle });
@@ -1037,7 +1037,7 @@ class TezosSet {
                             aggDilutionAmount = 0;
                         }
                         if (mappedFMV[currentDilutionCycle] === null || mappedFMV[currentDilutionCycle] === undefined) {
-                            console.log('error');
+                            //     console.log('error')
                             nativeMarketDilutionRewards.push({ date: currentDate,
                                 rewardAmount: 0,
                                 cycle: currentDilutionCycle });
@@ -1073,8 +1073,8 @@ class TezosSet {
                 }
             });
             this.nativeMarketDilutionRewards = nativeFilteredDilutionRewards;
-            console.log('first market reward');
-            console.log(this.nativeMarketDilutionRewards[0]);
+            //console.log('first market reward')
+            //console.log(this.nativeMarketDilutionRewards[0])
         });
     }
     calculateNativeSupplyDepletionRewards(scaledBVByDomain) {
@@ -1114,7 +1114,7 @@ class TezosSet {
                 lastSupply = supply;
                 return { date: supply.dateString, amount: (1 - ratio) * mappedBV[supply.dateString] };
             });
-            console.log("nativeSupplyDepletionByDay");
+            // console.log("nativeSupplyDepletionByDay")
             //  writeFile("supplyDepletionDaily.json", JSON.stringify(nativeSupplyDepletionByDay, null, 4), async function(err) {console.log('the')})
             //console.log(nativeSupplyDepletionByDay)
             //let mappedFMV: Map<number, RewardsByDay> = new Map();
@@ -1127,7 +1127,7 @@ class TezosSet {
             this.cyclesMappedToDays.forEach((key, value) => {
                 mappedCyclesToFirstCycleDate[value] = key;
             });
-            console.log(this.cyclesMappedToDays.get('2018-07-04'));
+            // console.log(this.cyclesMappedToDays.get('2018-07-04'))
             let nativeSupplyDepletionRewards = [];
             let currentDate = nativeSupplyDepletionByDay[0].date;
             let currentSupplyCycle = mappedCyclesToFirstCycleDate[currentDate];
@@ -1188,7 +1188,7 @@ class TezosSet {
             groupedTransactions[transaction.date] = { date: transaction.date, amount: transaction.date in groupedTransactions ? groupedTransactions[transaction.date].amount + transaction.amount : transaction.amount };
         });
         let groupedTransactionsArray = Object.values(groupedTransactions);
-        console.log(groupedTransactionsArray);
+        //  console.log(groupedTransactionsArray)
         // create array of date ranges inclusive mapped to the scaledbookvalues
         let scaledBVByDomain = [];
         for (let i = 0; i < groupedTransactionsArray.length; i++) {
@@ -1233,7 +1233,7 @@ class TezosSet {
                 let value = response.data.tezos;
                 let lowercase = this.fiat.toLowerCase();
                 this.TezosPriceOnDateObjectGenerated = value[lowercase];
-                console.log(this.TezosPriceOnDateObjectGenerated);
+                //  console.log(this.TezosPriceOnDateObjectGenerated)
             });
         });
     }
@@ -1403,13 +1403,13 @@ class TezosSet {
                     this.bakerAddresses.add("tz1QS7N8HnRBG2RNh3Kjty58XFXuLFVdnKGY");
             });
             this.isCustodial = false;
-            console.log(this);
+            //  console.log(this)
         });
     }
     getBakerRewardsAndTransactions() {
         return __awaiter(this, void 0, void 0, function* () {
             yield Promise.all([this.retrieveBakerRewards(), this.retrieveCyclesAndDates(), this.getRawWalletTransactions()]);
-            console.log(this);
+            // console.log(this)
             this.processBakerRewards();
             //uncomment these 3
             this.getNetTransactions();
@@ -1427,7 +1427,7 @@ class TezosSet {
                 this.getNetTransactions();
             }
             if (this.rewardsByDay.length < 1) {
-                console.log('no rewards');
+                //    console.log('no rewards')
             }
             else {
                 this.firstRewardDate = this.rewardsByDay[0].date;
@@ -1544,7 +1544,7 @@ class TezosSet {
             this.totalOperations.forEach((array) => {
                 array.forEach(operation => {
                     if (operation.cycle === undefined) {
-                        console.log("No payout data found in a response");
+                        //     console.log("No payout data found in a response");
                     }
                     else {
                         //    if('endorsement' === operation.type){
