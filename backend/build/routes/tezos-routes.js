@@ -14,9 +14,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const TezosSet_1 = __importDefault(require("../path/TezosSet"));
 const umbrella_model_1 = require("../documentInterfaces/umbrella/umbrella.model");
+const umbrellaHolder_model_1 = require("../documentInterfaces/umbrellaHolder/umbrellaHolder.model");
 const generate_1 = __importDefault(require("../documentInterfaces/stateModels/generate"));
 const realizing_1 = __importDefault(require("../documentInterfaces/stateModels/realizing"));
 const saved_1 = __importDefault(require("../documentInterfaces/stateModels/saved"));
+//import populateUmbrella from "../documentInterfaces/umbrella/umbrella.statics"
 const fs_1 = require("fs");
 const user_model_1 = __importDefault(require("../models/user-model"));
 const axios_1 = __importDefault(require("axios"));
@@ -48,16 +50,34 @@ router.post('/Generate/', (req, res) => __awaiter(void 0, void 0, void 0, functi
                     console.log("JSON saved to " + "test.json");
                     //put ts in db by id
                     var setId;
-                    //how do i get the same instance ?          
+                    //UMBRELLA AND UMBRELLA HOLDER        
                     let model = new umbrella_model_1.UmbrellaModel(ts);
-                    //add user id to umbrella
+                    console.log(model._id);
+                    var str = model._id.toString();
+                    var array = [{ "id": str }];
+                    let holder = new umbrellaHolder_model_1.UmbrellaHolderModel({ umbrellaHolder: array });
+                    //new UmrellaHolder(model)
+                    //add user id to umbrella AND HOLDER 
                     model.user_id = req.body.user_id;
-                    console.log('umrbella model');
-                    console.log(model.user_id);
+                    console.log('umrbellaholder model');
+                    console.log(holder.umbrellaHolder[0].id);
+                    model.umbrellaHolderId = holder._id;
+                    console.log(model);
+                    //UMBRELLA STATE MANAGEMENT CONSTRUCTION
+                    //save the umbrella 
+                    console.log(model.umbrellaHolderId);
                     yield model.save();
+                    yield holder.save();
+                    //pack the umbrella model into the umbrella holder
+                    //let holder = new UmbrellaHolder(model)
+                    //save the umbrella holder 
+                    //END CONSTRUCTION ZONE
                     //console.log(model)
                     setId = model.id;
                     model.objectId = setId;
+                    //control the model up 
+                    unrealizedModel = (0, generate_1.default)(model, holder._id);
+                    res.status(200).send(unrealizedModel);
                     //if signed in, put entities together
                     if (req.body.user_id) {
                         console.log('hi');
@@ -74,9 +94,6 @@ router.post('/Generate/', (req, res) => __awaiter(void 0, void 0, void 0, functi
                             console.log("updated?");
                         }));
                     }
-                    //control the model up 
-                    unrealizedModel = (0, generate_1.default)(model);
-                    res.status(200).send(unrealizedModel);
                 }
             });
         });
@@ -125,6 +142,8 @@ router.post('/Retrieve/', (req, res) => __awaiter(void 0, void 0, void 0, functi
                     docs.user_id = req.body.user_id;
                     yield umbrella_model_1.UmbrellaModel.findOneAndUpdate({ _id: docs._id }, { $set: docs }).clone();
                 }
+                //GET UMBRELLA HOLDER WITH docs.umbrellaholderid
+                //CHECK IF HOLDER TOO
                 //check if last updated within last two days
                 if (!(new Date(obj.lastUpdated) < new Date(date.setDate(date.getDate() - 2)))) {
                     //return database version of set
@@ -153,6 +172,7 @@ router.post('/Retrieve/', (req, res) => __awaiter(void 0, void 0, void 0, functi
                                 //console.log(result)
                             }
                         });
+                        //UPDATE UMBRELLA HOLDER 
                         res.status(200).send(ts2);
                     }));
                     // //import db umbrella into new class framework
@@ -187,6 +207,8 @@ router.post('/Realize/', (req, res) => {
         else {
             //console.log("Result : ", docs);
             console.log(docs.walletAddress);
+            var umbrellaHolderId = docs.umbrellaHolderId;
+            console.log(umbrellaHolderId);
             //import db umbrella into class framework
             let realizingModel = {};
             //console.log(obj)
@@ -197,7 +219,7 @@ router.post('/Realize/', (req, res) => {
                     }
                     else {
                         console.log("JSON saved to " + "test.json");
-                        realizingModel = (0, realizing_1.default)(ts);
+                        realizingModel = (0, realizing_1.default)(ts, umbrellaHolderId);
                         res.status(200).send(realizingModel);
                         // console.log(ts)
                         //res.status(200).send(ts)
@@ -222,6 +244,7 @@ router.post('/Save/', (req, res) => {
         }
         else {
             //var realizingModel: any = {}
+            var umbrellaHolderId = docs.umbrellaHolderId;
             //this is deleting the realizing set from the set 
             ts.realizeProcess(req.body.quantity, docs).then(x => {
                 (0, fs_1.writeFile)("test.json", JSON.stringify(ts, null, 4), function (err) {
@@ -237,22 +260,56 @@ router.post('/Save/', (req, res) => {
                 //something is broken here
                 ts.saveProcess(ts).then(x => {
                     (0, fs_1.writeFile)("testy.json", JSON.stringify(ts, null, 4), function (err) {
-                        if (err) {
-                            console.log(err);
-                        }
-                        else {
-                            console.log("JSON saved to " + "testy.json");
-                            savedModel = (0, saved_1.default)(ts);
-                            res.status(200).send(savedModel);
-                            umbrella_model_1.UmbrellaModel.findByIdAndUpdate(req.body.objectId, ts, function (err, result) {
-                                if (err) {
-                                    //res.send(err)
-                                }
-                                else {
-                                    console.log(result);
-                                }
-                            });
-                        }
+                        return __awaiter(this, void 0, void 0, function* () {
+                            if (err) {
+                                console.log(err);
+                            }
+                            else {
+                                console.log("JSON saved to " + "testy.json");
+                                //NEW UMBRELLA AND SAVE 
+                                let model = new umbrella_model_1.UmbrellaModel(ts);
+                                var str = model._id.toString();
+                                model.umbrellaHolderId = umbrellaHolderId;
+                                yield model.save();
+                                console.log("umbrellaHolderId");
+                                console.log(umbrellaHolderId);
+                                savedModel = (0, saved_1.default)(model, umbrellaHolderId);
+                                res.status(200).send(savedModel);
+                                //add the model id to the umbrella holder
+                                //update holder with new umbrella id 
+                                var umbrellaHolder;
+                                umbrellaHolder_model_1.UmbrellaHolderModel.findById(umbrellaHolderId, function (err, result) {
+                                    return __awaiter(this, void 0, void 0, function* () {
+                                        if (err) {
+                                            console.log(err);
+                                        }
+                                        else {
+                                            console.log(result);
+                                            umbrellaHolder = result.umbrellaHolder;
+                                            console.log('umbrellaHolder');
+                                            console.log(result.umbrellaHolder);
+                                            var arrayItem = { "id": str };
+                                            result.umbrellaHolder.unshift(arrayItem);
+                                            yield result.save();
+                                            console.log('umbrellaHolder');
+                                            console.log(result.umbrellaHolder);
+                                        }
+                                    });
+                                });
+                                //let holder = new UmbrellaHolderModel({umbrellaHolder: arrayItem})
+                                //save the model and the holder 
+                                //await umbrellaHolder.save() 
+                                //FIND BY ID AND UPDATE UMBRELLA HOLDER UPSURP ARRAY WITH NEW UMBRELLA ID 
+                                // UmbrellaHolderModel.findByIdAndUpdate(umbrellaHolderId, ts, function(err: any, result: any){
+                                //           if(err){
+                                //               //res.send(err)
+                                //           }
+                                //           else{
+                                //               console.log(result)
+                                //           }
+                                //       })
+                            }
+                        });
                     });
                 });
             });
@@ -261,5 +318,25 @@ router.post('/Save/', (req, res) => {
     //find user by id 
     //insert set id
 });
+router.post('/UmbrellaHolder', (req, res) => {
+    umbrellaHolder_model_1.UmbrellaHolderModel.findById(req.body.umbrellaHolderId, function (err, result) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log(result);
+                var umbrellaHolder = result;
+                console.log('umbrellaHolder');
+                console.log(result.umbrellaHolder);
+                // var arrayItem = {"id": str}
+                //result.umbrellaHolder.unshift(arrayItem)
+                // await result.save() 
+                console.log('umbrellaHolder');
+                console.log(result.umbrellaHolder);
+                res.status(200).send(umbrellaHolder);
+            }
+        });
+    });
+});
 module.exports = router;
-
