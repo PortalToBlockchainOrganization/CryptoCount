@@ -12,7 +12,7 @@ CryptoCount 0.3.0 adds Capital Gain calculations for XTZ and token contract tran
 
 To follow the latest developments as they happen, join the Discord linked in the website.
 
-# Run 0.2.2
+# Run 0.2.3.1
 
 Checkout CryptoCount. 
 
