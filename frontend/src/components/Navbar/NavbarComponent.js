@@ -214,7 +214,7 @@ const NavbarComponent = ({ signedIn, signOut, user, canAccessAnalysis }) => {
 				className={classes.NameWrapper}
 				style={{ backgroundColor: "transparent" }}
 			>
-				<div className={classes.Beta}>Version<br></br> 0.2.3</div>
+				<div className={classes.Beta}>Version<br></br> 0.2.3.1</div>
 				{true ? (
 					<Navbar.Text className={classes.Name}>
 						{signedIn() ? (
