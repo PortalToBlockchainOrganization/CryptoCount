@@ -277,7 +277,7 @@ export function getRealizingSetStart() {
 	return { type: "CREATE_REALIZED_SET_STARTED" };
 }
 
-export function getRealizingSet(setId, quantity, cb) {
+export function getRealizingSet(setId, quantity, cb, cb2) {
 	return (dispatch) => {
 		dispatch(getRealizingSetStart());
 		console.log("exporting")
@@ -292,13 +292,17 @@ export function getRealizingSet(setId, quantity, cb) {
 					console.log("CB");
 					cb();
 				}
+				if (cb2) {
+					console.log("CB");
+					cb2();
+				}
 				return;
 			});
 		});
 	};
 }
 
-export function noAuthRealizingSet(setId, quantity, cb) {
+export function noAuthRealizingSet(setId, quantity, cb, cb2) {
 	console.log("NO AUTH REALIZING");
 	return (dispatch) => {
 		dispatch(getRealizingSetStart());
@@ -312,17 +316,24 @@ export function noAuthRealizingSet(setId, quantity, cb) {
 					console.log("CB");
 					cb();
 				}
+				if (cb2) {
+					console.log("CB");
+					cb2();
+				}
+
 				return;
 			});
 		});
 	};
 }
 
+
+
 export function startSaveRealizing() {
 	return { type: "CREATE_REALIZED_SET_STARTED"};
 }
 
-export function saveRealizing(setId, quantity, cb) {
+export function saveRealizing(setId, quantity, cb, cb2) {
 	return (dispatch) => {
 		dispatch(startSaveRealizing());
 		api.saveRealize(setId, quantity).then((res) => {
@@ -334,6 +345,10 @@ export function saveRealizing(setId, quantity, cb) {
 				if (cb) {
 					console.log("CB");
 					cb();
+				}
+				if (cb2) {
+					console.log("CB");
+					cb2();
 				}
 				return
 			});
@@ -429,4 +444,20 @@ export function getHistory(user_id, cb) {
 	};
 }
 
+export function umbrellaHolder(umbrellaHolderId){
+	return (dispatch)=>{
+		api.getUmbrellaHolder(umbrellaHolderId).then((res)=>{
+			res.json().then((res)=>{
+				return dispatch({
+					type: "UMBRELLA_HOLDER",
+					payload: res,
+				})
+			})
+		})
+		.catch((err) => {
+			console.log(err);
+			dispatch({ type: "BAD_ADDRESS_ERROR", details: err });
+		});
+	}
+}
 
