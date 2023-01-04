@@ -3,8 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 function printLabel(labeledObj) {
     console.log(labeledObj.label);
 }
-function transform(umbrella) {
+function transform(umbrella, umbrellaHolderId) {
     var generateModel = {
+        umbrellaHolderId: umbrellaHolderId,
         objectId: umbrella.objectId,
         fiat: umbrella.fiat,
         walletAddress: umbrella.walletAddress,
