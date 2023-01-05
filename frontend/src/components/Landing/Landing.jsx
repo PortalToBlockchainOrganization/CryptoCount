@@ -14,6 +14,7 @@ import tzkt from "../../Assets/Orgs/tzkt.png";
 import tezosFoundation from "../../Assets/Orgs/TezosFoundation.png";
 import coingecko from "../../Assets/Orgs/coingecko.png"
 import ptbo from "../../Assets/Orgs/ptbo.png";
+import apache from "../../Assets/Orgs/apache.png";
 import lottie from "lottie-web";
 import womenThinking from "../../Assets/womenThinking.json";
 import womenComputer from "../../Assets/womenComputer.json";
@@ -341,7 +342,7 @@ const Landing = (props) => {
 				<br />
 				<br />
 				<div className="name-one-liner">
-					<h1 className="logo-name">CRYPTOCOUNT</h1>
+					<h1 className="logo-name">CryptoCount</h1>
 				</div>
 				
 				<div className="name-one-liner">
@@ -457,17 +458,17 @@ const Landing = (props) => {
 								<HelpOutlineRoundedIcon
 									className="helpIcon" />
 								</div>
-				<CopyToClipboard text={"63b5aecec0d1a5ff9b3111e7"} onCopy={() => setIsCopied({isCopied: true})}>
+				<CopyToClipboard text={"63924e57daf4e1c27a7735c5"} onCopy={() => setIsCopied({isCopied: true})}>
 							<button className="words3"><span>{isCopied ? 'Copied' : 'Copy Set ID'}</span>
 							</button>
 						</CopyToClipboard>
 				</div>
 
-				<div className="statsTitle">STATS</div>
+				<div className="statsTitle">Stats</div>
 				<div className="stats">
-					<div className="stats1">{set["users"]}</div><div className="stats3"> USERS </div>
+					<div className="stats1">{set["users"]}</div><div className="stats3"> Users </div>
 				
-					<div className="stats1">{set["objects"]}</div><div className="stats3"> SETS</div>
+					<div className="stats1">{set["objects"]}</div><div className="stats3"> Sets</div>
 					</div>
 					<div>
 					<div className="stats2">Powered By Google and PTBO TECH</div>
@@ -509,10 +510,24 @@ const Landing = (props) => {
 				    <img src="./logo.png" alt="chrome-web-store" />
 				</a>
            			
-				
 				<div className="name-one-liner2">
 					<h2 className="logo-tagline3">
-						CRYPTOCOUNT INTEGRATION
+						FREE AND OPEN SOURCE UNDER APACHE 2.0
+					</h2>
+				</div>
+				<a
+					className="download-link1"
+					href="https://www.portaltoblockchain.org/literature"
+					target="_blank"
+					rel="noreferrer"
+				>
+					PROJECT ROADMAP
+					<img className="ptbo-link" src={apache} alt="apache" />
+				</a>
+
+				<div className="name-one-liner2">
+					<h2 className="logo-tagline3">
+						INTEGRATE CRYPTOCOUNT
 					</h2>
 				</div>
 				<a
