@@ -1,6 +1,6 @@
 # CryptoCount
 
-Open Source Under MIT License. 
+Free and Open Source Under Apache 2.0.
 
 CryptoCount 0.2.3.1 tracks and mocks up realizations of native Tezos DeFi block rewards with income metrics for tax reporting and asset management.
 
