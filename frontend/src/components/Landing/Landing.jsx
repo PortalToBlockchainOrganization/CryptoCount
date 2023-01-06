@@ -458,7 +458,7 @@ const Landing = (props) => {
 								<HelpOutlineRoundedIcon
 									className="helpIcon" />
 								</div>
-				<CopyToClipboard text={"63924e57daf4e1c27a7735c5"} onCopy={() => setIsCopied({isCopied: true})}>
+				<CopyToClipboard text={"63b7a9c38c78bc302554e5d6"} onCopy={() => setIsCopied({isCopied: true})}>
 							<button className="words3"><span>{isCopied ? 'Copied' : 'Copy Set ID'}</span>
 							</button>
 						</CopyToClipboard>
