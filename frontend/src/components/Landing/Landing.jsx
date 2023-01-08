@@ -331,7 +331,7 @@ const Landing = (props) => {
 	return (
 		<div className="wrapper">
 			<div className="lp-container">
-				
+				<h1 className="logo-name9">Tezos Taxes, Tezos Tax Accounting, Tezos Fiat Reward Assessments</h1>
 				<section className="static-wrapper">
 					<div className="logo-container">
 						<a href="https://tezos.com"><img className="logo" src="./Tezos.png" alt="logo" /></a>
