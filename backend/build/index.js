@@ -79,6 +79,12 @@ app.use((0, helmet_1.default)());
 //         credentials: true,methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",};
 // app.use(cors(options));;
 app.use((0, cors_1.default)());
+app.options('/', function (req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader('Access-Control-Allow-Methods', '*');
+  res.setHeader("Access-Control-Allow-Headers", "*");
+  res.end();
+});
 app.use(function (req, res, next) {
     //const allowedOrigins = [
     //	"http://127.0.0.1:80",
@@ -96,10 +102,10 @@ app.use(function (req, res, next) {
     //if (allowedOrigins.includes(origin)) {
     //	res.setHeader("Access-Control-Allow-Origin", origin);
     //}
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Location");
-    res.header("Access-Control-Expose-Headers", "Content-Type, Location");
-    res.header("Access-Control-Allow-Methods", "DELETE, PUT, GET, POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Location");
+    res.setHeader("Access-Control-Expose-Headers", "Content-Type, Location");
+    res.setHeader("Access-Control-Allow-Methods", "DELETE, PUT, GET, POST, OPTIONS");
     next();
 });
 app.use(express_1.default.json());
