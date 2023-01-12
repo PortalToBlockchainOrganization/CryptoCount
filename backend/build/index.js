@@ -52,6 +52,11 @@ const authRoutes = require('./routes/auth-routes');
 const cookieSession = require('cookie-session');
 const tezosRoutes = require('./routes/tezos-routes');
 const historyRoutes = require('./routes/history-routes');
+// var Validator = require("./routes/Validator.js");
+// var { Session, router } = require("./routes/Session.js");
+// const { body, validationResult } = require('express-validator');
+//i//mport generate from "./documentInterfaces/CycleAndDate";
+//import umbrella from "./documentInterfaces/umbrella/umbrella.schema";
 dotenv.config();
 /**
  * App Variables
@@ -67,19 +72,40 @@ const app = (0, express_1.default)();
 //console.log(process.env)
 app.use((0, helmet_1.default)());
 const options = {
-    //origin: 
+    origin: 
     //process.env.DEV_ENV === "LOCAL"
-    //"http://localhost:3000",
+    "http://localhost:3000",
     //: "https://cryptocount.co",
     credentials: true, methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
 };
-//app.use((0, cors_1.default)(options));
-//;
+app.use((0, cors_1.default)(options));
+;
 app.use(function (req, res, next) {
+    //const allowedOrigins = [
+    //	"http://127.0.0.1:80",
+    //	"http://localhost:80",
+    //	"http://54.201.255.116",
+    //	"http://54.201.255.116:1",
+    //	"http://54.201.255.116:80",
+    //	"http://cryptocount.co",
+    //	"https://cryptocount.co",
+    //];
+    //const allowedOrigins = [
+    //	"*",
+    //];
+    //const origin: any = req.headers.origin;
+    //if (allowedOrigins.includes(origin)) {
+    //	res.setHeader("Access-Control-Allow-Origin", origin);
+    //}
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Content-Type, Location");
     res.header("Access-Control-Expose-Headers", "Content-Type, Location");
     res.header("Access-Control-Allow-Methods", "DELETE, PUT, GET, POST, OPTIONS");
+    next();
+});
+app.all('/*', function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
     next();
 });
 app.use(express_1.default.json());
