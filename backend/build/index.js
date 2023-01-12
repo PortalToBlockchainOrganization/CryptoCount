@@ -71,16 +71,16 @@ const app = (0, express_1.default)();
  */
 //console.log(process.env)
 app.use((0, helmet_1.default)());
-const options = {
-    origin: 
+//const options = {
+ //   origin: 
     //process.env.DEV_ENV === "LOCAL"
     //"http://localhost:3000",
-    "*",
+ //   "*",
     //: "https://cryptocount.co",
-    credentials: true, methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
-};
-app.use((0, cors_1.default)(options));
-;
+//    credentials: true, methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
+//};
+//app.use((0, cors_1.default)(options));
+//;
 app.use(function (req, res, next) {
     //const allowedOrigins = [
     //	"http://127.0.0.1:80",
