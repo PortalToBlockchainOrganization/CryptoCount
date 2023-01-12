@@ -104,11 +104,11 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Methods", "DELETE, PUT, GET, POST, OPTIONS");
     next();
 });
-app.all('/*', function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    next();
-});
+//app.all('/*', function (req, res, next) {
+ //   res.header("Access-Control-Allow-Origin", "*");
+  //  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  //  next();
+//});
 app.use(express_1.default.json());
 mongoose.connect(process.env.dbURI, () => {
     console.log('connected to db');
