@@ -105,7 +105,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.use(cors_1({
+app.use(cors_1.default({
     origin: '*'
 }));
 //app.all('/*', function (req, res, next) {
