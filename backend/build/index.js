@@ -79,29 +79,29 @@ app.use((0, helmet_1.default)());
 //         credentials: true,methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",};
 // app.use(cors(options));;
 app.use((0, cors_1.default)());
-// app.use(function (req, res, next) {
-//     //const allowedOrigins = [
-//     //	"http://127.0.0.1:80",
-//     //	"http://localhost:80",
-//     //	"http://54.201.255.116",
-//     //	"http://54.201.255.116:1",
-//     //	"http://54.201.255.116:80",
-//     //	"http://cryptocount.co",
-//     //	"https://cryptocount.co",
-//     //];
-//     //const allowedOrigins = [
-//     //	"*",
-//     //];
-//     //const origin: any = req.headers.origin;
-//     //if (allowedOrigins.includes(origin)) {
-//     //	res.setHeader("Access-Control-Allow-Origin", origin);
-//     //}
-//     res.setHeader("Access-Control-Allow-Origin", "*");
-//     res.header("Access-Control-Allow-Headers", "Content-Type, Location");
-//     res.header("Access-Control-Expose-Headers", "Content-Type, Location");
-//     res.header("Access-Control-Allow-Methods", "DELETE, PUT, GET, POST, OPTIONS");
-//     next();
-// });
+app.use(function (req, res, next) {
+    //const allowedOrigins = [
+    //	"http://127.0.0.1:80",
+    //	"http://localhost:80",
+    //	"http://54.201.255.116",
+    //	"http://54.201.255.116:1",
+    //	"http://54.201.255.116:80",
+    //	"http://cryptocount.co",
+    //	"https://cryptocount.co",
+    //];
+    //const allowedOrigins = [
+    //	"*",
+    //];
+    //const origin: any = req.headers.origin;
+    //if (allowedOrigins.includes(origin)) {
+    //	res.setHeader("Access-Control-Allow-Origin", origin);
+    //}
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Location");
+    res.header("Access-Control-Expose-Headers", "Content-Type, Location");
+    res.header("Access-Control-Allow-Methods", "DELETE, PUT, GET, POST, OPTIONS");
+    next();
+});
 app.use(express_1.default.json());
 mongoose.connect(process.env.dbURI, () => {
     console.log('connected to db');
