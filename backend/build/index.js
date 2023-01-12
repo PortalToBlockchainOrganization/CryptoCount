@@ -71,16 +71,14 @@ const app = (0, express_1.default)();
  */
 //console.log(process.env)
 app.use((0, helmet_1.default)());
-//const options = {
- //   origin: 
-    //process.env.DEV_ENV === "LOCAL"
-    //"http://localhost:3000",
- //   "*",
-    //: "https://cryptocount.co",
-//    credentials: true, methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
-//};
-//app.use((0, cors_1.default)(options));
-//;
+// const options: cors.CorsOptions = {
+//   origin:
+// 			//process.env.DEV_ENV === "LOCAL"
+// 				 "*", //?
+// 				//: "https://cryptocount.co",
+//         credentials: true,methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",};
+// app.use(cors(options));;
+app.use((0, cors_1.default)());
 app.use(function (req, res, next) {
     //const allowedOrigins = [
     //	"http://127.0.0.1:80",
@@ -99,20 +97,11 @@ app.use(function (req, res, next) {
     //	res.setHeader("Access-Control-Allow-Origin", origin);
     //}
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Content-Type");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Location");
     res.header("Access-Control-Expose-Headers", "Content-Type, Location");
     res.header("Access-Control-Allow-Methods", "DELETE, PUT, GET, POST, OPTIONS");
     next();
 });
-
-app.use(cors_1.default({
-    origin: '*'
-}));
-//app.all('/*', function (req, res, next) {
- //   res.header("Access-Control-Allow-Origin", "*");
-  //  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  //  next();
-//});
 app.use(express_1.default.json());
 mongoose.connect(process.env.dbURI, () => {
     console.log('connected to db');
@@ -365,3 +354,4 @@ app.listen(PORT, () => {
 // })
 // app.post('/changePw/', async (req, res)=>{
 // })
+
