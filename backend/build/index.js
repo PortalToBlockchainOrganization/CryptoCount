@@ -74,7 +74,8 @@ app.use((0, helmet_1.default)());
 const options = {
     origin: 
     //process.env.DEV_ENV === "LOCAL"
-    "http://localhost:3000",
+    //"http://localhost:3000",
+    "*",
     //: "https://cryptocount.co",
     credentials: true, methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
 };
