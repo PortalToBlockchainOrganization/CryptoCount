@@ -109,6 +109,11 @@ app.use(function (req, res, next) {
     next();
 });
 app.use(express_1.default.json());
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 mongoose.connect(process.env.dbURI, () => {
     console.log('connected to db');
 });
