@@ -99,7 +99,7 @@ app.use(function (req, res, next) {
     //	res.setHeader("Access-Control-Allow-Origin", origin);
     //}
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Location");
+    res.header("Access-Control-Allow-Headers", "Content-Type");
     res.header("Access-Control-Expose-Headers", "Content-Type, Location");
     res.header("Access-Control-Allow-Methods", "DELETE, PUT, GET, POST, OPTIONS");
     next();
