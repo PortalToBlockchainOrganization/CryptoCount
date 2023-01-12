@@ -18,7 +18,7 @@
 
 .wrapper {
 	display: block;
-	height: calc(570vh - 57px);
+	height:  3580.74px;         /*calc(570vh - 57px);*/
 	/* min-height: 1500px; */
 	overflow-y: scroll;
 	overflow-x: hidden;
@@ -306,7 +306,7 @@ p {
 	font-size: 25px;
 	align-items: center;
 	display: flex;
-	margin-top: 1325px;
+	margin-top: 1280px;
 }
 .setToggles13 {
 	border: 4px solid rgb(78, 100, 100);
@@ -698,4 +698,6 @@ p {
 	margin-bottom: -30px;
 
 }
+
+
 
