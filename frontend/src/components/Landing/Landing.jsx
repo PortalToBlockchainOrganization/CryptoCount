@@ -532,7 +532,7 @@ const Landing = (props) => {
 				</div>
 				<a
 					className="download-link1"
-					href="https://www.portaltoblockchain.org/client"
+					href="https://www.ptbotech.org/client"
 					target="_blank"
 					rel="noreferrer"
 				>
