@@ -123,6 +123,8 @@ class TezosSet {
                 // conduct analysis
                 this.firstRewardDate = this.rewardsByDay[0].date;
                 this.nativeRewardsFMVByCycle = this.calculateNativeRewardFMVByCycle();
+                console.log('fmv reward output');
+                console.log(this.nativeRewardsFMVByCycle);
                 this.investmentsScaledBVByDomain = this.calculateInvestmentBVByDomain();
                 yield this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain);
                 yield this.calculateNativeMarketDilutionRewards(this.investmentsScaledBVByDomain);
@@ -860,7 +862,10 @@ class TezosSet {
         //rewards by day by price that day
         //console.log(this.pricesAndMarketCapsByDay['2022-09-20'].price)
         //console.log(this.rewardsByCycle)
-        //console.log(this.rewardsByCycle)
+        //console.log(this.rewardsByCycle)  
+        console.log(JSON.stringify(this.rewardsByCycle[0].date));
+        console.log(this.pricesAndMarketCapsByDay);
+        console.log(this.pricesAndMarketCapsByDay["2022-12-11"].price);
         return this.rewardsByCycle.map((reward) => {
             //console.log(reward.date)
             //console.log(this.pricesAndMarketCapsByDay)
@@ -932,9 +937,13 @@ class TezosSet {
             let nativeFilteredMarketDilutionByDay;
             //  console.log(nativeMarketDilutionByDay[0].date)
             //console.log(nativeMarketDilutionByDay[nativeMarketDilutionByDay.length-1].amount)
+            //console.log(nativeMarketDilutionByDay)
             //filter for existing dilution 
             nativeFilteredMarketDilutionByDay = nativeMarketDilutionByDay.map((element) => {
                 try {
+                    if (!element) {
+                        return;
+                    }
                     if (element.amount === null) {
                         return { date: element.date, amount: 0 };
                     }
@@ -949,6 +958,7 @@ class TezosSet {
                     console.log(err);
                 }
             });
+            console.log(nativeFilteredMarketDilutionByDay);
             // writeFile("marketDilutionDailyFilt.json", JSON.stringify(nativeFilteredMarketDilutionByDay, null, 4), async function(err) {console.log('the')})
             //let mappedFMV: Map<number, RewardsByDay> = new Map();
             let mappedFMV = {};
@@ -974,7 +984,7 @@ class TezosSet {
             let aggDilutionAmount = nativeFilteredMarketDilutionByDay[0].amount;
             let endDate = nativeFilteredMarketDilutionByDay[nativeFilteredMarketDilutionByDay.length - 1].date;
             //console.log(nativeFilteredMarketDilutionByDay[0].date)
-            //console.log(nativeFilteredMarketDilutionByDay)
+            console.log(nativeFilteredMarketDilutionByDay);
             //console.log(this.cyclesMappedToDays.get("2018-07-18"))
             //for each dilution date, if the cycle of that date is not the current dilution cycle, do this then set it to current diltuion cycle
             nativeFilteredMarketDilutionByDay.forEach(nativeFilteredMarketDilutionByDay => {
@@ -1263,9 +1273,11 @@ class TezosSet {
                     curBaker = { bakerAddress: cycleData.baker.address, cycleStart: cycleData.cycle, cycleEnd: cycleData.cycle, rewardsRequests: [] };
                 }
             }
-            this.setRewardsUrls(curBaker);
-            this.bakerCycles.push(curBaker);
-            this.bakerAddresses.add(curBaker.bakerAddress);
+            if (curBaker) {
+                this.setRewardsUrls(curBaker);
+                this.bakerCycles.push(curBaker);
+                this.bakerAddresses.add(curBaker.bakerAddress);
+            }
             return;
         });
     }
@@ -1396,13 +1408,24 @@ class TezosSet {
             transactionsLength = transactionsResponseArray.length;
             //}
             this.rawWalletTransactions.forEach((transaction) => {
-                var _a, _b;
-                if (((_a = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _a === void 0 ? void 0 : _a.alias) === "Melange Payouts")
+                var _a, _b, _c;
+                if (((_a = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _a === void 0 ? void 0 : _a.alias) === "Melange Payouts") {
                     this.isCustodial = true;
-                else if (((_b = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _b === void 0 ? void 0 : _b.alias) === "EcoTez Payouts")
+                }
+                else if (((_b = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _b === void 0 ? void 0 : _b.alias) === "EcoTez Payouts") {
                     this.bakerAddresses.add("tz1QS7N8HnRBG2RNh3Kjty58XFXuLFVdnKGY");
+                }
+                //tezpay lead dev 
+                else if (((_c = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _c === void 0 ? void 0 : _c.alias) === "Baking Benjamins Payouts") {
+                    this.isCustodial = true;
+                }
+                else if (this.isCustodial !== true) {
+                    this.isCustodial = false;
+                }
             });
-            this.isCustodial = false;
+            console.log(this.rawWalletTransactions);
+            console.log(this.isCustodial);
+            // this.isCustodial = false;
             //  console.log(this)
         });
     }
@@ -1418,6 +1441,7 @@ class TezosSet {
     getDelegatorRewardsAndTransactions() {
         return __awaiter(this, void 0, void 0, function* () {
             yield Promise.all([this.retrieveBakers(), this.retrieveCyclesAndDates(), this.getRawWalletTransactions()]);
+            console.log(this.isCustodial);
             if (this.isCustodial) {
                 this.processIntermediaryTransactions();
                 this.getNetTransactions();
@@ -1523,8 +1547,11 @@ class TezosSet {
     //processing methods
     processIntermediaryTransactions() {
         let intermediaryTransactions = this.rawWalletTransactions.filter((transaction) => {
-            var _a;
-            (((_a = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _a === void 0 ? void 0 : _a.alias) === "Melange Payouts");
+            //(transaction?.sender?.alias === "Melange Payouts") ||
+            //add the Tez Pay scan here
+            //console.log(transaction?.sender?.alias)
+            var _a, _b;
+            return ((_a = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _a === void 0 ? void 0 : _a.alias) === "Baking Benjamins Payouts" || ((_b = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _b === void 0 ? void 0 : _b.alias) === "Melange Payouts";
         });
         let intermediaryRewards = intermediaryTransactions.map(transaction => {
             let transactionDate = transaction.timestamp.slice(0, 10);
@@ -1534,6 +1561,9 @@ class TezosSet {
             return reward;
         });
         this.rewardsByDay.push(...intermediaryRewards);
+        console.log(this.rewardsByDay);
+        // console.log(this.rawWalletTransactions)
+        //scan for tez pay - first function
         return;
     }
     processBakerRewards() {
@@ -1804,8 +1834,15 @@ class TezosSet {
     }
     // utility methods:
     setRewardsUrls(bakerData) {
-        for (let i = bakerData.cycleStart; i <= bakerData.cycleEnd; i++) {
-            bakerData.rewardsRequests.push(`https://api.baking-bad.org/v2/rewards/${bakerData.bakerAddress}?cycle=${i}`);
+        try {
+            if (bakerData) {
+                for (let i = bakerData.cycleStart; i <= bakerData.cycleEnd; i++) {
+                    bakerData.rewardsRequests.push(`https://api.baking-bad.org/v2/rewards/${bakerData.bakerAddress}?cycle=${i}`);
+                }
+            }
+        }
+        catch (e) {
+            console.log(e);
         }
     }
     formatDate(date) {
