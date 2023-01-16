@@ -272,6 +272,8 @@ export default class TezosSet {
             // conduct analysis
             this.firstRewardDate = this.rewardsByDay[0].date;
             this.nativeRewardsFMVByCycle = this.calculateNativeRewardFMVByCycle();
+            console.log('fmv reward output')
+            console.log(this.nativeRewardsFMVByCycle)
             this.investmentsScaledBVByDomain = this.calculateInvestmentBVByDomain();
             await this.calculateNativeSupplyDepletionRewards(this.investmentsScaledBVByDomain);
             await this.calculateNativeMarketDilutionRewards(this.investmentsScaledBVByDomain);
@@ -1082,7 +1084,10 @@ export default class TezosSet {
         //rewards by day by price that day
         //console.log(this.pricesAndMarketCapsByDay['2022-09-20'].price)
         //console.log(this.rewardsByCycle)
-        //console.log(this.rewardsByCycle)
+        //console.log(this.rewardsByCycle)  
+        console.log(JSON.stringify(this.rewardsByCycle[0].date))
+        console.log(this.pricesAndMarketCapsByDay)
+        console.log(this.pricesAndMarketCapsByDay["2022-12-11"].price)
         return this.rewardsByCycle.map((reward: any) => {
              
              //console.log(reward.date)
@@ -1096,6 +1101,7 @@ export default class TezosSet {
             else{
                 return {date: reward.date, rewardAmount: reward.rewardAmount* this.pricesAndMarketCapsByDay[reward.date].price, cycle:reward.cycle}
             }
+     
            
         })
     }
@@ -1170,14 +1176,18 @@ export default class TezosSet {
 
   //  console.log(nativeMarketDilutionByDay[0].date)
     //console.log(nativeMarketDilutionByDay[nativeMarketDilutionByDay.length-1].amount)
-
+    //console.log(nativeMarketDilutionByDay)
 
     //filter for existing dilution 
     nativeFilteredMarketDilutionByDay = nativeMarketDilutionByDay.map((element: any) => {
         try{
+            if(!element){
+                return 
+            }
             if(element.amount === null){
                 return {date: element.date, amount: 0}
             }
+           
             if(element.amount <= 0 ){
                 return {date: element.date, amount: 0}
             }
@@ -1187,6 +1197,7 @@ export default class TezosSet {
         }catch(err){console.log(err)}
       
     })
+    console.log(nativeFilteredMarketDilutionByDay)
 
    // writeFile("marketDilutionDailyFilt.json", JSON.stringify(nativeFilteredMarketDilutionByDay, null, 4), async function(err) {console.log('the')})
  
@@ -1222,7 +1233,7 @@ export default class TezosSet {
     let endDate: string = nativeFilteredMarketDilutionByDay[nativeFilteredMarketDilutionByDay.length - 1].date
 
     //console.log(nativeFilteredMarketDilutionByDay[0].date)
-    //console.log(nativeFilteredMarketDilutionByDay)
+    console.log(nativeFilteredMarketDilutionByDay)
     //console.log(this.cyclesMappedToDays.get("2018-07-18"))
     //for each dilution date, if the cycle of that date is not the current dilution cycle, do this then set it to current diltuion cycle
     nativeFilteredMarketDilutionByDay.forEach(nativeFilteredMarketDilutionByDay => {
@@ -1559,9 +1570,12 @@ export default class TezosSet {
             } 
         
         }
-        this.setRewardsUrls(curBaker)
-        this.bakerCycles.push(curBaker)
-        this.bakerAddresses.add(curBaker.bakerAddress)
+        if(curBaker){
+            this.setRewardsUrls(curBaker)
+            this.bakerCycles.push(curBaker)
+            this.bakerAddresses.add(curBaker.bakerAddress)
+        }
+       
         return
     }
 
@@ -1699,12 +1713,24 @@ export default class TezosSet {
             transactionsLength = transactionsResponseArray.length;
         //}
         this.rawWalletTransactions.forEach((transaction: any) => {
-            if(transaction?.sender?.alias === "Melange Payouts")
+            if(transaction?.sender?.alias === "Melange Payouts"){
                 this.isCustodial = true;
-            else if(transaction?.sender?.alias === "EcoTez Payouts")
+            }
+            else if(transaction?.sender?.alias === "EcoTez Payouts"){
                 this.bakerAddresses.add("tz1QS7N8HnRBG2RNh3Kjty58XFXuLFVdnKGY")
+            }
+            //tezpay lead dev 
+            else if(transaction?.sender?.alias === "Baking Benjamins Payouts"){
+                this.isCustodial = true;
+            }
+            else if(this.isCustodial !== true){
+                this.isCustodial = false;
+            }
+               
         })
-        this.isCustodial = false;
+        console.log(this.rawWalletTransactions)
+        console.log(this.isCustodial)
+       // this.isCustodial = false;
       //  console.log(this)
     }
 
@@ -1718,6 +1744,7 @@ export default class TezosSet {
 
     async getDelegatorRewardsAndTransactions(): Promise<void> {
         await Promise.all([this.retrieveBakers(), this.retrieveCyclesAndDates() ,this.getRawWalletTransactions()]);
+        console.log(this.isCustodial)
         if(this.isCustodial){
             this.processIntermediaryTransactions();
             this.getNetTransactions();
@@ -1833,9 +1860,13 @@ export default class TezosSet {
 
     //processing methods
     processIntermediaryTransactions(): void {
+        
         let intermediaryTransactions: Array<{target: {address: string}, sender: {address: string, alias: string}, amount: number, timestamp: string}> = this.rawWalletTransactions.filter((transaction: any) => {
-            (transaction?.sender?.alias === "Melange Payouts")
-    
+            //(transaction?.sender?.alias === "Melange Payouts") ||
+            //add the Tez Pay scan here
+            //console.log(transaction?.sender?.alias)
+           
+            return transaction?.sender?.alias === "Baking Benjamins Payouts" || transaction?.sender?.alias === "Melange Payouts"
         });
 
         let intermediaryRewards: Array<RewardsByDay> = intermediaryTransactions.map(transaction => {
@@ -1845,7 +1876,12 @@ export default class TezosSet {
             let reward: RewardsByDay = {date: transactionDate, rewardAmount: adjustedAmount, cycle: cycleNumber};
             return reward;
         })
+        
         this.rewardsByDay.push(...intermediaryRewards);
+        console.log(this.rewardsByDay)
+
+       // console.log(this.rawWalletTransactions)
+        //scan for tez pay - first function
 
         return
     }
@@ -2141,9 +2177,15 @@ export default class TezosSet {
 
     // utility methods:
     setRewardsUrls(bakerData: BakerCycle): void{ 
-        for (let i = bakerData.cycleStart; i <= bakerData.cycleEnd; i++) {
-            bakerData.rewardsRequests.push(`https://api.baking-bad.org/v2/rewards/${bakerData.bakerAddress}?cycle=${i}`);
-        }
+        try{
+            if(bakerData){
+                for (let i = bakerData.cycleStart; i <= bakerData.cycleEnd; i++) {
+                    bakerData.rewardsRequests.push(`https://api.baking-bad.org/v2/rewards/${bakerData.bakerAddress}?cycle=${i}`);
+                }
+            }
+           
+        }catch(e){console.log(e)}
+      
     }
 
     formatDate(date: string): string {
@@ -2205,6 +2247,23 @@ export default class TezosSet {
             return value
         })
     }
+
+    //0.3.0 programs
+    
+
+
+    //organize the transaction url proccess to make positve and negative transaction arrays
+            //relevant this 
+            // this.unaccountedNetTransactions
+            // this.rawWalletTransactions
+            // this.walletAddress
+        //order this method call at the end of generate 
+
+
+
+    //transaction pair and capital calculation 
+            //relevatnt this when i make it from the above func
+        //order this method call at the end of realize 
     
 }
 
