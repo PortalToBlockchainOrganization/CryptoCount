@@ -1723,6 +1723,9 @@ export default class TezosSet {
             else if(transaction?.sender?.alias === "Baking Benjamins Payouts"){
                 this.isCustodial = true;
             }
+            else if(transaction?.sender?.alias === "BakeBuddy #1 Payouts"){
+                this.isCustodial=true;
+            }
             else if(this.isCustodial !== true){
                 this.isCustodial = false;
             }
@@ -1866,7 +1869,7 @@ export default class TezosSet {
             //add the Tez Pay scan here
             //console.log(transaction?.sender?.alias)
            
-            return transaction?.sender?.alias === "Baking Benjamins Payouts" || transaction?.sender?.alias === "Melange Payouts"
+            return transaction?.sender?.alias === "Baking Benjamins Payouts" || transaction?.sender?.alias === "Melange Payouts"  || transaction?.sender?.alias === "BakeBuddy #1 Payouts"
         });
 
         let intermediaryRewards: Array<RewardsByDay> = intermediaryTransactions.map(transaction => {
