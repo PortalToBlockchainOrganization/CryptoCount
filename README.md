@@ -6,7 +6,7 @@ CryptoCount 0.2.3.2 tracks and mocks up realizations of native Tezos DeFi block 
 
 WebApp: https://cryptocount.co
 
-API Documentation: https://portaltoblockchain.org/client 
+Integration and API Documentation: https://portaltoblockchain.org/client 
 
 CryptoCount 0.3.0 adds Capital Gain calculations for XTZ and token contract transactions, FMV assessments of DeFi/Dapp rewards, and on chain consolidation of tax payments into smart contracts for revenue authority collection.
 
