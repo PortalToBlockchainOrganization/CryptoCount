@@ -23,7 +23,7 @@ cd backend/src
 
 Initialize a local MongoDb collection -> https://www.mongodb.com/basics/create-database
 
-Paste the URL into db_update.py
+Paste the URI into db_update.py
 
 Change the final line in db_update.py to your timezone relative to UTC
 
