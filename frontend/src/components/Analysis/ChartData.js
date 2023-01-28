@@ -63,29 +63,31 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 			labels: [],
 			datasets: [
 				{
-					label: "Realized Rewards",
+					label: "Unrealized Rewards",
 					backgroundColor: "rgba(255, 99, 132, 0.9)",
 					borderRadius: .5,
-					barThickness: 4,
+					barThickness: 3,
 					data: [],
+					color: "white",
 				},
 				{
 					label: "Realizing Rewards",
 					opactity: 1.5,
 					backgroundColor: "rgba(242, 120, 75, 0.9)",
 					borderRadius: .5,
-					barThickness: 4,
+					barThickness: 3,
 					data: [],
 					
 				},
 				{
-					label: "Unrealized Rewards",
+					label: "Realized Rewards",
 					backgroundColor: "rgba(191, 191, 191, 0.9)",
 					borderRadius: .5,
-					barThickness: 4,
+					barThickness: 3,
 					data: [],
-					color: "white",
 				},
+				
+			
 				// {
 				// 	label: "Basis Cost",
 				// 	borderRadius: 3,
@@ -94,7 +96,7 @@ export const getData = (setToRender, set, params, getUnrealizedSet) => {
 				// 	data: [],
 				// },
 			],
-			hoverOffset: 4,
+			hoverOffset: 0,
 			address: set["data"]?.address,
 			fiat: set["data"]?.fiat,
 			basisDate: set["data"]?.basisDate,
