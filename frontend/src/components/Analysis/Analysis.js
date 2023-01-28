@@ -640,9 +640,97 @@ function Table({ data, tableId }) {
 			<div className={classes.rightWrap}>
 
 
+			{/* fifo station title*/}
+			<div className={classes.space}>
+			<div className={classes.the}>F. I. F. O. Native Block Reward Mockup (Realizes Over Each Set)</div>
+			<div
+				className={classes.help}
+				tooltip-data="Use the FIFO mockup tool to generate a block reward income statement."
+			>
+				<HelpOutlineRoundedIcon
+					className={classes.helpIcon}
+				/>
+			</div>
+			</div>
+
+			{/* fifo selectors */}
+			<div className={classes.quantGroup}>
+			<div className={classes.words}>Mockup XTZ Reward Quantity</div>
+			<div
+				className={classes.help}
+				tooltip-data="Select up to 100% of native rewards. "
+			>
+				<HelpOutlineRoundedIcon
+					className={classes.helpIcon}
+				/>
+			</div>
+			<Button
+					variant="primary"
+					onClick={handle25}
+					className="buttonReward"
+				>
+					25%
+			</Button>
+			<Button
+					variant="primary"
+					onClick={handle50}
+					className={classes.buttonReward}
+
+				>
+					50%
+			</Button>
+			<Button
+					variant="primary"
+					onClick={handle75}
+					className={classes.buttonReward}
+				>
+					75%
+			</Button>
+			<Button
+			className={classes.buttonReward}										variant="primary"
+				onClick={handle100}
+			>
+				100%
+			</Button>
+			<div>
+			<form className="form-inline cool-form">
+			<div className={classes.formLength}>
+			<input className={classes.formLength} placeholder={quantityRealizeInForm} ref={quantityRealize}/>
+			</div>
+			</form>
+			</div>	
+			<div>XTZ</div>
+			</div>
+
+
+			{/* fifo selctors buttons */}
+			<div className={classes.buttWrap}>		
+			<Button className={classes.the2} onClick={handleRealizing} block variant="success">
+					Generate Asset Income Assessment
+			</Button>
+			<Button
+				className={classes.the7}
+				// disabled={
+				// 	setId["setId"].length > 0 ? "" : "disabled"
+				// }
+				variant="danger"
+				block
+				onClick={setIdQuery}
+			>
+				Undo Realization
+			</Button>
+			<div
+			className={classes.help}
+			tooltip-data="Undo will not undo a Saved realization, only assets in the Realizing state (CC 0.2.2 Spec)"
+			>
+			<HelpOutlineRoundedIcon className={classes.helpIcon} />
+			</div>	
+			</div>	
+
+
 			{/* toggle chart */}
 			<div>
-				<div className={classes.space}>
+				<div className={classes.space2}>
 					<div className={classes.the}>Toggle Chart Accounting Set</div>
 					<div
 						className={classes.help}
@@ -734,94 +822,6 @@ function Table({ data, tableId }) {
 						</div>
 				</div>
 			</div>
-
-			{/* fifo station title*/}
-			<div className={classes.space2}>
-			<div className={classes.the}>F. I. F. O. Native Block Reward Mockup (Realizes Over Each Set)</div>
-			<div
-				className={classes.help}
-				tooltip-data="Enter or select a quantity of native rewards you'd like to sell. "
-			>
-				<HelpOutlineRoundedIcon
-					className={classes.helpIcon}
-				/>
-			</div>
-			</div>
-
-			{/* fifo selectors */}
-			<div className={classes.quantGroup}>
-			<div className={classes.words}>Reward Quantity</div>
-			<div
-				className={classes.help}
-				tooltip-data="Select up to 100% of native rewards. "
-			>
-				<HelpOutlineRoundedIcon
-					className={classes.helpIcon}
-				/>
-			</div>
-			<Button
-					variant="primary"
-					onClick={handle25}
-					className="buttonReward"
-				>
-					25%
-			</Button>
-			<Button
-					variant="primary"
-					onClick={handle50}
-					className={classes.buttonReward}
-
-				>
-					50%
-			</Button>
-			<Button
-					variant="primary"
-					onClick={handle75}
-					className={classes.buttonReward}
-				>
-					75%
-			</Button>
-			<Button
-			className={classes.buttonReward}										variant="primary"
-				onClick={handle100}
-			>
-				100%
-			</Button>
-			<div>
-			<form className="form-inline cool-form">
-			<div className={classes.formLength}>
-			<input className={classes.formLength} placeholder={quantityRealizeInForm} ref={quantityRealize}/>
-			</div>
-			</form>
-			</div>	
-			<div>XTZ</div>
-			</div>
-
-
-			{/* fifo selctors buttons */}
-			<div className={classes.buttWrap}>		
-			<Button className={classes.the2} onClick={handleRealizing} block variant="success">
-					Generate Asset Income Assessment
-			</Button>
-			<Button
-				className={classes.the7}
-				// disabled={
-				// 	setId["setId"].length > 0 ? "" : "disabled"
-				// }
-				variant="danger"
-				block
-				onClick={setIdQuery}
-			>
-				Undo Realization
-			</Button>
-			<div
-			className={classes.help}
-			tooltip-data="Undo will not undo a Saved realization, only assets in the Realizing state (CC 0.2.2 Spec)"
-			>
-			<HelpOutlineRoundedIcon className={classes.helpIcon} />
-			</div>	
-			</div>	
-
 
 			</div>
 
@@ -1186,7 +1186,7 @@ function Table({ data, tableId }) {
 			{/* {set && set["isLoading"] ? ( */}
 				 <div className={classes.setToggles}>
 					<Spinner animation="border" variant="danger" />
-					<div className={classes.words}>Waiting for your command</div>
+					<div className={classes.words}>Waiting for command</div>
 				 </div>
 				 
 			{/* ) : ( */}
