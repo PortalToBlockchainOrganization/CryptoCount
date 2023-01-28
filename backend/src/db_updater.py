@@ -101,13 +101,28 @@ def updateTotalSupplys():
 
     while i<len(dates):
         # use daily stats
-        url = (f"https://api.tzkt.io/v1/statistics/daily?date={dates[i]}")
-        response = requests.get(url)
-        response = response.json()
-        if len(response)==0:
-            break
-        print(response)
-        totalSupply = response[0]['totalSupply']
+        value = blockchains.find_one({ "date": dates[i]})
+        print('blockchains quer')
+        print(value["marketCapUSD"])
+        top = value["marketCapUSD"]
+        bottom = value["priceUSD"]
+        #print(value.marketCapUSD)
+        #for doc in value:
+        #print(doc["marketCapUSD"])
+        #url = (f"https://api.tzkt.io/v1/statistics/daily?date={dates[i]}")
+        #response = requests.get(url)
+        #print(response)
+        #response = response.json()
+        #if len(response)==0:
+        #break
+        #print(response)
+        #marketCap
+        #price
+        #divide
+        #totalSupply
+        #totalSupply = response[0]['totalSupply']
+        totalSupply = top/bottom
+        print(totalSupply)
         stats.append({'dateString': dates[i], 'totalSupply':totalSupply})
         i+=1
 
