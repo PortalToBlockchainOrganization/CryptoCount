@@ -46,17 +46,23 @@ export const chartOptions = (set) => {
 		});
 	}
 
+	console.log(nativeBlockRewards)
 
-	//console.log(basisCosts)
+
+	console.log(basisCosts)
 
 	return {
 		responsive: true,
-		
+		hover: {
+			mode: 'nearest',
+		  },
 		legend: {
 			labels: {
 				fontColor: "blue",
-				fontSize: 18
-			}
+				font:{
+					size: 9
+				},
+			},
 		},
 		scales: {
 			yAxes: {
@@ -70,12 +76,15 @@ export const chartOptions = (set) => {
 							? fiatLabels[set?.data?.fiat]
 							: "",
 					font: {
-						size: 12,
+						size: 8,
 					},
 					color: "white"
 				},
 				ticks: {
 					precision: 0,
+					font: {
+						size: 8,
+					},
 					beginAtZero: true,
 					callback: function (value, index, values) {
 						return value + " " + set?.data?.fiat;
@@ -94,13 +103,16 @@ export const chartOptions = (set) => {
 					display: true,
 					text: "Date",
 					font: {
-						size: 12,
+						size: 8,
 					},
 					color: "white",
 					
 				},
 				ticks: {
 					beginAtZero: true,
+					font: {
+						size: 8,
+					}
 					
 				},
 			},
@@ -112,7 +124,7 @@ export const chartOptions = (set) => {
 			},
 			title: {
 				display: true,
-				text: " ".concat("Native Block Rewards' Accounting Entries"),
+				// text: " ".concat("Native Block Rewards' Accounting Entries"),
 				align: "center",
 				font: {
 					size: 12,
@@ -139,8 +151,12 @@ export const chartOptions = (set) => {
 				// 	//   return true;
 				// 	// }
 				// },
+				interaction:{
+					intersect: false,
+				  },
 				filter: tooltipItem => tooltipItem.dataset.data[tooltipItem.dataIndex] > 0,
 				callbacks: {
+					
 				//   label: (ttItem) => (`${ttItem.dataset.label}: ${ttItem.dataset.data[ttItem.dataIndex].basisCost}`)
 					beforeBody: function(tooltipItems){
 						console.log(tooltipItems)
@@ -173,6 +189,8 @@ export const chartOptions = (set) => {
 					label: function(tooltipItems) { 
 						console.log('fiat labeler')
 						console.log(tooltipItems)
+
+
 						//return tooltipItems
 						var value = tooltipItems.formattedValue.concat( ' ' + set?.data?.fiat)
 						var value2 = "Entry Reward Value: "+ value
