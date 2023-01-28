@@ -196,26 +196,29 @@ const Analysis = (props) => {
 		e.preventDefault();
 	
 		if (set["data"]["objectId"] !== undefined && quantityRealize !== 0) {
-			if (!signedIn()) {
-				console.log("NOAUTH TRIGGERED");
-				noAuthRealizingSet(
-					set["data"]["objectId"],
-					quantityRealize.current.value,
-					updateChart1,
-					
-					
-				);
-			} else {
-                console.log("NOAUTHSKIPPED")
-				getRealizingSet(
-					set["data"]["objectId"],
-					quantityRealize.current.value,
-					updateChart1,
-					// console.log('ppoooo'),
-					// setActive("unrealizedNativeFMVRewards")
-					
-				);
+			if(quantityRealize.current.value > 0){
+				if (!signedIn()) {
+					console.log("NOAUTH TRIGGERED");
+					noAuthRealizingSet(
+						set["data"]["objectId"],
+						quantityRealize.current.value,
+						updateChart1,
+						
+						
+					);
+				} else {
+					console.log("NOAUTHSKIPPED")
+					getRealizingSet(
+						set["data"]["objectId"],
+						quantityRealize.current.value,
+						updateChart1,
+						// console.log('ppoooo'),
+						// setActive("unrealizedNativeFMVRewards")
+						
+					);
+				}
 			}
+			
 		}
 	};
 
