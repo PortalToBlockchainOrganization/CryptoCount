@@ -16,6 +16,10 @@
 
 } */
 
+.stuff{
+	position: flex;
+}
+
 .wrapper {
 	display: block;
 	height:  3580.74px;         /*calc(570vh - 57px);*/
@@ -327,7 +331,7 @@ p {
 	/* margin: 60px 60px 60px 60px; */
 }
 .words3{
-	font-family: "Blanka-Regular";
+	font-family: 'Courier New', Courier, monospace;
 	font-size: 1.5em;
 	color: rgb(17, 15, 15);
 	margin: 10px 10px 10px 20px;
@@ -698,6 +702,7 @@ p {
 	margin-bottom: -30px;
 
 }
+
 
 
 
