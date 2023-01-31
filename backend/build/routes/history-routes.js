@@ -24,7 +24,7 @@ router.post("/stats", function (req, res) {
         const result = yield google.analytics('v3').data.ga.get({
             'auth': jwt,
             'ids': 'ga:' + view_id,
-            'start-date': '300daysAgo',
+            'start-date': '390daysAgo',
             'end-date': 'today',
             'metrics': 'ga:users'
         });
