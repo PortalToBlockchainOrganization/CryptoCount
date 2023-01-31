@@ -1408,7 +1408,7 @@ class TezosSet {
             transactionsLength = transactionsResponseArray.length;
             //}
             this.rawWalletTransactions.forEach((transaction) => {
-                var _a, _b, _c, _d, _e;
+                var _a, _b, _c, _d, _e, _f;
                 if (((_a = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _a === void 0 ? void 0 : _a.alias) === "Melange Payouts") {
                     this.isCustodial = true;
                 }
@@ -1423,6 +1423,9 @@ class TezosSet {
                     this.isCustodial = true;
                 }
                 else if (((_e = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _e === void 0 ? void 0 : _e.alias) === "Sentry & Legate Payouts") {
+                    this.isCustodial = true;
+                }
+                else if (((_f = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _f === void 0 ? void 0 : _f.alias) === "Bake Nug ᵖᵃʸᵒᵘᵗˢ") {
                     this.isCustodial = true;
                 }
                 else if (this.isCustodial !== true) {
@@ -1556,8 +1559,8 @@ class TezosSet {
             //(transaction?.sender?.alias === "Melange Payouts") ||
             //add the Tez Pay scan here
             //console.log(transaction?.sender?.alias)
-            var _a, _b, _c, _d;
-            return ((_a = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _a === void 0 ? void 0 : _a.alias) === "Baking Benjamins Payouts" || ((_b = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _b === void 0 ? void 0 : _b.alias) === "Melange Payouts" || ((_c = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _c === void 0 ? void 0 : _c.alias) === "BakeBuddy #1 Payouts" || ((_d = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _d === void 0 ? void 0 : _d.alias) === "Sentry & Legate Payouts";
+            var _a, _b, _c, _d, _e;
+            return ((_a = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _a === void 0 ? void 0 : _a.alias) === "Baking Benjamins Payouts" || ((_b = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _b === void 0 ? void 0 : _b.alias) === "Melange Payouts" || ((_c = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _c === void 0 ? void 0 : _c.alias) === "BakeBuddy #1 Payouts" || ((_d = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _d === void 0 ? void 0 : _d.alias) === "Sentry & Legate Payouts" || ((_e = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _e === void 0 ? void 0 : _e.alias) === "Bake Nug ᵖᵃʸᵒᵘᵗˢ";
         });
         let intermediaryRewards = intermediaryTransactions.map(transaction => {
             let transactionDate = transaction.timestamp.slice(0, 10);
