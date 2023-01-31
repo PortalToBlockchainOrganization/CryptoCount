@@ -509,6 +509,21 @@ const Landing = (props) => {
 				    Tutorial
 				    <img src="./logo.png" alt="chrome-web-store" />
 				</a>
+
+				<div  className="setToggles13">
+					<div className="words3">Problems? Tell Dev </div>
+					<div
+								className="help"
+								tooltip-data="Reachout to PTBO TECH team"
+								>
+								<HelpOutlineRoundedIcon
+									className="helpIcon" />
+								</div>
+				<CopyToClipboard text={"henrik@ptbotech.org"} onCopy={() => setIsCopied({isCopied: true})}>
+							<button className="words3"><span>{isCopied ? 'Copied' : 'Copy Email'}</span>
+							</button>
+						</CopyToClipboard>
+				</div>
            			
 				<div className="name-one-liner2">
 					<h2 className="logo-tagline3">
