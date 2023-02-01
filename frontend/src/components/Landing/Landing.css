@@ -268,7 +268,7 @@ p {
 
 .helpIcon {
 	font-size: 28px !important;
-	margin-left: 30px;
+	margin-left: 500px;
 	padding: 5px;
 	color:rgb(22, 190, 118);
 	display: flex;
@@ -285,8 +285,8 @@ p {
 
 .help:before {
 	content: attr(tooltip-data);
-	position: absolute;
-	transform: translate(-40%, -100%);
+	position: relative;
+	/* transform: translate(-40%, -100%); */
 	width: 200px;
 	padding: 10px;
 	border-radius: 3px;
@@ -416,6 +416,7 @@ p {
 	display: flex;
 	justify-content: center;
 	margin-top: 25px;
+	width: 50%;
 	margin-left: 50px;
 	margin-right: 50px;
 	height: 100vh;
@@ -439,7 +440,7 @@ p {
 	color: white;
 	font-size: 1.2em !important;
 	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-	display: flex;
+	display: inline;
 	justify-content: center;
 	margin-top: 10px;
 }
@@ -448,7 +449,7 @@ p {
 	display: flex;
 	justify-content: center;
 	display: block;
-    width: 100%;
+    width: 50%;
     height: calc(1.5em + 0.75rem + 2px);
     padding: 0.375rem 0.75rem;
     font-size: 1rem;
@@ -462,6 +463,15 @@ p {
     transition: 
 	border-color 0.15s ease-in-out, 
 	box-shadow 0.15s ease-in-out;
+}
+
+.formLength{
+	margin-left: 5px;
+	width: 90%;
+  }
+
+  .cool-form .form-control {
+    width: 20px;
 }
 
 .formimg{
@@ -702,7 +712,6 @@ p {
 	margin-bottom: -30px;
 
 }
-
 
 
 
