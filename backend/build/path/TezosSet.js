@@ -423,7 +423,7 @@ class TezosSet {
                 this.aggregates();
             }).then(() => {
                 this.getRealizingAssetDomain();
-            });
+            })
             .then(() => {
                 this.pointOfSaleCosts();
             });
