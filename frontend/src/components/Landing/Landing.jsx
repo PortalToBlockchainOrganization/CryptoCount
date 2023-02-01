@@ -355,10 +355,10 @@ const Landing = (props) => {
 					<Form onSubmit={handleSignIn}>
 						<Form.Group controlId="formBasicEmail">
 						
-							<h4 class="thickerplz">
+							<h2 class="thickerplz">
 								Paste your Address or Tez Domain 
 							
-							</h4>
+							</h2>
 							
 							{/* <form className="form-inline cool-form">
 							<div className="formLength">
@@ -403,9 +403,9 @@ const Landing = (props) => {
 					>
 						<Form.Group controlId="formBasicEmail">
 						
-							<h4 class="thickerplz">
+							<h2 class="thickerplz">
 								Paste Your Set Id 
-							</h4>
+							</h2>
 							<Form.Control
 								setId={setId}
 								type="text"
