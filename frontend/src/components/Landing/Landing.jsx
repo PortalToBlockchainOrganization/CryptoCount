@@ -350,21 +350,21 @@ const Landing = (props) => {
 					 Tezos Block Rewards' Fair Market Value Assessment Tool. Mockup sales and get free income statements of Tezos based assets in 40 fiat currencies.
 					</h2>
 				</div>
+
 				<div className="form">
 					<Form onSubmit={handleSignIn}>
 						<Form.Group controlId="formBasicEmail">
 						
 							<h4 class="thickerplz">
 								Paste your Address or Tez Domain to Generate an Accounting Set
-								<div
-								className="help"
-								tooltip-data="Copy your Tezos address from your wallet and paste it in the field to view your accounting set"
-								>
-								<HelpOutlineRoundedIcon
-									className="helpIcon" />
-								</div>
+							
 							</h4>
 							
+							{/* <form className="form-inline cool-form">
+							<div className="formLength">
+							<input className="formLength" placeholder="Tz.., KT.., or Tezos Domain" onChange={handleDelegationChange}/>
+							</div>
+							</form> */}
 							<Form.Control
 								type="text"
 								class="placeholdbetter"
@@ -372,6 +372,7 @@ const Landing = (props) => {
 								onChange={handleDelegationChange}
 							/>
 						</Form.Group>
+						
 
 						<Button
 							className="button-continue"
@@ -385,6 +386,14 @@ const Landing = (props) => {
 							Continue
 						</Button>
 					</Form>
+					
+				</div>
+				<div
+								className="help"
+								tooltip-data="Copy your Tezos address from your wallet and paste it in the field to view your accounting set"
+								>
+								<HelpOutlineRoundedIcon
+									className="helpIcon" />
 				</div>
 				<div class="logo-tagline">Or</div>
 				<div className="form">
@@ -396,13 +405,6 @@ const Landing = (props) => {
 						
 							<h4 class="thickerplz">
 								Paste Your Set Id To Retrieve It
-								<div
-								className="help"
-								tooltip-data="Paste in a set id to retrieve your updated accounting set from a previous CryptoCount session."
-								>
-								<HelpOutlineRoundedIcon
-									className="helpIcon" />
-								</div>
 							</h4>
 							<Form.Control
 								setId={setId}
@@ -426,6 +428,14 @@ const Landing = (props) => {
 						</Button>
 					</Form>
 				</div>
+				<div
+								className="help"
+								tooltip-data="Paste in a set id to retrieve your updated accounting set from a previous CryptoCount session."
+								>
+								<HelpOutlineRoundedIcon
+									className="helpIcon" />
+								</div>
+				
 				<div>
 				{/* <ThemeContext.Consumer>
 									{({ changeTheme }) => (
@@ -451,18 +461,19 @@ const Landing = (props) => {
 				</div> */}
 				<div  className="setToggles13">
 					<div className="words3">Demo CryptoCount </div>
-					<div
+					
+				<CopyToClipboard text={"63b7a9c38c78bc302554e5d6"} onCopy={() => setIsCopied({isCopied: true})}>
+							<button className="words3"><span>{isCopied ? 'Copied' : 'Copy Set ID'}</span>
+							</button>
+						</CopyToClipboard>
+				</div>
+				<div
 								className="help"
 								tooltip-data="Copy a sample set id and paste it above to demo CryptoCount"
 								>
 								<HelpOutlineRoundedIcon
 									className="helpIcon" />
 								</div>
-				<CopyToClipboard text={"63b7a9c38c78bc302554e5d6"} onCopy={() => setIsCopied({isCopied: true})}>
-							<button className="words3"><span>{isCopied ? 'Copied' : 'Copy Set ID'}</span>
-							</button>
-						</CopyToClipboard>
-				</div>
 
 				<div className="statsTitle">Stats</div>
 				<div className="stats">
@@ -512,18 +523,19 @@ const Landing = (props) => {
 
 				<div  className="setToggles13">
 					<div className="words3">Problems? Tell Dev </div>
-					<div
+		
+				<CopyToClipboard text={"henrik@ptbotech.org"} onCopy={() => setIsCopied({isCopied: true})}>
+							<button className="words3"><span>{isCopied ? 'Copied' : 'Copy Email'}</span>
+							</button>
+						</CopyToClipboard>
+				</div>
+				<div
 								className="help"
 								tooltip-data="Reachout to PTBO TECH team"
 								>
 								<HelpOutlineRoundedIcon
 									className="helpIcon" />
 								</div>
-				<CopyToClipboard text={"henrik@ptbotech.org"} onCopy={() => setIsCopied({isCopied: true})}>
-							<button className="words3"><span>{isCopied ? 'Copied' : 'Copy Email'}</span>
-							</button>
-						</CopyToClipboard>
-				</div>
            			
 				<div className="name-one-liner2">
 					<h2 className="logo-tagline3">
