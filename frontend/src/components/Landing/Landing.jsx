@@ -356,7 +356,7 @@ const Landing = (props) => {
 						<Form.Group controlId="formBasicEmail">
 						
 							<h4 class="thickerplz">
-								Paste your Address or Tez Domain to Generate an Accounting Set
+								Paste your Address or Tez Domain 
 							
 							</h4>
 							
@@ -404,7 +404,7 @@ const Landing = (props) => {
 						<Form.Group controlId="formBasicEmail">
 						
 							<h4 class="thickerplz">
-								Paste Your Set Id To Retrieve It
+								Paste Your Set Id 
 							</h4>
 							<Form.Control
 								setId={setId}
