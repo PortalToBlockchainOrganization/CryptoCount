@@ -321,6 +321,7 @@ router.post('/Save/', (req, res) => {
 router.post('/UmbrellaHolder', (req, res) => {
     umbrellaHolder_model_1.UmbrellaHolderModel.findById(req.body.umbrellaHolderId, function (err, result) {
         return __awaiter(this, void 0, void 0, function* () {
+            try{
             if (err) {
                 console.log(err);
             }
@@ -336,6 +337,10 @@ router.post('/UmbrellaHolder', (req, res) => {
                 console.log(result.umbrellaHolder);
                 res.status(200).send(umbrellaHolder);
             }
+        }
+        catch(e){
+            console.log(e)
+        }
         });
     });
 });
