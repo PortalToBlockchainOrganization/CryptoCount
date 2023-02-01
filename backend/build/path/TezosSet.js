@@ -424,7 +424,10 @@ class TezosSet {
             }).then(() => {
                 this.getRealizingAssetDomain();
             });
-            yield this.pointOfSaleCosts();
+            .then(() => {
+                this.pointOfSaleCosts();
+            });
+           // yield this.pointOfSaleCosts();
             // console.log("here4")
         });
     }
