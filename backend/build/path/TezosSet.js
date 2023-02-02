@@ -1431,7 +1431,7 @@ class TezosSet {
                 else if (((_f = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _f === void 0 ? void 0 : _f.alias) === "Bake Nug ᵖᵃʸᵒᵘᵗˢ") {
                     this.isCustodial = true;
                 }
-                else if (((_g = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _g === void 0 ? void 0 : _g.alias) === "Adi_daz Barrio Bakery"") {
+                else if (((_g = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _g === void 0 ? void 0 : _g.alias) === "Adi_daz Barrio Bakery") {
                     this.isCustodial = true;
                 }
                 else if (this.isCustodial !== true) {
