@@ -875,7 +875,7 @@ function Table({ data, tableId }) {
 
 
 			{/* point of sale title */}
-			<div className={classes.the}>Point Of Sale Highlights</div>
+			<div className={classes.the15}>Point Of Sale Highlights</div>
 			<div
 				className={classes.help}
 				tooltip-data="Price of Tezos today, value of realization today, and quantity of realization."
@@ -904,7 +904,7 @@ function Table({ data, tableId }) {
 					<div className={classes.dipo}>
 
 			{/* income title */}
-			<div className={classes.the}>Incomes:</div>
+			<div className={classes.the15}>Incomes:</div>
 			<div
 			className={classes.help}
 			tooltip-data="The incomes generated from the three accounting sets."
@@ -950,7 +950,7 @@ function Table({ data, tableId }) {
 
 
 			{/* profit loss diffs title */}
-			<div className={classes.the}>Profit/Loss:</div>
+			<div className={classes.the15}>Profit/Loss:</div>
 			<div
 				className={classes.help}
 				tooltip-data="The profit/loss margin between the point of sale value and the reportable incomes."
@@ -1011,7 +1011,7 @@ function Table({ data, tableId }) {
 
 
 			{/* basis cost title */}
-			<div className={classes.the}>Assets' Basis Costs:
+			<div className={classes.the15}>Assets' Basis Costs:
 			</div>
 			<div
 				className={classes.help}
@@ -1049,7 +1049,7 @@ function Table({ data, tableId }) {
 
 
 			{/* aggregate period title */}
-			<div className={classes.the}>Asset Aggregation Period:
+			<div className={classes.the15}>Asset Aggregation Period:
 			</div>
 			<div
 				className={classes.help}
