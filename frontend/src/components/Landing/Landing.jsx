@@ -26,6 +26,7 @@ import CopyToClipboard from "react-copy-to-clipboard"
 import SliderComponent from "./Slider.js"
 import bb from "../../Assets/bb.png";
 import { useState } from "react";
+import logogif from "../../Assets/logo.gif";
 //import { ThemeContext, themes } from '../DarkMode/SizeContainer';
 //import { Slider } from '@mui/material';
 import Slider from 'react-input-slider';
@@ -336,7 +337,8 @@ const Landing = (props) => {
 					<div className="logo-container">
 						<a href="https://tezos.com"><img className="logo" src="./Tezos.png" alt="logo" /></a>
 						<div className="X"> X </div>
-						<img className="logo" src="./logo.png" alt="logo" />
+						<img src={logogif} className="logosmall"alt="loading..." />
+						{/* <img className="logo" src="./logo.png" alt="logo" /> */}
 					</div>
 				</section>
 				<br />
