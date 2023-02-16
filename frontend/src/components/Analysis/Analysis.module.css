@@ -100,7 +100,7 @@
 
   .the76{
 	/* font-family: "Blanka-Regular"; */
-	opacity: .5;
+	/* opacity: .5; */
 	left: 0;
 	vertical-align: left;
 	font-family: "Louis George Café", sans-serif;
@@ -111,16 +111,28 @@
 
   }
 
-	.the{
+.the{
 	/* font-family: "Blanka-Regular"; */
-	opacity: .5;
+	/* opacity: .5; */
 	font-family: "Louis George Café", sans-serif;
 	font-size: 1em;
 	display: flex;
-	color: white;
+	color: white !important;
 	margin: 10px 40px 10px 20px;
 
   }
+
+  .the15{
+	/* font-family: "Blanka-Regular"; */
+	/* opacity: .5; */
+	font-family: "Louis George Café", sans-serif;
+	font-size: 1em;
+	display: flex;
+	color: black !important;
+	margin: 10px 40px 10px 20px;
+
+  }
+
 
 
   .the2{
@@ -472,7 +484,7 @@
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: vertical;
-	background-color: #212529;
+	background-color: #d2dae1;
 	/* border: 1px solid rgb(177, 177, 177);
 	border-radius: 5px; */
 	padding: 25px;
@@ -854,3 +866,4 @@
 	margin-left: 5px;
 	color: gray;
 }
+
