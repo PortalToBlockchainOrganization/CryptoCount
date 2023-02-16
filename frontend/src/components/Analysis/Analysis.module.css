@@ -484,7 +484,7 @@
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: vertical;
-	background-color: #d2dae1;
+	background-color: #b7d7f1;
 	/* border: 1px solid rgb(177, 177, 177);
 	border-radius: 5px; */
 	padding: 25px;
@@ -866,4 +866,3 @@
 	margin-left: 5px;
 	color: gray;
 }
-
