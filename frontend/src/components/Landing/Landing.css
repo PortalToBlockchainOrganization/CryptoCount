@@ -109,7 +109,18 @@ h4{
 	margin-right: 40px;
 }
 
-
+.logosmall {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 5px;
+	height: 12vw;
+	
+	margin-top: 55px;
+	/* margin-bottom: 50px; */
+	margin-left: 40px;
+	margin-right: 40px;
+}
 @font-face {
 	font-family: 'Blanka-Regular';
 	src: url('../Analysis/Blanka-Regular.ttf');
@@ -442,7 +453,11 @@ p {
 	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 	display: inline;
 	justify-content: center;
+	width: 100%;
 	margin-top: 10px;
+	align-items: center;
+	margin-bottom: 10px;
+	position:inherit;
 }
 
 .placeholdbetter{
@@ -712,6 +727,7 @@ p {
 	margin-bottom: -30px;
 
 }
+
 
 
 
