@@ -146,6 +146,8 @@ const Landing = (props) => {
 	}, [props])
 
 	const [isCopied, setIsCopied] = useState(false);
+	const [isCopied2, setIsCopied2] = useState(false);
+
 
 
 	useEffect(()=>{
