@@ -330,14 +330,15 @@ const Landing = (props) => {
 		});
 	}, []);
 	return (
-		<div className="wrapper">
+			<div className="wrapper">
 			<div className="lp-container">
-				<h1 className="logo-name9">Open Source Tezos Taxes, Tezos Tax Accounting, Tezos Block Reward Fiat Assessments</h1>
+				<h1 className="logo-name9">Tezos Taxes, Tezos Tax Accounting, Tezos Reward Fiat Assessments</h1>
 				<section className="static-wrapper">
 					<div className="logo-container">
 						<a href="https://tezos.com"><img className="logo" src="./Tezos.png" alt="logo" /></a>
 						<div className="X"> X </div>
 						<img src={logogif} className="logosmall"alt="loading..." />
+						
 						{/* <img className="logo" src="./logo.png" alt="logo" /> */}
 					</div>
 				</section>
@@ -353,12 +354,13 @@ const Landing = (props) => {
 					</h2>
 				</div>
 
+				<div style={{display: 'flex'}}>
 				<div className="form">
 					<Form onSubmit={handleSignIn}>
 						<Form.Group controlId="formBasicEmail">
 						
 							<h2 class="thickerplz">
-								Paste your Address or Tez Domain 
+								Paste your Address or Tez Domain
 							
 							</h2>
 							
@@ -390,14 +392,14 @@ const Landing = (props) => {
 					</Form>
 					
 				</div>
-				<div
+				{/* <div
 								className="help"
 								tooltip-data="Copy your Tezos address from your wallet and paste it in the field to view your accounting set"
 								>
 								<HelpOutlineRoundedIcon
 									className="helpIcon" />
-				</div>
-				<div class="logo-tagline">Or</div>
+				</div> */}
+				{/* <div class="logo-tagline">Or</div> */}
 				<div className="form">
 					
 					<Form
@@ -430,6 +432,7 @@ const Landing = (props) => {
 						</Button>
 					</Form>
 				</div>
+				</div>
 				<div
 								className="help"
 								tooltip-data="Paste in a set id to retrieve your updated accounting set from a previous CryptoCount session."
@@ -461,6 +464,7 @@ const Landing = (props) => {
 						Learn more about CryptoCount
 					</h2>
 				</div> */}
+				<div style={{display: 'flex'}}>
 				<div  className="setToggles13">
 					<div className="words3">Demo CryptoCount </div>
 					
@@ -469,21 +473,51 @@ const Landing = (props) => {
 							</button>
 						</CopyToClipboard>
 				</div>
-				<div
+				{/* <div
 								className="help"
 								tooltip-data="Copy a sample set id and paste it above to demo CryptoCount"
 								>
 								<HelpOutlineRoundedIcon
 									className="helpIcon" />
-								</div>
+								</div> */}
 
-				<div className="statsTitle">Stats</div>
+				<div  className="setToggles13">
+					<div className="words3">Problems? Tell Dev </div>
+		
+				<CopyToClipboard text={"henrik@ptbotech.org"} onCopy={() => setIsCopied2({isCopied2: true})}>
+							<button className="words3"><span>{isCopied2 ? 'Copied' : 'Copy Email'}</span>
+							</button>
+						</CopyToClipboard>
+				</div>
+				{/* <div
+								className="help"
+								tooltip-data="Reachout to PTBO TECH team"
+								>
+								<HelpOutlineRoundedIcon
+									className="helpIcon" />
+								</div> */}
+				</div>
+
+				<div className="statsTitle">Stats and KPI</div>
+				<div style={{display: 'flex'}}>
 				<div className="stats">
 					<div className="stats1">{set["users"]}</div><div className="stats3"> Users </div>
 				
 					<div className="stats1">{set["objects"]}</div><div className="stats3"> Sets</div>
 					</div>
-					<div>
+					{/* <div>
+					<div className="stats2">Powered By Google and PTBO TECH</div>
+
+				</div> */}
+				<div className="stats">
+					<div className="stats1"></div><div className="stats3"> Total Mocked Up Assets </div>
+				
+					<div className="stats1">520,003</div><div className="stats3"> USD</div>
+					</div>
+					
+				</div>
+
+				<div>
 					<div className="stats2">Powered By Google and PTBO TECH</div>
 
 				</div>
@@ -509,6 +543,8 @@ const Landing = (props) => {
 						<img src={firefox} alt="firefox-add-on" />
 					</a>
 				</OverlayTrigger> */}
+				<div style={{display: 'flex'}}>
+				<div class="it">
 				<div className="name-one-liner2">
 					<h2 className="logo-tagline3">
 						HOW TO USE
@@ -523,51 +559,9 @@ const Landing = (props) => {
 				    <img src="./logo.png" alt="chrome-web-store" />
 				</a>
 
-				<div  className="setToggles13">
-					<div className="words3">Problems? Tell Dev </div>
-		
-				<CopyToClipboard text={"henrik@ptbotech.org"} onCopy={() => setIsCopied({isCopied: true})}>
-							<button className="words3"><span>{isCopied ? 'Copied' : 'Copy Email'}</span>
-							</button>
-						</CopyToClipboard>
-				</div>
-				<div
-								className="help"
-								tooltip-data="Reachout to PTBO TECH team"
-								>
-								<HelpOutlineRoundedIcon
-									className="helpIcon" />
-								</div>
+			
            			
-				<div className="name-one-liner2">
-					<h2 className="logo-tagline3">
-						FREE AND OPEN SOURCE UNDER APACHE 2.0
-					</h2>
-				</div>
-				<a
-					className="download-link1"
-					href="https://www.ptbotech.org/literature"
-					target="_blank"
-					rel="noreferrer"
-				>
-					PROJECT ROADMAP
-					<img className="ptbo-link" src={apache} alt="apache" />
-				</a>
-
-				<div className="name-one-liner2">
-					<h2 className="logo-tagline3">
-						INTEGRATE CRYPTOCOUNT
-					</h2>
-				</div>
-				<a
-					className="download-link1"
-					href="https://www.ptbotech.org/client"
-					target="_blank"
-					rel="noreferrer"
-				>
-					PTBO TECH
-					<img className="ptbo-link" src={ptbo} alt="ptbo" />
-				</a>
+				
 				
 				<div className="name-one-liner2">
 					<h2 className="logo-tagline3">
@@ -616,7 +610,38 @@ const Landing = (props) => {
 					<img src={chrome} alt="chrome-web-store" />
 				</a>
 				{/* <div className='slideWrap'> */}
+				<div className="name-one-liner2">
+					<h2 className="logo-tagline3">
+						INTEGRATE CRYPTOCOUNT
+					</h2>
+				</div>
+				<a
+					className="download-link1"
+					href="https://www.ptbotech.org/client"
+					target="_blank"
+					rel="noreferrer"
+				>
+					PTBO TECH
+					<img className="ptbo-link" src={ptbo} alt="ptbo" />
+				</a>
+				<div className="name-one-liner2">
+					<h2 className="logo-tagline3">
+						FREE AND OPEN SOURCE UNDER APACHE 2.0
+					</h2>
+				</div>
+				<a
+					className="download-link1"
+					href="https://www.ptbotech.org/literature"
+					target="_blank"
+					rel="noreferrer"
+				>
+					PROJECT ROADMAP
+					<img className="ptbo-link" src={apache} alt="apache" />
+				</a>
+
 				
+				</div>
+				<div class="it2">
 					<div className="name-one-liner2">
 						<div className="logo-tagline4">
 							See expected Tezos staking return below 
@@ -632,6 +657,16 @@ const Landing = (props) => {
 					</div>
 					
 					<SliderComponent></SliderComponent>
+					<div >
+			<div className="bb2">
+					<h2 className="logo-tagline5">
+						Visit BakingBad for the latest status of Tezos Bakers:
+					</h2>
+				</div>
+				<a className="bb3" rel="noreferrer" target="_blank" href="https://baking-bad.org"><img className="bb" src={BakingBad} alt="BB"></img></a>
+			</div>
+					</div>
+					</div>
 				{/* </div> */}
 				<VerticalModal
 					basisDate={basisDate}
@@ -723,14 +758,7 @@ const Landing = (props) => {
 				</div>
 			) : null} */}
 		
-			<div >
-			<div className="bb2">
-					<h2 className="logo-tagline5">
-						Visit BakingBad for the latest status of Tezos Bakers:
-					</h2>
-				</div>
-				<a className="bb3" rel="noreferrer" target="_blank" href="https://baking-bad.org"><img className="bb" src={BakingBad} alt="BB"></img></a>
-			</div>
+			
 			<div className="powered">POWERED BY</div>
 			<div className="poweredBy">
 				
