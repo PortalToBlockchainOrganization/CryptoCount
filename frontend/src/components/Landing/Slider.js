@@ -19,6 +19,8 @@ const Styles = styled.div`
     border-radius: 8px;
     background-color: rgb(76, 63, 63);
     margin-top:5px;
+    width: 80vh;
+    margin-left: 200px;
 
     .value{
         display: flex;
