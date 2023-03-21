@@ -423,11 +423,9 @@ class TezosSet {
                 this.aggregates();
             }).then(() => {
                 this.getRealizingAssetDomain();
-            })
-            .then(() => {
+            }).then(() => {
                 this.pointOfSaleCosts();
             });
-           // yield this.pointOfSaleCosts();
             // console.log("here4")
         });
     }
@@ -463,6 +461,7 @@ class TezosSet {
         return __awaiter(this, void 0, void 0, function* () {
             this.realizingDomainStartDate = this.realizingNativeRewards[0].date;
             this.realizingDomainEndDate = this.realizingNativeRewards[this.realizingNativeRewards.length - 1].date;
+            console.log('yoooo');
         });
     }
     sensitiveProps(object, updatedObject) {
@@ -646,6 +645,7 @@ class TezosSet {
                     }
                 }
             }
+            console.log('made it thru');
             this.unrealizedNativeRewards.splice(0, this.realizingNativeRewards.length);
             this.unrealizedNativeFMVRewards.splice(0, this.realizingNativeRewards.length);
             this.unrealizedNativeMarketDilutionRewards.splice(0, this.realizingNativeRewards.length);
@@ -655,6 +655,7 @@ class TezosSet {
             this.unrealizedNativeMarketDilutionRewards.unshift(object2);
             this.unrealizedNativeSupplyDepletionRewards.unshift(object3);
             this.unrealizedNativeRewards.unshift(object4);
+            console.log('made it thru2');
         });
     }
     aggregates() {
@@ -672,6 +673,7 @@ class TezosSet {
             this.aggregateUnrealizedNativeReward50p = mainValue1 * 0.5;
             this.aggregateUnrealizedNativeReward75p = mainValue1 * 0.75;
             this.aggregateUnrealizedNativeReward100p = mainValue1;
+            console.log('made it hereyo');
             try {
                 let mainValue2 = 0;
                 this.realizingNativeFMVRewards.forEach((value) => {
@@ -707,8 +709,10 @@ class TezosSet {
                 this.aggregateRealizedNativeReward50p = mainValue5 * 0.5;
             }
             catch (e) {
+                console.log('thisseciton');
                 console.log(e);
             }
+            console.log('madithellyfar');
         });
     }
     saveRealization() {
@@ -852,12 +856,14 @@ class TezosSet {
     pointOfSaleCosts() {
         return __awaiter(this, void 0, void 0, function* () {
             //add todays price to this 
+            console.log('point of sale begin');
             yield this.retrieveTezosPriceToday();
             this.pointOfSaleAggValue = this.TezosPriceOnDateObjectGenerated * this.aggregateRealizedNativeReward100p;
             //add realized native rewards agg by todays price to this 
             this.netDiffFMV = this.pointOfSaleAggValue - this.aggregateRealizedNativeFMVReward100p; //positive is good negative is bad
             this.netDiffDilution = this.pointOfSaleAggValue - this.aggregateRealizedNativeMarketDilution100p;
             this.netDiffSupplyDepletion = this.pointOfSaleAggValue - this.aggregateRealizedNativeSupplyDepletion100p;
+            console.log('ending');
         });
     }
     calculateNativeRewardFMVByCycle() {
@@ -1240,14 +1246,20 @@ class TezosSet {
     //retreive methods
     retrieveTezosPriceToday() {
         return __awaiter(this, void 0, void 0, function* () {
-            let tezosTodayUrl = `https://api.coingecko.com/api/v3/simple/price?ids=Tezos&vs_currencies=${this.fiat}`;
-            yield axios_1.default.get(tezosTodayUrl).then((response) => {
-                //console.log(response)
-                let value = response.data.tezos;
-                let lowercase = this.fiat.toLowerCase();
-                this.TezosPriceOnDateObjectGenerated = value[lowercase];
-                //  console.log(this.TezosPriceOnDateObjectGenerated)
-            });
+            try {
+                let tezosTodayUrl = `https://api.coingecko.com/api/v3/simple/price?ids=Tezos&vs_currencies=${this.fiat}`;
+                yield axios_1.default.get(tezosTodayUrl).then((response) => {
+                    //console.log(response)
+                    console.log('getting resp');
+                    let value = response.data.tezos;
+                    let lowercase = this.fiat.toLowerCase();
+                    this.TezosPriceOnDateObjectGenerated = value[lowercase];
+                    //  console.log(this.TezosPriceOnDateObjectGenerated)
+                });
+            }
+            catch (e) {
+                console.log(e);
+            }
         });
     }
     retrieveBakers() {
@@ -1411,7 +1423,7 @@ class TezosSet {
             transactionsLength = transactionsResponseArray.length;
             //}
             this.rawWalletTransactions.forEach((transaction) => {
-                var _a, _b, _c, _d, _e, _f, _g;
+                var _a, _b, _c, _d, _e, _f;
                 if (((_a = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _a === void 0 ? void 0 : _a.alias) === "Melange Payouts") {
                     this.isCustodial = true;
                 }
@@ -1429,9 +1441,6 @@ class TezosSet {
                     this.isCustodial = true;
                 }
                 else if (((_f = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _f === void 0 ? void 0 : _f.alias) === "Bake Nug ᵖᵃʸᵒᵘᵗˢ") {
-                    this.isCustodial = true;
-                }
-                else if (((_g = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _g === void 0 ? void 0 : _g.alias) === "Adi_daz Barrio Bakery") {
                     this.isCustodial = true;
                 }
                 else if (this.isCustodial !== true) {
@@ -1565,8 +1574,8 @@ class TezosSet {
             //(transaction?.sender?.alias === "Melange Payouts") ||
             //add the Tez Pay scan here
             //console.log(transaction?.sender?.alias)
-            var _a, _b, _c, _d, _e, _f, _g;
-            return ((_a = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _a === void 0 ? void 0 : _a.alias) === "Baking Benjamins Payouts" || ((_b = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _b === void 0 ? void 0 : _b.alias) === "Melange Payouts" || ((_c = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _c === void 0 ? void 0 : _c.alias) === "BakeBuddy #1 Payouts" || ((_d = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _d === void 0 ? void 0 : _d.alias) === "Sentry & Legate Payouts" || ((_e = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _e === void 0 ? void 0 : _e.alias) === "Bake Nug ᵖᵃʸᵒᵘᵗˢ"|| ((_f = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _f === void 0 ? void 0 : _f.alias) === "Adi_daz Barrio Bakery" || ((_g = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _g === void 0 ? void 0 : _g.alias) === "EcoTez Payouts";
+            var _a, _b, _c, _d, _e;
+            return ((_a = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _a === void 0 ? void 0 : _a.alias) === "Baking Benjamins Payouts" || ((_b = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _b === void 0 ? void 0 : _b.alias) === "Melange Payouts" || ((_c = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _c === void 0 ? void 0 : _c.alias) === "BakeBuddy #1 Payouts" || ((_d = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _d === void 0 ? void 0 : _d.alias) === "Sentry & Legate Payouts" || ((_e = transaction === null || transaction === void 0 ? void 0 : transaction.sender) === null || _e === void 0 ? void 0 : _e.alias) === "Bake Nug ᵖᵃʸᵒᵘᵗˢ";
         });
         let intermediaryRewards = intermediaryTransactions.map(transaction => {
             let transactionDate = transaction.timestamp.slice(0, 10);
