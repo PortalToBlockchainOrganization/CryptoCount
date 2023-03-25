@@ -4,7 +4,7 @@ import { getData } from "./ChartData";
 import { useHistory, Link } from "react-router-dom";
 import { Button, Spinner, Form, Modal } from "react-bootstrap";
 import { Bar } from "react-chartjs-2";
-import classes from "./Analysis.module.css";
+import classes from "./Analysis02.module.css";
 import HelpOutlineRoundedIcon from "@material-ui/icons/HelpOutlineRounded";
 import jsPDF from "jspdf";
 import TextTransition, { presets } from "react-text-transition";
@@ -581,9 +581,10 @@ function Table({ data, tableId }) {
 			<div className={classes.thetitle}> <a href="https://tezos.com"><img className={classes.logoAnalysis} src="./Tezos.png" alt="logo" /></a> x CryptoCount 
 			</div>
 
-		
+            <div style={{display: 'flex'}}>
 			{/* new left hand wrap */}
-			<div className={classes.leftWrap}>
+			{/* <div className={classes.leftWrap}> */}
+            <div className={classes.left}>
 	
 		
 			<div className={classes.the}>Your Tezos Staking Information</div>
@@ -637,7 +638,8 @@ function Table({ data, tableId }) {
 
 
 			{/* new right hand wrap */}
-			<div className={classes.rightWrap}>
+			{/* <div className={classes.rightWrap}> */}
+            <div className={classes.right}>
 
 
 			{/* fifo station title*/}
@@ -655,6 +657,8 @@ function Table({ data, tableId }) {
 
 			{/* fifo selectors */}
 			<div className={classes.quantGroup}>
+            <div style={{display: "row"}}>
+            <div style={{display: "flex"}}>
 			<div className={classes.words}>Mockup XTZ Reward Quantity</div>
 			<div
 				className={classes.help}
@@ -699,11 +703,13 @@ function Table({ data, tableId }) {
 			</div>
 			</form>
 			</div>	
-			<div>XTZ</div>
-			</div>
+			<div>XTZ
 
-
-			{/* fifo selctors buttons */}
+            </div>
+            </div>
+            <div>
+           
+            {/* fifo selctors buttons */}
 			<div className={classes.buttWrap}>		
 			<Button className={classes.the2} onClick={handleRealizing} block variant="success">
 					Generate Asset Income Assessment
@@ -726,6 +732,11 @@ function Table({ data, tableId }) {
 			<HelpOutlineRoundedIcon className={classes.helpIcon} />
 			</div>	
 			</div>	
+            </div>
+			</div>
+
+            </div>
+			
 
 
 			{/* toggle chart */}
@@ -824,6 +835,8 @@ function Table({ data, tableId }) {
 			</div>
 
 			</div>
+
+            </div>
 
 
 			{/* umbrella holder */}
@@ -1195,7 +1208,6 @@ function Table({ data, tableId }) {
 					{/* <div>
 						
 					<div>
-
  */}
 
 
@@ -1230,7 +1242,6 @@ function Table({ data, tableId }) {
 								>
 									XTZ FMV Set
 								</Button>
-
 								<div
 									className={classes.help}
 									tooltip-data="Rewards by the price of Tezos in fiat on the day received."
@@ -1243,7 +1254,6 @@ function Table({ data, tableId }) {
 						</div> */}
 					
 						{/* <div className={classes.plus}>+</div>
-
 							
 							<div className={classes.buttonAndInfo}>
 								<Button
@@ -1335,9 +1345,6 @@ function Table({ data, tableId }) {
 						/>
 					</div>
 					</div>
-
-
-
 					<div className={classes.setToggles3}> */}
 
 
@@ -1365,7 +1372,6 @@ function Table({ data, tableId }) {
 								variant="primary"
 								onClick={handle50}
 								className={classes.buttonReward}
-
 							>
 								50%
 						</Button>
@@ -1482,7 +1488,6 @@ function Table({ data, tableId }) {
 			
 
 				{/* {set["data"]["aggregateRealizedNativeReward100p"] > 1 ? (
-
 					<><div className={classes.space2}> */}
 
 
@@ -1501,10 +1506,7 @@ function Table({ data, tableId }) {
 
 
 					{/* </div>
-
 					<div className={classes.setToggles3}>
-
-
 						<div className={classes.dipo}>
  */}
 
@@ -1519,9 +1521,6 @@ function Table({ data, tableId }) {
 						<HelpOutlineRoundedIcon
 							className={classes.helpIcon} />
 					</div>
-
-
-
 						</div>
 					
 						<div  className={classes.setTogglesX}>
@@ -1532,11 +1531,7 @@ function Table({ data, tableId }) {
 					{/* <div className={classes.wordGood}>Tez Price Today: </div>  <href className={classes.numberAlive}>{(set["data"]["TezosPriceOnDateObjectGenerated"])} {(set["data"]["fiat"])}</href>
 					<div className={classes.wordGood}>Point of Sale Aggregate Value: </div> <href className={classes.numberAlive}>{(Math.round((set["data"]["pointOfSaleAggValue"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{' '}{(set["data"]["fiat"])}</href>
 					<div className={classes.wordGood}>Quantity:</div><href className={classes.numberAlive}>{(Math.round((set["data"]["aggregateRealizedNativeReward100p"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{' '}Tez</href>
-
-
 						</div>
-
-
 							<div className={classes.dipo}> */}
 
 					{/* income title */}
@@ -1548,8 +1543,6 @@ function Table({ data, tableId }) {
 					<HelpOutlineRoundedIcon
 						className={classes.helpIcon} />
 					</div>
-
-
 							</div> */}
 
 
@@ -1596,9 +1589,6 @@ function Table({ data, tableId }) {
 					</div>
 					</div>
 							
-
-
-
 							<div  className={classes.setTogglesX}>
  */}
 
@@ -1624,7 +1614,6 @@ function Table({ data, tableId }) {
 						{(Math.round((set["data"]["netDiffSupplyDepletion"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{' '}{(set["data"]["fiat"])}
 					</div>
 					</div>
-
  */}
 
 
@@ -1636,12 +1625,7 @@ function Table({ data, tableId }) {
 						{(Math.round((set["data"]["netDiffDilution"])*10)/10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{' '}{(set["data"]["fiat"])}
 					</div> 
 					</div>
-
-
-
-
 							</div>
-
 							<div className={classes.dipo}>
  */}
 
@@ -1658,8 +1642,6 @@ function Table({ data, tableId }) {
 					</div>
 					</div>
 							
-
-
 						<div  className={classes.setTogglesX}>
  */}
 
@@ -1673,13 +1655,7 @@ function Table({ data, tableId }) {
 					</div>
 					</div>
 							
-
-
-
-
 							</div>
-
-
 							<div className={classes.dipo}>
  */}
 
@@ -1694,15 +1670,9 @@ function Table({ data, tableId }) {
 						<HelpOutlineRoundedIcon
 							className={classes.helpIcon} />
 					</div>
-
-
-
 							</div>
 							
-
 							<div  className={classes.setTogglesX}>
-
-
  */}
 
 
@@ -1713,12 +1683,9 @@ function Table({ data, tableId }) {
 					<div className={classes.words2}>
 						{(set["data"]["realizingDomainEndDate"])}
 					</div>
-
-
 							</div>
 							<div>
 							
-
  */}
 
 
@@ -1726,12 +1693,8 @@ function Table({ data, tableId }) {
 					{/* <Table data={data1} tableId='table1' handleRowClick={handleRowClick1} selectedRows={selectedRows1}/>
 					<br></br>
 					<Table data={data2} tableId='table2' handleRowClick={handleRowClick2} selectedRows={selectedRows2}/>
-
-
 						  </div>
-
 							
-
 						</div> */}
 
 					
