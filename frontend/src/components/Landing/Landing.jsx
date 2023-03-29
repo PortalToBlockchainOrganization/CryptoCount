@@ -501,23 +501,23 @@ const Landing = (props) => {
 				</div>
 
 				<div className="statsTitle">Stats and KPI</div>
-				<div style={{display: 'flex'}}>
-				<div className="stats">
-					<div className="stats1">{set["users"]}</div><div className="stats3"> Users </div>
-				
-					<div className="stats1">{set["objects"]}</div><div className="stats3"> Sets</div>
-					</div>
-					{/* <div>
-					<div className="stats2">Powered By Google and PTBO TECH</div>
+                                <div style={{display: 'flex'}}>
+                                <div className="stats">
+                                        <div className="stats1">{set["users"]}</div><div className="stats3"> Users </div>
 
-				</div> */}
-				<div className="stats">
-					<div className="stats1"></div><div className="stats3"> Total Mocked Up Assets </div>
-				
-					<div className="stats1">520,003</div><div className="stats3"> USD</div>
-					</div>
-					
-				</div>
+                                        <div className="stats1">{set["objects"]}</div><div className="stats3"> Sets</div>
+                                        </div>
+                                        {/* <div>
+                                        <div className="stats2">Powered By Google and PTBO TECH</div>
+
+                                </div> */}
+                                <div className="stats">
+                                        <div className="stats1"></div><div className="stats3"> Total Mocked Up Assets </div>
+
+                                        <div className="stats1">1,784,198,801.3</div><div className="stats3"> XTZ</div>
+                                        </div>
+
+                                </div>
 
 				<div>
 					<div className="stats2">Powered By Google and PTBO TECH</div>
