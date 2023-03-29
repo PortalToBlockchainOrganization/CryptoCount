@@ -399,10 +399,10 @@ class TezosSet {
             //move this above the realizing
         });
     }
-    realizeProcess(quantity, object) {
-        return __awaiter(this, void 0, void 0, function* () {
+    //realizeProcess(quantity, object) {
+       // return __awaiter(this, void 0, void 0, function* () {
             //object is mutated after one save and while in the save route
-            this.initRealizing(object); //.then(x => {writeFile("yurtesticl.json", JSON.stringify(this, null, 4), function(err) {
+          //  this.initRealizing(object); //.then(x => {writeFile("yurtesticl.json", JSON.stringify(this, null, 4), function(err) {
             //     if(err) {
             //       console.log(err);
             //     } else {
@@ -410,7 +410,7 @@ class TezosSet {
             //     console.log(ts)
             //     }
             // })})
-            this.realizeReward(quantity)
+           // this.realizeReward(quantity)
                 // .then(x => {writeFile("testicl.json", JSON.stringify(this, null, 4), function(err) {
                 //     if(err) {
                 //       console.log(err);
@@ -419,15 +419,26 @@ class TezosSet {
                 //     console.log(ts)
                 //     }
                 // })})
-                .then(() => {
-                this.aggregates();
-            }).then(() => {
-                this.getRealizingAssetDomain();
-            }).then(() => {
-                this.pointOfSaleCosts();
-            });
+              //  .then(() => {
+                //this.aggregates();
+            //}).then(() => {
+            //    this.getRealizingAssetDomain();
+           // }).then(() => {
+              //  this.pointOfSaleCosts();
+         //   });
             // console.log("here4")
+       // });
+        
+    realizeProcess(quantity, object) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.initRealizing(object);
+            yield this.realizeReward(quantity);
+            yield this.aggregates();
+            yield this.pointOfSaleCosts();
+            this.getRealizingAssetDomain();
         });
+    }
+
     }
     saveProcess(object) {
         return __awaiter(this, void 0, void 0, function* () {
