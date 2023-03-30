@@ -293,7 +293,17 @@ const Landing = (props) => {
 		props.getCalendarData(params, setLoadingState);
 	};
 
-	
+	const renderPayButton = () => {
+		if (props.signedIn()) {
+		  return (
+			<Button onClick={() => props.history.push("/pay")}>Pay $45</Button>
+		  );
+		} else {
+		  return (
+			<Button onClick={() => props.history.push("/signin")}>Sign In/Register</Button>
+		  );
+		}
+	  }
 
 	// var slider = document.getElementById("myRange")
 	// var output = document.getElementById("value")
@@ -331,10 +341,11 @@ const Landing = (props) => {
 			animationData: womenSigning,
 		});
 	}, []);
+	
 	return (
-			<div className="wrapper">
+		<div className="wrapper">
 			<div className="lp-container">
-				<h1 className="logo-name9">Tezos Taxes, Tezos Tax Accounting, Tezos Reward Fiat Assessments</h1>
+				<h1 className="logo-name9">Everything Tezos Tax Reconcilliation and Reconnasiance</h1>
 				<section className="static-wrapper">
 					<div className="logo-container">
 						<a href="https://tezos.com"><img className="logo" src="./Tezos.png" alt="logo" /></a>
@@ -346,17 +357,61 @@ const Landing = (props) => {
 				</section>
 				<br />
 				<br />
-				<div className="name-one-liner">
+				{/* <div className="name-one-liner">
 					<h1 className="logo-name">CryptoCount</h1>
-				</div>
+				</div> */}
 				
+				<div className="KASD">
+					<h2 className="logo-tagline">
+					 Tezos Block Rewards' Fair Market Value Assessment Tool. 
+					</h2>
+					
+				</div>
 				<div className="name-one-liner">
 					<h2 className="logo-tagline">
-					 Tezos Block Rewards' Fair Market Value Assessment Tool. Mockup sales and get free income statements of Tezos based assets in 40 fiat currencies.
-					</h2>
+					Mockup sales and get free income statements of Tezos based assets in 40 fiat currencies.				
+						</h2>
+					
 				</div>
+				<div style={{display: 'flex'}}><div   className="logo-tagline69">LIVE PRODUCT:  XTZ Staking Reward FMV Income Mockups </div></div>
+				<div style={{display: 'flex'}} className="form2">
+				{/* <div className="form">
+					<Form onSubmit={handleSignIn}>
+						<Form.Group controlId="formBasicEmail">
+						
+							<h2 class="thickerplz">
+								Connect your Tezos wallet
+							
+							</h2>
+							
+							<form className="form-inline cool-form">
+							<div className="formLength">
+							<input className="formLength" placeholder="Tz.., KT.., or Tezos Domain" onChange={handleDelegationChange}/>
+							</div>
+							</form> 
+							<Form.Control
+								type="text"
+								class="placeholdbetter"
+								placeholder="Tz.., KT.., or Tezos Domain"
+								onChange={handleDelegationChange}
+							/>
+						</Form.Group>
+						
 
-				<div style={{display: 'flex'}}>
+						<Button
+							className="button-continue"
+							// disabled={
+							// 	addrs["delAddrs"].length > 0 ? "" : "disabled"
+							// }
+							variant="outline-danger"
+							block
+							onClick={handleDelegationSubmit2}
+						>
+							Continue
+						</Button>
+					</Form>
+					
+				</div> */}
 				<div className="form">
 					<Form onSubmit={handleSignIn}>
 						<Form.Group controlId="formBasicEmail">
@@ -372,8 +427,9 @@ const Landing = (props) => {
 							</div>
 							</form> */}
 							<Form.Control
+
 								type="text"
-								class="placeholdbetter"
+								class="thickerplz"
 								placeholder="Tz.., KT.., or Tezos Domain"
 								onChange={handleDelegationChange}
 							/>
@@ -385,7 +441,7 @@ const Landing = (props) => {
 							disabled={
 								addrs["delAddrs"].length > 0 ? "" : "disabled"
 							}
-							variant="outline-danger"
+							variant="success"
 							block
 							onClick={handleDelegationSubmit}
 						>
@@ -415,7 +471,7 @@ const Landing = (props) => {
 							<Form.Control
 								setId={setId}
 								type="text"
-								class="placeholdbetter"
+								class="thickerplz"
 								placeholder="Set Id"
 								onChange={handleSetIdChange}
 							/>
@@ -426,7 +482,7 @@ const Landing = (props) => {
 							// disabled={
 							// 	setId["setId"].length > 0 ? "" : "disabled"
 							// }
-							variant="outline-danger"
+							variant="success"
 							block
 							onClick={setIdQuery}
 						>
@@ -444,6 +500,135 @@ const Landing = (props) => {
 								</div>
 				
 				<div>
+				<div style={{display: 'flex'}}><h1   className="logo-tagline">UNDER DEVELOPMENT: XTZ + Tezos Chain Token Capital Gain and FMV Income Mockups </h1><h1 className="logo-name11"> <div>
+  {renderPayButton()}
+</div></h1></div>
+				<div style={{display: 'flex', opacity: '0.7'}} className="form3">
+					
+				{/* <div className="form">
+					<Form onSubmit={handleSignIn}>
+						<Form.Group controlId="formBasicEmail">
+						
+							<h2 class="thickerplz">
+								Connect your Tezos wallet
+							
+							</h2>
+							
+							<form className="form-inline cool-form">
+							<div className="formLength">
+							<input className="formLength" placeholder="Tz.., KT.., or Tezos Domain" onChange={handleDelegationChange}/>
+							</div>
+							</form>
+							<Form.Control
+								type="text"
+								class="placeholdbetter"
+								placeholder="Tz.., KT.., or Tezos Domain"
+								onChange={handleDelegationChange}
+							/>
+						</Form.Group>
+						
+
+						<Button
+							className="button-continue"
+							// disabled={
+							// 	addrs["delAddrs"].length > 0 ? "" : "disabled"
+							// }
+							variant="outline-danger"
+							block
+							onClick={handleDelegationSubmit2}
+						>
+							Continue
+						</Button>
+					</Form>
+					
+				</div> */}
+				<div className="form">
+					<Form onSubmit={handleSignIn}>
+						<Form.Group controlId="formBasicEmail">
+						
+							<h2 class="thickerplz">
+								Paste your Address or Tez Domain
+							
+							</h2>
+							
+							{/* <form className="form-inline cool-form">
+							<div className="formLength">
+							<input className="formLength" placeholder="Tz.., KT.., or Tezos Domain" onChange={handleDelegationChange}/>
+							</div>
+							</form> */}
+							<Form.Control
+								type="text"
+								class="thickerplz"
+								placeholder="Tz.., KT.., or Tezos Domain"
+								//onChange={handleDelegationChange}
+							/>
+						</Form.Group>
+						
+
+						<Button
+							className="button-continue"
+							disabled={
+								addrs["delAddrs"].length > 0 ? "" : "disabled"
+							}
+							variant="outline-danger"
+							block
+							// onClick={handleDelegationSubmit}
+						>
+							Continue
+						</Button>
+					</Form>
+					
+				</div>
+				{/* <div
+								className="help"
+								tooltip-data="Copy your Tezos address from your wallet and paste it in the field to view your accounting set"
+								>
+								<HelpOutlineRoundedIcon
+									className="helpIcon" />
+				</div> */}
+				{/* <div class="logo-tagline">Or</div> */}
+				<div className="form">
+					
+					<Form
+					updateConsensus={setConsensus}
+					>
+						<Form.Group controlId="formBasicEmail">
+						
+							<h2 class="thickerplz">
+								Paste Your Set Id 
+							</h2>
+							<Form.Control
+								setId={setId}
+								type="text"
+								class="thickerplz"
+								placeholder="Set Id"
+								// onChange={handleSetIdChange}
+							/>
+						</Form.Group>
+
+						<Button
+							className="button-continue"
+							// disabled={
+							// 	setId["setId"].length > 0 ? "" : "disabled"
+							// }
+							variant="outline-danger"
+							block
+							//onClick={setIdQuery2}
+						>
+							Continue
+						</Button>
+					</Form>
+				</div>
+				</div>
+				<div
+								className="help"
+								tooltip-data="Paste in a set id to retrieve your updated accounting set from a previous CryptoCount session."
+								>
+								<HelpOutlineRoundedIcon
+									className="helpIcon" />
+								</div>
+				
+				<div></div>
 				{/* <ThemeContext.Consumer>
 									{({ changeTheme }) => (
 									<Button
@@ -461,6 +646,32 @@ const Landing = (props) => {
 
 				</div>
 				
+			
+
+				<div className="statsTitle">Stats and KPI</div>
+				<div style={{display: 'flex'}}>
+				<div className="stats">
+						<div className="stats1">{set["users"]}</div><div className="stats3"> Users </div>
+
+						<div className="stats1">{set["objects"]}</div><div className="stats3"> Sets</div>
+						</div>
+						{/* <div>
+						<div className="stats2">Powered By Google and PTBO TECH</div>
+				</div> */}
+				<div className="stats">
+						<div className="stats1"></div><div className="stats3"> Total Mocked Up Assets </div>
+
+						<div className="stats1">1,784,198,801.3</div><div className="stats3"> XTZ</div>
+						</div>
+
+				</div>
+
+				<div>
+					<div className="stats2">Powered By Google and PTBO TECH</div>
+
+				</div>
+				
+
 				{/* <div className="name-one-liner">
 					<h2 className="logo-tagline2">
 						Learn more about CryptoCount
@@ -468,7 +679,7 @@ const Landing = (props) => {
 				</div> */}
 				<div style={{display: 'flex'}}>
 				<div  className="setToggles13">
-					<div className="words3">Demo CryptoCount </div>
+					<div className="words3">Demo CryptoCount (It's Free)</div>
 					
 				<CopyToClipboard text={"63b7a9c38c78bc302554e5d6"} onCopy={() => setIsCopied({isCopied: true})}>
 							<button className="words3"><span>{isCopied ? 'Copied' : 'Copy Set ID'}</span>
@@ -484,7 +695,7 @@ const Landing = (props) => {
 								</div> */}
 
 				<div  className="setToggles13">
-					<div className="words3">Problems? Tell Dev </div>
+					<div className="words3">Contact Developers </div>
 		
 				<CopyToClipboard text={"henrik@ptbotech.org"} onCopy={() => setIsCopied2({isCopied2: true})}>
 							<button className="words3"><span>{isCopied2 ? 'Copied' : 'Copy Email'}</span>
@@ -499,31 +710,6 @@ const Landing = (props) => {
 									className="helpIcon" />
 								</div> */}
 				</div>
-
-				<div className="statsTitle">Stats and KPI</div>
-                                <div style={{display: 'flex'}}>
-                                <div className="stats">
-                                        <div className="stats1">{set["users"]}</div><div className="stats3"> Users </div>
-
-                                        <div className="stats1">{set["objects"]}</div><div className="stats3"> Sets</div>
-                                        </div>
-                                        {/* <div>
-                                        <div className="stats2">Powered By Google and PTBO TECH</div>
-
-                                </div> */}
-                                <div className="stats">
-                                        <div className="stats1"></div><div className="stats3"> Total Mocked Up Assets </div>
-
-                                        <div className="stats1">1,784,198,801.3</div><div className="stats3"> XTZ</div>
-                                        </div>
-
-                                </div>
-
-				<div>
-					<div className="stats2">Powered By Google and PTBO TECH</div>
-
-				</div>
-				
 		
 				{/* <OverlayTrigger
 					placement="right"
@@ -546,10 +732,10 @@ const Landing = (props) => {
 					</a>
 				</OverlayTrigger> */}
 				<div style={{display: 'flex'}}>
-				<div class="it">
+				<div class="it" style={{marginRight: '-10vh'}}>
 				<div className="name-one-liner2">
 					<h2 className="logo-tagline3">
-						HOW TO USE
+						How To Use
 					</h2>
 				</div>
 				<a
@@ -567,7 +753,7 @@ const Landing = (props) => {
 				
 				<div className="name-one-liner2">
 					<h2 className="logo-tagline3">
-						SOCIAL CHANNELS 
+						Social Channels
 					</h2>
 				</div>
 				<a
@@ -599,7 +785,7 @@ const Landing = (props) => {
 				</a>
 				<div className="name-one-liner2">
 					<h2 className="logo-tagline3">
-						BROWSER EXTENSION 
+						Browser Extension
 					</h2>
 				</div>
 				<a
@@ -614,7 +800,7 @@ const Landing = (props) => {
 				{/* <div className='slideWrap'> */}
 				<div className="name-one-liner2">
 					<h2 className="logo-tagline3">
-						INTEGRATE CRYPTOCOUNT
+						Integrate CryptoCount
 					</h2>
 				</div>
 				<a
@@ -628,7 +814,7 @@ const Landing = (props) => {
 				</a>
 				<div className="name-one-liner2">
 					<h2 className="logo-tagline3">
-						FREE AND OPEN SOURCE UNDER APACHE 2.0
+						Open Source
 					</h2>
 				</div>
 				<a
@@ -637,7 +823,7 @@ const Landing = (props) => {
 					target="_blank"
 					rel="noreferrer"
 				>
-					PROJECT ROADMAP
+					Roadmap
 					<img className="ptbo-link" src={apache} alt="apache" />
 				</a>
 
@@ -670,6 +856,27 @@ const Landing = (props) => {
 					</div>
 					</div>
 				{/* </div> */}
+				<VerticalModal2
+					basisDate={basisDate}
+					handleDateInput={handleDateInput}
+					show={showModal2}
+					modalPage={modalPage}
+					setModalPage={setModalPage}
+					onHide={() => {
+						setShowModal2(false);
+						setModalPage(0);
+					}}
+					isLoading={isLoading}
+					fiat={fiat}
+					consensusRole={consensusRole}
+					updateConsensus={setConsensus}
+					updateFiat={setFiat}
+					setParams={setParams}
+					cal={props.cal}
+					selectedAnalysisType={selectedAnalysisType}
+					setSelectedAnalysisType={setSelectedAnalysisType}
+					getCalendar={getCalendar}
+				/>
 				<VerticalModal
 					basisDate={basisDate}
 					handleDateInput={handleDateInput}
