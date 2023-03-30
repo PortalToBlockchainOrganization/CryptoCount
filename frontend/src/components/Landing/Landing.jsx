@@ -92,7 +92,7 @@ const Landing = (props) => {
 	// };
 
 
-
+	const [showModal2, setShowModal2] = React.useState(false);
 
 	const [addrs, setAddrs] = React.useState({ delAddrs: "" });
 	const [basisDate, setBasisDate] = React.useState({ basisDate: "" });
@@ -397,7 +397,6 @@ const Landing = (props) => {
 							/>
 						</Form.Group>
 						
-
 						<Button
 							className="button-continue"
 							// disabled={
@@ -527,7 +526,6 @@ const Landing = (props) => {
 							/>
 						</Form.Group>
 						
-
 						<Button
 							className="button-continue"
 							// disabled={
@@ -856,7 +854,7 @@ const Landing = (props) => {
 					</div>
 					</div>
 				{/* </div> */}
-				<VerticalModal2
+				{/* <VerticalModal2
 					basisDate={basisDate}
 					handleDateInput={handleDateInput}
 					show={showModal2}
@@ -897,7 +895,7 @@ const Landing = (props) => {
 					selectedAnalysisType={selectedAnalysisType}
 					setSelectedAnalysisType={setSelectedAnalysisType}
 					getCalendar={getCalendar}
-				/>
+				/> */}
 			
 			{/* {!props.signedIn() ? (
 				<div className="tutorial">
