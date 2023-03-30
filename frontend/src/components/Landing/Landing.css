@@ -151,6 +151,16 @@ h4{
 
 }
 
+#dark .logo-tagline69 {
+	font-size: 1.3em;
+	font-family: "Louis George Café", sans-serif;
+	font-weight: 700;
+	margin-top:20px;
+	color: white;
+	margin-bottom: 20px;
+
+}
+
 #dark .logo-tagline {
 	font-size: 1.2em;
 	font-family: "Louis George Café", sans-serif;
@@ -253,7 +263,7 @@ p {
 
 .logo-tagline3 {
 	font-size: 1.5em;
-	font-family: 'Courier New', Courier, monospace;
+	font-family: "Louis George Café", sans-serif;
 	font-weight: 700;
 	color: #2e2e2e;
 	margin-top: 20px;
@@ -262,9 +272,10 @@ p {
 }
 
 .logo-tagline4 {
-	font-size: 2.0em;
+	font-size: 1.2em;
 	/* font-family: 'Blanka-Regular'; */
-	font-family: 'Courier New', Courier, monospace;
+	font-family: "Louis George Café", sans-serif;
+
 
 	font-weight: 700;
 	display: flex;
@@ -321,7 +332,28 @@ p {
 	font-size: 25px;
 	align-items: center;
 	display: flex;
-	margin-top: 1600px;
+	margin-top: 2000px;
+}
+
+.logo-name10{
+	color: white;
+	font-family: "Louis George Café", sans-serif;
+	font-size: 25px;
+	align-items: center;
+	display: flex;
+	margin-top: 26px;
+}
+
+
+.logo-name11{
+	color: white;
+	font-family: "Louis George Café", sans-serif;
+	font-size: 25px;
+	right: 0;
+	margin-left: 200px;
+	align-items: center;
+	display: flex;
+	margin-top: 26px;
 }
 .setToggles13 {
 	border: 4px solid rgb(78, 100, 100);
@@ -362,11 +394,12 @@ p {
 }
 
 #dark .logo-tagline3 {
-	font-size: 1.5em;
-	font-family: 'Courier New', Courier, monospace;
+	font-size: 1.2em;
+	font-family: "Louis George Café", sans-serif;
 	/*font-family: "Louis George Café", sans-serif;*/
-	font-weight: 700;
 	color: white;
+	font-weight: 700;
+
 	flex-direction: column;
 	margin-top: 50px;
 	margin-bottom: 15px;
@@ -399,7 +432,7 @@ p {
 	color: white;
 	font-size: 2.1em;
 	margin-bottom: -70px;
-	font-family: 'Blanka-Regular';
+	font-family: "Louis George Café", sans-serif;
 	
 	
 }
@@ -449,7 +482,58 @@ p {
 	width: 50%;
 	margin-left: 10px;
 	margin-right: 10px;
-	height: 30vh;
+	height: 25vh;
+	background-color: #fcf7f7;
+	padding: 20px 40px;
+	border-style: solid;
+	border-radius: 10px;
+	border-bottom-color: rgba(154,216,94,255);
+	border-top-width: 4px;
+	border-right-width: 2px;
+	border-left-width: 2px;
+	border-bottom-width: 4px;
+	border-top-color: rgba(154,216,94,255);
+	
+	/* rgb(25, 25, 215); */
+
+
+}
+
+
+.form2 {
+	display: flex;
+	position: relative;
+	justify-content: center;
+	margin-top: 5px;
+	width: 80%;
+	margin-left: 10px;
+	margin-right: 10px;
+	height: 45vh;
+	background-color: #fcf7f7;
+	padding: 20px 40px;
+	border-style: solid;
+	border-radius: 10px;
+	border-bottom-color: rgba(154,216,94,255);
+	border-top-width: 4px;
+	border-right-width: 2px;
+	border-left-width: 2px;
+	border-bottom-width: 4px;
+	border-top-color: rgba(154,216,94,255);
+	
+	/* rgb(25, 25, 215); */
+
+
+}
+
+.form3 {
+	display: flex;
+	position: relative;
+	justify-content: center;
+	margin-top: 5px;
+	width: 100%;
+	margin-left: 10px;
+	margin-right: 10px;
+	height: 45vh;
 	background-color: #fcf7f7;
 	padding: 20px 40px;
 	border-style: solid;
@@ -468,13 +552,23 @@ p {
 
 .thickerplz{
 	color: black;
-	font-size: 1.2em !important;
-	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-size: 1em !important;
+	font-family: 'Courier New', Courier, monospace;
 	display: inline;
 	justify-content: center;
 	width: 100%;
 	margin-top: 10px;
 	align-items: center;
+	margin-bottom: 10px;
+	position:inherit;
+}
+
+.thickerplz2{
+	color: white;
+	font-size: 1.3em !important;
+	font-family: "Louis George Café", sans-serif;
+	width: 100%;
+	margin-top: 10px;
 	margin-bottom: 10px;
 	position:inherit;
 }
@@ -535,6 +629,14 @@ p {
 		margin-bottom: 40px;
 		margin-top: 20px;
 	}
+
+
+}
+
+.KASD{
+	margin-left: 25px;
+		margin-bottom: 40px;
+		margin-top: 40px;
 }
 
 #dark .name-one-liner{
@@ -748,6 +850,7 @@ p {
 	margin-bottom: -30px;
 
 }
+
 
 
 
