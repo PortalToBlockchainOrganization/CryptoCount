@@ -875,6 +875,7 @@ const Landing = (props) => {
 					setSelectedAnalysisType={setSelectedAnalysisType}
 					getCalendar={getCalendar}
 				/>
+				*/}
 				<VerticalModal
 					basisDate={basisDate}
 					handleDateInput={handleDateInput}
@@ -895,7 +896,7 @@ const Landing = (props) => {
 					selectedAnalysisType={selectedAnalysisType}
 					setSelectedAnalysisType={setSelectedAnalysisType}
 					getCalendar={getCalendar}
-				/> */}
+				/> 
 			
 			{/* {!props.signedIn() ? (
 				<div className="tutorial">
