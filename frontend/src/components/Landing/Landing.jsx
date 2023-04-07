@@ -26,7 +26,7 @@ import CopyToClipboard from "react-copy-to-clipboard"
 import SliderComponent from "./Slider.js"
 import bb from "../../Assets/bb.png";
 import { useState } from "react";
-import logogif from "../../Assets/logo.gif";
+import logogif from "../../Assets/TheLogo.jpg";
 //import { ThemeContext, themes } from '../DarkMode/SizeContainer';
 //import { Slider } from '@mui/material';
 import Slider from 'react-input-slider';
